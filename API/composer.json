@@ -1,0 +1,17 @@
+{
+    "name": "ben_sauer/case-study-skygate_api",
+    "description": "The REST API for a case study (as Part of an Internship by SkyGate)",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "BenSauer\\CaseStudySkygateApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "BenSauerlaender",
+            "email": "Ben.Sauerlaender@Student.HTW-Berlin.de"
+        }
+    ],
+    "require": {}
+}
