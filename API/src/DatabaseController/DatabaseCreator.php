@@ -14,15 +14,17 @@ class DatabaseCreator {
         //get database connection
         $pdo = DatabaseConnector::getConnection();
 
+        //create all tables via SQL
         foreach (self::TABLES as $t){
             $pdo->exec($t);
         }
     }
 
+    //SQL - CREATE Table - Statements for each table
     private const TABLES = [
 
         'CREATE TABLE IF NOT EXISTS role(
-            role_id     INT             AUTO_INCREMENT,
+            role_id     INT             NOT NULL,
             name        VARCHAR(100)    NOT NULL,
 
             role_read   BOOLEAN         NOT NULL, 
@@ -32,6 +34,9 @@ class DatabaseCreator {
             user_read   BOOLEAN         NOT NULL,
             user_write  BOOLEAN         NOT NULL,
             user_delete BOOLEAN         NOT NULL,
+
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
             PRIMARY KEY (role_id),
             UNIQUE (name)
@@ -50,7 +55,12 @@ class DatabaseCreator {
             salt        BINARY(60)      NOT NULL,
             hashed_pass BINARY(60)      NOT NULL,
 
+            verified    BOOLEAN         NOT NULL DEFAULT FALSE,
+
             role_id     INT             NOT NULL,
+
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
             PRIMARY KEY (user_id),
             FOREIGN KEY (role_id) REFERENCES role(role_id),
