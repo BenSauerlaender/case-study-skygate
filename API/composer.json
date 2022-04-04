@@ -13,5 +13,7 @@
             "email": "Ben.Sauerlaender@Student.HTW-Berlin.de"
         }
     ],
-    "require": {}
+    "require": {
+        "vlucas/phpdotenv": "^5.4"
+    }
 }
