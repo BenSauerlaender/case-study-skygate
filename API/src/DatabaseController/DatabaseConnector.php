@@ -25,6 +25,7 @@ class DatabaseConnector {
             throw new Exception("No Connection");
         }
 
+        //return the PDO connection object
         return self::$dbConnection;
     } 
 

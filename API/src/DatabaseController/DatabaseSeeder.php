@@ -30,6 +30,7 @@ class DatabaseSeeder {
         }
     }
 
+    //name-SQL_Statement-pair array 
     private const SEEDS = [
 
         'roles' =>  '
