@@ -11,7 +11,7 @@ use BenSauer\CaseStudySkygateApi\DatabaseController\DatabaseConnector;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+//connect to the Database
 DatabaseConnector::connect();
-DatabaseConnector::getConnection();
 
 ?> 
