@@ -3,12 +3,12 @@
 //activate strict mode
 declare(strict_types = 1);
 
-namespace BenSauer\CaseStudySkygateApi\DatabaseGateways;
+namespace BenSauer\CaseStudySkygateApi\DatabaseInterfaces;
 
 use BenSauer\CaseStudySkygateApi\Models\Role;
 
-// class with several static functions to validate data
-class RoleGateway {
+// functions to interact with the role-db-table
+class RoleInterface {
     public static function findByName(string $name) : ?Role {}
 }
 ?>
