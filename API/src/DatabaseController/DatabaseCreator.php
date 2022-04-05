@@ -44,26 +44,44 @@ class DatabaseCreator {
 
 
         'CREATE TABLE IF NOT EXISTS user(
-            user_id     INT             AUTO_INCREMENT,
+            user_id             INT             AUTO_INCREMENT,
 
-            email       VARCHAR(100)    NOT NULL,
-            name        VARCHAR(100)    NOT NULL,
-            postcode    VARCHAR(5)      NOT NULL,
-            city        VARCHAR(50)     NOT NULL,
-            phone       VARCHAR(20)     NOT NULL,
+            email               VARCHAR(100)    NOT NULL,
+            name                VARCHAR(100)    NOT NULL,
+            postcode            VARCHAR(5)      NOT NULL,
+            city                VARCHAR(50)     NOT NULL,
+            phone               VARCHAR(20)     NOT NULL,
 
-            hashed_pass BINARY(60)      NOT NULL,
+            hashed_pass         BINARY(60)      NOT NULL,
 
-            verified    BOOLEAN         NOT NULL DEFAULT FALSE,
+            verified            BOOLEAN         NOT NULL DEFAULT FALSE,
+            verification_code   VARCHAR(10)     DEFAULT NULL, 
 
-            role_id     INT             NOT NULL,
+            role_id             INT             NOT NULL,
 
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
-            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            created_at          TIMESTAMP       DEFAULT CURRENT_TIMESTAMP ,
+            updated_at          DATETIME        DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
             PRIMARY KEY (user_id),
             FOREIGN KEY (role_id) REFERENCES role(role_id),
             UNIQUE (email)
+        );',
+        
+
+        'CREATE TABLE IF NOT EXISTS emailChangeRequest(
+            request_id          INT             AUTO_INCREMENT,
+
+            user_id             INT             NOT NULL,
+            new_email           VARCHAR(100)    NOT NULL,
+            verification_code   VARCHAR(10)     NOT NULL, 
+
+            created_at          TIMESTAMP       DEFAULT CURRENT_TIMESTAMP ,
+            updated_at          DATETIME        DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+            PRIMARY KEY (request_id),
+            FOREIGN KEY (user_id) REFERENCES user(user_id),
+            UNIQUE (new_email),
+            UNIQUE (user_id)
         );'
     ];
 
