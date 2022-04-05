@@ -5,12 +5,11 @@ declare(strict_types = 1);
 
 namespace BenSauer\CaseStudySkygateApi\Models;
 
-use BenSauer\CaseStudySkygateApi\DatabaseGateways\RoleGateway;
+use BenSauer\CaseStudySkygateApi\DatabaseInterfaces\RoleInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseInterfaces\EmailChangeRequestInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseInterfaces\UserInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseQueries\UserQuery;
 use BenSauer\CaseStudySkygateApi\Utilities\Validator;
-use Exception;
 use InvalidArgumentException;
 use InvalidFunctionCallException;
 
@@ -71,7 +70,7 @@ class User {
         if(!self::isEmailNotInUse($email)) throw new InvalidArgumentException("Email already in use",110);
 
         //get role id from role name
-        $role_obj = RoleGateway::findByName($role);
+        $role_obj = RoleInterface::findByName($role);
         // throw exception if there is no rule with this name
         if(is_null($role_obj)) throw new InvalidArgumentException("No valid role",106);
         $role_id = $role_obj->getID();
