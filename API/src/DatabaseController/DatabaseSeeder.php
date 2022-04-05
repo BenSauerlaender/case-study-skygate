@@ -43,11 +43,11 @@ class DatabaseSeeder {
         
         'admin' =>  '
             INSERT INTO user
-                (email, name, postcode, city, phone, salt, hashed_pass, verified, role_id)
+                (email, name, postcode, city, phone, hashed_pass, verified, role_id)
             VALUES 
-                ("admin@mail.de","admin","00000","admintown","015937839",1,2,true,0);
+                ("admin@mail.de","admin","00000","admintown","015937839",1,true,0);
         '
-    ];
+    ];//TODO change admin pass_hash
 }
 
 ?>

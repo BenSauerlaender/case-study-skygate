@@ -52,7 +52,6 @@ class DatabaseCreator {
             city        VARCHAR(50)     NOT NULL,
             phone       VARCHAR(20)     NOT NULL,
 
-            salt        BINARY(60)      NOT NULL,
             hashed_pass BINARY(60)      NOT NULL,
 
             verified    BOOLEAN         NOT NULL DEFAULT FALSE,
