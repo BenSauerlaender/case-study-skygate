@@ -1,22 +1,26 @@
 <?php
 
 //activate strict mode
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\DatabaseController;
+namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller;
 
-//create DB-tables if there are not allready there.
-class DatabaseCreator {
+use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Traits\DBconnectionTrait;
+
+//creates DB-tables if they are not already there.
+class DatabaseCreator
+{
+
+    //give a static PDO object named $db
+    use DBconnectionTrait;
 
     //create all tables
-    static public function create(){
-
-        //get database connection
-        $pdo = DatabaseConnector::getConnection();
+    static public function create(): void
+    {
 
         //create all tables via SQL
-        foreach (self::TABLES as $t){
-            $pdo->exec($t);
+        foreach (self::TABLES as $t) {
+            self::$db->exec($t);
         }
     }
 
@@ -66,7 +70,7 @@ class DatabaseCreator {
             FOREIGN KEY (role_id) REFERENCES role(role_id),
             UNIQUE (email)
         );',
-        
+
 
         'CREATE TABLE IF NOT EXISTS emailChangeRequest(
             request_id          INT             AUTO_INCREMENT,
@@ -84,8 +88,4 @@ class DatabaseCreator {
             UNIQUE (user_id)
         );'
     ];
-
-
-
 }
-?>

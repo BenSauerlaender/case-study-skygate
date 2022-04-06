@@ -1,37 +1,41 @@
 <?php
 
 //activate strict mode
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\DatabaseController;
+namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller;
 
+use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Traits\DBconnectionTrait;
 use Exception;
 
 //seed the db with pre-defined data
-class DatabaseSeeder {
+class MySqlSeeder
+{
+    //give a static PDO object named $db
+    use DBconnectionTrait;
 
     //seed specific data-sets 
     //the array should be an array of strings. Each string 
-    static public function seed(array $strings) {
-        
+    static public function seed(array $strings): void
+    {
+        //check if DB connection is set up
+        if (!self::isDBconnected()) throw new Exception("No DB connection set up");
+
         //check if the requested seeds exists
-        foreach($strings as $s){
-            if(!array_key_exists($s,self::SEEDS)){
-                 throw new Exception("Seed dont exists");
+        foreach ($strings as $s) {
+            if (!array_key_exists($s, self::SEEDS)) {
+                throw new Exception("Seed don't exists");
             }
         }
 
-        //get database connection
-        $pdo = DatabaseConnector::getConnection();
-        
         //seed the db via SQL INSERT INTO
-        foreach($strings as $s){
-            $pdo->exec(self::SEEDS[$s]);
+        foreach ($strings as $s) {
+            self::$db->exec(self::SEEDS[$s]);
         }
     }
 
     //name-SQL_Statement-pair array 
-    private const SEEDS = [
+    private const SEEDS = [ //TODO: move seeds to seed-files maybe.
 
         'roles' =>  '
             INSERT INTO role
@@ -40,14 +44,12 @@ class DatabaseSeeder {
                 (0,"admin",true,true,true,true,true,true),
                 (1,"user",false,false,false,true,false,false);
         ',
-        
+
         'admin' =>  '
             INSERT INTO user
                 (email, name, postcode, city, phone, hashed_pass, verified, role_id)
             VALUES 
                 ("admin@mail.de","admin","00000","admintown","015937839",1,true,0);
         '
-    ];//TODO change admin pass_hash
+    ]; //TODO change admin pass_hash
 }
-
-?>
