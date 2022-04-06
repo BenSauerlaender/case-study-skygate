@@ -135,10 +135,10 @@ class UserUtilities implements UserUtilitiesInterface
         $request = self::$ecrAccessor->findByUserID($userID);
 
         //throw exception if there is no request
-        if (is_null($request)) throw new InvalidFunctionCallException("There is no EmailChangeRequest for user_id:" . $this->id);
+        if (is_null($request)) throw new InvalidFunctionCallException("There is no EmailChangeRequest for user_id:" . $userID);
 
         //check if the code is right
-        if ($request["verificationCode"] !== $verificationCode) throw new \InvalidArgumentException("Invalid varification code");
+        if ($request["verificationCode"] !== $verificationCode) throw new \InvalidArgumentException("Invalid verification code");
 
         //remove request
         self::$ecrAccessor->delete($request["id"]);

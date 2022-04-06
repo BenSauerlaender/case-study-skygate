@@ -5,23 +5,22 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Models;
 
-use BenSauer\CaseStudySkygateApi\DatabaseInterfaces\UserInterface;
+use BenSauer\CaseStudySkygateApi\Models\Interfaces\UserInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidFunctionCallException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\UserUtilitiesInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidFunctionCallException;
 use InvalidArgumentException;
 
 // class to represent a user of the app
 class User implements UserInterface
 {
-
     public static ?UserUtilitiesInterface $utilities = null;
     public static ?ValidatorInterface $validator = null;
     public static ?UserAccessorInterface $userAccessor = null;
 
     //set up the class with implementations of interfaces, that are needed
-    public static function setUp(UserUtilitiesInterface $utilities, UserAccessorInterface $userAccessor, ValidatorInterface $validator,): void
+    public static function setUp(UserUtilitiesInterface $utilities, UserAccessorInterface $userAccessor, ValidatorInterface $validator): void
     {
         self::$utilities = $utilities;
         self::$userAccessor = $userAccessor;
@@ -64,13 +63,13 @@ class User implements UserInterface
         $this->role_id = $role_id;
     }
 
-    public function delete()
+    public function delete(): void
     {
         self::$userAccessor->delete($this->id);
     }
 
     //update the DB with currently set attributes
-    public function update()
+    public function update(): void
     {
         self::$userAccessor->update($this->id, $this->email, $this->name, $this->postcode, $this->city, $this->phone, $this->hashed_pass, $this->verified, $this->verificationCode, $this->role_id);
     }
