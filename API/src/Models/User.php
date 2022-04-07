@@ -15,9 +15,9 @@ use InvalidArgumentException;
 // class to represent a user of the app
 class User implements UserInterface
 {
-    public static ?UserUtilitiesInterface $utilities = null;
-    public static ?ValidatorInterface $validator = null;
-    public static ?UserAccessorInterface $userAccessor = null;
+    private static ?UserUtilitiesInterface $utilities = null;
+    private static ?ValidatorInterface $validator = null;
+    private static ?UserAccessorInterface $userAccessor = null;
 
     //set up the class with implementations of interfaces, that are needed
     public static function setUp(UserUtilitiesInterface $utilities, UserAccessorInterface $userAccessor, ValidatorInterface $validator): void

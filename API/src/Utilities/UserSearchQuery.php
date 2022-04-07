@@ -22,7 +22,7 @@ class UserSearchQuery implements UserSearchQueryInterface
      * get one element
      * throw Exception if more or less than one element was found
      */
-    public function getOne(): UserInterface
+    public function getOne(): ?UserInterface
     {
         //TODO
     }

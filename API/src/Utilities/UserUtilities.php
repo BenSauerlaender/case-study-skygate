@@ -8,21 +8,25 @@ namespace BenSauer\CaseStudySkygateApi\Utilities;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Interfaces\EcrAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Interfaces\UserAccessorInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\DatabaseException;
+use BenSauer\CaseStudySkygateApi\Exceptions\FoundMoreThanOneElementException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidFunctionCallException;
+use BenSauer\CaseStudySkygateApi\Exceptions\MissingDependencyException;
 use BenSauer\CaseStudySkygateApi\Models\Interfaces\UserInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\UserSearchQueryInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\UserUtilitiesInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
+use Exception;
 
 class UserUtilities implements UserUtilitiesInterface
 {
 
     //instances of implementations of required interfaces
-    public static ?EcrAccessorInterface $ecrAccessor = null;
-    public static ?RoleAccessorInterface $roleAccessor = null;
-    public static ?UserAccessorInterface $userAccessor = null;
-    public static ?ValidatorInterface $validator = null;
-    public static ?UserSearchQueryInterface $userQuery = null;
+    private static ?EcrAccessorInterface $ecrAccessor = null;
+    private static ?RoleAccessorInterface $roleAccessor = null;
+    private static ?UserAccessorInterface $userAccessor = null;
+    private static ?ValidatorInterface $validator = null;
+    private static ?UserSearchQueryInterface $userQuery = null;
 
     //set up the class with implementations of interfaces, that are needed
     public static function setUp(EcrAccessorInterface $ecrAccessor, RoleAccessorInterface $roleAccessor, UserAccessorInterface $userAccessor, ValidatorInterface $validator, UserSearchQueryInterface $userQuery): void
@@ -48,6 +52,13 @@ class UserUtilities implements UserUtilitiesInterface
         string $role,
         string $password
     ): UserInterface {
+
+        //check all dependencies
+        if (is_null(self::$roleAccessor)) throw new MissingDependencyException("RoleAccessor is not set up");
+        if (is_null(self::$userAccessor)) throw new MissingDependencyException("UserAccessor is not set up");
+        if (is_null(self::$validator)) throw new MissingDependencyException("Validator is not set up");
+        if (is_null(self::$userQuery)) throw new MissingDependencyException("UserSearchQuery is not set up");
+
         //validate all inputs
         if (!self::$validator->isEmail($email)) throw new \InvalidArgumentException("No valid email", 100);
         if (!self::$validator->isWords($name)) throw new \InvalidArgumentException("No valid name", 101);
@@ -77,8 +88,17 @@ class UserUtilities implements UserUtilitiesInterface
         //insert new user to data source
         self::$userAccessor->insert($email, $name, $postcode, $city, $phone, $password_hash, false, $verificationCode, $role_id);
 
+        try {
+            //get new user from data source
+            $newUser = (self::$userQuery->getNewInstance())->addFilter("email", $email)->getOne();
+        } catch (FoundMoreThanOneElementException $e) {
+            throw new DatabaseException("Try to get new user; email:" . $email, 0, $e);
+        }
+
+        if (is_null($newUser)) throw new DatabaseException("new user was inserted, but then not found in the dataBase. Email: " . $email);
+
         //return the new user
-        return (self::$userQuery->getNewInstance())->addFilter("email", $email)->getOne();
+        return $newUser;
     }
 
     // checks if a specified email is free (not used or in an email change request)
