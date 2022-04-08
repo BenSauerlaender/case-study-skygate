@@ -20,20 +20,21 @@ interface UserControllerInterface
      * Hashs the password.
      * Writes the new user to the database.
      *
-     * @param  array<string,string> $attr   The attributes as to give the new user
+     * @param  array<string,string> $attr   The attributes to give the new user
      *  $attr = [
-     *      "email"     => (string)   The user`s e-mail. Required.
-     *      "name"      => (string)   The user`s first and last name. Required.
-     *      "postcode"  => (string)   The user`s postcode. Required.
-     *      "city"      => (string)   The user`s city. Required.
-     *      "phone"     => (string)   The user`s phone number. Required.
-     *      "password"  => (string)   The user`s password. Required.
-     *      "role"      => (string)   The user`s role. Options: "user", "admin". Default: "user"
+     *      "email"     => (string)   The users e-mail. Required.
+     *      "name"      => (string)   The users first and last name. Required.
+     *      "postcode"  => (string)   The users postcode. Required.
+     *      "city"      => (string)   The users city. Required.
+     *      "phone"     => (string)   The users phone number. Required.
+     *      "password"  => (string)   The users password. Required.
+     *      "role"      => (string)   The users role. Options: "user", "admin". Default: "user"
      *  ]
-     *@return array{id: int,verificationCode: string} The user's id and the verification code to verify the user 
-     *@throws InvalidArgumentException if one or more attributes can't be validated.
+     * @return array{id: int,verificationCode: string} The user's id and the verification code to verify the user 
+     * @throws InvalidArgumentException if one or more attributes can't be validated.
+     * @throws InvalidAttributeException if one or more attributes are not valid.
      */
-    public static function createUser(array $attr): array;
+    public function createUser(array $attr): array;
 
     /**
      * Deletes a user
@@ -45,15 +46,17 @@ interface UserControllerInterface
     /**
      * Updates the user's attributes
      *
-     * @param  int   $id the user's id
+     * @param  int   $id the users id
      * @param  array<string,string> $attr   The attributes to update.
      *  $attr = [
-     *      "name"      => (string)   The user`s first and last name.
-     *      "postcode"  => (string)   The user`s postcode.
-     *      "city"      => (string)   The user`s city.
-     *      "phone"     => (string)   The user`s phone number.
-     *      "role"      => (string)   The user`s role. Options: "user", "admin".
+     *      "name"      => (string)   The users first and last name.
+     *      "postcode"  => (string)   The users postcode.
+     *      "city"      => (string)   The users city.
+     *      "phone"     => (string)   The users phone number.
+     *      "role"      => (string)   The users role. Options: "user", "admin".
      *  ]
+     * @throws InvalidArgumentException if one or more attributes can't be validated.
+     * @throws InvalidAttributeException if one or more attributes are not valid.
      */
     public function updateUser(int $id, array $attr): void;
 
@@ -63,8 +66,9 @@ interface UserControllerInterface
      * Checks if the verificationCode is correct.
      * Updates the database accordingly
      *
-     * @param  int    $id                   The user's id.
+     * @param  int    $id                   The users id.
      * @param  string $verificationCode     The code to verify the user
+     * @throws InvalidArgumentException     if there is no user with this id or the verificationCode is wrong.
      */
     public function verifyUser(int $id, string $verificationCode): void;
 
@@ -76,22 +80,26 @@ interface UserControllerInterface
      * Hashs the new password.
      * Write the new password to the database.
      *
-     * @param  int    $id                   The user's id.
-     * @param  string $new_password         The user's old password.
-     * @param  string $old_password         The user's new password.
+     * @param  int    $id                   The users id.
+     * @param  string $new_password         The users old password.
+     * @param  string $old_password         The users new password.
+     * @throws InvalidArgumentException if there is no user with the id or the old password is incorrect.
+     * @throws InvalidAttributeException if the new password is not valid.
      */
     public function updateUsersPassword(int $id, string $new_password, string $old_password): void;
 
     /**
-     * Creates an request to change the user's email.
+     * Creates an request to change the users email.
      * 
      * Validates new email.
      * Generates a verification code.
-     * Write a request to change the user's email to the database.
+     * Write a request to change the users email to the database.
      *
-     * @param  int    $id       The user's id.
-     * @param  string $newEmail The user's new email.
+     * @param  int    $id       The users id.
+     * @param  string $newEmail The users new email.
      * @return string           The verification code to verify the request.    
+     * @throws InvalidArgumentException if there is no user with the id.
+     * @throws InvalidAttributeException if the email is  not valid or already in use.
      */
     public function requestUsersEmailChange(int $id, string $newEmail): string;
 
@@ -102,8 +110,9 @@ interface UserControllerInterface
      * Checks if the verification code is correct.
      * Writes the new email to the database.
      * 
-     * @param  int    $id       The user's id.
+     * @param  int    $id       The users id.
      * @param  string $code     The verification code to verify the email change.
+     * @throws InvalidArgumentException if there is no email change request with this id or the verificationCode is incorrect.
      */
     public function verifyUsersEmailChange(int $id, string $code): void;
 }

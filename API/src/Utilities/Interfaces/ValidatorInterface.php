@@ -1,20 +1,37 @@
 <?php
 
-//activate strict mode
+/**
+ * @author Ben Sauerlaender <Ben.Sauerlaender@Student.HTW-Berlin.de>
+ */
+
 declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities\Interfaces;
 
-// interface with several static functions to validate data
+/**
+ * Utility class for data validation
+ */
 interface ValidatorInterface
 {
-    public static function isEmail(string $email): bool;
 
-    public static function isPassword(string $pass): bool;
-
-    public static function isWords(string $words): bool;
-
-    public static function isPostcode(string $postcode): bool;
-
-    public static function isPhoneNumber(string $phone): bool;
+    /**
+     * Validates all attributes
+     * 
+     * Checks if all attributes can be validated.
+     * Validates all attributes.
+     *
+     * @param  array<string,string> $attr  The attributes to be validated.
+     *  $attr = [
+     *      "email"     => (string)   The users e-mail.
+     *      "name"      => (string)   The users first and last name.
+     *      "postcode"  => (string)   The users postcode.
+     *      "city"      => (string)   The users city.
+     *      "phone"     => (string)   The users phone number.
+     *      "password"  => (string)   The users password.
+     *      "role"      => (string)   The users role. Options: "user", "admin".
+     *  ]
+     * @throws InvalidArgumentException     if a attribute can't be validated.
+     * @throws InvalidAttributeException    if a attribute fails the validation.
+     */
+    public function validate(array $attr): void;
 }

@@ -1,28 +1,85 @@
 <?php
 
-//activate strict mode
+/**
+ * @author Ben Sauerlaender <Ben.Sauerlaender@Student.HTW-Berlin.de>
+ */
+
 declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Interfaces\UserAccessorInterface;
+use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\RoleAccessorInterface;
+use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
+use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\PasswordUtilitiesInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
+use InvalidArgumentException;
+use RuntimeException;
 
-// class to represent a user of the app
 class UserController implements UserControllerInterface
 {
     private PasswordUtilitiesInterface $passUtil;
     private ValidatorInterface $validator;
     private UserAccessorInterface $userAccessor;
+    private RoleAccessorInterface $roleAccessor;
+    private EcrAccessorInterface $ecrAccessor;
 
     //simple constructor to set all properties //should only be used by UserInterface
-    public function __construct(PasswordUtilitiesInterface $passUtil, ValidatorInterface $validator, UserAccessorInterface $userAccessor)
+    public function __construct(PasswordUtilitiesInterface $passUtil, ValidatorInterface $validator, UserAccessorInterface $userAccessor, RoleAccessorInterface $roleAccessor, EcrAccessorInterface $ecrAccessor)
     {
         $this->passUtil = $passUtil;
         $this->validator = $validator;
         $this->userAccessor = $userAccessor;
+        $this->roleAccessor = $roleAccessor;
+        $this->ecrAccessor = $ecrAccessor;
+    }
+
+
+    public function createUser(array $attr): array
+    {
+        //checks if all required attributes exists
+        if (!$this->array_keys_exists(["email", "name", "postcode", "city", "phone", "password"], $attr)) {
+            throw new InvalidArgumentException("There are missing attributes");
+        }
+
+        //validate all (except "role") the attributes.
+        $this->validator->validate(\array_diff_key($attr, ["role" => ""]));
+
+        //check if the email is free
+        if (!$this->isEmailFree($attr["email"])) {
+            throw new  InvalidAttributeException("The email: " . $attr["email"] . " is already in use.", 110);
+        }
+
+        //get the role id. Default role is "user"
+        $roleName = $attr["role"] ?? "user";
+        $roleID = $this->roleAccessor->findByName($roleName);
+        if (is_null($roleID)) throw new InvalidAttributeException("The role '" . $attr["role"] . " is not a valid", 111);
+
+        //hash the password
+        $hashedPassword = $this->passUtil->hashPassword($attr["password"]);
+
+        //generate the 10-char verification code
+        $verificationCode = $this->generateCode(10);
+
+        //insert the new user into the database
+        $this->userAccessor->insert(
+            $attr["email"],
+            $attr["name"],
+            $attr["postcode"],
+            $attr["city"],
+            $attr["phone"],
+            $hashedPassword,
+            false,
+            $verificationCode,
+            $roleID
+        );
+
+        //find the just created user in the database and return his id.
+        $id = $this->userAccessor->findByEmail($attr["email"]);
+        if (is_null($id)) throw new RuntimeException("The just created user(email: " . $attr["email"] . ") can't be found in the database.");
+        return array("id" => $id, "verificationCode" => $verificationCode);
     }
 
 
@@ -31,89 +88,153 @@ class UserController implements UserControllerInterface
         $this->userAccessor->delete($id);
     }
 
-    //update the DB with currently set attributes
-    public function updateUser(int $id, array $args): void
+    public function updateUser(int $id, array $attr): void
     {
-        $this->validator->validate($args);
+        //validate all (except "role") the attributes.
+        $this->validator->validate(\array_diff_key($attr, ["role" => ""]));
 
-        $this->userAccessor->update($this->id, $this->email, $this->name, $this->postcode, $this->city, $this->phone, $this->hashed_pass, $this->verified, $this->verificationCode, $this->role_id);
+        //replace role name by its id
+        if (array_key_exists("role", $attr)) {
+            $attr["roleID"] = $this->getRoleID($attr["role"]);
+            unset($attr["role"]);
+        }
+
+        //update the database
+        $this->userAccessor->update($id, $attr);
     }
 
-    //set a new name
-    public function setName(string $name): self
+
+    public function verifyUser(int $id, string $verificationCode): void
     {
-        if (!self::$validator->isWords($name)) throw new InvalidArgumentException("No valid name", 101);
-        $this->name = $name;
-        return $this;
+        //get the users attributes
+        $user = $this->userAccessor->get($id);
+        if (is_null($user)) throw new InvalidArgumentException("There is no user with id: " . $id);
+
+        //check if the verification code is correct
+        if ($user["verificationCode"] !== $verificationCode) throw new InvalidArgumentException("Verification code is not correct.");
+
+        //update the database
+        $this->userAccessor->update($id, array("verificationCode" => null, "verified" => true));
     }
 
-    //set a new postcode
-    public function setPostcode(string $postcode): self
+    public function updateUsersPassword(int $id, string $newPassword, string $oldPassword): void
     {
-        if (!self::$validator->isPostcode($postcode)) throw new InvalidArgumentException("No valid postcode", 102);
-        $this->postcode = $postcode;
-        return $this;
+        //get the users attributes
+        $user = $this->userAccessor->get($id);
+        if (is_null($user)) throw new InvalidArgumentException("There is no user with id: " . $id);
+
+        //check if old password is correct
+        if (!$this->passUtil->checkPassword($oldPassword, $user["hashedPass"])) throw new InvalidArgumentException("Old Password is incorrect");
+
+        //validate new password
+        $this->validator->validate(array("password" => $newPassword));
+
+        //update the database
+        $this->userAccessor->update($id, array("hashedPass" => $this->passUtil->hashPassword($newPassword)));
     }
 
-    //set a new city
-    public function setCity(string $city): self
+    public function requestUsersEmailChange(int $id, string $newEmail): string
     {
-        if (!self::$validator->isWords($city)) throw new InvalidArgumentException("No valid city", 103);
-        $this->city = $city;
-        return $this;
-    }
+        //get the users attributes
+        $user = $this->userAccessor->get($id);
+        if (is_null($user)) throw new InvalidArgumentException("There is no user with id: " . $id);
 
-    //set a new phone
-    public function setPhone(string $phone): self
-    {
-        if (!self::$validator->isPhoneNumber($phone)) throw new InvalidArgumentException("No valid phone", 104);
-        $this->phone = $phone;
-        return $this;
-    }
-
-    //set a new password
-    public function setPassword(string $new_password, string $old_password): self
-    {
-        //check if old password matches
-        if (!self::$utilities->checkPassword($old_password, $this->hashed_pass)) throw new InvalidArgumentException("Invalid Password", 201);
-
-        //check if new password is safe enough
-        if (!self::$validator->isPassword($new_password)) throw new InvalidArgumentException("No valid password", 105);
-
-        //set new password
-        $this->hashed_pass = self::$utilities->hashPassword($new_password);
-        return $this;
-    }
-
-    //verify the user by a verificationCode
-    public function verify(string $verificationCode): self
-    {
-        //check if user is NOT already verified and code is correct
-        if ($this->verified) throw new InvalidFunctionCallException("User already verified");
-        if ($this->verificationCode !== $verificationCode) throw new InvalidArgumentException("Invalid verification code");
-
-        //remove verificationCode and set to verified
-        $this->verificationCode = null;
-        $this->verified = true;
-        return $this;
-    }
-
-    //checks if new email is valid and free. than creates an emailChangeRequest and returns the verification code
-    public function requestEmailChange(string $newEmail): String
-    {
         //validate new email
-        if (!self::$validator->isEmail($newEmail)) throw new InvalidArgumentException("No valid email", 100);
+        $this->validator->validate(array("email" => $newEmail));
 
-        // create request and return verificationCode
-        return self::$utilities->createEmailChangeRequest($this->id, $newEmail);
+        //check if the email is free
+        if (!$this->isEmailFree($newEmail)) {
+            throw new  InvalidAttributeException("The email: " . $newEmail . " is already in use.", 110);
+        }
+
+        //delete old requests
+        $this->ecrAccessor->deleteByUserID($id);
+
+        //generate the 10-char verification code
+        $verificationCode = $this->generateCode(10);
+
+        //insert the request to the database
+        $this->ecrAccessor->insert($id, $newEmail, $verificationCode);
+
+        //return the verification code
+        return $verificationCode;
     }
 
-    //actually change the email if the code is correct
-    public function verifyEmailChange($verificationCode): self
+    public function verifyUsersEmailChange(int $id, string $code): void
     {
-        //verify the request and set the new Email
-        $this->email = self::$utilities->verifyEmailChangeRequest($this->id, $verificationCode);
+        //get the request
+        $requestID = $this->ecrAccessor->findByUserID($id);
+        if (is_null($requestID)) throw new InvalidArgumentException("There is no email change request for the user with id:" . $id);
+        $request = $this->ecrAccessor->get($requestID);
+        if (is_null($request)) throw new RuntimeException("The just found request with id: " . " can now not found anymore.");
 
-        return $this;
+        //check if the verification code is correct
+        if ($request["verificationCode"] !== $code) {
+            throw new InvalidArgumentException("Verification code is incorrect");
+        }
+
+        //update the user
+        $this->userAccessor->update($id, array("email" => $request["newEmail"]));
+
+        //remove the request
+        $this->ecrAccessor->delete($requestID);
+    }
+
+    /**
+     * Gets the id of a specified role name
+     *
+     * @param  string $name The roles name.
+     * @return int  Returns the roles id.
+     * @throws InvalidAttributeException if such a role cant be found
+     */
+    private function getRoleID(string $name): int
+    {
+        $roleID = $this->roleAccessor->findByName($name);
+        if (is_null($roleID)) throw new InvalidAttributeException("The role '" . $name . " is not a valid", 111);
+        return $roleID;
+    }
+
+    /**
+     * Generates a semi random hexadecimal string
+     *
+     * @param  int    $length   The length of the output string.
+     * @return string   A string out of hexadecimal digits.
+     */
+    private function generateCode(int $length): string
+    {
+        return bin2hex(random_bytes($length / 2));
+    }
+
+    /**
+     * Checks if the specified email if free to use
+     * 
+     * Checks if the email is used by a user.
+     * Checks if the email is requested by a user.
+     *
+     * @param  string $email    The email to check for.
+     * @return bool Returns true if the email is free, otherwise false.
+     */
+    private function isEmailFree(string $email): bool
+    {
+        if (!is_null(($this->userAccessor->findByEmail($email)))) return false;
+        if (!is_null(($this->ecrAccessor->findByEmail($email)))) return false;
+        return true;
+    }
+
+    /**
+     * Checks if all keys exists in an array
+     * 
+     * Calls array_key_exists() for each key.
+     *
+     * @param  string[] $keys   A list of all keys to check.
+     * @param  array $arr       The array to check on.
+     * @return bool Returns true if all keys exists, false otherwise.
+     */
+    private function array_keys_exists(array $keys, array $arr): bool
+    {
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $arr)) return false;
+        }
+        return true;
     }
 }

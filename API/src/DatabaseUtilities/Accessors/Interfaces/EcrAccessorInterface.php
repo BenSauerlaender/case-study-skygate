@@ -15,19 +15,54 @@ namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces;
  */
 interface EcrAccessorInterface
 {
+    /**
+     * Finds an email change request by the users id
+     *
+     * @param  int   $userID  The users id.
+     * @return null|int the request id (or null if the request cant be found).
+     */
+    public function findByUserID(int $userID): ?int;
 
-    //find Request by userID and return id, newEmail and verificationCode
-    public function findByUserID(int $user_id): ?array;
-
-    //find Request for specified email and return id or null if there is no user with this email
+    /**
+     * Finds an email change request by the users requested email
+     *
+     * @param  string   $email  The email, the user requested.
+     * @return null|int the request id (or null if the request cant be found).
+     */
     public function findByEmail(string $email): ?int;
 
-    //delete request by ID
+    /**
+     * Deletes an email change request from the database
+     *
+     * @param  int  $id The request id.
+     */
     public function delete(int $id): void;
 
-    //delete request by userID
-    public function deleteByUserID(int $user_id): void;
+    /**
+     * Deletes an email change request from the database
+     *
+     * @param  int  $userID    The User id.
+     */
+    public function deleteByUserID(int $userID): void;
 
-    //insert a new request
-    public function insert(int $user_id, string $new_email, string $verification_code): void;
+    /**
+     * Inserts a new email change request to the database
+     *
+     * @param  int    $userID               The users id.
+     * @param  string $newEmail             The requested email.
+     * @param  string $verification_code    The code to verify the request.
+     */
+    public function insert(int $userID, string $newEmail, string $verification_code): void;
+
+    /**
+     * Gets the email change request
+     *
+     * @param  int   $id The request id.
+     * @return null|array Returns the $request object or null if the request not exist.
+     *  $request = [
+     *      "newEmail"          => (string)     The requested email.
+     *      "verificationCode"  => (string)     The code to verify the request.
+     *  ]
+     */
+    public function get(int $id): ?array;
 }

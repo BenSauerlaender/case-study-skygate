@@ -7,9 +7,20 @@ namespace BenSauer\CaseStudySkygateApi\Utilities\Interfaces;
 
 interface PasswordUtilitiesInterface
 {
-    //hash the specified password
-    public static function hashPassword(string $pass): string;
+    /**
+     * Hashes the given password.
+     *
+     * @param  string $pass The Password to hash.
+     * @return string Returns the hashed password.
+     */
+    public function hashPassword(string $pass): string;
 
-    //returns true if password is correct; otherwise: false
-    public static function checkPassword(string $pass, string $hashedPassword): bool;
+    /**
+     * Checks if the given password is correct
+     *
+     * @param  string $pass             The password to check.
+     * @param  string $hashedPassword   The hashed password correct password.
+     * @return bool Returns true if the password is correct. False otherwise.
+     */
+    public function checkPassword(string $pass, string $hashedPassword): bool;
 }
