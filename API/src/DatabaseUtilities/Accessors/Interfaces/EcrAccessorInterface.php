@@ -1,15 +1,18 @@
 <?php
 
-//activate strict mode
-declare(strict_types=1);
-
-namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Interfaces;
-
 /**
- * ECR = email change request = request to change the email address 
+ * @author Ben Sauerlaender <Ben.Sauerlaender@Student.HTW-Berlin.de>
  */
 
-// functions to interact with the emailChangeRequest data resource
+declare(strict_types=1);
+
+namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces;
+
+/**
+ * Accessor for the "email change request" database table
+ * 
+ * Abstracts all SQL statements
+ */
 interface EcrAccessorInterface
 {
 

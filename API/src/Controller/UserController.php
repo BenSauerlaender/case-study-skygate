@@ -3,75 +3,40 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Models;
+namespace BenSauer\CaseStudySkygateApi\Controller;
 
-use BenSauer\CaseStudySkygateApi\Models\Interfaces\UserInterface;
+use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\UserUtilitiesInterface;
+use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\PasswordUtilitiesInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidFunctionCallException;
-use InvalidArgumentException;
 
 // class to represent a user of the app
-class User implements UserInterface
+class UserController implements UserControllerInterface
 {
-    private static ?UserUtilitiesInterface $utilities = null;
-    private static ?ValidatorInterface $validator = null;
-    private static ?UserAccessorInterface $userAccessor = null;
-
-    //set up the class with implementations of interfaces, that are needed
-    public static function setUp(UserUtilitiesInterface $utilities, UserAccessorInterface $userAccessor, ValidatorInterface $validator): void
-    {
-        self::$utilities = $utilities;
-        self::$userAccessor = $userAccessor;
-        self::$validator = $validator;
-    }
-
-    private int $id;
-    private string $email;
-    private string $name;
-    private string $postcode;
-    private string $city;
-    private string $phone;
-    private string $hashed_pass;
-    private bool $verified;
-    private ?string $verificationCode;
-    private int $role_id;
+    private PasswordUtilitiesInterface $passUtil;
+    private ValidatorInterface $validator;
+    private UserAccessorInterface $userAccessor;
 
     //simple constructor to set all properties //should only be used by UserInterface
-    public function __construct(
-        int $id,
-        string $email,
-        string $name,
-        string $postcode,
-        string $city,
-        string $phone,
-        string $hashed_pass,
-        bool $verified,
-        ?string $verificationCode,
-        int $role_id
-    ) {
-        $this->id = $id;
-        $this->email = $email;
-        $this->name = $name;
-        $this->postcode = $postcode;
-        $this->city = $city;
-        $this->phone = $phone;
-        $this->hashed_pass = $hashed_pass;
-        $this->verified = $verified;
-        $this->verificationCode = $verificationCode;
-        $this->role_id = $role_id;
+    public function __construct(PasswordUtilitiesInterface $passUtil, ValidatorInterface $validator, UserAccessorInterface $userAccessor)
+    {
+        $this->passUtil = $passUtil;
+        $this->validator = $validator;
+        $this->userAccessor = $userAccessor;
     }
 
-    public function delete(): void
+
+    public function deleteUser(int $id): void
     {
-        self::$userAccessor->delete($this->id);
+        $this->userAccessor->delete($id);
     }
 
     //update the DB with currently set attributes
-    public function update(): void
+    public function updateUser(int $id, array $args): void
     {
-        self::$userAccessor->update($this->id, $this->email, $this->name, $this->postcode, $this->city, $this->phone, $this->hashed_pass, $this->verified, $this->verificationCode, $this->role_id);
+        $this->validator->validate($args);
+
+        $this->userAccessor->update($this->id, $this->email, $this->name, $this->postcode, $this->city, $this->phone, $this->hashed_pass, $this->verified, $this->verificationCode, $this->role_id);
     }
 
     //set a new name
