@@ -8,7 +8,7 @@ namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\Models\Interfaces\RoleInterface;
 
-// functions to interact with the role-db-table
+// class to interact with the role-db-table
 class MySqlRoleAccessor extends MySqlAccessor implements RoleAccessorInterface
 {
     //find a role by its name and return a role object

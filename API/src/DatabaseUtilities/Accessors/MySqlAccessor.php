@@ -5,9 +5,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors;
 
-// functions to interact with the emailChangeRequest-db-table
+// super-class for all MYSQLAccessors
 class MySqlAccessor
 {
+    //pdo object for db interaction
     protected \PDO $pdo;
 
     public function __construct(\PDO $pdo)

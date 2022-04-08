@@ -7,7 +7,7 @@ namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors;
 
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Interfaces\UserAccessorInterface;
 
-// interface to interact with the user-db-table
+// class to interact with the user-db-table
 class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
 {
 

@@ -7,14 +7,9 @@ namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors;
 
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Interfaces\EcrAccessorInterface;
 
-// functions to interact with the emailChangeRequest-db-table
+// class to interact with the emailChangeRequest-db-table
 class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
 {
-
-    public function __construct(\PDO $pdo)
-    {
-        $this->pdo = $pdo;
-    }
 
     //find Request by userID and return id, newEmail and verificationCode
     public function findByUserID(int $user_id): ?array
