@@ -11,15 +11,11 @@ use Exception;
 //seed the db with pre-defined data
 class MySqlSeeder
 {
-    //give a static PDO object named $db
-    use DBconnectionTrait;
 
     //seed specific data-sets 
     //the array should be an array of strings. Each string 
-    static public function seed(array $strings): void
+    static public function seed(\PDO $pdo, array $strings): void
     {
-        //check if DB connection is set up
-        if (!self::isDBconnected()) throw new Exception("No DB connection set up");
 
         //check if the requested seeds exists
         foreach ($strings as $s) {
@@ -30,7 +26,7 @@ class MySqlSeeder
 
         //seed the db via SQL INSERT INTO
         foreach ($strings as $s) {
-            self::$db->exec(self::SEEDS[$s]);
+            $pdo->exec(self::SEEDS[$s]);
         }
     }
 

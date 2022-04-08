@@ -32,7 +32,7 @@ class MySqlConnector
     }
 
     //start the Database connection
-    static public function connect(): void
+    public function __construct()
     {
 
         //get all required dotEnv Variables

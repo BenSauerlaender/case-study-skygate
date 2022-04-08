@@ -11,16 +11,12 @@ use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Traits\DBconnectionTrait;
 class DatabaseCreator
 {
 
-    //give a static PDO object named $db
-    use DBconnectionTrait;
-
     //create all tables
-    static public function create(): void
+    static public function create(\PDO $pdo): void
     {
-
         //create all tables via SQL
         foreach (self::TABLES as $t) {
-            self::$db->exec($t);
+            $pdo->exec($t);
         }
     }
 
