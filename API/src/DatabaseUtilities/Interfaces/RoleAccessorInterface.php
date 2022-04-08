@@ -10,5 +10,5 @@ use BenSauer\CaseStudySkygateApi\Models\Interfaces\RoleInterface;
 // functions to interact with the role data recourse
 interface RoleAccessorInterface
 {
-    public static function findByName(string $name): ?RoleInterface;
+    public function findByName(string $name): ?RoleInterface;
 }
