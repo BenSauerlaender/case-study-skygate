@@ -11,8 +11,4 @@ use BenSauer\CaseStudySkygateApi\Models\Interfaces\RoleInterface;
 // class to interact with the role-db-table
 class MySqlRoleAccessor extends MySqlAccessor implements RoleAccessorInterface
 {
-    //find a role by its name and return a role object
-    public function findByName(string $name): ?RoleInterface
-    {
-    }
 }
