@@ -28,7 +28,6 @@ interface ValidatorInterface
      *      "city"      => (string)   The users city.
      *      "phone"     => (string)   The users phone number.
      *      "password"  => (string)   The users password.
-     *      "role"      => (string)   The users role. Options: "user", "admin".
      *  ]
      * @throws InvalidArgumentException     if a attribute can't be validated.
      * @throws InvalidAttributeException    if a attribute fails the validation. errorCode 100-105.

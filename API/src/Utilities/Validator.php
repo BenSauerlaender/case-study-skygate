@@ -13,7 +13,6 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use InvalidArgumentException;
 
-// class with several static functions to validate data
 class Validator implements ValidatorInterface
 {
     /** 
