@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
-use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\PasswordUtilitiesInterface;
+use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
 use RuntimeException;
 
-class PasswordUtilities implements PasswordUtilitiesInterface
+class securityUtilities implements SecurityUtilitiesInterface
 {
     public function hashPassword(string $pass): string
     {
@@ -25,5 +25,10 @@ class PasswordUtilities implements PasswordUtilitiesInterface
     public function checkPassword(string $pass, string $hashedPassword): bool
     {
         return password_verify($pass, $hashedPassword);
+    }
+
+    public function generateCode(int $length): string
+    {
+        return bin2hex(random_bytes($length / 2));
     }
 }

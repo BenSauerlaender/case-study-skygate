@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities\Interfaces;
 
-interface PasswordUtilitiesInterface
+interface SecurityUtilitiesInterface
 {
     /**
      * Hashes the given password.
@@ -27,4 +27,12 @@ interface PasswordUtilitiesInterface
      * @return bool Returns true if the password is correct. False otherwise.
      */
     public function checkPassword(string $pass, string $hashedPassword): bool;
+
+    /**
+     * Generates a semi random hexadecimal string
+     *
+     * @param  int    $length   The length of the output string.
+     * @return string   A string out of hexadecimal digits.
+     */
+    public function generateCode(int $length): string;
 }

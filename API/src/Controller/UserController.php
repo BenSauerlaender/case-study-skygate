@@ -13,23 +13,23 @@ use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\RoleAcce
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
-use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\PasswordUtilitiesInterface;
+use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use InvalidArgumentException;
 use RuntimeException;
 
 class UserController implements UserControllerInterface
 {
-    private PasswordUtilitiesInterface $passUtil;
+    private SecurityUtilitiesInterface $securityUtil;
     private ValidatorInterface $validator;
     private UserAccessorInterface $userAccessor;
     private RoleAccessorInterface $roleAccessor;
     private EcrAccessorInterface $ecrAccessor;
 
     //simple constructor to set all properties //should only be used by UserInterface
-    public function __construct(PasswordUtilitiesInterface $passUtil, ValidatorInterface $validator, UserAccessorInterface $userAccessor, RoleAccessorInterface $roleAccessor, EcrAccessorInterface $ecrAccessor)
+    public function __construct(SecurityUtilitiesInterface $securityUtil, ValidatorInterface $validator, UserAccessorInterface $userAccessor, RoleAccessorInterface $roleAccessor, EcrAccessorInterface $ecrAccessor)
     {
-        $this->passUtil = $passUtil;
+        $this->securityUtil = $securityUtil;
         $this->validator = $validator;
         $this->userAccessor = $userAccessor;
         $this->roleAccessor = $roleAccessor;
@@ -58,10 +58,10 @@ class UserController implements UserControllerInterface
         if (is_null($roleID)) throw new InvalidAttributeException("The role '" . $attr["role"] . " is not a valid", 106);
 
         //hash the password
-        $hashedPassword = $this->passUtil->hashPassword($attr["password"]);
+        $hashedPassword = $this->securityUtil->hashPassword($attr["password"]);
 
         //generate the 10-char verification code
-        $verificationCode = $this->generateCode(10);
+        $verificationCode = $this->securityUtil->generateCode(10);
 
         //insert the new user into the database
         $this->userAccessor->insert(
@@ -124,7 +124,7 @@ class UserController implements UserControllerInterface
         if (is_null($user)) throw new InvalidArgumentException("There is no user with id: " . $id);
 
         //check if old password is correct
-        if (!$this->passUtil->checkPassword($oldPassword, $user["hashedPass"])) throw new InvalidArgumentException("Old Password is incorrect");
+        if (!$this->securityUtil->checkPassword($oldPassword, $user["hashedPass"])) throw new InvalidArgumentException("Old Password is incorrect");
 
         //validate new password
         $this->validator->validate(array("password" => $newPassword));
@@ -151,7 +151,7 @@ class UserController implements UserControllerInterface
         $this->ecrAccessor->deleteByUserID($id);
 
         //generate the 10-char verification code
-        $verificationCode = $this->generateCode(10);
+        $verificationCode = $this->securityUtil->generateCode(10);
 
         //insert the request to the database
         $this->ecrAccessor->insert($id, $newEmail, $verificationCode);
@@ -194,16 +194,6 @@ class UserController implements UserControllerInterface
         return $roleID;
     }
 
-    /**
-     * Generates a semi random hexadecimal string
-     *
-     * @param  int    $length   The length of the output string.
-     * @return string   A string out of hexadecimal digits.
-     */
-    private function generateCode(int $length): string
-    {
-        return bin2hex(random_bytes($length / 2));
-    }
 
     /**
      * Checks if the specified email if free to use
