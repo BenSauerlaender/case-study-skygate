@@ -31,7 +31,7 @@ interface ValidatorInterface
      *      "role"      => (string)   The users role. Options: "user", "admin".
      *  ]
      * @throws InvalidArgumentException     if a attribute can't be validated.
-     * @throws InvalidAttributeException    if a attribute fails the validation.
+     * @throws InvalidAttributeException    if a attribute fails the validation. errorCode 100-105.
      */
     public function validate(array $attr): void;
 }

@@ -55,7 +55,7 @@ class UserController implements UserControllerInterface
         //get the role id. Default role is "user"
         $roleName = $attr["role"] ?? "user";
         $roleID = $this->roleAccessor->findByName($roleName);
-        if (is_null($roleID)) throw new InvalidAttributeException("The role '" . $attr["role"] . " is not a valid", 111);
+        if (is_null($roleID)) throw new InvalidAttributeException("The role '" . $attr["role"] . " is not a valid", 106);
 
         //hash the password
         $hashedPassword = $this->passUtil->hashPassword($attr["password"]);
@@ -190,7 +190,7 @@ class UserController implements UserControllerInterface
     private function getRoleID(string $name): int
     {
         $roleID = $this->roleAccessor->findByName($name);
-        if (is_null($roleID)) throw new InvalidAttributeException("The role '" . $name . " is not a valid", 111);
+        if (is_null($roleID)) throw new InvalidAttributeException("The role '" . $name . " is not a valid", 106);
         return $roleID;
     }
 
