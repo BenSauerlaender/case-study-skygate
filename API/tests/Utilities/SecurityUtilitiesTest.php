@@ -27,9 +27,11 @@ final class SecurityUtilitiesTest extends TestCase
     /**
      * @dataProvider passwordProvider
      */
-    public function passwordHashAndVerifyTest(string $pass1, string $pass2): void
+    public function testPasswordHashAndVerify(string $pass1, string $pass2): void
     {
         $hash = self::$passUtils->hashPassword($pass1);
+
+        //is 60 characters long
         $this->assertEquals(60, strlen($hash));
 
         $this->assertTrue(self::$passUtils->checkPassword($pass1, $hash));
@@ -43,5 +45,38 @@ final class SecurityUtilitiesTest extends TestCase
             "password2" => ["&%$/`'$)/$%&))++***/#", "17896"],
             "longPassword" => ["eineseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeehrlaaaaaaaaaaaaaaangeeeeeeeeeeeeeeeeeeesPassword", "udsgbf"]
         ];
+    }
+
+    /**
+     * @dataProvider validCodeLengthProvider
+     */
+    public function testSuccessfulCodeGeneration(int $length): void
+    {
+        $code = self::$passUtils->generateCode($length);
+
+        //has the right length
+        $this->assertEquals($length, strlen($code));
+
+        //contains only Hex-digits
+        $this->assertEquals(1, preg_match("/[0-9ABCDEF]*/", $code));
+    }
+
+    public function validCodeLengthProvider(): array
+    {
+        return [[3], [0], [10], [99]];
+    }
+
+    /**
+     * @dataProvider InvalidCodeLengthProvider
+     */
+    public function testCodeGenerationFail(int $length): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        self::$passUtils->generateCode($length);
+    }
+
+    public function invalidCodeLengthProvider(): array
+    {
+        return [[-1], [100]];
     }
 }
