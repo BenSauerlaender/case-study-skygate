@@ -10,9 +10,10 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
+use InvalidArgumentException;
 use RuntimeException;
 
-class securityUtilities implements SecurityUtilitiesInterface
+class SecurityUtilities implements SecurityUtilitiesInterface
 {
     public function hashPassword(string $pass): string
     {
@@ -29,6 +30,15 @@ class securityUtilities implements SecurityUtilitiesInterface
 
     public function generateCode(int $length): string
     {
-        return bin2hex(random_bytes($length / 2));
+        if ($length < 0 or $length > 99) {
+            throw new InvalidArgumentException("The length " . $length . " is not between 0 and 99");
+        }
+
+        if ($length === 0) return "";
+
+        $code = bin2hex(random_bytes((int)ceil($length / 2)));
+
+        //cut the last character if length is uneven
+        return substr($code, 0, $length);
     }
 }
