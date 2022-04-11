@@ -1,18 +1,60 @@
 <?php
 
+/**
+ * @author Ben Sauerlaender <Ben.Sauerlaender@Student.HTW-Berlin.de>
+ */
+
 declare(strict_types=1);
 
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
+use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Validator;
 use PHPUnit\Framework\TestCase;
 
 final class ValidatorTest extends TestCase
 {
+
+    private static ?ValidatorInterface $validator = null;
+
+    public static function setUpBeforeClass(): void
+    {
+        self::$validator = new Validator;
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        self::$validator = null;
+    }
+
+    public function testMultipleValidations(): void
+    {
+        $attributes = [
+            "email" => "test@mail.de",
+            "name" => "Ben Sauerländer",
+            "postcode" => "01234",
+            "city" => "Berlin",
+            "phone" => "030 12345-67",
+            "password" => "1SicheresPassword"
+        ];
+        $this->assertNull(self::$validator->validate($attributes));
+    }
+
+    public function testNotAnAttribute(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        self::$validator->validate(["NotAnAttribute" => ""]);
+    }
+
     /**
      * @dataProvider emailProvider
      */
-    public function testIsEmail(string $email, bool $expected): void
+    public function testEmailValidation(string $email, bool $valid): void
     {
-        $this->assertSame($expected, Validator::isEmail($email));
+        if (!$valid) $this->expectException(InvalidAttributeException::class);
+        if (!$valid) $this->expectExceptionCode(100);
+
+        $ret = self::$validator->validate(["email" => $email]);
+        if ($valid) $this->assertNull($ret);
     }
 
     //tests email validation according to RFC2822 //source: https://en.wikibooks.org/wiki/JavaScript/Best_practices
@@ -48,9 +90,13 @@ final class ValidatorTest extends TestCase
     /**
      * @dataProvider passwordProvider
      */
-    public function testIsPassword(string $pass, bool $expected): void
+    public function testPasswordValidation(string $pass, bool $valid): void
     {
-        $this->assertSame($expected, Validator::isPassword($pass));
+        if (!$valid) $this->expectException(InvalidAttributeException::class);
+        if (!$valid) $this->expectExceptionCode(105);
+
+        $ret = self::$validator->validate(["password" => $pass]);
+        if ($valid) $this->assertNull($ret);
     }
 
     public function passwordProvider(): array
@@ -83,9 +129,25 @@ final class ValidatorTest extends TestCase
     /**
      * @dataProvider wordsProvider
      */
-    public function testIsWords(string $words, bool $expected): void
+    public function testNameValidation(string $name, bool $valid): void
     {
-        $this->assertSame($expected, Validator::isWords($words));
+        if (!$valid) $this->expectException(InvalidAttributeException::class);
+        if (!$valid) $this->expectExceptionCode(101);
+
+        $ret = self::$validator->validate(["name" => $name]);
+        if ($valid) $this->assertNull($ret);
+    }
+
+    /**
+     * @dataProvider wordsProvider
+     */
+    public function testCityValidation(string $city, bool $valid): void
+    {
+        if (!$valid) $this->expectException(InvalidAttributeException::class);
+        if (!$valid) $this->expectExceptionCode(103);
+
+        $ret = self::$validator->validate(["city" => $city]);
+        if ($valid) $this->assertNull($ret);
     }
 
     public function wordsProvider(): array
@@ -105,7 +167,7 @@ final class ValidatorTest extends TestCase
             //to short :
             ["a", false],
             ["a b c", false],
-            //withnumber:
+            //with number:
             ["1Wort", false],
             //special character
             ["MoinMoin,", false],
@@ -116,9 +178,13 @@ final class ValidatorTest extends TestCase
     /**
      * @dataProvider postcodeProvider
      */
-    public function testIsPostcode(string $postcode, bool $expected): void
+    public function testPostcodeValidation(string $postcode, bool $valid): void
     {
-        $this->assertSame($expected, Validator::isPostcode($postcode));
+        if (!$valid) $this->expectException(InvalidAttributeException::class);
+        if (!$valid) $this->expectExceptionCode(102);
+
+        $ret = self::$validator->validate(["postcode" => $postcode]);
+        if ($valid) $this->assertNull($ret);
     }
 
     public function postcodeProvider(): array
@@ -146,9 +212,13 @@ final class ValidatorTest extends TestCase
     /**
      * @dataProvider phoneProvider
      */
-    public function testIsPhonenumber(string $phonenumber, bool $expected): void
+    public function testPhoneValidation(string $phone, bool $valid): void
     {
-        $this->assertSame($expected, Validator::isPhonenumber($phonenumber));
+        if (!$valid) $this->expectException(InvalidAttributeException::class);
+        if (!$valid) $this->expectExceptionCode(104);
+
+        $ret = self::$validator->validate(["phone" => $phone]);
+        if ($valid) $this->assertNull($ret);
     }
 
     //valid examples from https://de.wikipedia.org/wiki/Rufnummer
