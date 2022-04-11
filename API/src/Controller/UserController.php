@@ -54,14 +54,18 @@ class UserController implements UserControllerInterface
 
         //get the role id. Default role is "user"
         $roleName = $attr["role"] ?? "user";
-        $roleID = $this->roleAccessor->findByName($roleName);
-        if (is_null($roleID)) throw new InvalidAttributeException("The role '" . $attr["role"] . " is not a valid", 106);
+        $roleID = $this->getRoleID($roleName);
 
         //hash the password
         $hashedPassword = $this->securityUtil->hashPassword($attr["password"]);
 
-        //generate the 10-char verification code
-        $verificationCode = $this->securityUtil->generateCode(10);
+        try {
+            //generate the 10-char verification code
+            $verificationCode = $this->securityUtil->generateCode(10);
+        } catch (InvalidArgumentException $e) {
+            //It is normally not possible, that generateCode(10) throws an InvalidArgumentException
+            throw new RuntimeException("", 0, $e);
+        }
 
         //insert the new user into the database
         $this->userAccessor->insert(
@@ -150,9 +154,13 @@ class UserController implements UserControllerInterface
         //delete old requests
         $this->ecrAccessor->deleteByUserID($id);
 
-        //generate the 10-char verification code
-        $verificationCode = $this->securityUtil->generateCode(10);
-
+        try {
+            //generate the 10-char verification code
+            $verificationCode = $this->securityUtil->generateCode(10);
+        } catch (InvalidArgumentException $e) {
+            //It is normally not possible, that generateCode(10) throws an InvalidArgumentException
+            throw new RuntimeException("", 0, $e);
+        }
         //insert the request to the database
         $this->ecrAccessor->insert($id, $newEmail, $verificationCode);
 
