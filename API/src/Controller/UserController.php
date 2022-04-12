@@ -137,6 +137,8 @@ class UserController implements UserControllerInterface
 
     public function updateUsersPassword(int $id, string $newPassword, string $oldPassword): void
     {
+        if ($id < 0) throw new OutOfRangeException($id . "is not a valid id");
+
         //get the users attributes
         $user = $this->userAccessor->get($id);
         if (is_null($user)) throw new InvalidArgumentException("There is no user with id: " . $id);
@@ -144,21 +146,31 @@ class UserController implements UserControllerInterface
         //check if old password is correct
         if (!$this->securityUtil->checkPassword($oldPassword, $user["hashedPass"])) throw new InvalidArgumentException("Old Password is incorrect");
 
-        //validate new password
-        $this->validator->validate(array("password" => $newPassword));
+        try {
+            //validate new password
+            $this->validator->validate(array("password" => $newPassword));
+        } catch (InvalidArgumentException $e) {
+            throw new RuntimeException("Validator throw InvalidArgumentException, but its provided only password", 0, $e);
+        }
 
         //update the database
-        $this->userAccessor->update($id, array("hashedPass" => $this->passUtil->hashPassword($newPassword)));
+        $this->userAccessor->update($id, array("hashedPass" => $this->securityUtil->hashPassword($newPassword)));
     }
 
     public function requestUsersEmailChange(int $id, string $newEmail): string
     {
+        if ($id < 0) throw new OutOfRangeException($id . "is not a valid id");
+
         //get the users attributes
         $user = $this->userAccessor->get($id);
         if (is_null($user)) throw new InvalidArgumentException("There is no user with id: " . $id);
 
-        //validate new email
-        $this->validator->validate(array("email" => $newEmail));
+        try {
+            //validate new email
+            $this->validator->validate(array("email" => $newEmail));
+        } catch (InvalidArgumentException $e) {
+            throw new RuntimeException("Validator throw InvalidArgumentException, but its provided only email", 0, $e);
+        }
 
         //check if the email is free
         if (!$this->isEmailFree($newEmail)) {
@@ -184,6 +196,8 @@ class UserController implements UserControllerInterface
 
     public function verifyUsersEmailChange(int $id, string $code): void
     {
+        if ($id < 0) throw new OutOfRangeException($id . "is not a valid id");
+
         //get the request
         $requestID = $this->ecrAccessor->findByUserID($id);
         if (is_null($requestID)) throw new InvalidArgumentException("There is no email change request for the user with id:" . $id);

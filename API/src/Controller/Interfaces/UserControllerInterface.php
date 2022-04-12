@@ -89,6 +89,7 @@ interface UserControllerInterface
      * @param  string $old_password         The users new password.
      * @throws InvalidArgumentException if there is no user with the id or the old password is incorrect.
      * @throws InvalidAttributeException if the new password is not valid.
+     * @throws OutOfRangeException          if the id is negative
      */
     public function updateUsersPassword(int $id, string $new_password, string $old_password): void;
 
@@ -104,6 +105,7 @@ interface UserControllerInterface
      * @return string           The verification code to verify the request.    
      * @throws InvalidArgumentException if there is no user with the id.
      * @throws InvalidAttributeException if the email is  not valid or already in use.
+     * @throws OutOfRangeException          if the id is negative
      */
     public function requestUsersEmailChange(int $id, string $newEmail): string;
 
@@ -117,6 +119,7 @@ interface UserControllerInterface
      * @param  int    $id       The users id.
      * @param  string $code     The verification code to verify the email change.
      * @throws InvalidArgumentException if there is no email change request with this id or the verificationCode is incorrect.
+     * @throws OutOfRangeException          if the id is negative
      */
     public function verifyUsersEmailChange(int $id, string $code): void;
 }

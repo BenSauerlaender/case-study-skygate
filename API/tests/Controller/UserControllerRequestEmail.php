@@ -10,19 +10,20 @@ use BenSauer\CaseStudySkygateApi\Controller\UserController;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Testsuit for UserController->verifyUser method
+ * Testsuit for UserController->requestUsersEmailChange method
  */
-final class UserControllerVerifyTest extends TestCase
+final class UserControllerRequestEmailTest extends TestCase
 {
     /**
      * Tests if the method throws an exception if the id is < 0
      */
-    public function testVerifyUserIDOutOfRange(): void
+    public function testRequestEmailWithIDOutOfRange(): void
     {
 
         //create all mocks
@@ -43,13 +44,13 @@ final class UserControllerVerifyTest extends TestCase
 
         $this->expectException(OutOfRangeException::class);
 
-        $uc->verifyUser(-1, "");
+        $uc->requestUsersEmailChange(-1, "");
     }
 
     /**
      * Tests if the method throws an exception if the user is not in the database
      */
-    public function testVerifyUserNotExists(): void
+    public function testRequestEmailUserNotExists(): void
     {
         //create all mocks
         $secUtil = $this->createMock(SecurityUtilities::class);
@@ -73,13 +74,13 @@ final class UserControllerVerifyTest extends TestCase
         );
 
         $this->expectException(InvalidArgumentException::class);
-        $uc->verifyUser(1, "");
+        $uc->requestUsersEmailChange(1, "");
     }
 
     /**
-     * Tests if the method throws an exception if the user is already verified
+     * Tests if the method throws an exception if the Email is invalid
      */
-    public function testVerifyUserIsVerifiedAlready(): void
+    public function testRequestEmailWithInvalidEmail(): void
     {
         //create all mocks
         $secUtil = $this->createMock(SecurityUtilities::class);
@@ -88,11 +89,14 @@ final class UserControllerVerifyTest extends TestCase
         $roleAcc = $this->createMock(RoleAccessorInterface::class);
         $ecrAcc = $this->createMock(EcrAccessorInterface::class);
 
-        // userAccessor-> get will return a verified user
+        // userAccessor-> get will return always 0.
         $userAcc->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
-            ->willReturn(["verified" => true]);
+            ->willReturn(0);
+
+        $validator->method("validate")
+            ->will($this->throwException(new InvalidAttributeException));
 
         $uc = new UserController(
             $secUtil,
@@ -102,28 +106,28 @@ final class UserControllerVerifyTest extends TestCase
             $ecrAcc,
         );
 
-        $this->expectException(BadMethodCallException::class);
-        $uc->verifyUser(1, "");
+        $this->expectException(InvalidAttributeException::class);
+        $uc->requestUsersEmailChange(1, "email");
     }
 
 
     /**
-     * Tests if the method throws an exception if the code is incorrect
+     * Tests if the method throws an exception if the Email is not free
+     * 
+     * @dataProvider emailNotFreeProvider
      */
-    public function testVerifyUserWithWrongCode(): void
+    public function testRequestEmailWithNotFreeEmail($userAcc, $ecrAcc): void
     {
         //create all mocks
         $secUtil = $this->createMock(SecurityUtilities::class);
         $validator = $this->createMock(ValidatorInterface::class);
-        $userAcc = $this->createMock(UserAccessorInterface::class);
         $roleAcc = $this->createMock(RoleAccessorInterface::class);
-        $ecrAcc = $this->createMock(EcrAccessorInterface::class);
 
+        // userAccessor-> get will return always 0.
         $userAcc->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
-            ->willReturn(["verified" => false, "verificationCode" => "ABC"]);
-
+            ->willReturn(0);
 
         $uc = new UserController(
             $secUtil,
@@ -133,14 +137,47 @@ final class UserControllerVerifyTest extends TestCase
             $ecrAcc,
         );
 
-        $this->expectException(InvalidArgumentException::class);
-        $uc->verifyUser(1, "ABC1");
+        $this->expectException(InvalidAttributeException::class);
+        $uc->requestUsersEmailChange(1, "email");
     }
 
     /**
-     * Tests if the method calls all functions correctly
+     * provides with accessor mocks so that at least in one table the email is not free
      */
-    public function testVerifyUserSuccessful(): void
+    public function emailNotFreeProvider(): array
+    {
+
+        $userAccFree = $this->createMock(UserAccessorInterface::class);
+        $userAccUsed = $this->createMock(UserAccessorInterface::class);
+        $ecrAccFree = $this->createMock(EcrAccessorInterface::class);
+        $ecrAccUsed = $this->createMock(EcrAccessorInterface::class);
+
+        $ecrAccFree->expects($this->once())
+            ->method("findByEmail")
+            ->willReturn(null);
+        $userAccFree->expects($this->once())
+            ->method("findByEmail")
+            ->willReturn(null);
+
+        $ecrAccUsed->expects($this->once())
+            ->method("findByEmail")
+            ->willReturn(0);
+        $userAccUsed->expects($this->once())
+            ->method("findByEmail")
+            ->willReturn(0);
+
+        return [
+            [$userAccFree, $ecrAccUsed],
+            [$userAccUsed, $ecrAccFree],
+            [$userAccUsed, $ecrAccUsed]
+        ];
+    }
+
+
+    /**
+     * Tests if the method calls all functions correct
+     */
+    public function testRequestEmailSuccessful(): void
     {
         //create all mocks
         $secUtil = $this->createMock(SecurityUtilities::class);
@@ -149,14 +186,37 @@ final class UserControllerVerifyTest extends TestCase
         $roleAcc = $this->createMock(RoleAccessorInterface::class);
         $ecrAcc = $this->createMock(EcrAccessorInterface::class);
 
+        // userAccessor-> get will return always 0.
         $userAcc->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
-            ->willReturn(["verified" => false, "verificationCode" => "ABC"]);
+            ->willReturn(0);
 
+        $validator->expects($this->once())
+            ->method("validate")
+            ->with($this->equalTo(["email" => "email"]));
+
+        $ecrAcc->expects($this->once())
+            ->method("findByEmail")
+            ->with($this->equalTo("email"))
+            ->willReturn(null);
         $userAcc->expects($this->once())
-            ->method("update")
-            ->with($this->equalTo(1, ["verificationCode" => false, "verified" => true]));
+            ->method("findByEmail")
+            ->with($this->equalTo("email"))
+            ->willReturn(null);
+
+        $ecrAcc->expects($this->once())
+            ->method("deleteByUserID")
+            ->with($this->equalTo(1));
+
+        $secUtil->expects($this->once())
+            ->method("generateCode")
+            ->with($this->equalTo(10))
+            ->willReturn("code");
+
+        $ecrAcc->expects($this->once())
+            ->method("insert")
+            ->with($this->equalTo(1, "email", "code"));
 
         $uc = new UserController(
             $secUtil,
@@ -166,6 +226,7 @@ final class UserControllerVerifyTest extends TestCase
             $ecrAcc,
         );
 
-        $uc->verifyUser(1, "ABC");
+        $code = $uc->requestUsersEmailChange(1, "email");
+        $this->assertNotEquals("code", $code);
     }
 }
