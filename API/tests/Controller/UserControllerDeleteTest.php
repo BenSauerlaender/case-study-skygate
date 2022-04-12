@@ -10,7 +10,6 @@ use BenSauer\CaseStudySkygateApi\Controller\UserController;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
 use PHPUnit\Framework\TestCase;
@@ -50,7 +49,7 @@ final class UserControllerDeleteTest extends TestCase
     /**
      * Tests if the delete method calls the accessor correctly 
      */
-    public function testDeleteUser(): void
+    public function testDeleteUserSuccess(): void
     {
         $id = 1;
 

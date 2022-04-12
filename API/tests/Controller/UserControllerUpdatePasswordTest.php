@@ -16,14 +16,14 @@ use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Testsuit for UserController->requestUsersEmailChange method
+ * Testsuit for UserController->updateUsersPassword method
  */
-final class UserControllerRequestEmailTest extends TestCase
+final class UserControllerUpdatePasswordTest extends TestCase
 {
     /**
      * Tests if the method throws an exception if the id is < 0
      */
-    public function testRequestEmailWithIDOutOfRange(): void
+    public function testUpdatePasswordWithIDOutOfRange(): void
     {
 
         //create all mocks
@@ -44,13 +44,13 @@ final class UserControllerRequestEmailTest extends TestCase
 
         $this->expectException(OutOfRangeException::class);
 
-        $uc->requestUsersEmailChange(-1, "");
+        $uc->updateUsersPassword(-1, "", "");
     }
 
     /**
      * Tests if the method throws an exception if the user is not in the database
      */
-    public function testRequestEmailUserNotExists(): void
+    public function testUpdatePasswordUserNotExists(): void
     {
         //create all mocks
         $secUtil = $this->createMock(SecurityUtilities::class);
@@ -74,13 +74,13 @@ final class UserControllerRequestEmailTest extends TestCase
         );
 
         $this->expectException(InvalidArgumentException::class);
-        $uc->requestUsersEmailChange(1, "");
+        $uc->updateUsersPassword(1, "", "");
     }
 
     /**
-     * Tests if the method throws an exception if the Email is invalid
+     * Tests if the method throws an exception if the old password is incorrect
      */
-    public function testRequestEmailWithInvalidEmail(): void
+    public function testUpdatePasswordWithIncorrectPass(): void
     {
         //create all mocks
         $secUtil = $this->createMock(SecurityUtilities::class);
@@ -89,13 +89,21 @@ final class UserControllerRequestEmailTest extends TestCase
         $roleAcc = $this->createMock(RoleAccessorInterface::class);
         $ecrAcc = $this->createMock(EcrAccessorInterface::class);
 
-        // userAccessor-> get will return always 0.
+        // userAccessor-> get will return a fake hashed password
         $userAcc->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
-            ->willReturn(0);
+            ->willReturn(["hashedPass" => "hash"]);
 
-        $validator->method("validate")
+        //all passwords will be correct
+        $secUtil->expects($this->once())
+            ->method("checkPassword")
+            ->willReturn(true);
+
+        //validation will fail
+        $validator->expects($this->once())
+            ->method("validate")
+            ->with($this->equalTo(["password" => "newPass"]))
             ->will($this->throwException(new InvalidAttributeException));
 
         $uc = new UserController(
@@ -107,77 +115,14 @@ final class UserControllerRequestEmailTest extends TestCase
         );
 
         $this->expectException(InvalidAttributeException::class);
-        $uc->requestUsersEmailChange(1, "email");
-    }
-
-
-    /**
-     * Tests if the method throws an exception if the Email is not free
-     * 
-     * @dataProvider emailNotFreeProvider
-     */
-    public function testRequestEmailWithNotFreeEmail($userAcc, $ecrAcc): void
-    {
-        //create all mocks
-        $secUtil = $this->createMock(SecurityUtilities::class);
-        $validator = $this->createMock(ValidatorInterface::class);
-        $roleAcc = $this->createMock(RoleAccessorInterface::class);
-
-        // userAccessor-> get will return always 0.
-        $userAcc->expects($this->once())
-            ->method("get")
-            ->with($this->equalTo(1))
-            ->willReturn(0);
-
-        $uc = new UserController(
-            $secUtil,
-            $validator,
-            $userAcc,
-            $roleAcc,
-            $ecrAcc,
-        );
-
-        $this->expectException(InvalidAttributeException::class);
-        $uc->requestUsersEmailChange(1, "email");
-    }
-
-    /**
-     * provides with accessor mocks so that at least in one table the email is not free
-     */
-    public function emailNotFreeProvider(): array
-    {
-
-        $userAccFree = $this->createMock(UserAccessorInterface::class);
-        $userAccUsed = $this->createMock(UserAccessorInterface::class);
-        $ecrAccFree = $this->createMock(EcrAccessorInterface::class);
-        $ecrAccUsed = $this->createMock(EcrAccessorInterface::class);
-
-        $ecrAccFree->expects($this->once())
-            ->method("findByEmail")
-            ->willReturn(null);
-        $userAccFree->expects($this->once())
-            ->method("findByEmail")
-            ->willReturn(null);
-
-        $ecrAccUsed->expects($this->once())
-            ->method("findByEmail")
-            ->willReturn(0);
-        $userAccUsed->expects($this->once())
-            ->method("findByEmail")
-            ->willReturn(0);
-
-        return [
-            [$userAccFree, $ecrAccUsed],
-            [$userAccUsed, $ecrAccFree],
-            [$userAccUsed, $ecrAccUsed]
-        ];
+        $uc->updateUsersPassword(1, "newPass", "oldPass");
     }
 
 
     /**
      * Tests if the method calls all functions correct
      */
-    public function testRequestEmailSuccessful(): void
+    public function testUpdatePasswordSuccessful(): void
     {
         //create all mocks
         $secUtil = $this->createMock(SecurityUtilities::class);
@@ -186,37 +131,30 @@ final class UserControllerRequestEmailTest extends TestCase
         $roleAcc = $this->createMock(RoleAccessorInterface::class);
         $ecrAcc = $this->createMock(EcrAccessorInterface::class);
 
-        // userAccessor-> get will return always 0.
+        // userAccessor-> get will return a fake hashed password
         $userAcc->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
-            ->willReturn(0);
+            ->willReturn(["hashedPass" => "hash"]);
+
+        //all passwords will be correct
+        $secUtil->expects($this->once())
+            ->method("checkPassword")
+            ->with($this->equalTo("oldPass", "hash"))
+            ->willReturn(true);
 
         $validator->expects($this->once())
             ->method("validate")
-            ->with($this->equalTo(["email" => "email"]));
-
-        $ecrAcc->expects($this->once())
-            ->method("findByEmail")
-            ->with($this->equalTo("email"))
-            ->willReturn(null);
-        $userAcc->expects($this->once())
-            ->method("findByEmail")
-            ->with($this->equalTo("email"))
-            ->willReturn(null);
-
-        $ecrAcc->expects($this->once())
-            ->method("deleteByUserID")
-            ->with($this->equalTo(1));
+            ->with($this->equalTo(["password" => "newPass"]));
 
         $secUtil->expects($this->once())
-            ->method("generateCode")
-            ->with($this->equalTo(10))
-            ->willReturn("code");
+            ->method("hashPassword")
+            ->with($this->equalTo("newPass"))
+            ->willReturn("newHash");
 
-        $ecrAcc->expects($this->once())
-            ->method("insert")
-            ->with($this->equalTo(1, "email", "code"));
+        $userAcc->expects($this->once())
+            ->method("update")
+            ->with($this->equalTo(1, ["hashedPass" => "newHash"]));
 
         $uc = new UserController(
             $secUtil,
@@ -226,7 +164,6 @@ final class UserControllerRequestEmailTest extends TestCase
             $ecrAcc,
         );
 
-        $code = $uc->requestUsersEmailChange(1, "email");
-        $this->assertNotEquals("code", $code);
+        $uc->updateUsersPassword(1, "newPass", "oldPass");
     }
 }

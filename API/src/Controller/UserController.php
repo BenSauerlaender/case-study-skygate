@@ -202,7 +202,7 @@ class UserController implements UserControllerInterface
         $requestID = $this->ecrAccessor->findByUserID($id);
         if (is_null($requestID)) throw new InvalidArgumentException("There is no email change request for the user with id:" . $id);
         $request = $this->ecrAccessor->get($requestID);
-        if (is_null($request)) throw new RuntimeException("The just found request with id: " . " can now not found anymore.");
+        if (is_null($request)) throw new RuntimeException("The just found request with id: " . " can now not be found anymore.");
 
         //check if the verification code is correct
         if ($request["verificationCode"] !== $code) {
