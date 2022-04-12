@@ -40,6 +40,7 @@ interface UserControllerInterface
      * Deletes a user
      *
      * @param  int  $id the user's id 
+     * @throws OutOfRangeException if the id is negative.
      */
     public function deleteUser(int $id): void;
 
@@ -55,8 +56,9 @@ interface UserControllerInterface
      *      "phone"     => (string)   The users phone number.
      *      "role"      => (string)   The users role. Options: "user", "admin".
      *  ]
-     * @throws InvalidArgumentException if one or more attributes can't be validated.
+     * @throws InvalidArgumentException if one or more attributes is not one of the upper declared.
      * @throws InvalidAttributeException if one or more attributes are not valid.
+     * @throws OutOfRangeException if the id is negative
      */
     public function updateUser(int $id, array $attr): void;
 

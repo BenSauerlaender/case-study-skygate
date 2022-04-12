@@ -16,6 +16,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use InvalidArgumentException;
+use OutOfRangeException;
 use RuntimeException;
 
 class UserController implements UserControllerInterface
@@ -89,11 +90,18 @@ class UserController implements UserControllerInterface
 
     public function deleteUser(int $id): void
     {
+        if ($id < 0) throw new OutOfRangeException($id . "is not a valid id");
         $this->userAccessor->delete($id);
     }
 
     public function updateUser(int $id, array $attr): void
     {
+        if ($id < 0) throw new OutOfRangeException($id . "is not a valid id");
+
+        if (count($attr) < 1) throw new InvalidArgumentException("The attribute array is empty");
+
+        if (array_key_exists("password", $attr)) throw new InvalidArgumentException("To change the password use updateUserPassword");
+
         //validate all (except "role") the attributes.
         $this->validator->validate(\array_diff_key($attr, ["role" => ""]));
 
@@ -110,6 +118,8 @@ class UserController implements UserControllerInterface
 
     public function verifyUser(int $id, string $verificationCode): void
     {
+        if ($id < 0) throw new OutOfRangeException($id . "is not a valid id");
+
         //get the users attributes
         $user = $this->userAccessor->get($id);
         if (is_null($user)) throw new InvalidArgumentException("There is no user with id: " . $id);
