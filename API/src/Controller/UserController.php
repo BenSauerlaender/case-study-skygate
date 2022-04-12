@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
+use BadMethodCallException;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
@@ -123,6 +124,9 @@ class UserController implements UserControllerInterface
         //get the users attributes
         $user = $this->userAccessor->get($id);
         if (is_null($user)) throw new InvalidArgumentException("There is no user with id: " . $id);
+
+        //check if the user is verified already
+        if ($user["verified"]) throw new BadMethodCallException("The User (with id: " . $id . ") is already verified");
 
         //check if the verification code is correct
         if ($user["verificationCode"] !== $verificationCode) throw new InvalidArgumentException("Verification code is not correct.");

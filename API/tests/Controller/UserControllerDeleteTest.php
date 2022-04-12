@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Testsuit for UserController->delete method
  */
-final class UserControllerUpdateTest extends TestCase
+final class UserControllerDeleteTest extends TestCase
 {
     /**
      * Tests if the method throws an exception if the id is < 0

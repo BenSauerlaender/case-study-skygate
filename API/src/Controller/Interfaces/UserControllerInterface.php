@@ -71,6 +71,8 @@ interface UserControllerInterface
      * @param  int    $id                   The users id.
      * @param  string $verificationCode     The code to verify the user
      * @throws InvalidArgumentException     if there is no user with this id or the verificationCode is wrong.
+     * @throws OutOfRangeException          if the id is negative
+     * @throws BadMethodCallException       if the user is already verified
      */
     public function verifyUser(int $id, string $verificationCode): void;
 
