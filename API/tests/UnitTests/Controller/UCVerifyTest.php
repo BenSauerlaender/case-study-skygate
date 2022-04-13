@@ -6,44 +6,26 @@
 
 declare(strict_types=1);
 
-use BenSauer\CaseStudySkygateApi\Controller\UserController;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\RoleAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
-use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
-use PHPUnit\Framework\TestCase;
+namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Controller;
+
+use BadMethodCallException;
+use InvalidArgumentException;
+use OutOfRangeException;
 
 /**
  * Testsuit for UserController->verifyUser method
  */
-final class UCVerifyTest extends TestCase
+final class UCVerifyTest extends BaseUCTest
 {
     /**
      * Tests if the method throws an exception if the id is < 0
      */
     public function testVerifyUserIDOutOfRange(): void
     {
-
-        //create all mocks
-        $secUtil = $this->createMock(SecurityUtilities::class);
-        $validator = $this->createMock(ValidatorInterface::class);
-        $userAcc = $this->createMock(UserAccessorInterface::class);
-        $roleAcc = $this->createMock(RoleAccessorInterface::class);
-        $ecrAcc = $this->createMock(EcrAccessorInterface::class);
-
-        $uc = new UserController(
-            $secUtil,
-            $validator,
-            $userAcc,
-            $roleAcc,
-            $ecrAcc,
-        );
-
-
         $this->expectException(OutOfRangeException::class);
+        $this->expectExceptionMessage("is not a valid id");
 
-        $uc->verifyUser(-1, "");
+        $this->userController->verifyUser(-1, "");
     }
 
     /**
@@ -51,59 +33,33 @@ final class UCVerifyTest extends TestCase
      */
     public function testVerifyUserNotExists(): void
     {
-        //create all mocks
-        $secUtil = $this->createMock(SecurityUtilities::class);
-        $validator = $this->createMock(ValidatorInterface::class);
-        $userAcc = $this->createMock(UserAccessorInterface::class);
-        $roleAcc = $this->createMock(RoleAccessorInterface::class);
-        $ecrAcc = $this->createMock(EcrAccessorInterface::class);
-
         // userAccessor-> get will return always null.
-        $userAcc->expects($this->once())
+        $this->userAccessorMock->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
             ->willReturn(null);
 
-        $uc = new UserController(
-            $secUtil,
-            $validator,
-            $userAcc,
-            $roleAcc,
-            $ecrAcc,
-        );
-
         $this->expectException(InvalidArgumentException::class);
-        $uc->verifyUser(1, "");
+        $this->expectExceptionMessage("There is no user");
+
+        $this->userController->verifyUser(1, "");
     }
 
     /**
      * Tests if the method throws an exception if the user is already verified
      */
-    public function testVerifyUserIsVerifiedAlready(): void
+    public function testVerifyUserIsAlreadyVerified(): void
     {
-        //create all mocks
-        $secUtil = $this->createMock(SecurityUtilities::class);
-        $validator = $this->createMock(ValidatorInterface::class);
-        $userAcc = $this->createMock(UserAccessorInterface::class);
-        $roleAcc = $this->createMock(RoleAccessorInterface::class);
-        $ecrAcc = $this->createMock(EcrAccessorInterface::class);
-
         // userAccessor-> get will return a verified user
-        $userAcc->expects($this->once())
+        $this->userAccessorMock->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
             ->willReturn(["verified" => true]);
 
-        $uc = new UserController(
-            $secUtil,
-            $validator,
-            $userAcc,
-            $roleAcc,
-            $ecrAcc,
-        );
-
         $this->expectException(BadMethodCallException::class);
-        $uc->verifyUser(1, "");
+        $this->expectExceptionMessage("is already verified");
+
+        $this->userController->verifyUser(1, "");
     }
 
 
@@ -112,60 +68,31 @@ final class UCVerifyTest extends TestCase
      */
     public function testVerifyUserWithWrongCode(): void
     {
-        //create all mocks
-        $secUtil = $this->createMock(SecurityUtilities::class);
-        $validator = $this->createMock(ValidatorInterface::class);
-        $userAcc = $this->createMock(UserAccessorInterface::class);
-        $roleAcc = $this->createMock(RoleAccessorInterface::class);
-        $ecrAcc = $this->createMock(EcrAccessorInterface::class);
-
-        $userAcc->expects($this->once())
+        $this->userAccessorMock->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
             ->willReturn(["verified" => false, "verificationCode" => "ABC"]);
 
-
-        $uc = new UserController(
-            $secUtil,
-            $validator,
-            $userAcc,
-            $roleAcc,
-            $ecrAcc,
-        );
-
         $this->expectException(InvalidArgumentException::class);
-        $uc->verifyUser(1, "ABC1");
+        $this->expectExceptionMessage("Verification code is not correct");
+
+        $this->userController->verifyUser(1, "ABC1");
     }
 
     /**
-     * Tests if the method calls all functions correctly
+     * Tests if everything goes well and all dependencies are called correct
      */
     public function testVerifyUserSuccessful(): void
     {
-        //create all mocks
-        $secUtil = $this->createMock(SecurityUtilities::class);
-        $validator = $this->createMock(ValidatorInterface::class);
-        $userAcc = $this->createMock(UserAccessorInterface::class);
-        $roleAcc = $this->createMock(RoleAccessorInterface::class);
-        $ecrAcc = $this->createMock(EcrAccessorInterface::class);
-
-        $userAcc->expects($this->once())
+        $this->userAccessorMock->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
             ->willReturn(["verified" => false, "verificationCode" => "ABC"]);
 
-        $userAcc->expects($this->once())
+        $this->userAccessorMock->expects($this->once())
             ->method("update")
             ->with($this->equalTo(1, ["verificationCode" => false, "verified" => true]));
 
-        $uc = new UserController(
-            $secUtil,
-            $validator,
-            $userAcc,
-            $roleAcc,
-            $ecrAcc,
-        );
-
-        $uc->verifyUser(1, "ABC");
+        $this->userController->verifyUser(1, "ABC");
     }
 }

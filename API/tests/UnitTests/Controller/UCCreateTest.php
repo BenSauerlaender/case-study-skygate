@@ -6,53 +6,29 @@
 
 declare(strict_types=1);
 
-use BenSauer\CaseStudySkygateApi\Controller\UserController;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\RoleAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
+namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Controller;
+
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
-use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
-use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
-use PHPUnit\Framework\TestCase;
+use InvalidArgumentException;
 
 /**
  * Testsuit for UserController->createUser method
  */
-final class UCCreateTest extends TestCase
+final class UCCreateTest extends BaseUCTest
 {
 
     /**
-     * Example attribute array with all attributes
-     *
-     */
-    private static array $completeAttr = [
-        "email" => "test@mail.de",
-        "name" => "Ben Sauerländer",
-        "postcode" => "01234",
-        "city" => "Berlin",
-        "phone" => "030 12345-67",
-        "password" => "1SicheresPassword",
-        "role" => "admin"
-    ];
-
-    /**
-     * Tests if the method returns an Exception if at least one attribute is missing
+     * Tests if the method throws an Exception if at least one attribute is missing
      * 
      * @dataProvider incompleteAttributeProvider
      */
-    public function testCreateUserWithoutAllAttributes(array $attr): void
+    public function testCreateUserWithMissingAttributes(array $attr): void
     {
-        //create the user controller with stub dependencies
-        $uc = new UserController(
-            $this->createStub(SecurityUtilities::class),
-            $this->createStub(ValidatorInterface::class),
-            $this->createStub(UserAccessorInterface::class),
-            $this->createStub(RoleAccessorInterface::class),
-            $this->createStub(EcrAccessorInterface::class)
-        );
 
         $this->expectException(InvalidArgumentException::class);
-        $uc->createUser($attr);
+        $this->expectExceptionMessage("missing attributes");
+
+        $this->userController->createUser($attr);
     }
 
     /**
@@ -61,88 +37,50 @@ final class UCCreateTest extends TestCase
     public function incompleteAttributeProvider(): array
     {
         return [
-            [[]],
-            [["email" => "test@mail.de"]],
-            [[
-                "email" => "test@mail.de",
-                "name" => "Ben Sauerländer",
-                "postcode" => "01234",
-                "city" => "Berlin",
-                "phone" => "030 12345-67"
-            ]]
+            "empty array" => [
+                []
+            ],
+            "only email" => [
+                ["email" => "test@mail.de"]
+            ],
+            "without password" => [
+                [
+                    "email" => "test@mail.de",
+                    "name" => "Ben Sauerländer",
+                    "postcode" => "01234",
+                    "city" => "Berlin",
+                    "phone" => "030 12345-67"
+                ]
+            ]
         ];
     }
 
     /**
-     * Tests if the method throws an exception if at least one attribute is invalid
+     * Tests if the method throw an exception if at least one attribute is invalid
      */
     public function testCreateUserWithInvalidAttributes(): void
     {
-        //the validator will always throw the exception
-        $stubValidator = $this->createStub(ValidatorInterface::class);
-        $stubValidator->method("validate")->willThrowException(new InvalidAttributeException);
-
-        $uc = new UserController(
-            $this->createStub(SecurityUtilities::class),
-            $stubValidator,
-            $this->createStub(UserAccessorInterface::class),
-            $this->createStub(RoleAccessorInterface::class),
-            $this->createStub(EcrAccessorInterface::class)
-        );
+        //the validator will always throw invalidAttributeException
+        $this->validatorMock->method("validate")->willThrowException(new InvalidAttributeException);
 
         $this->expectException(InvalidAttributeException::class);
-        $uc->createUser(self::$completeAttr);
+        $this->userController->createUser(self::$completeAttr);
     }
 
     /**
      * Tests if the method throws an exception if the email is already in use in at least one of the relevant tables
      * 
-     * @dataProvider duplicateEmailProvider
+     * @dataProvider \BenSauer\CaseStudySkygateApi\tests\UnitTests\Controller\Provider::NANDProvider()
      */
-    public function testCreateUserWithDuplicateEmail(bool $emailInUser, bool $emailInEcr): void
+    public function testCreateUserWithDuplicateEmail(bool $emailFreeInUser, bool $emailFreeInEcr): void
     {
-        //create stubs so that the email is already in use in at least one of the tables.
-
-        $stubUserAcc = $this->createStub(UserAccessorInterface::class);
-        if ($emailInUser) {
-            //email in use
-            $stubUserAcc->method("findByEmail")->willReturn(0);
-        } else {
-            //email not found
-            $stubUserAcc->method("findByEmail")->willReturn(null);
-        }
-
-        $stubEcrAcc = $this->createStub(EcrAccessorInterface::class);
-        if ($emailInEcr) {
-            //email in use
-            $stubEcrAcc->method("findByEmail")->willReturn(0);
-        } else {
-            //email not found
-            $stubEcrAcc->method("findByEmail")->willReturn(null);
-        }
-
-        $uc = new UserController(
-            $this->createStub(SecurityUtilities::class),
-            $this->createStub(ValidatorInterface::class),
-            $stubUserAcc,
-            $this->createStub(RoleAccessorInterface::class),
-            $stubEcrAcc
-        );
+        $this->configEmailAvailability($emailFreeInUser, $emailFreeInEcr);
 
         $this->expectException(InvalidAttributeException::class);
         $this->expectExceptionCode(110);
+        $this->expectExceptionMessage("is already in use");
 
-        $uc->createUser(self::$completeAttr);
-    }
-
-
-    public function duplicateEmailProvider(): array
-    {
-        return [
-            [true, true],
-            [true, false],
-            [false, true],
-        ];
+        $this->userController->createUser(self::$completeAttr);
     }
 
     /**
@@ -150,84 +88,68 @@ final class UCCreateTest extends TestCase
      */
     public function testCreateUserWithInvalidRole(): void
     {
-        //create stubs so that the email is free
-        $stubUserAcc = $this->createStub(UserAccessorInterface::class);
-        $stubUserAcc->method("findByEmail")->willReturn(null);
-        $stubEcrAcc = $this->createStub(EcrAccessorInterface::class);
-        $stubEcrAcc->method("findByEmail")->willReturn(null);
+        //config mocks so that the email is free
+        $this->configEmailAvailability(true, true);
 
-        //create stub so that the role can't be found
-        $stubRoleAcc = $this->createStub(RoleAccessorInterface::class);
-        $stubRoleAcc->method("findByName")->willReturn(null);
-
-
-        $uc = new UserController(
-            $this->createStub(SecurityUtilities::class),
-            $this->createStub(ValidatorInterface::class),
-            $stubUserAcc,
-            $stubRoleAcc,
-            $stubEcrAcc
-        );
+        //config mock so that the role can't be found
+        $this->roleAccessorMock->method("findByName")->willReturn(null);
 
         $this->expectException(InvalidAttributeException::class);
         $this->expectExceptionCode(106);
+        $this->expectExceptionMessage("is not a valid role");
 
-        $uc->createUser(self::$completeAttr);
+        $this->userController->createUser(self::$completeAttr);
     }
 
     /**
-     * Tests if everything goes well if nothing goes wrong
-     * 
+     * Tests if everything goes well and all dependencies are called correct
+     *  
      * @dataProvider goodAttributesProvider
      */
-    public function testCreateUserSuccessfully(array $inputAttr, array $expectValidated): void
+    public function testCreateUserSuccessful(array $inputAttr, array $expectValidated): void
     {
-        //create all mocks
-        $secUtil = $this->createMock(SecurityUtilities::class);
-        $validator = $this->createMock(ValidatorInterface::class);
-        $userAcc = $this->createMock(UserAccessorInterface::class);
-        $roleAcc = $this->createMock(RoleAccessorInterface::class);
-        $ecrAcc = $this->createMock(EcrAccessorInterface::class);
+
+        //the userID for the new created user
+        $returnedUserID = 11;
 
         //validator validates everything
-        $validator->expects($this->once())
+        $this->validatorMock->expects($this->once())
             ->method("validate")
             ->with($this->equalTo($expectValidated));
 
-        //user Accessor cant find the email at the first time - so they is not in use. But can find it at second time.
+        //user Accessor cant find the email at the first time - bc they is not in use. But can find it at second time.
         //and then returns userID = 11
-        $userAcc->expects($this->exactly(2))
+        $this->userAccessorMock->expects($this->exactly(2))
             ->method("findByEmail")
             ->withConsecutive([$this->equalTo($inputAttr["email"])], [$this->equalTo($inputAttr["email"])])
-            ->willReturnOnConsecutiveCalls(null, 11);
+            ->willReturnOnConsecutiveCalls(null, $returnedUserID);
 
-
-        //ECR Accessor cant find the email - so they is not in use
-        $ecrAcc->expects($this->once())
+        //ECR Accessor cant find the email - bc they is not in use
+        $this->ecrAccessorMock->expects($this->once())
             ->method("findByEmail")
             ->with($this->equalTo($inputAttr["email"]));
 
         // if role is not specified it will use "user"
         $expectedRole = $inputAttr["role"] ?? "user";
-        $roleAcc->expects($this->once())
+        $this->roleAccessorMock->expects($this->once())
             ->method("findByName")
             ->with($this->equalTo($expectedRole))
             ->willReturn(0);
 
         // return the hash "hash"
-        $secUtil->expects($this->once())
+        $this->securityUtilitiesMock->expects($this->once())
             ->method("hashPassword")
             ->with($this->equalTo($inputAttr["password"]))
             ->willReturn("hash");
 
         //generate code "ABC"
-        $secUtil->expects($this->once())
+        $this->securityUtilitiesMock->expects($this->once())
             ->method("generateCode")
             ->with($this->equalTo(10))
             ->willReturn("ABC");
 
         //expect the right data to insert into the DB
-        $userAcc->expects($this->once())
+        $this->userAccessorMock->expects($this->once())
             ->method("insert")
             ->with($this->equalTo(
                 $inputAttr["email"],
@@ -240,16 +162,8 @@ final class UCCreateTest extends TestCase
                 $expectedRole
             ));
 
-        $uc = new UserController(
-            $secUtil,
-            $validator,
-            $userAcc,
-            $roleAcc,
-            $ecrAcc,
-        );
-
-        $result = $uc->createUser($inputAttr);
-        $this->assertEquals(["id" => 11, "verificationCode" => "ABC"], $result);
+        $result = $this->userController->createUser($inputAttr);
+        $this->assertEquals(["id" => $returnedUserID, "verificationCode" => "ABC"], $result);
     }
 
     public function goodAttributesProvider(): array
@@ -294,4 +208,18 @@ final class UCCreateTest extends TestCase
             ]
         ];
     }
+
+    /**
+     * Example attribute array with all attributes
+     *
+     */
+    private static array $completeAttr = [
+        "email" => "test@mail.de",
+        "name" => "Ben Sauerländer",
+        "postcode" => "01234",
+        "city" => "Berlin",
+        "phone" => "030 12345-67",
+        "password" => "1SicheresPassword",
+        "role" => "admin"
+    ];
 }

@@ -102,6 +102,7 @@ class UserController implements UserControllerInterface
         if (count($attr) < 1) throw new InvalidArgumentException("The attribute array is empty");
 
         if (array_key_exists("password", $attr)) throw new InvalidArgumentException("To change the password use updateUserPassword");
+        if (array_key_exists("email", $attr)) throw new InvalidArgumentException("To change the email use requestUsersEmailChange");
 
         //validate all (except "role") the attributes.
         $this->validator->validate(\array_diff_key($attr, ["role" => ""]));
@@ -226,7 +227,7 @@ class UserController implements UserControllerInterface
     private function getRoleID(string $name): int
     {
         $roleID = $this->roleAccessor->findByName($name);
-        if (is_null($roleID)) throw new InvalidAttributeException("The role '" . $name . " is not a valid", 106);
+        if (is_null($roleID)) throw new InvalidAttributeException("The role '" . $name . " is not a valid role", 106);
         return $roleID;
     }
 

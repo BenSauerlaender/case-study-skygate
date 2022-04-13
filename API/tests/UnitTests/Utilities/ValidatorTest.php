@@ -6,9 +6,12 @@
 
 declare(strict_types=1);
 
+namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Utilities;
+
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Validator;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 final class ValidatorTest extends TestCase
