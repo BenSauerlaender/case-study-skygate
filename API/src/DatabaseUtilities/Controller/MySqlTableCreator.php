@@ -45,8 +45,8 @@ class MySqlTableCreator
             user_write  BOOLEAN         NOT NULL,
             user_delete BOOLEAN         NOT NULL,
 
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
-            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP ,
+            updated_at DATETIME         DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
             PRIMARY KEY (role_id),
             UNIQUE (name)
@@ -64,8 +64,8 @@ class MySqlTableCreator
 
             hashed_pass         BINARY(60)      NOT NULL,
 
-            verified            BOOLEAN         NOT NULL DEFAULT FALSE,
-            verification_code   VARCHAR(10)     DEFAULT NULL, 
+            verified            BOOLEAN         NOT NULL ,
+            verification_code   VARCHAR(10), 
 
             role_id             INT             NOT NULL,
 
