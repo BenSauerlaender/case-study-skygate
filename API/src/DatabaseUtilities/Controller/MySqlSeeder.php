@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller;
 
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Traits\DBconnectionTrait;
 use Exception;
 
 //seed the db with pre-defined data

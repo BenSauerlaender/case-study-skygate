@@ -11,13 +11,11 @@ namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller;
 
 use Exception;
 
-/*
-handles database connection.
-
-  partly taken from: https://developer.okta.com/blog/2019/03/08/simple-rest-api-php
-
-*/
-
+/**
+ * Handles database connection.
+ * 
+ * partly taken from: https://developer.okta.com/blog/2019/03/08/simple-rest-api-php
+ */
 class MySqlConnector
 {
     static private ?\PDO $db = null;

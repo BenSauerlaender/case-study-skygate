@@ -9,14 +9,20 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller;
 
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Traits\DBconnectionTrait;
+use PDO;
 
-//creates DB-tables if they are not already there.
-class DatabaseCreator
+/**
+ * Handles database table creation
+ */
+class MySqlTableCreator
 {
 
-    //create all tables
-    static public function create(\PDO $pdo): void
+    /**
+     * Create all tables
+     *
+     * @param  PDO $pdo
+     */
+    static public function create(PDO $pdo): void
     {
         //create all tables via SQL
         foreach (self::TABLES as $t) {

@@ -35,8 +35,9 @@ interface EcrAccessorInterface
      * Deletes an email change request from the database
      *
      * @param  int  $id The request id.
+     * @return bool True if the action was successful, false otherwise
      */
-    public function delete(int $id): void;
+    public function delete(int $id): bool;
 
     /**
      * Deletes an email change request from the database
