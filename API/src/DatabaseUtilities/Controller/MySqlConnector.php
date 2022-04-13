@@ -23,22 +23,31 @@ class MySqlConnector
     static private ?\PDO $db = null;
 
     //get the PDO connection object
+    /**
+     * Get the database connection object
+     * 
+     * @return PDO The database connection object.
+     * @throws if the attempt to connect to the requested database fails.
+     */
     static public function getConnection(): \PDO
     {
 
         //check if the connection is already made
         if (is_null(self::$db)) {
-            throw new Exception("No Connection");
+            self::startConnection();
         }
 
         //return the PDO connection object
         return self::$db;
     }
 
-    //start the Database connection
-    public function __construct()
+    /**
+     * start the Database connection
+     *
+     * @throws if the attempt to connect to the requested database fails.
+     */
+    private static function startConnection()
     {
-
         //get all required dotEnv Variables
         $host = $_ENV['DB_HOST'];
         $port = $_ENV['DB_PORT'];
@@ -52,5 +61,13 @@ class MySqlConnector
             $user,
             $pass
         );
+    }
+
+    /**
+     * Closes the database connection
+     */
+    public static function closeConnection()
+    {
+        self::$db = null;
     }
 }
