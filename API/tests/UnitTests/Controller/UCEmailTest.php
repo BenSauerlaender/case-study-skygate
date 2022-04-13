@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Testsuit for UserController->requestUsersEmailChange method
  */
-final class UserControllerRequestEmailTest extends TestCase
+final class UCRequestEmailTest extends TestCase
 {
     /**
      * Tests if the method throws an exception if the id is < 0

@@ -10,20 +10,19 @@ use BenSauer\CaseStudySkygateApi\Controller\UserController;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Testsuit for UserController->updateUsersPassword method
+ * Testsuit for UserController->verifyUser method
  */
-final class UserControllerUpdatePasswordTest extends TestCase
+final class UCVerifyTest extends TestCase
 {
     /**
      * Tests if the method throws an exception if the id is < 0
      */
-    public function testUpdatePasswordWithIDOutOfRange(): void
+    public function testVerifyUserIDOutOfRange(): void
     {
 
         //create all mocks
@@ -44,13 +43,13 @@ final class UserControllerUpdatePasswordTest extends TestCase
 
         $this->expectException(OutOfRangeException::class);
 
-        $uc->updateUsersPassword(-1, "", "");
+        $uc->verifyUser(-1, "");
     }
 
     /**
      * Tests if the method throws an exception if the user is not in the database
      */
-    public function testUpdatePasswordUserNotExists(): void
+    public function testVerifyUserNotExists(): void
     {
         //create all mocks
         $secUtil = $this->createMock(SecurityUtilities::class);
@@ -74,13 +73,13 @@ final class UserControllerUpdatePasswordTest extends TestCase
         );
 
         $this->expectException(InvalidArgumentException::class);
-        $uc->updateUsersPassword(1, "", "");
+        $uc->verifyUser(1, "");
     }
 
     /**
-     * Tests if the method throws an exception if the old password is incorrect
+     * Tests if the method throws an exception if the user is already verified
      */
-    public function testUpdatePasswordWithIncorrectPass(): void
+    public function testVerifyUserIsVerifiedAlready(): void
     {
         //create all mocks
         $secUtil = $this->createMock(SecurityUtilities::class);
@@ -89,22 +88,11 @@ final class UserControllerUpdatePasswordTest extends TestCase
         $roleAcc = $this->createMock(RoleAccessorInterface::class);
         $ecrAcc = $this->createMock(EcrAccessorInterface::class);
 
-        // userAccessor-> get will return a fake hashed password
+        // userAccessor-> get will return a verified user
         $userAcc->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
-            ->willReturn(["hashedPass" => "hash"]);
-
-        //all passwords will be correct
-        $secUtil->expects($this->once())
-            ->method("checkPassword")
-            ->willReturn(true);
-
-        //validation will fail
-        $validator->expects($this->once())
-            ->method("validate")
-            ->with($this->equalTo(["password" => "newPass"]))
-            ->will($this->throwException(new InvalidAttributeException));
+            ->willReturn(["verified" => true]);
 
         $uc = new UserController(
             $secUtil,
@@ -114,15 +102,15 @@ final class UserControllerUpdatePasswordTest extends TestCase
             $ecrAcc,
         );
 
-        $this->expectException(InvalidAttributeException::class);
-        $uc->updateUsersPassword(1, "newPass", "oldPass");
+        $this->expectException(BadMethodCallException::class);
+        $uc->verifyUser(1, "");
     }
 
 
     /**
-     * Tests if the method calls all functions correct
+     * Tests if the method throws an exception if the code is incorrect
      */
-    public function testUpdatePasswordSuccessful(): void
+    public function testVerifyUserWithWrongCode(): void
     {
         //create all mocks
         $secUtil = $this->createMock(SecurityUtilities::class);
@@ -131,30 +119,44 @@ final class UserControllerUpdatePasswordTest extends TestCase
         $roleAcc = $this->createMock(RoleAccessorInterface::class);
         $ecrAcc = $this->createMock(EcrAccessorInterface::class);
 
-        // userAccessor-> get will return a fake hashed password
         $userAcc->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
-            ->willReturn(["hashedPass" => "hash"]);
+            ->willReturn(["verified" => false, "verificationCode" => "ABC"]);
 
-        //all passwords will be correct
-        $secUtil->expects($this->once())
-            ->method("checkPassword")
-            ->with($this->equalTo("oldPass", "hash"))
-            ->willReturn(true);
 
-        $validator->expects($this->once())
-            ->method("validate")
-            ->with($this->equalTo(["password" => "newPass"]));
+        $uc = new UserController(
+            $secUtil,
+            $validator,
+            $userAcc,
+            $roleAcc,
+            $ecrAcc,
+        );
 
-        $secUtil->expects($this->once())
-            ->method("hashPassword")
-            ->with($this->equalTo("newPass"))
-            ->willReturn("newHash");
+        $this->expectException(InvalidArgumentException::class);
+        $uc->verifyUser(1, "ABC1");
+    }
+
+    /**
+     * Tests if the method calls all functions correctly
+     */
+    public function testVerifyUserSuccessful(): void
+    {
+        //create all mocks
+        $secUtil = $this->createMock(SecurityUtilities::class);
+        $validator = $this->createMock(ValidatorInterface::class);
+        $userAcc = $this->createMock(UserAccessorInterface::class);
+        $roleAcc = $this->createMock(RoleAccessorInterface::class);
+        $ecrAcc = $this->createMock(EcrAccessorInterface::class);
+
+        $userAcc->expects($this->once())
+            ->method("get")
+            ->with($this->equalTo(1))
+            ->willReturn(["verified" => false, "verificationCode" => "ABC"]);
 
         $userAcc->expects($this->once())
             ->method("update")
-            ->with($this->equalTo(1, ["hashedPass" => "newHash"]));
+            ->with($this->equalTo(1, ["verificationCode" => false, "verified" => true]));
 
         $uc = new UserController(
             $secUtil,
@@ -164,6 +166,6 @@ final class UserControllerUpdatePasswordTest extends TestCase
             $ecrAcc,
         );
 
-        $uc->updateUsersPassword(1, "newPass", "oldPass");
+        $uc->verifyUser(1, "ABC");
     }
 }

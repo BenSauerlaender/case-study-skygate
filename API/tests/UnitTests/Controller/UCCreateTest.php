@@ -18,13 +18,12 @@ use PHPUnit\Framework\TestCase;
 /**
  * Testsuit for UserController->createUser method
  */
-final class UserControllerCreateTest extends TestCase
+final class UCCreateTest extends TestCase
 {
 
     /**
      * Example attribute array with all attributes
      *
-     * @var array<string,string>
      */
     private static array $completeAttr = [
         "email" => "test@mail.de",
