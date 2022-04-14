@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\Accessors;
 
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlConnector;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlTableCreator;
+use BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\BaseDatabaseTest;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -27,6 +27,7 @@ abstract class BaseMySqlAccessorTest extends BaseDatabaseTest
     {
         self::$pdo->exec("DROP DATABASE " . $_ENV['DB_DATABASE'] . ";");
         self::$pdo->exec("CREATE DATABASE " . $_ENV['DB_DATABASE'] . ";");
+        self::$pdo->exec("use " . $_ENV['DB_DATABASE'] . ";");
 
         //create tables
         MySqlTableCreator::create(self::$pdo);

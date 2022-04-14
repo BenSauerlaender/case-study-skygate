@@ -45,8 +45,8 @@ class MySqlTableCreator
             user_write  BOOLEAN         NOT NULL,
             user_delete BOOLEAN         NOT NULL,
 
-            created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP ,
-            updated_at DATETIME         DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            created_at TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+            updated_at DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
             PRIMARY KEY (role_id),
             UNIQUE (name)
@@ -69,8 +69,8 @@ class MySqlTableCreator
 
             role_id             INT             NOT NULL,
 
-            created_at          TIMESTAMP       DEFAULT CURRENT_TIMESTAMP ,
-            updated_at          DATETIME        DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            created_at          TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+            updated_at          DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
             PRIMARY KEY (user_id),
             FOREIGN KEY (role_id) REFERENCES role(role_id),
@@ -85,8 +85,8 @@ class MySqlTableCreator
             new_email           VARCHAR(100)    NOT NULL,
             verification_code   VARCHAR(10)     NOT NULL, 
 
-            created_at          TIMESTAMP       DEFAULT CURRENT_TIMESTAMP ,
-            updated_at          DATETIME        DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            created_at          TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+            updated_at          DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
             PRIMARY KEY (request_id),
             FOREIGN KEY (user_id) REFERENCES user(user_id),

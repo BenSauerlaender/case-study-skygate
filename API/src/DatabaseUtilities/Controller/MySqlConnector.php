@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller;
 
 use Exception;
+use PDO;
 
 /**
  * Handles database connection.
@@ -18,7 +19,7 @@ use Exception;
  */
 class MySqlConnector
 {
-    static private ?\PDO $db = null;
+    static private ?PDO $db = null;
 
     //get the PDO connection object
     /**
@@ -27,7 +28,7 @@ class MySqlConnector
      * @return PDO The database connection object.
      * @throws if the attempt to connect to the requested database fails.
      */
-    static public function getConnection(): \PDO
+    static public function getConnection(): PDO
     {
 
         //check if the connection is already made
@@ -53,12 +54,22 @@ class MySqlConnector
         $user = $_ENV['DB_USERNAME'];
         $pass = $_ENV['DB_PASSWORD'];
 
-        //start the connection and store to $dbConnection
-        self::$db = new \PDO(
-            "mysql:host=$host;port=$port;charset=utf8mb4;dbname=$db",
-            $user,
-            $pass
-        );
+        $options = [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ];
+
+        try {
+            //start the connection and store to $dbConnection
+            self::$db = new PDO(
+                "mysql:host=$host;port=$port;charset=utf8mb4;dbname=$db",
+                $user,
+                $pass
+            );
+        } catch (\PDOException $e) { //prevents username and password from being in the stacktrace.
+            throw new \PDOException($e->getMessage(), (int)$e->getCode());
+        }
     }
 
     /**
