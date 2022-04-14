@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\Controller;
 
-use PHPUnit\Framework\TestCase;
+use BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\Accessors\BaseDatabaseTest;
 
 /**
  * Testsuit for the MySqlTableCreator class
  */
-final class MySqlTableCreatorTest extends TestCase
+final class MySqlTableCreatorTest extends BaseDatabaseTest
 {
     /*
         TODO
