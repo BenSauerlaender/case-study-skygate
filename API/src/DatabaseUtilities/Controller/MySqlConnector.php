@@ -65,8 +65,13 @@ class MySqlConnector
             self::$db = new PDO(
                 "mysql:host=$host;port=$port;charset=utf8mb4;dbname=$db",
                 $user,
-                $pass
+                $pass,
+                $options
             );
+
+            date_default_timezone_set($_ENV['TIMEZONE']);
+            $offset = date('P');
+            self::$db->exec("SET time_zone='$offset';");
         } catch (\PDOException $e) { //prevents username and password from being in the stacktrace.
             throw new \PDOException($e->getMessage(), (int)$e->getCode());
         }
