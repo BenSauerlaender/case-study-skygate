@@ -37,13 +37,13 @@ class MySqlTableCreator
             role_id     INT             NOT NULL,
             name        VARCHAR(100)    NOT NULL,
 
-            role_read   BOOLEAN         NOT NULL, 
-            role_write  BOOLEAN         NOT NULL,
-            role_delete BOOLEAN         NOT NULL,
+            role_read   BOOLEAN         NOT NULL DEFAULT FALSE, 
+            role_write  BOOLEAN         NOT NULL DEFAULT FALSE,
+            role_delete BOOLEAN         NOT NULL DEFAULT FALSE,
 
-            user_read   BOOLEAN         NOT NULL,
-            user_write  BOOLEAN         NOT NULL,
-            user_delete BOOLEAN         NOT NULL,
+            user_read   BOOLEAN         NOT NULL DEFAULT FALSE,
+            user_write  BOOLEAN         NOT NULL DEFAULT FALSE,
+            user_delete BOOLEAN         NOT NULL DEFAULT FALSE,
 
             created_at TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP ,
             updated_at DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
