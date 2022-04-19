@@ -70,7 +70,7 @@ final class EmailChangeRequestTableTest extends BaseDatabaseTest
         return [
             "missing user_id" => ['
                 INSERT INTO  emailChangeRequest
-                    ( new_email, verification_code)
+                    (new_email, verification_code)
                 VALUES 
                     ("new@email.de","1234");
             '],
@@ -248,16 +248,16 @@ final class EmailChangeRequestTableTest extends BaseDatabaseTest
     {
         self::$pdo->exec('
             INSERT INTO role
-                (role_id, name, role_read, role_write, role_delete, user_read, user_write, user_delete)
+                (name, role_read, role_write, role_delete, user_read, user_write, user_delete)
             VALUES 
-                (0,"admin",true,true,true,true,true,true);');
+                ("admin",true,true,true,true,true,true);');
 
         self::$pdo->exec('
                 INSERT INTO user
                     (email, name, postcode, city, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin1@mail.de","admin","00000","admintown","015937839",1,true,0),
-                    ("admin2@mail.de","admin","00000","admintown","015937839",1,true,0);');
+                    ("admin1@mail.de","admin","00000","admintown","015937839",1,true,1),
+                    ("admin2@mail.de","admin","00000","admintown","015937839",1,true,1);');
     }
 
     public function setUp(): void

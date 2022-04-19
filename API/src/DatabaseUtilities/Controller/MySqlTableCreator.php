@@ -34,7 +34,7 @@ class MySqlTableCreator
     private const TABLES = [
 
         'CREATE TABLE IF NOT EXISTS role(
-            role_id     INT             NOT NULL,
+            role_id     INT             AUTO_INCREMENT,
             name        VARCHAR(100)    NOT NULL,
 
             role_read   BOOLEAN         NOT NULL DEFAULT FALSE, 
