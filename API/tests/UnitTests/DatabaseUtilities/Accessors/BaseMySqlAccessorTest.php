@@ -13,12 +13,11 @@ use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlTableCreator;
 use BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\BaseDatabaseTest;
 use InvalidArgumentException;
 use PDO;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Base class for all MySqlAccessor tests
  * 
- * Handles the database connection
+ * Handles the database connection and provides functionality to observe db rows
  */
 abstract class BaseMySqlAccessorTest extends BaseDatabaseTest
 {

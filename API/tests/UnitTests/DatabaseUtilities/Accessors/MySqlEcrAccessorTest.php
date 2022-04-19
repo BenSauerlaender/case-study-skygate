@@ -15,11 +15,9 @@ use InvalidArgumentException;
 use PDO;
 
 /**
- * Base class for all MySqlAccessor tests
- * 
- * Handles the database connection
+ * Test class for the MySqlEcrAccessor
  */
-final class ECRAccTest extends BaseMySqlAccessorTest
+final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
 {
     private ?EcrAccessorInterface $accessor;
 
