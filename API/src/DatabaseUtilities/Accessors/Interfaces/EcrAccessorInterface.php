@@ -61,11 +61,13 @@ interface EcrAccessorInterface
      * Gets the email change request
      *
      * @param  int   $id The request id.
-     * @return null|array Returns the $response array or null if the request not exist.
+     * @return array Returns the $response array.
      *  $response = [
      *      "newEmail"          => (string)     The requested email.
      *      "verificationCode"  => (string)     The code to verify the request.
      *  ]
+     * 
+     * @throws InvalidArgumentException if there is no request with this id.
      */
-    public function get(int $id): ?array;
+    public function get(int $id): array;
 }

@@ -33,7 +33,7 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
                 (0,"test");
         ');
 
-        //creates 2 users
+        //creates 3 users
         self::$pdo->exec('
             INSERT INTO user
                 (email, name, postcode, city, phone, hashed_pass, verified, role_id)
@@ -237,13 +237,14 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
     }
 
     /**
-     * Tests if the method returns null if no request with that id exists
+     * Tests if the method throws an exception if no request with that id exists
      */
-    public function testGetReturnsNullIfNoRequestWithID(): void
+    public function testGetFailsIfNoRequestWithID(): void
     {
-        $response = $this->accessor->get(2);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("no request with");
 
-        $this->assertNull($response);
+        $this->accessor->get(2);
 
         $this->assertChangedRowsEquals(0);
     }

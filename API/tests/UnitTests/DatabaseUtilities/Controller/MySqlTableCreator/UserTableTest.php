@@ -71,31 +71,31 @@ final class UserTableTest extends BaseDatabaseTest
                 INSERT INTO user
                     (name, postcode, city, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin","00000","admintown","015937839",1,true,1);
+                    ("admin","00000","admintown","015937839","1",true,1);
             '],
             "missing name" => [' 
                 INSERT INTO user
                     (email, postcode, city, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin@mail.de","00000","admintown","015937839",1,true,1);
+                    ("admin@mail.de","00000","admintown","015937839","1",true,1);
             '],
             "missing postcode" => [' 
                 INSERT INTO user
                     (email, name, city, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin@mail.de","admin","admintown","015937839",1,true,1);
+                    ("admin@mail.de","admin","admintown","015937839","1",true,1);
             '],
             "missing city" => [' 
                 INSERT INTO user
                     (email, name, postcode, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin@mail.de","admin","00000","015937839",1,true,1);
+                    ("admin@mail.de","admin","00000","015937839","1",true,1);
             '],
             "missing phone" => [' 
                 INSERT INTO user
                     (email, name, postcode, city, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin@mail.de","admin","00000","admintown",1,true,1);
+                    ("admin@mail.de","admin","00000","admintown","1",true,1);
             '],
             "missing hashedPass" => [' 
                 INSERT INTO user
@@ -107,13 +107,13 @@ final class UserTableTest extends BaseDatabaseTest
                 INSERT INTO user
                     (email, name, postcode, city, phone, hashed_pass, role_id)
                 VALUES 
-                    ("admin@mail.de","admin","00000","admintown","015937839",1,1);
+                    ("admin@mail.de","admin","00000","admintown","015937839","1",1);
             '],
             "missing role_id" => [' 
                 INSERT INTO user
                     (email, name, postcode, city, phone, hashed_pass, verified)
                 VALUES 
-                    ("admin@mail.de","admin","00000","admintown","015937839",1,true);
+                    ("admin@mail.de","admin","00000","admintown","015937839","1",true);
             '],
         ];
     }
@@ -130,7 +130,7 @@ final class UserTableTest extends BaseDatabaseTest
                 INSERT INTO user
                     (email, name, postcode, city, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin@mail.de","admin","00000","admintown","015937839",1,true,2); ');
+                    ("admin@mail.de","admin","00000","admintown","015937839","1",true,2); ');
     }
 
     /**
@@ -144,9 +144,9 @@ final class UserTableTest extends BaseDatabaseTest
                 INSERT INTO user
                     (email, name, postcode, city, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin1@mail.de","admin","00000","admintown","015937839",1,true,1),
-                    ("admin2@mail.de","admin","00000","admintown","015937839",1,true,1),
-                    ("admin3@mail.de","admin","00000","admintown","015937839",1,true,1) ; ');
+                    ("admin1@mail.de","admin","00000","admintown","015937839","1",true,1),
+                    ("admin2@mail.de","admin","00000","admintown","015937839","1",true,1),
+                    ("admin3@mail.de","admin","00000","admintown","015937839","1",true,1) ; ');
 
         $this->assertEquals(3, $ret);
 
@@ -175,9 +175,9 @@ final class UserTableTest extends BaseDatabaseTest
                 INSERT INTO user
                     (email, name, postcode, city, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin1@mail.de","admin","00000","admintown","015937839",1,true,1),
-                    ("admin3@mail.de","admin","00000","admintown","015937839",1,true,1),
-                    ("admin3@mail.de","admin","00000","admintown","015937839",1,true,1);');
+                    ("admin1@mail.de","admin","00000","admintown","015937839","1",true,1),
+                    ("admin3@mail.de","admin","00000","admintown","015937839","1",true,1),
+                    ("admin3@mail.de","admin","00000","admintown","015937839","1",true,1);');
     }
 
     /**
@@ -194,9 +194,9 @@ final class UserTableTest extends BaseDatabaseTest
                 INSERT INTO user
                     (user_id, email, name, postcode, city, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    (1,"admin1@mail.de","admin","00000","admintown","015937839",1,true,1),
-                    (1,"admin2@mail.de","admin","00000","admintown","015937839",1,true,1),
-                    (2,"admin3@mail.de","admin","00000","admintown","015937839",1,true,1);');
+                    (1,"admin1@mail.de","admin","00000","admintown","015937839","1",true,1),
+                    (1,"admin2@mail.de","admin","00000","admintown","015937839","1",true,1),
+                    (2,"admin3@mail.de","admin","00000","admintown","015937839","1",true,1);');
     }
 
     /**
@@ -210,7 +210,7 @@ final class UserTableTest extends BaseDatabaseTest
                 INSERT INTO user
                     (email, name, postcode, city, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin3@mail.de","admin","00000","admintown","015937839",1,true,1);');
+                    ("admin3@mail.de","admin","00000","admintown","015937839","1",true,1);');
 
         self::$pdo->exec('
                 INSERT INTO emailChangeRequest
@@ -236,8 +236,8 @@ final class UserTableTest extends BaseDatabaseTest
                 INSERT INTO user
                     (email, name, postcode, city, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin@mail.de","admin","00000","admintown","015937839",1,true,1),
-                    ("admin1@mail.de","admin","00000","admintown","015937839",1,true,1);');
+                    ("admin@mail.de","admin","00000","admintown","015937839","1",true,1),
+                    ("admin1@mail.de","admin","00000","admintown","015937839","1",true,1);');
 
         $time = time();
 
@@ -264,7 +264,7 @@ final class UserTableTest extends BaseDatabaseTest
                 INSERT INTO user
                     (email, name, postcode, city, phone, hashed_pass, verified, role_id)
                 VALUES 
-                    ("admin@mail.de","admin","00000","admintown","015937839",1,true,1);');
+                    ("admin@mail.de","admin","00000","admintown","015937839","1",true,1);');
 
         sleep(1);
 
