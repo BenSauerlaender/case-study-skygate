@@ -62,7 +62,7 @@ abstract class BaseMySqlAccessorTest extends BaseDatabaseTest
             );
 
             //fill $snapshot with created_at fields 
-            array_push(self::$snapshot, [$table => $stmt->fetchAll(PDO::FETCH_COLUMN)]);
+            self::$snapshot[$table] = $stmt->fetchAll(PDO::FETCH_COLUMN);
         }
     }
 

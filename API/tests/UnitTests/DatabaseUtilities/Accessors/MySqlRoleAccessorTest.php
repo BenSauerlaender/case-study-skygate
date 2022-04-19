@@ -26,11 +26,10 @@ final class MySqlRoleAccessorTest extends BaseMySqlAccessorTest
         //creates a role
         self::$pdo->exec('
             INSERT INTO role
-                (role_id, name)
+                (name)
             VALUES 
-                (0,"test");
+                ("test");
         ');
-
 
         $this->startChangedRowsObservation();
 
@@ -55,7 +54,7 @@ final class MySqlRoleAccessorTest extends BaseMySqlAccessorTest
     public function testFindByNameSuccessful(): void
     {
         $response = $this->accessor->findByName("test");
-        $this->assertEquals(0, $response);
+        $this->assertEquals(1, $response);
 
         $this->assertChangedRowsEquals(0);
     }
