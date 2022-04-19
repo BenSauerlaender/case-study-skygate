@@ -27,13 +27,9 @@ final class RoleTableTest extends BaseDatabaseTest
             SHOW TABLES;
         ');
 
-        $this->assertNotFalse($stmt);
+        $allTables = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-        $response = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-        $this->assertNotFalse($response);
-
-        $this->assertContains("role", $response);
+        $this->assertContains("role", $allTables);
     }
 
     /**
@@ -45,16 +41,12 @@ final class RoleTableTest extends BaseDatabaseTest
             DESCRIBE role;
         ');
 
-        $this->assertNotFalse($stmt);
-
-        $response = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-        $this->assertNotFalse($response);
+        $columns = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
         $expectedColumns = ["role_id", "name", "role_read", "role_write", "role_delete", "user_read", "user_write", "user_delete", "created_at", "updated_at"];
 
         //compares both arrays but ignores the order
-        $this->assertEqualsCanonicalizing($expectedColumns, $response);
+        $this->assertEqualsCanonicalizing($expectedColumns, $columns);
     }
 
     /**
@@ -72,7 +64,6 @@ final class RoleTableTest extends BaseDatabaseTest
 
     public function incompleteInsertProvider(): array
     {
-
         return [
             "missing role_id" => ['
                 INSERT INTO role
@@ -102,6 +93,7 @@ final class RoleTableTest extends BaseDatabaseTest
             SELECT role_read, role_write, role_delete, user_read, user_write, user_delete FROM role;
         ')->fetchAll(PDO::FETCH_ASSOC);
 
+        //check all not set values
         $this->assertEquals([
             [
                 "role_read" => 0,
@@ -199,7 +191,7 @@ final class RoleTableTest extends BaseDatabaseTest
     /**
      * Tests if the updated_at is updated correctly
      */
-    public function testUpdated_atChangedOnUpdate(): void
+    public function testUpdatedAtChangedOnUpdate(): void
     {
         self::$pdo->exec('
                 INSERT INTO role

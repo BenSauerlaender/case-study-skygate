@@ -27,13 +27,9 @@ final class UserTableTest extends BaseDatabaseTest
             SHOW TABLES;
         ');
 
-        $this->assertNotFalse($stmt);
+        $allTables = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-        $response = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-        $this->assertNotFalse($response);
-
-        $this->assertContains("user", $response);
+        $this->assertContains("user", $allTables);
     }
 
     /**
@@ -45,16 +41,12 @@ final class UserTableTest extends BaseDatabaseTest
             DESCRIBE user;
         ');
 
-        $this->assertNotFalse($stmt);
-
-        $response = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-        $this->assertNotFalse($response);
+        $columns = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
         $expectedColumns = ["user_id", "email", "name", "postcode", "city", "phone", "hashed_pass", "verified", "verification_code", "role_id", "created_at", "updated_at"];
 
         //compares both arrays but ignores the order
-        $this->assertEqualsCanonicalizing($expectedColumns, $response);
+        $this->assertEqualsCanonicalizing($expectedColumns, $columns);
     }
 
     /**
@@ -74,7 +66,6 @@ final class UserTableTest extends BaseDatabaseTest
 
     public function incompleteInsertProvider(): array
     {
-
         return [
             "missing email" => [' 
                 INSERT INTO user
@@ -132,8 +123,6 @@ final class UserTableTest extends BaseDatabaseTest
      */
     public function testUserInsertFailsIfRoleNotExists(): void
     {
-        $this->insertRole();
-
         $this->expectException(PDOException::class);
         $this->expectExceptionMessage("a foreign key constraint fails");
 
@@ -291,7 +280,7 @@ final class UserTableTest extends BaseDatabaseTest
     }
 
     /**
-     * Inserts a admin role into the role table
+     * Inserts a role into the role table
      */
     private function insertRole(): void
     {

@@ -27,13 +27,9 @@ final class EmailChangeRequestTableTest extends BaseDatabaseTest
             SHOW TABLES;
         ');
 
-        $this->assertNotFalse($stmt);
+        $allTables = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-        $response = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-        $this->assertNotFalse($response);
-
-        $this->assertContains("emailChangeRequest", $response);
+        $this->assertContains("emailChangeRequest", $allTables);
     }
 
     /**
@@ -45,16 +41,12 @@ final class EmailChangeRequestTableTest extends BaseDatabaseTest
             DESCRIBE emailChangeRequest;
         ');
 
-        $this->assertNotFalse($stmt);
-
-        $response = $stmt->fetchAll(PDO::FETCH_COLUMN);
-
-        $this->assertNotFalse($response);
+        $columns = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
         $expectedColumns = ["request_id", "user_id", "new_email", "verification_code", "created_at", "updated_at"];
 
         //compares both arrays but ignores the order
-        $this->assertEqualsCanonicalizing($expectedColumns, $response);
+        $this->assertEqualsCanonicalizing($expectedColumns, $columns);
     }
 
     /**
@@ -102,8 +94,6 @@ final class EmailChangeRequestTableTest extends BaseDatabaseTest
      */
     public function testECRInsertFailsIfUserNotExists(): void
     {
-        $this->insertUser();
-
         $this->expectException(PDOException::class);
         $this->expectExceptionMessage("a foreign key constraint fails");
 
@@ -121,6 +111,7 @@ final class EmailChangeRequestTableTest extends BaseDatabaseTest
     {
         $this->insertUser();
 
+        //inserts 2 ECRs
         self::$pdo->exec('
                 INSERT INTO  emailChangeRequest
                     (user_id, new_email, verification_code)
@@ -132,6 +123,7 @@ final class EmailChangeRequestTableTest extends BaseDatabaseTest
             SELECT request_id, user_id FROM  emailChangeRequest;
         ')->fetchAll(PDO::FETCH_ASSOC);
 
+        //check the request_ids
         $this->assertEquals([
             ["request_id" => 1, "user_id" => 1],
             ["request_id" => 2, "user_id" => 2]
@@ -225,10 +217,11 @@ final class EmailChangeRequestTableTest extends BaseDatabaseTest
     /**
      * Tests if the updated_at is updated correctly
      */
-    public function testUpdated_atChangedOnUpdate(): void
+    public function testUpdatedAtChangedOnUpdate(): void
     {
         $this->insertUser();
 
+        //insert user
         self::$pdo->exec('
                 INSERT INTO emailChangeRequest
                     (user_id, new_email, verification_code)
@@ -237,6 +230,7 @@ final class EmailChangeRequestTableTest extends BaseDatabaseTest
 
         sleep(1);
 
+        //update user
         self::$pdo->exec(' UPDATE  emailChangeRequest SET new_email="new2@mail.de" WHERE request_id=1;');
 
         $response = self::$pdo->query('
@@ -247,6 +241,9 @@ final class EmailChangeRequestTableTest extends BaseDatabaseTest
         $this->assertTrue($response[0]["created_at"] !== $response[0]["updated_at"]);
     }
 
+    /**
+     * Inserts 1 role and 2 users
+     */
     private function insertUser(): void
     {
         self::$pdo->exec('
