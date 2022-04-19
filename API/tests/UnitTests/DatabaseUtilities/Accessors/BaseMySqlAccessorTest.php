@@ -8,8 +8,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\Accessors;
 
+use BadMethodCallException;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlTableCreator;
 use BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\BaseDatabaseTest;
+use InvalidArgumentException;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -20,12 +22,20 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class BaseMySqlAccessorTest extends BaseDatabaseTest
 {
+
     /**
-     * The UNIX timestamp at the start of observation
+     * All tables to observe
      *
-     * @var int|null
+     * @var array<string>
      */
-    private static ?int $start = null;
+    private static array $tables = ["user", "role", "emailChangeRequest"];
+
+    /**
+     * An Array that contains an Array for each table, where all created_at fields are stored
+     *
+     * @var array<string,array<string>>
+     */
+    private static ?array $snapshot = [];
 
     /**
      * Deletes and re-creates the database and tables
@@ -45,11 +55,16 @@ abstract class BaseMySqlAccessorTest extends BaseDatabaseTest
      */
     protected function startChangedRowsObservation(): void
     {
-        //save the timestamp
-        self::$start = time();
 
-        //TODO change this:
-        sleep(1);
+        foreach (self::$tables as $table) {
+
+            $stmt = self::$pdo->query(
+                'SELECT created_at FROM ' . $table . ';'
+            );
+
+            //fill $snapshot with created_at fields 
+            array_push(self::$snapshot, [$table => $stmt->fetchAll(PDO::FETCH_COLUMN)]);
+        }
     }
 
     /**
@@ -59,28 +74,49 @@ abstract class BaseMySqlAccessorTest extends BaseDatabaseTest
      */
     protected function assertChangedRowsEquals(int $expected): void
     {
-        //all the tables to observe
-        $tables = ["user", "role", "emailChangeRequest"];
+        if (sizeof(self::$snapshot) === 0) throw new BadMethodCallException("The Observation has not been started");
 
         $changedRows = 0;
 
         //going over each table
-        foreach ($tables as $table) {
+        foreach (self::$tables as $table) {
 
             $stmt = self::$pdo->query(
-                'SELECT updated_at FROM ' . $table . ';'
+                'SELECT created_at, updated_at FROM ' . $table . ';'
             );
 
             //going over each row
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                //if the row was updated after the observation start
-                if (strtotime($row["updated_at"]) !== self::$start) {
+                //if the row is in the snapshot
+                if (in_array($row["created_at"], self::$snapshot[$table])) {
+                    $this->deleteOneElementFromSnapshot($table, $row["created_at"]);
+
+                    //if the row was updated
+                    if ($row["created_at"] !== $row["updated_at"]) {
+                        $changedRows++;
+                    }
+                } else {
                     $changedRows++;
                 }
+                //Add the number of deleted rows, since the snapshot was created
+                $changedRows += sizeof(self::$snapshot[$table]);
             }
         }
 
         $this->assertEquals($expected, $changedRows);
+    }
+
+    private function deleteOneElementFromSnapshot(string $table, string $date): void
+    {
+        $idx = 9999;
+        for ($i = 0; $i < sizeof(self::$snapshot[$table]); $i++) {
+            if (self::$snapshot[$table][$i] === $date) {
+                $idx = $i;
+            }
+        }
+        if ($idx === 9999) throw new InvalidArgumentException("The date: " . $date . " cant be found in the snapshot of table: " . $table);
+        //delete element at index $idx
+        array_splice(self::$snapshot[$table], $idx, 1);
     }
 }

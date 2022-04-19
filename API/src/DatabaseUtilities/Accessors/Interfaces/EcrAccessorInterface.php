@@ -35,9 +35,9 @@ interface EcrAccessorInterface
      * Deletes an email change request from the database
      *
      * @param  int  $id The request id.
-     * @return bool True if the action was successful, false otherwise
+     * @throws InvalidArgumentException if there is no request with this id.
      */
-    public function delete(int $id): bool;
+    public function delete(int $id): void;
 
     /**
      * Deletes an email change request from the database
@@ -52,6 +52,8 @@ interface EcrAccessorInterface
      * @param  int    $userID               The users id.
      * @param  string $newEmail             The requested email.
      * @param  string $verification_code    The code to verify the request.
+     * 
+     * @throws InvalidArgumentException if the userID or newEmail is already in th table
      */
     public function insert(int $userID, string $newEmail, string $verification_code): void;
 
@@ -59,8 +61,8 @@ interface EcrAccessorInterface
      * Gets the email change request
      *
      * @param  int   $id The request id.
-     * @return null|array Returns the $request object or null if the request not exist.
-     *  $request = [
+     * @return null|array Returns the $response array or null if the request not exist.
+     *  $response = [
      *      "newEmail"          => (string)     The requested email.
      *      "verificationCode"  => (string)     The code to verify the request.
      *  ]
