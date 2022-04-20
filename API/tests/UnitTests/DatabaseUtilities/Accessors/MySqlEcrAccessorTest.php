@@ -28,9 +28,9 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
         //creates a role
         self::$pdo->exec('
             INSERT INTO role
-                (role_id, name)
+                (name)
             VALUES 
-                (0,"test");
+                ("test");
         ');
 
         //creates 3 users
@@ -38,9 +38,9 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
             INSERT INTO user
                 (email, name, postcode, city, phone, hashed_pass, verified, role_id)
             VALUES 
-                ("user0@mail.de","user0","00000","admintown","015937839",1,true,0),
-                ("user1@mail.de","user1","00000","admintown","015937839",1,true,0),
-                ("user2@mail.de","user2","00000","admintown","015937839",1,true,0);
+                ("user0@mail.de","user0","00000","admintown","015937839",1,true,1),
+                ("user1@mail.de","user1","00000","admintown","015937839",1,true,1),
+                ("user2@mail.de","user2","00000","admintown","015937839",1,true,1);
         ');
 
         //creates 2 requests
@@ -48,8 +48,8 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
             INSERT INTO emailChangeRequest 
                 (user_id,new_email,verification_code)
             VALUES
-                (1,"newEmailFor1","code"),
-                (0,"newEmailFor0","code2");
+                (2,"newEmailFor2","code"),
+                (1,"newEmailFor1","code2");
         ');
 
         $this->startChangedRowsObservation();
@@ -85,8 +85,8 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
     public static function successIDProvider(): array
     {
         return [
-            [1, 0],
-            [0, 1]
+            [2, 1],
+            [1, 2]
         ];
     }
 
@@ -117,8 +117,8 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
     public static function successEmailProvider(): array
     {
         return [
-            ["newEmailFor1", 0],
-            ["newEmailFor0", 1]
+            ["newEmailFor2", 1],
+            ["newEmailFor1", 2]
         ];
     }
 
@@ -140,11 +140,11 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
      */
     public function testDeleteSuccessful(): void
     {
-        $this->accessor->delete(0);
+        $this->accessor->delete(1);
 
         $emails = self::$pdo->query('SELECT new_email from emailChangeRequest')->fetchAll(PDO::FETCH_COLUMN);
 
-        $this->assertEquals(["newEmailFor0"], $emails);
+        $this->assertEquals(["newEmailFor1"], $emails);
 
         $this->assertChangedRowsEquals(1);
     }
@@ -157,6 +157,7 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
     {
 
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("No request with userID");
 
         $this->accessor->deleteByUserID(5);
 
@@ -168,11 +169,11 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
      */
     public function testDeleteByUserIDSuccessful(): void
     {
-        $this->accessor->deleteByUserID(0);
+        $this->accessor->deleteByUserID(1);
 
         $emails = self::$pdo->query('SELECT new_email from emailChangeRequest')->fetchAll(PDO::FETCH_COLUMN);
 
-        $this->assertEquals(["newEmailFor1"], $emails);
+        $this->assertEquals(["newEmailFor2"], $emails);
 
         $this->assertChangedRowsEquals(1);
     }
@@ -186,7 +187,7 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("userID");
 
-        $this->accessor->insert(0, "neu", "code");
+        $this->accessor->insert(1, "neu", "code");
 
         $this->assertChangedRowsEquals(0);
     }
@@ -199,7 +200,7 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("newEmail");
 
-        $this->accessor->insert(2, "newEmailFor0", "code");
+        $this->accessor->insert(3, "newEmailFor1", "code");
 
         $this->assertChangedRowsEquals(0);
     }
@@ -210,9 +211,9 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
     public function testInsertFailsWhenUserNotExists(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("don't exists");
+        $this->expectExceptionMessage("There is no user with userID");
 
-        $this->accessor->insert(3, "newE", "code");
+        $this->accessor->insert(10, "newE", "code");
 
         $this->assertChangedRowsEquals(0);
     }
@@ -223,17 +224,17 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
     public function testInsertSuccessful(): void
     {
 
-        $this->accessor->insert(2, "newEmailFor2", "code");
+        $this->accessor->insert(3, "newEmailFor3", "code");
 
         $this->assertChangedRowsEquals(1);
 
         $row = self::$pdo->query('
-            SELECT request_id, user_id, new_email, verificationCode 
+            SELECT request_id, user_id, new_email, verification_code 
             FROM emailChangeRequest
-            WHERE user_id=2
+            WHERE user_id=3
         ')->fetchAll(PDO::FETCH_ASSOC);
 
-        $this->assertEquals([["request_id" => 2, "user_id" => 2, "new_email" => "newEmailFor2", "verification_code" => "code"]], $row);
+        $this->assertEquals([["request_id" => 3, "user_id" => 3, "new_email" => "newEmailFor3", "verification_code" => "code"]], $row);
     }
 
     /**
@@ -244,7 +245,7 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("no request with");
 
-        $this->accessor->get(2);
+        $this->accessor->get(10);
 
         $this->assertChangedRowsEquals(0);
     }
@@ -254,9 +255,9 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
      */
     public function testGetSuccessful(): void
     {
-        $response = $this->accessor->get(0);
+        $response = $this->accessor->get(1);
 
-        $this->assertEquals(["newEmail" => "newEmailFor1", "verificationCode" => "code"], $response);
+        $this->assertEquals(["newEmail" => "newEmailFor2", "verificationCode" => "code"], $response);
 
         $this->assertChangedRowsEquals(0);
     }

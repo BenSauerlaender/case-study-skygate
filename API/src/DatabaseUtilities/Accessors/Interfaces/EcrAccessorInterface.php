@@ -53,7 +53,7 @@ interface EcrAccessorInterface
      * @param  string $newEmail             The requested email.
      * @param  string $verification_code    The code to verify the request.
      * 
-     * @throws InvalidArgumentException if the userID or newEmail is already in th table
+     * @throws InvalidArgumentException if the userID or newEmail is already in the table
      */
     public function insert(int $userID, string $newEmail, string $verification_code): void;
 

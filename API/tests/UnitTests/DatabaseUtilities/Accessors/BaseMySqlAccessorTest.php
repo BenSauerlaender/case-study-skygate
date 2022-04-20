@@ -75,6 +75,7 @@ abstract class BaseMySqlAccessorTest extends BaseDatabaseTest
     {
         if (sizeof(self::$snapshot) === 0) throw new BadMethodCallException("The Observation has not been started");
 
+
         $changedRows = 0;
 
         //going over each table
@@ -98,9 +99,9 @@ abstract class BaseMySqlAccessorTest extends BaseDatabaseTest
                 } else {
                     $changedRows++;
                 }
-                //Add the number of deleted rows, since the snapshot was created
-                $changedRows += sizeof(self::$snapshot[$table]);
             }
+            //Add the number of deleted rows, since the snapshot was created
+            $changedRows += sizeof(self::$snapshot[$table]);
         }
 
         $this->assertEquals($expected, $changedRows);
