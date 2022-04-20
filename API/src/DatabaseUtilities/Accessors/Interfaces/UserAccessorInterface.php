@@ -29,7 +29,9 @@ interface UserAccessorInterface
      * @param  string|null  $verificationCode     Code to verify the user.
      * @param  int          $roleID               The ID of the users permission role.
      * 
-     * @throws InvalidArgumentException if the email is already taken or the role is not existing
+     * @throws InvalidArgumentException (1) if the email is already taken.
+     * @throws InvalidArgumentException (2) if the role dont exists.
+     * @throws DatabaseException (1)        if there is a problem with the database.
      */
     public function insert(
         string $email,
@@ -48,10 +50,10 @@ interface UserAccessorInterface
      *
      * @param  int  $id     The users id.
      * 
-     * @throws InvalidArgumentException if there is no user with this id.
+     * @throws InvalidArgumentException (1) if there is no user with this id.
+     * @throws DatabaseException (1)        if there is a problem with the database.
      */
     public function delete(int $id): void;
-
 
     /**
      * Updates users specified attributes to the database
@@ -71,7 +73,11 @@ interface UserAccessorInterface
      *      "verificationCode"  => (string)     Verification code to verify the user.
      *  ]
      * 
-     * @throws InvalidArgumentException if there is no user with this id or the email is already taken or the $attr array has invalid keys or types.
+     * @throws InvalidArgumentException (1) if there is no user with this id.
+     * @throws InvalidArgumentException (2) if the email is already taken.
+     * @throws InvalidArgumentException (3) if there is no role with this roleID.
+     * @throws InvalidArgumentException (4) if the $attr array is invalid.
+     * @throws DatabaseException (1)        if there is a problem with the database.
      */
     public function update(int $id, array $attr): void;
 
@@ -103,7 +109,8 @@ interface UserAccessorInterface
      *      "updatedAt"         => (string)     The last DateTime the user was updated.
      *  ]
      *
-     * @throws InvalidArgumentException if there is no request with this id.
+     * @throws InvalidArgumentException (1) if there is no user with this id.
+     * @throws DatabaseException (1)        if there is a problem with the database.
      */
     public function get(int $id): array;
 }

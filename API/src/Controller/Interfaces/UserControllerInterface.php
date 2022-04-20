@@ -31,8 +31,11 @@ interface UserControllerInterface
      *      "role"      => (string)   The users role. Options: "user", "admin". Default: "user"
      *  ]
      * @return array{id: int,verificationCode: string} The user's id and the verification code to verify the user 
-     * @throws InvalidArgumentException if one or more attributes can't be validated.
-     * @throws InvalidAttributeException if one or more attributes are not valid.
+     * 
+     * @throws InvalidArgumentException (1)     if there are missing attributes.
+     * @throws InvalidArgumentException (2)     if at least one attribute is not supported
+     * @throws InvalidArgumentException (3)     if at least one attribute is invalid.
+     * @throws InvalidArgumentException (4)     if the email is not free.
      */
     public function createUser(array $attr): array;
 
@@ -40,7 +43,8 @@ interface UserControllerInterface
      * Deletes a user
      *
      * @param  int  $id the user's id 
-     * @throws OutOfRangeException if the id is negative.
+     * @throws OutOfRangeException (1)      if the id is negative.
+     * @throws InvalidArgumentException (1) if there is no user with this id.
      */
     public function deleteUser(int $id): void;
 
@@ -56,9 +60,11 @@ interface UserControllerInterface
      *      "phone"     => (string)   The users phone number.
      *      "role"      => (string)   The users role. Options: "user", "admin".
      *  ]
-     * @throws InvalidArgumentException if one or more attributes is not one of the upper declared.
-     * @throws InvalidAttributeException if one or more attributes are not valid.
-     * @throws OutOfRangeException if the id is negative
+     * 
+     * @throws InvalidArgumentException (1)     if there are no attributes.
+     * @throws InvalidArgumentException (2)     if at least one attribute is not supported
+     * @throws InvalidArgumentException (3)     if at least one attribute is invalid.
+     * @throws OutOfRangeException (1)          if the id is negative.
      */
     public function updateUser(int $id, array $attr): void;
 
@@ -70,9 +76,11 @@ interface UserControllerInterface
      *
      * @param  int    $id                   The users id.
      * @param  string $verificationCode     The code to verify the user
-     * @throws InvalidArgumentException     if there is no user with this id or the verificationCode is wrong.
-     * @throws OutOfRangeException          if the id is negative
-     * @throws BadMethodCallException       if the user is already verified
+     * 
+     * @throws InvalidArgumentException (1)    if there is no user with this id 
+     * @throws InvalidArgumentException (2)    if the verificationCode is wrong.
+     * @throws OutOfRangeException (1)         if the id is negative.
+     * @throws BadMethodCallException (1)      if the user is already verified.
      */
     public function verifyUser(int $id, string $verificationCode): void;
 
@@ -87,9 +95,11 @@ interface UserControllerInterface
      * @param  int    $id                   The users id.
      * @param  string $new_password         The users old password.
      * @param  string $old_password         The users new password.
-     * @throws InvalidArgumentException if there is no user with the id or the old password is incorrect.
-     * @throws InvalidAttributeException if the new password is not valid.
-     * @throws OutOfRangeException          if the id is negative
+     * 
+     * @throws InvalidArgumentException (1)    if there is no user with the id 
+     * @throws InvalidArgumentException (2)    if the old password is incorrect.
+     * @throws InvalidArgumentException (3)    if the new password is not valid.
+     * @throws OutOfRangeException (1)         if the id is negative.
      */
     public function updateUsersPassword(int $id, string $new_password, string $old_password): void;
 
@@ -102,10 +112,12 @@ interface UserControllerInterface
      *
      * @param  int    $id       The users id.
      * @param  string $newEmail The users new email.
-     * @return string           The verification code to verify the request.    
-     * @throws InvalidArgumentException if there is no user with the id.
-     * @throws InvalidAttributeException if the email is  not valid or already in use.
-     * @throws OutOfRangeException          if the id is negative
+     * @return string           The verification code to verify the request.   
+     *  
+     * @throws InvalidArgumentException (1)    if there is no user with the id.
+     * @throws InvalidArgumentException (2)    if the email is not valid.
+     * @throws InvalidArgumentException (3)    or already in use.
+     * @throws OutOfRangeException (1)         if the id is negative.
      */
     public function requestUsersEmailChange(int $id, string $newEmail): string;
 
@@ -118,8 +130,9 @@ interface UserControllerInterface
      * 
      * @param  int    $id       The users id.
      * @param  string $code     The verification code to verify the email change.
-     * @throws InvalidArgumentException if there is no email change request with this id or the verificationCode is incorrect.
-     * @throws OutOfRangeException          if the id is negative
+     * 
+     * @throws InvalidArgumentException (1)    if there is no email change request with this id or the verificationCode is incorrect.
+     * @throws OutOfRangeException (1)         if the id is negative.
      */
     public function verifyUsersEmailChange(int $id, string $code): void;
 }

@@ -33,7 +33,8 @@ interface SecurityUtilitiesInterface
      *
      * @param  int    $length   The length of the output string. Valid between 0 and 99.
      * @return string   A string out of hexadecimal digits.
-     * @throws InvalidArgumentException if the given length is out of Bounds.
+     * 
+     * @throws OutOfRangeException (1) if the given length is out of Bounds.
      */
     public function generateCode(int $length): string;
 }

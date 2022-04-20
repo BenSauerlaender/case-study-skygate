@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors;
 
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\DatabaseException;
 use InvalidArgumentException;
 use PDOException;
 use RuntimeException;
@@ -60,19 +61,19 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
                 str_contains($e->getMessage(), "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry") and
                 str_contains($e->getMessage(), "for key 'user.email'")
             ) {
-                throw new InvalidArgumentException("There is already a user with email: " . $email, 0, $e);
+                throw new InvalidArgumentException("There is already a user with email: " . $email, 1, $e);
             }
 
             //no role with roleID
             else if (
                 str_contains($e->getMessage(), "SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`api_db_test`.`user`, CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`))")
             ) {
-                throw new InvalidArgumentException("There is no role with roleID: " . $roleID, 0, $e);
+                throw new InvalidArgumentException("There is no role with roleID: " . $roleID, 2, $e);
             }
 
             //everything else
             else {
-                throw $e;
+                throw new DatabaseException("", 1, $e);
             }
         }
     }
@@ -87,15 +88,24 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
 
         if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
 
-        $stmt->execute(["id" => $id]);
+        try {
+            $stmt->execute(["id" => $id]);
+        } catch (PDOException $e) {
+            throw new DatabaseException("", 1, $e);
+        }
 
-        if ($stmt->rowCount() === 0) throw new InvalidArgumentException("No user with id: " . $id . " found.");
+        //if no user deleted
+        if ($stmt->rowCount() === 0) throw new InvalidArgumentException("No user with id: " . $id . " found.", 1);
     }
 
     public function update(int $id, array $attr): void
     {
         //throws exception if attribute array is not valid
-        $this->checkAttrArray($attr);
+        try {
+            $this->checkAttrArray($attr);
+        } catch (InvalidArgumentException $e) {
+            if (in_array($e->getCode(), [1, 2, 3])) throw new InvalidArgumentException("The attribute array is invalid", 4);
+        }
 
         $stmt = $this->pdo->prepare('
             UPDATE user
@@ -116,23 +126,24 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
                 str_contains($e->getMessage(), "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry") and
                 str_contains($e->getMessage(), "for key 'user.email'")
             ) {
-                throw new InvalidArgumentException("There is already a user with email: " . $attr["email"], 0, $e);
+                throw new InvalidArgumentException("There is already a user with email: " . $attr["email"], 2, $e);
             }
 
             //no role with roleID
             else if (
                 str_contains($e->getMessage(), "SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`api_db_test`.`user`, CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`))")
             ) {
-                throw new InvalidArgumentException("There is no role with roleID: " . $attr["roleID"], 0, $e);
+                throw new InvalidArgumentException("There is no role with roleID: " . $attr["roleID"], 3, $e);
             }
 
             //everything else
             else {
-                throw $e;
+                throw new DatabaseException("", 1, $e);
             }
         }
 
-        if ($stmt->rowCount() === 0) throw new InvalidArgumentException("No user with id: " . $id . " found.");
+        //if no user updated
+        if ($stmt->rowCount() === 0) throw new InvalidArgumentException("No user with id: " . $id . " found.", 1);
     }
 
     public function findByEmail(string $email): ?int
@@ -145,12 +156,18 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
 
         if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
 
-        $stmt->execute(["email" => $email]);
+        try {
+            $stmt->execute(["email" => $email]);
+        } catch (PDOException $e) {
+            throw new DatabaseException("", 1, $e);
+        }
 
         $response =  $stmt->fetchAll();
 
+        //if no user found
         if (sizeof($response) === 0) return null;
 
+        //return the id of first and only row
         return $response[0]["user_id"];
     }
 
@@ -164,12 +181,18 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
 
         if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
 
-        $stmt->execute(["id" => $id]);
+        try {
+            $stmt->execute(["id" => $id]);
+        } catch (PDOException $e) {
+            throw new DatabaseException("", 1, $e);
+        }
 
         $response = $stmt->fetchAll();
 
-        if (sizeof($response) === 0) throw new InvalidArgumentException("There is no request with id: " . $id);
+        //if no user found
+        if (sizeof($response) === 0) throw new InvalidArgumentException("There is no request with id: " . $id, 1);
 
+        //get first and only user
         $response = $response[0];
 
         return [
@@ -223,7 +246,9 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
      *
      * @param  array $attr
      * 
-     * @throws InvalidArgumentException if the array is empty, at least one key is not supported or at least one value has the wrong type
+     * @throws InvalidArgumentException (1) if the array is empty
+     * @throws InvalidArgumentException (2) if at least one key is not supported 
+     * @throws InvalidArgumentException (3) if at least one value has the wrong type
      */
     private function checkAttrArray(array $attr)
     {
@@ -241,20 +266,20 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
         ];
 
         //throws exception if array is empty
-        if (sizeof($attr) === 0) throw new InvalidArgumentException("The attribute array is empty.");
+        if (sizeof($attr) === 0) throw new InvalidArgumentException("The attribute array is empty.", 1);
 
         //check each key-value pair
         foreach ($attr as $key => $value) {
 
             //throws exception if key is not valid
-            if (!in_array($key, $validKeys)) throw new InvalidArgumentException("The attribute key: " . $key . " is not a valid key.");
+            if (!in_array($key, $validKeys)) throw new InvalidArgumentException("The attribute key: " . $key . " is not a valid key.", 2);
 
             //throws exception if value type is not correct
             if (
                 ($validTypes[$key] === "string" and !is_string($value)) or
                 ($validTypes[$key] === "int" and !is_int($value)) or
                 ($validTypes[$key] === "bool" and !is_bool($value))
-            ) throw new InvalidArgumentException("The value of attribute " . $key . " need to be a " . $validTypes[$key]);
+            ) throw new InvalidArgumentException("The value of attribute " . $key . " need to be a " . $validTypes[$key], 3);
         }
     }
 }

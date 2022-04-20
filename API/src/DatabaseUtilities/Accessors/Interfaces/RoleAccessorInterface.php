@@ -22,6 +22,8 @@ interface RoleAccessorInterface
      *
      * @param  string   $name   The roles name.
      * @return null|int         The roles id (or null if the role cant be found).
+     * 
+     * @throws DatabaseException (1) if there is a problem with the database.
      */
     public function findByName(string $name): ?int;
 }

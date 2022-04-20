@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors;
 
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\RoleAccessorInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\DatabaseException;
+use PDOException;
 use RuntimeException;
 
 // class to interact with the role-db-table
@@ -25,12 +27,18 @@ class MySqlRoleAccessor extends MySqlAccessor implements RoleAccessorInterface
 
         if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
 
-        $stmt->execute(["name" => $name]);
+        try {
+            $stmt->execute(["name" => $name]);
+        } catch (PDOException $e) {
+            throw new DatabaseException("", 1, $e);
+        }
 
         $response =  $stmt->fetchAll();
 
+        // no role found
         if (sizeof($response) === 0) return null;
 
+        //role id of first and only row
         return $response[0]["role_id"];
     }
 }

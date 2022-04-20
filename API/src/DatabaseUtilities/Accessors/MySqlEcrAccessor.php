@@ -9,13 +9,13 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors;
 
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\DatabaseException;
 use InvalidArgumentException;
 use PDOException;
 use RuntimeException;
 
 class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
 {
-
     public function findByUserID(int $userID): ?int
     {
         $stmt = $this->pdo->prepare('
@@ -26,12 +26,18 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
 
         if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
 
-        $stmt->execute(["userID" => $userID]);
+        try {
+            $stmt->execute(["userID" => $userID]);
+        } catch (PDOException $e) {
+            throw new DatabaseException("", 1, $e);
+        }
 
         $response =  $stmt->fetchAll();
 
+        //if no request was found: return null
         if (sizeof($response) === 0) return null;
 
+        //return the id
         return $response[0]["request_id"];
     }
 
@@ -45,12 +51,18 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
 
         if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
 
-        $stmt->execute(["email" => $email]);
+        try {
+            $stmt->execute(["email" => $email]);
+        } catch (PDOException $e) {
+            throw new DatabaseException("", 1, $e);
+        }
 
         $response =  $stmt->fetchAll();
 
+        //if no request was found: return null
         if (sizeof($response) === 0) return null;
 
+        //return the id
         return $response[0]["request_id"];
     }
 
@@ -65,9 +77,14 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
 
         if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
 
-        $stmt->execute(["id" => $id]);
+        try {
+            $stmt->execute(["id" => $id]);
+        } catch (PDOException $e) {
+            throw new DatabaseException("", 1, $e);
+        }
 
-        if ($stmt->rowCount() === 0) throw new InvalidArgumentException("No request with id: " . $id . " found.");
+        //if no line was deleted:
+        if ($stmt->rowCount() === 0) throw new InvalidArgumentException("No request with id: " . $id . " found.", 1);
     }
 
     /**
@@ -85,9 +102,14 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
 
         if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
 
-        $stmt->execute(["id" => $userID]);
+        try {
+            $stmt->execute(["id" => $userID]);
+        } catch (PDOException $e) {
+            throw new DatabaseException("", 1, $e);
+        }
 
-        if ($stmt->rowCount() === 0) throw new InvalidArgumentException("No request with userID: " . $userID . " found.");
+        //if no line was deleted:
+        if ($stmt->rowCount() === 0) throw new InvalidArgumentException("No request with userID: " . $userID . " found.", 1);
     }
 
     public function insert(int $userID, string $newEmail, string $verification_code): void
@@ -114,7 +136,7 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
                 str_contains($e->getMessage(), "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry") and
                 str_contains($e->getMessage(), "emailChangeRequest.user_id")
             ) {
-                throw new InvalidArgumentException("There is already a request for user with userID: " . $userID, 0, $e);
+                throw new InvalidArgumentException("There is already a request for user with userID: " . $userID, 1, $e);
             }
 
             // Email duplicate
@@ -122,19 +144,19 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
                 str_contains($e->getMessage(), "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry") and
                 str_contains($e->getMessage(), "for key 'emailChangeRequest.new_email'")
             ) {
-                throw new InvalidArgumentException("There is already a request with email: " . $newEmail, 0, $e);
+                throw new InvalidArgumentException("There is already a request with email: " . $newEmail, 2, $e);
             }
 
             //no user with userID
             else if (
                 str_contains($e->getMessage(), "SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`api_db_test`.`emailChangeRequest`, CONSTRAINT `emailChangeRequest_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`))")
             ) {
-                throw new InvalidArgumentException("There is no user with userID: " . $userID, 0, $e);
+                throw new InvalidArgumentException("There is no user with userID: " . $userID, 3, $e);
             }
 
             //everything else
             else {
-                throw $e;
+                throw new DatabaseException("", 1, $e);
             }
         }
     }
@@ -149,12 +171,18 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
 
         if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
 
-        $stmt->execute(["id" => $id]);
+        try {
+            $stmt->execute(["id" => $id]);
+        } catch (PDOException $e) {
+            throw new DatabaseException("", 1, $e);
+        }
 
         $response = $stmt->fetchAll();
 
-        if (sizeof($response) === 0) throw new InvalidArgumentException("There is no request with id: " . $id);
+        //no request found
+        if (sizeof($response) === 0) throw new InvalidArgumentException("There is no request with id: " . $id, 1);
 
+        //get the first and only response row
         $response = $response[0];
 
         return [

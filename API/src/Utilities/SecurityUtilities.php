@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
-use InvalidArgumentException;
+use OutOfRangeException;
 use RuntimeException;
 
 class SecurityUtilities implements SecurityUtilitiesInterface
@@ -31,7 +31,7 @@ class SecurityUtilities implements SecurityUtilitiesInterface
     public function generateCode(int $length): string
     {
         if ($length < 0 or $length > 99) {
-            throw new InvalidArgumentException("The length " . $length . " is not between 0 and 99");
+            throw new OutOfRangeException("The length " . $length . " is not between 0 and 99", 1);
         }
 
         if ($length === 0) return "";

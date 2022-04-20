@@ -9,8 +9,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller;
 
+use BenSauer\CaseStudySkygateApi\Exceptions\DatabaseException;
 use Exception;
 use PDO;
+use PDOException;
 
 /**
  * Handles database connection.
@@ -26,7 +28,7 @@ class MySqlConnector
      * Get the database connection object
      * 
      * @return PDO The database connection object.
-     * @throws if the attempt to connect to the requested database fails.
+     * @throws DatabaseException (1) if the attempt to connect to the requested database fails.
      */
     static public function getConnection(): PDO
     {
@@ -43,7 +45,7 @@ class MySqlConnector
     /**
      * start the Database connection
      *
-     * @throws if the attempt to connect to the requested database fails.
+     * @throws DatabaseException (1) if the attempt to connect to the requested database fails.
      */
     private static function startConnection()
     {
@@ -72,8 +74,8 @@ class MySqlConnector
             date_default_timezone_set($_ENV['TIMEZONE']);
             $offset = date('P');
             self::$db->exec("SET time_zone='$offset';");
-        } catch (\PDOException $e) { //prevents username and password from being in the stacktrace.
-            throw new \PDOException($e->getMessage(), (int)$e->getCode());
+        } catch (PDOException $e) { //prevents username and password from being in the stacktrace.
+            throw new DatabaseException("", 1, new PDOException($e->getMessage(), (int)$e->getCode()));
         }
     }
 

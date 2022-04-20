@@ -29,8 +29,9 @@ interface ValidatorInterface
      *      "phone"     => (string)   The users phone number.
      *      "password"  => (string)   The users password.
      *  ]
-     * @throws InvalidArgumentException     if a attribute can't be validated.
-     * @throws InvalidAttributeException    if a attribute fails the validation. errorCode 100-105.
+     * 
+     * @throws InvalidArgumentException (1)       if a attribute can't be validated.
+     * @throws InvalidAttributeException (1-6)    if a attribute fails the validation.
      */
     public function validate(array $attr): void;
 }

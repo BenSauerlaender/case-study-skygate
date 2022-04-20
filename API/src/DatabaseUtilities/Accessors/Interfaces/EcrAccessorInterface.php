@@ -20,6 +20,8 @@ interface EcrAccessorInterface
      *
      * @param  int   $userID  The users id.
      * @return null|int the request id (or null if the request cant be found).
+     * 
+     * @throws DatabaseException (1) if there is a problem with the database.
      */
     public function findByUserID(int $userID): ?int;
 
@@ -28,6 +30,8 @@ interface EcrAccessorInterface
      *
      * @param  string   $email  The email, the user requested.
      * @return null|int the request id (or null if the request cant be found).
+     * 
+     * @throws DatabaseException (1) if there is a problem with the database.
      */
     public function findByEmail(string $email): ?int;
 
@@ -35,7 +39,9 @@ interface EcrAccessorInterface
      * Deletes an email change request from the database
      *
      * @param  int  $id The request id.
-     * @throws InvalidArgumentException if there is no request with this id.
+     * 
+     * @throws InvalidArgumentException (1) if there is no request with this id.
+     * @throws DatabaseException (1)        if there is a problem with the database.
      */
     public function delete(int $id): void;
 
@@ -43,6 +49,9 @@ interface EcrAccessorInterface
      * Deletes an email change request from the database
      *
      * @param  int  $userID    The User id.
+     * 
+     * @throws InvalidArgumentException (1) if there is no request with this id.
+     * @throws DatabaseException (1)        if there is a problem with the database.
      */
     public function deleteByUserID(int $userID): void;
 
@@ -53,7 +62,10 @@ interface EcrAccessorInterface
      * @param  string $newEmail             The requested email.
      * @param  string $verification_code    The code to verify the request.
      * 
-     * @throws InvalidArgumentException if the userID or newEmail is already in the table
+     * @throws InvalidArgumentException (1) if the userID is already in the table.
+     * @throws InvalidArgumentException (2) if the newEmail is already in the table.
+     * @throws InvalidArgumentException (3) if there is no user with this userID.
+     * @throws DatabaseException (1)        if there is a problem with the database.
      */
     public function insert(int $userID, string $newEmail, string $verification_code): void;
 
@@ -67,7 +79,8 @@ interface EcrAccessorInterface
      *      "verificationCode"  => (string)     The code to verify the request.
      *  ]
      * 
-     * @throws InvalidArgumentException if there is no request with this id.
+     * @throws InvalidArgumentException (1) if there is no request with this id.
+     * @throws DatabaseException (1)        if there is a problem with the database.
      */
     public function get(int $id): array;
 }

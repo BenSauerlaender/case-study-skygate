@@ -29,12 +29,12 @@ class Validator implements ValidatorInterface
      *  ]
      */
     private array $validationDict = [
-        "email"     => ["func" => "isEmail",       "errorCode" => 100],
-        "name"      => ["func" => "isWords",       "errorCode" => 101],
-        "postcode"  => ["func" => "isPostcode",    "errorCode" => 102],
-        "city"      => ["func" => "isWords",       "errorCode" => 103],
-        "phone"     => ["func" => "isPhoneNumber", "errorCode" => 104],
-        "password"  => ["func" => "isPassword",    "errorCode" => 105]
+        "email"     => ["func" => "isEmail",       "errorCode" => 1],
+        "name"      => ["func" => "isWords",       "errorCode" => 2],
+        "postcode"  => ["func" => "isPostcode",    "errorCode" => 3],
+        "city"      => ["func" => "isWords",       "errorCode" => 4],
+        "phone"     => ["func" => "isPhoneNumber", "errorCode" => 5],
+        "password"  => ["func" => "isPassword",    "errorCode" => 6]
     ];
 
     public function validate(array $attr): void
@@ -44,7 +44,7 @@ class Validator implements ValidatorInterface
         //throws Exception if not
         foreach ($attr as $key => $value) {
             if (!array_key_exists($key, $this->validationDict)) {
-                throw new InvalidArgumentException("Attribute " . $key . " cant be validated");
+                throw new InvalidArgumentException("Attribute " . $key . " cant be validated", 1);
             }
         }
 
