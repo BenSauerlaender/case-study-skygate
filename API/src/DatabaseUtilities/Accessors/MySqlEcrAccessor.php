@@ -157,13 +157,6 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
 
         $response = $response[0];
 
-        if ( //check response
-            sizeof($response) !== 2 or
-            is_null($response["new_email"]) or
-            is_null($response["verification_code"])
-        ) throw new RuntimeException("Response is broken");
-
-
         return [
             "newEmail" => $response["new_email"],
             "verificationCode" => $response["verification_code"]

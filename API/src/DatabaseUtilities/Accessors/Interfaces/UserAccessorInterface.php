@@ -29,7 +29,7 @@ interface UserAccessorInterface
      * @param  string|null  $verificationCode     Code to verify the user.
      * @param  int          $roleID               The ID of the users permission role.
      * 
-     * @throws InvalidArgumentException if the email is already taken or the role not exists
+     * @throws InvalidArgumentException if the email is already taken or the role is not existing
      */
     public function insert(
         string $email,
@@ -65,7 +65,7 @@ interface UserAccessorInterface
      *      "city"              => (string)     The users city.
      *      "phone"             => (string)     The users phone number.
      *      "password"          => (string)     The users password.
-     *      "roleID"              => (string)     The users role. Options: "user", "admin".
+     *      "roleID"            => (int)        The users role_id. 
      *      "hashedPass"        => (string)     The users hashed password. 
      *      "verified "         => (bool)       Is the user verified.
      *      "verificationCode"  => (string)     Verification code to verify the user.

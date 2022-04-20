@@ -33,9 +33,9 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
             INSERT INTO user
                 (email, name, postcode, city, phone, hashed_pass, verified, role_id)
             VALUES 
-                ("user0@mail.de","user0","00000","admintown","015937839","1",true,1),
                 ("user1@mail.de","user1","00000","admintown","015937839","1",true,1),
-                ("user2@mail.de","user2","00000","admintown","015937839","1",true,1);
+                ("user2@mail.de","user2","00000","admintown","015937839","1",true,1),
+                ("user3@mail.de","user3","00000","admintown","015937839","1",true,1);
         ');
 
         $this->startChangedRowsObservation();
@@ -50,9 +50,9 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     public function testInsertFailsByDuplicateEmail(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("duplicate email");
+        $this->expectExceptionMessage("There is already a user with email");
 
-        $this->accessor->insert("user0@mail.de", "user3", "00000", "city", "0123", "1", true, null, 1);
+        $this->accessor->insert("user1@mail.de", "user4", "00000", "city", "0123", "1", true, null, 1);
 
         $this->assertChangedRowsEquals(0);
     }
@@ -63,9 +63,9 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     public function testInsertFailsByInvalidRole(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("dont exists");
+        $this->expectExceptionMessage("There is no role with roleID");
 
-        $this->accessor->insert("user3@mail.de", "user3", "00000", "city", "0123", "1", true, null, 3);
+        $this->accessor->insert("user4@mail.de", "user4", "00000", "city", "0123", "1", true, null, 3);
 
         $this->assertChangedRowsEquals(0);
     }
@@ -75,20 +75,20 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testInsertSuccessful(): void
     {
-        $this->accessor->insert("user3@mail.de", "user3", "00000", "city", "0123", "1", true, null, 1);
+        $this->accessor->insert("user4@mail.de", "user4", "00000", "city", "0123", "1", true, null, 1);
 
         $this->assertChangedRowsEquals(1);
 
         $row = self::$pdo->query('
             SELECT user_id, email, name, postcode, city, phone, hashed_pass, verified, verification_code, role_id
             FROM user
-            WHERE email="user3@mail.de";
+            WHERE email="user4@mail.de";
         ')->fetchAll(PDO::FETCH_ASSOC);
 
         $this->assertEquals([[
-            "user_id" => 3,
-            "email" => "user3@mail.de",
-            "name" => "user3",
+            "user_id" => 4,
+            "email" => "user4@mail.de",
+            "name" => "user4",
             "postcode" => "00000",
             "city" => "city",
             "phone" => "0123",
@@ -105,7 +105,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     public function testDeleteFailsByInvalidUserID(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("dont exists");
+        $this->expectExceptionMessage("No user with id");
 
         $this->accessor->delete(10);
 
@@ -126,7 +126,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
             FROM user;
         ')->fetchAll(PDO::FETCH_COLUMN);
 
-        $this->assertEquals(["user0", "user2"], $names);
+        $this->assertEquals(["user1", "user3"], $names);
     }
 
     /**
@@ -135,7 +135,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     public function testUpdateFailsOnInvalidID(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("dont exists");
+        $this->expectExceptionMessage("No user with id");
 
         $this->accessor->update(10, ["name" => "Klaus"]);
 
@@ -161,7 +161,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     public function testUpdateFailsOnInvalidKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid");
+        $this->expectExceptionMessage("is not a valid key.");
 
         $this->accessor->update(1, ["name" => "Klaus", "quatsch" => "q"]);
 
@@ -174,7 +174,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     public function testUpdateFailsOnInvalidType(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("invalid attribute type");
+        $this->expectExceptionMessage("The value of attribute email need to be a string");
 
         $this->accessor->update(1, ["name" => "Klaus", "email" => 123]);
 
@@ -187,9 +187,9 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     public function testUpdateFailsOnDuplicateEmail(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("duplicate email");
+        $this->expectExceptionMessage("There is already a user with email");
 
-        $this->accessor->update(1, ["name" => "Klaus", "email" => "user1@mail.de"]);
+        $this->accessor->update(1, ["name" => "Klaus", "email" => "user2@mail.de"]);
 
         $this->assertChangedRowsEquals(0);
     }
@@ -200,7 +200,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     public function testUpdateFailsOnInvalidRole(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("dont exists");
+        $this->expectExceptionMessage("There is no role with roleID");
 
         $this->accessor->update(1, ["name" => "Klaus", "roleID" => 10]);
 
@@ -262,7 +262,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testFindByEmailCorrectly(): void
     {
-        $response = $this->accessor->findByEmail("user0@mail.de");
+        $response = $this->accessor->findByEmail("user1@mail.de");
 
         $this->assertEquals(1, $response);
 
@@ -275,7 +275,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     public function testGetFailsIfUserDontExists()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("dont exists");
+        $this->expectExceptionMessage("There is no request with id");
 
         $this->accessor->get(10);
 
@@ -292,21 +292,21 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
         $this->assertChangedRowsEquals(0);
 
         //check if created and updated are there. than remove them.
-        $this->assertArrayHasKey("created_at", $response);
-        $this->assertArrayHasKey("updated_at", $response);
-        $response = array_diff_key($response, ["updated_at" => "", "created_at" => ""]);
+        $this->assertArrayHasKey("createdAt", $response);
+        $this->assertArrayHasKey("updatedAt", $response);
+        $response = array_diff_key($response, ["updatedAt" => "", "createdAt" => ""]);
 
-        $this->assertEquals([[
+        $this->assertEquals([
             "id"                => 1,
-            "email"             => "user0@mail.de",
-            "name"              => "user0",
+            "email"             => "user1@mail.de",
+            "name"              => "user1",
             "postcode"          => "00000",
             "city"              => "admintown",
             "phone"             => "015937839",
             "roleID"            => 1,
             "hashedPass"        => "1",
-            "verified "         => true,
+            "verified"         => true,
             "verificationCode"  => null
-        ]], $response);
+        ], $response);
     }
 }

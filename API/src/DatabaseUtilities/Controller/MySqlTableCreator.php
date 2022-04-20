@@ -45,8 +45,8 @@ class MySqlTableCreator
             user_write  BOOLEAN         NOT NULL DEFAULT FALSE,
             user_delete BOOLEAN         NOT NULL DEFAULT FALSE,
 
-            created_at TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-            updated_at DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            created_at DATETIME(3)      NOT NULL DEFAULT NOW(3) ,
+            updated_at DATETIME(3)      NOT NULL DEFAULT NOW(3) ON UPDATE NOW(3),
 
             PRIMARY KEY (role_id),
             UNIQUE (name)
@@ -62,15 +62,15 @@ class MySqlTableCreator
             city                VARCHAR(50)     NOT NULL,
             phone               VARCHAR(20)     NOT NULL,
 
-            hashed_pass         BINARY(60)      NOT NULL,
+            hashed_pass         VARCHAR(60)      NOT NULL,
 
             verified            BOOLEAN         NOT NULL ,
             verification_code   VARCHAR(10), 
 
             role_id             INT             NOT NULL,
 
-            created_at          TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-            updated_at          DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            created_at          DATETIME(3)     NOT NULL DEFAULT NOW(3) ,
+            updated_at          DATETIME(3)     NOT NULL DEFAULT NOW(3) ON UPDATE NOW(3),
 
             PRIMARY KEY (user_id),
             FOREIGN KEY (role_id) REFERENCES role(role_id),
@@ -85,8 +85,8 @@ class MySqlTableCreator
             new_email           VARCHAR(100)    NOT NULL,
             verification_code   VARCHAR(10)     NOT NULL, 
 
-            created_at          TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-            updated_at          DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            created_at          DATETIME(3)     NOT NULL DEFAULT NOW(3) ,
+            updated_at          DATETIME(3)     NOT NULL DEFAULT NOW(3) ON UPDATE NOW(3),
 
             PRIMARY KEY (request_id),
             FOREIGN KEY (user_id) REFERENCES user(user_id),
