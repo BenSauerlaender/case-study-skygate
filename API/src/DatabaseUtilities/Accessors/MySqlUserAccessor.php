@@ -10,10 +10,14 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors;
 
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\DatabaseException;
-use InvalidArgumentException;
-use PDOException;
-use RuntimeException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
+use BenSauer\CaseStudySkygateApi\ValidationExceptions\ArrayIsEmptyException;
+use BenSauer\CaseStudySkygateApi\ValidationExceptions\InvalidTypeException;
+use BenSauer\CaseStudySkygateApi\ValidationExceptions\UnsupportedFieldException;
 
 // class to interact with the user-db-table
 class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
@@ -29,18 +33,13 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
         ?string $verificationCode,
         int $roleID
     ): void {
-        $stmt = $this->pdo->prepare('
-            INSERT INTO user 
-                (email, name, postcode, city, phone, hashed_pass, verified, verification_code, role_id)
-            VALUES
-                (:email, :name, :postcode, :city, :phone, :hashed_pass, :verified, :verification_code, :role_id);
-        ');
-
-        if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
+        $sql = 'INSERT INTO user 
+                    (email, name, postcode, city, phone, hashed_pass, verified, verification_code, role_id)
+                VALUES
+                    (:email, :name, :postcode, :city, :phone, :hashed_pass, :verified, :verification_code, :role_id);';
 
         try {
-            //execute the insert
-            $stmt->execute([
+            $stmt = $this->prepareAndExecute($sql, [
                 "email" => $email,
                 "name" => $name,
                 "postcode" => $postcode,
@@ -52,115 +51,58 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
                 "role_id" => $roleID
             ]);
         }
-
-        //catch exceptions that are caused by invalid arguments
-        catch (PDOException $e) {
-
-            // Email duplicate
-            if (
-                str_contains($e->getMessage(), "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry") and
-                str_contains($e->getMessage(), "for key 'user.email'")
-            ) {
-                throw new InvalidArgumentException("There is already a user with email: " . $email, 1, $e);
-            }
-
-            //no role with roleID
-            else if (
-                str_contains($e->getMessage(), "SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`api_db_test`.`user`, CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`))")
-            ) {
-                throw new InvalidArgumentException("There is no role with roleID: " . $roleID, 2, $e);
-            }
-
-            //everything else
-            else {
-                throw new DatabaseException("", 1, $e);
-            }
+        //specify exceptions
+        catch (UniqueFieldException $e) {
+            throw new DuplicateEmailException("Email: $email", 0, $e);
+        } catch (FieldNotFoundException $e) {
+            throw new RoleNotFoundException("RoleID: $roleID", 0, $e);
         }
     }
 
     public function delete(int $id): void
     {
-        $stmt = $this->pdo->prepare('
-            DELETE
-            FROM user
-            WHERE user_id=:id;
-        ');
+        $sql = 'DELETE
+                FROM user
+                WHERE user_id=:id;';
 
-        if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
-
-        try {
-            $stmt->execute(["id" => $id]);
-        } catch (PDOException $e) {
-            throw new DatabaseException("", 1, $e);
-        }
+        $stmt = $this->prepareAndExecute($sql, ["id" => $id]);
 
         //if no user deleted
-        if ($stmt->rowCount() === 0) throw new InvalidArgumentException("No user with id: " . $id . " found.", 1);
+        if ($stmt->rowCount() === 0) throw new UserNotFoundException("UserID: $id");
     }
 
-    public function update(int $id, array $attr): void
+    public function update(int $id, array $fields): void
     {
-        //throws exception if attribute array is not valid
-        try {
-            $this->checkAttrArray($attr);
-        } catch (InvalidArgumentException $e) {
-            if (in_array($e->getCode(), [1, 2, 3])) throw new InvalidArgumentException("The attribute array is invalid", 4);
-        }
+        //throws ValidationExceptions if array is not valid
+        $this->validateFieldArray($fields);
 
-        $stmt = $this->pdo->prepare('
-            UPDATE user
-            ' . $this->getSetStatements($attr) . '
-            WHERE user_id=:id;
-        ');
-
-        if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
+        $sql = 'UPDATE user ' .
+            $this->getSetStatements($fields) . '
+                WHERE user_id=:id;';
 
         try {
-            $stmt->execute($attr + ["id" => $id]);
+            $stmt = $this->prepareAndExecute($sql, $fields + ["id" => $id]);
         }
-        //catch exceptions that are caused by invalid arguments
-        catch (PDOException $e) {
-
-            // Email duplicate
-            if (
-                str_contains($e->getMessage(), "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry") and
-                str_contains($e->getMessage(), "for key 'user.email'")
-            ) {
-                throw new InvalidArgumentException("There is already a user with email: " . $attr["email"], 2, $e);
-            }
-
-            //no role with roleID
-            else if (
-                str_contains($e->getMessage(), "SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`api_db_test`.`user`, CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`))")
-            ) {
-                throw new InvalidArgumentException("There is no role with roleID: " . $attr["roleID"], 3, $e);
-            }
-
-            //everything else
-            else {
-                throw new DatabaseException("", 1, $e);
-            }
+        //specify exceptions
+        catch (UniqueFieldException $e) {
+            $email = $fields["email"];
+            throw new DuplicateEmailException("Email: $email", 0, $e);
+        } catch (FieldNotFoundException $e) {
+            $roleID = $fields["roleID"];
+            throw new RoleNotFoundException("RoleID: $roleID", 0, $e);
         }
 
         //if no user updated
-        if ($stmt->rowCount() === 0) throw new InvalidArgumentException("No user with id: " . $id . " found.", 1);
+        if ($stmt->rowCount() === 0) throw new UserNotFoundException("UserID: $id");
     }
 
     public function findByEmail(string $email): ?int
     {
-        $stmt = $this->pdo->prepare('
-            SELECT user_id
-            FROM user
-            WHERE email=:email;
-        ');
+        $sql = 'SELECT user_id
+                FROM user
+                WHERE email=:email;';
 
-        if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
-
-        try {
-            $stmt->execute(["email" => $email]);
-        } catch (PDOException $e) {
-            throw new DatabaseException("", 1, $e);
-        }
+        $stmt = $this->prepareAndExecute($sql, ["email" => $email]);
 
         $response =  $stmt->fetchAll();
 
@@ -173,24 +115,16 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
 
     public function get(int $id): array
     {
-        $stmt = $this->pdo->prepare('
-            SELECT email, name, postcode, city, phone, role_id, hashed_pass, verified, verification_code, created_at, updated_at
-            FROM user 
-            WHERE user_id=:id;
-        ');
+        $sql = 'SELECT email, name, postcode, city, phone, role_id, hashed_pass, verified, verification_code, created_at, updated_at
+                FROM user 
+                WHERE user_id=:id;';
 
-        if (is_null($stmt)) throw new RuntimeException("pdo->prepare delivered null");
-
-        try {
-            $stmt->execute(["id" => $id]);
-        } catch (PDOException $e) {
-            throw new DatabaseException("", 1, $e);
-        }
+        $stmt = $this->prepareAndExecute($sql, ["id" => $id]);
 
         $response = $stmt->fetchAll();
 
         //if no user found
-        if (sizeof($response) === 0) throw new InvalidArgumentException("There is no request with id: " . $id, 1);
+        if ($stmt->rowCount() === 0) throw new UserNotFoundException("UserID: $id");
 
         //get first and only user
         $response = $response[0];
@@ -214,10 +148,10 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
     /**
      * Constructs the SQL SET statements
      *
-     * @param  array  $attr The attribute array
-     * @return string The SET statements
+     * @param  array  $fields   The fields array
+     * @return string           returns the SET statements
      */
-    private function getSetStatements(array $attr): string
+    private function getSetStatements(array $fields): string
     {
         $getSetClause = [
             "email" => "email = :email",
@@ -233,7 +167,7 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
 
         //construct the set Statements
         $setStmts = "SET ";
-        foreach ($attr as $key => $value) {
+        foreach ($fields as $key => $value) {
             $setStmts .= $getSetClause[$key] . ", ";
         }
 
@@ -242,18 +176,17 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
     }
 
     /**
-     * Checks if the attribute array is valid
+     * Checks if the fields array is valid
      *
-     * @param  array $attr
+     * @param  array $fields
      * 
-     * @throws InvalidArgumentException (1) if the array is empty
-     * @throws InvalidArgumentException (2) if at least one key is not supported 
-     * @throws InvalidArgumentException (3) if at least one value has the wrong type
+     * @throws ValidationException  if the array is not valid.
+     *          (ArrayIsEmptyException | UnsupportedFieldException | InvalidTypeException)
      */
-    private function checkAttrArray(array $attr)
+    private function validateFieldArray(array $fields)
     {
-        $validKeys = ["email", "name", "postcode", "city", "phone", "roleID", "hashedPass", "verified", "verificationCode"];
-        $validTypes = [
+        $validFields = ["email", "name", "postcode", "city", "phone", "roleID", "hashedPass", "verified", "verificationCode"];
+        $fieldTypes = [
             "email" => "string",
             "name" => "string",
             "postcode" => "string",
@@ -266,20 +199,20 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
         ];
 
         //throws exception if array is empty
-        if (sizeof($attr) === 0) throw new InvalidArgumentException("The attribute array is empty.", 1);
+        if (sizeof($fields) === 0) throw new ArrayIsEmptyException("The fields array is empty.");
 
         //check each key-value pair
-        foreach ($attr as $key => $value) {
+        foreach ($fields as $key => $value) {
 
-            //throws exception if key is not valid
-            if (!in_array($key, $validKeys)) throw new InvalidArgumentException("The attribute key: " . $key . " is not a valid key.", 2);
+            //throws exception if key is not supported
+            if (!in_array($key, $validFields)) throw new UnsupportedFieldException("The field: " . $key . " is not supported.");
 
             //throws exception if value type is not correct
             if (
-                ($validTypes[$key] === "string" and !is_string($value)) or
-                ($validTypes[$key] === "int" and !is_int($value)) or
-                ($validTypes[$key] === "bool" and !is_bool($value))
-            ) throw new InvalidArgumentException("The value of attribute " . $key . " need to be a " . $validTypes[$key], 3);
+                ($fieldTypes[$key] === "string" and !is_string($value)) or
+                ($fieldTypes[$key] === "int" and !is_int($value)) or
+                ($fieldTypes[$key] === "bool" and !is_bool($value))
+            ) throw new InvalidTypeException("The value of field $key need to be a $fieldTypes[$key]");
         }
     }
 }

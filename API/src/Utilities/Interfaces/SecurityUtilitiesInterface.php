@@ -15,7 +15,7 @@ interface SecurityUtilitiesInterface
      * Hashes the given password.
      *
      * @param  string $pass The Password to hash.
-     * @return string Returns the hashed password.
+     * @return string       returns the hashed password.
      */
     public function hashPassword(string $pass): string;
 
@@ -24,7 +24,7 @@ interface SecurityUtilitiesInterface
      *
      * @param  string $pass             The password to check.
      * @param  string $hashedPassword   The hashed password correct password.
-     * @return bool Returns true if the password is correct. False otherwise.
+     * @return bool                     returns true if the password is correct. False otherwise.
      */
     public function checkPassword(string $pass, string $hashedPassword): bool;
 
@@ -32,9 +32,7 @@ interface SecurityUtilitiesInterface
      * Generates a semi random hexadecimal string
      *
      * @param  int    $length   The length of the output string. Valid between 0 and 99.
-     * @return string   A string out of hexadecimal digits.
-     * 
-     * @throws OutOfRangeException (1) if the given length is out of Bounds.
+     * @return string           returns a string out of hexadecimal digits.
      */
     public function generateCode(int $length): string;
 }

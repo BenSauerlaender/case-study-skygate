@@ -9,155 +9,172 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
-use InvalidArgumentException;
+use BenSauer\CaseStudySkygateApi\ValidationExceptions\UnsupportedFieldException;
 
 class Validator implements ValidatorInterface
 {
     /** 
-     * Dictionary: Attribute => Validation method
+     * Dictionary: field => validation method
      * 
-     * its for choosing the right validator for each attribute.
+     * its for choosing the right validator for each field.
      *
-     * @var  array<string,array<string,string|int> $validationDict
-     *  $validationDict = [
-     *      attributeName => [
-     *          func => (string) Name of validation function.
-     *          errorCode => (int) Error code thrown if attribute is not valid.
-     *      ]
-     *  ]
+     * @var  array<string,string> $getValidator = [fieldName => validationFunction]
      */
-    private array $validationDict = [
-        "email"     => ["func" => "isEmail",       "errorCode" => 1],
-        "name"      => ["func" => "isWords",       "errorCode" => 2],
-        "postcode"  => ["func" => "isPostcode",    "errorCode" => 3],
-        "city"      => ["func" => "isWords",       "errorCode" => 4],
-        "phone"     => ["func" => "isPhoneNumber", "errorCode" => 5],
-        "password"  => ["func" => "isPassword",    "errorCode" => 6]
+    private array $getValidator = [
+        "email"     => "isEmail",
+        "name"      => "isWords",
+        "postcode"  => "isPostcode",
+        "city"      => "isWords",
+        "phone"     => "isPhoneNumber",
+        "password"  => "isPassword"
     ];
 
-    public function validate(array $attr): void
+    public function validate(array $fields): array
     {
-
-        //checks if all attributes can be validated
+        //checks if all fields are supported
         //throws Exception if not
-        foreach ($attr as $key => $value) {
-            if (!array_key_exists($key, $this->validationDict)) {
-                throw new InvalidArgumentException("Attribute " . $key . " cant be validated", 1);
+        foreach ($fields as $key => $value) {
+            if (!array_key_exists($key, $this->getValidator)) {
+                throw new UnsupportedFieldException("Field: $key");
             }
         }
 
-        //validate each attribute by the right validation method
-        foreach ($attr as $key => $value) {
-            //get validation method an errorCode
-            $validFunc = $this->validationDict[$key]["func"];
-            $errCode = $this->validationDict[$key]["errorCode"];
+        $invalidFields = [];
 
-            //throw Exception if not valid
-            if (!$this->{$validFunc}($value)) {
-                throw new InvalidAttributeException($value . " is not a valid " . $key, $errCode);
+        //validate each field by the right validation method
+        foreach ($fields as $key => $value) {
+            //get validation method and errorCode
+            $validator = $this->getValidator[$key];
+
+            //if is not valid: collect reasons
+            $return = $this->{$validator}($value);
+            if ($return !== true) {
+                $invalidFields += [$key => implode("+", $return)];
             }
         }
+
+        //return true if every field is valid
+        if (sizeof($invalidFields) === 0) return true;
+
+        //otherwise return the reasons
+        return $invalidFields;
     }
 
     /**
      * Validates if a string is a valid email address
      *
-     * @param  string $email    The string to validate.
-     * @return bool Returns true if it is a valid email address, else otherwise.
+     * @param  string $email        The string to validate.
+     * @return true|array<string>   returns true if it is a valid email address, otherwise an array with reasons its not.
      */
-    private function isEmail(string $email): bool
+    private function isEmail(string $email): mixed
     {
-        //email's longer than 100 characters are not allowed
-        if (strlen($email) > 100) return false;
+        $reasons = [];
 
-        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+        //email's longer than 100 characters are not allowed
+        if (strlen($email) > 100) $reasons += ["TO_LONG"];
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $reasons += ["NO_EMAIL"];
+
+        if (sizeof($reasons) === 0) return true;
+        else return $reasons;
     }
 
     //TODO add a config 
     /**
      * Validates if a string is a valid password
      *
-     * @param  string $email    The string to validate.
-     * @return bool Returns true if it is a valid password, else otherwise.
+     * @param  string $password     The string to validate.
+     * @return true|array<string>   returns true if it is a valid password, otherwise an array with reasons its not.
      */
-    private function isPassword(string $pass): bool
+    private function isPassword(string $pass): mixed
     {
+        $reasons = [];
+
         //password is at least 8 characters long
-        if (strlen($pass) < 8) return false;
+        if (strlen($pass) < 8) $reasons += ["TO_SHORT"];
 
         //password is not longer than 50 characters
-        if (strlen($pass) > 50) return false;
+        if (strlen($pass) > 50) $reasons += ["TO_LONG"];
 
         //password only contains letters(also umlaute), numbers and these special characters: # ? ! @ $ % ^ & . * - +
-        if (preg_match("/^[a-zA-ZÄÖÜäöüß0-9#?!@$%^&.*\-+]*$/", $pass) !== 1) return false;
+        if (preg_match("/^[a-zA-ZÄÖÜäöüß0-9#?!@$%^&.*\-+]*$/", $pass) !== 1) $reasons += ["INVALID_CHAR"];
 
         //password contains at least one lower case letter
-        if (preg_match("/[a-zäöüß]+/", $pass) !== 1) return false;
+        if (preg_match("/[a-zäöüß]+/", $pass) !== 1) $reasons += ["NO_LOWER_CASE"];
 
         //password contains at least one upper case letter
-        if (preg_match("/[A-ZÄÖÜ}]+/", $pass) !== 1) return false;
+        if (preg_match("/[A-ZÄÖÜ}]+/", $pass) !== 1) $reasons += ["NO_UPPER_CASE"];
 
         //password contains at least one number
-        if (preg_match("/[0-9]+/", $pass) !== 1) return false;
+        if (preg_match("/[0-9]+/", $pass) !== 1) $reasons += ["NO_NUMBER"];
 
-        return true;
+        if (sizeof($reasons) === 0) return true;
+        else return $reasons;
     }
 
     /**
      * Validates if a string are valid words separated by spaces
      * 
-     * @param  string $email    The string to validate.
-     * @return bool Returns true if its valid, else otherwise.
+     * @param  string $words        The string to validate.
+     * @return true|array<string>   returns true if it is a valid combination of words, otherwise an array with reasons its not.
      */
-    private function isWords(string $words): bool
+    private function isWords(string $words): mixed
     {
+        $reasons = [];
+
         //regex for a "word" (only letters and at least 2 characters)
         $word = "[a-zA-ZÄÖÜäöüß]{2,}";
 
         //one or more words with spaces between
-        if (preg_match("/^(" . $word . "[ ])*" . $word . "$/", $words) !== 1) return false;
+        if (preg_match("/^(" . $word . "[ ])*" . $word . "$/", $words) !== 1) $reasons += ["NO_WORDS"];
 
-        return true;
+        if (sizeof($reasons) === 0) return true;
+        else return $reasons;
     }
 
     /**
      * Validates if a string is a valid postcode
      *
-     * @param  string $email    The string to validate.
-     * @return bool Returns true if it is a valid postcode, else otherwise.
+     * @param  string $postcode     The string to validate.
+     * @return true|array<string>   returns true if it is a valid postcode, otherwise an array with reasons its not.
      */
-    private function isPostcode(string $postcode): bool
+    private function isPostcode(string $postcode): mixed
     {
+        $reasons = [];
+
         //postcode need exact 5 characters
-        if (strlen($postcode) !== 5) return false;
+        if (strlen($postcode) !== 5) $reasons += ["INVALID_LENGTH"];
 
         //postcode only contains numbers
-        if (preg_match("/^[0-9]+$/", $postcode) !== 1) return false;
+        if (preg_match("/^[0-9]+$/", $postcode) !== 1) $reasons += ["INVALID_CHAR"];
 
-        return true;
+        if (sizeof($reasons) === 0) return true;
+        else return $reasons;
     }
 
     /**
      * Validates if a string is a valid phone number
      *
-     * @param  string $email    The string to validate.
-     * @return bool Returns true if it is a valid phone number, else otherwise.
+     * @param  string $phone        The string to validate.
+     * @return true|array<string>   returns true if it is a valid phone number, otherwise an array with reasons its not.
      */
-    private function isPhoneNumber(string $phone): bool
+    private function isPhoneNumber(string $phone): mixed
     {
+        $reasons = [];
+
         $onlyNumbers = preg_replace("/[^0-9]/", "", $phone);
 
-        //phonenumber is at least 10 characters long
-        if (strlen($onlyNumbers) < 8) return false;
+        //phone number is at least 10 characters long
+        if (strlen($onlyNumbers) < 8) $reasons += ["TO_SHORT"];
 
-        //phonenumber is not longer than 20 characters
-        if (strlen($onlyNumbers) > 15) return false;
+        //phone number is not longer than 20 characters
+        if (strlen($onlyNumbers) > 15) $reasons += ["TO_LONG"];
 
-        //phonenumber only contains numbers, spaces and + ( ) - / . x
-        if (preg_match("/^[0-9 +\-()\/.x]*$/", $phone) !== 1) return false;
+        //phone number only contains numbers, spaces and + ( ) - / . x
+        if (preg_match("/^[0-9 +\-()\/.x]*$/", $phone) !== 1) $reasons += ["INVALID_CHAR"];
 
-        return true;
+        if (sizeof($reasons) === 0) return true;
+        else return $reasons;
     }
 }

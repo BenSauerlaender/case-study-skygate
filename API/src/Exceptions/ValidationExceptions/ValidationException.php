@@ -7,13 +7,13 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions;
+namespace BenSauer\CaseStudySkygateApi\ValidationExceptions;
 
 use Exception;
 
 /**
- * Exception that is thrown if an attribute is not valid 
+ * Exception that is thrown if something is not valid
  */
-class InvalidAttributeException extends Exception
+class ValidationException extends Exception
 {
 }

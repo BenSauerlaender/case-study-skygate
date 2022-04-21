@@ -29,9 +29,8 @@ interface UserAccessorInterface
      * @param  string|null  $verificationCode     Code to verify the user.
      * @param  int          $roleID               The ID of the users permission role.
      * 
-     * @throws InvalidArgumentException (1) if the email is already taken.
-     * @throws InvalidArgumentException (2) if the role dont exists.
-     * @throws DatabaseException (1)        if there is a problem with the database.
+     * @throws DatabaseException if there is a problem with the database.
+     *          (RoleNotFoundException | DuplicateEmailException | ...)
      */
     public function insert(
         string $email,
@@ -50,17 +49,17 @@ interface UserAccessorInterface
      *
      * @param  int  $id     The users id.
      * 
-     * @throws InvalidArgumentException (1) if there is no user with this id.
-     * @throws DatabaseException (1)        if there is a problem with the database.
+     * @throws DatabaseException         if there is a problem with the database.
+     *          (UserNotFoundException | ...)
      */
     public function delete(int $id): void;
 
     /**
-     * Updates users specified attributes to the database
+     * Updates users specified fields on the database
      *
      * @param  int   $id    The users id.
-     * @param  array<string,mixed> $attr   The users attributes to update
-     *  $attr = [
+     * @param  array<string,mixed> $fields   The users fields to update
+     *  $fields = [
      *      "email"             => (string)     The users e-mail.
      *      "name"              => (string)     The users first and last name.
      *      "postcode"          => (string)     The users postcode.
@@ -73,24 +72,25 @@ interface UserAccessorInterface
      *      "verificationCode"  => (string)     Verification code to verify the user.
      *  ]
      * 
-     * @throws InvalidArgumentException (1) if there is no user with this id.
-     * @throws InvalidArgumentException (2) if the email is already taken.
-     * @throws InvalidArgumentException (3) if there is no role with this roleID.
-     * @throws InvalidArgumentException (4) if the $attr array is invalid.
-     * @throws DatabaseException (1)        if there is a problem with the database.
+     * @throws DatabaseException        if there is a problem with the database.
+     *          (UserNotFoundException | ...)
+     * @throws ValidationException      if the fields array is invalid.
+     *          (ArrayIsEmptyException | UnsupportedFieldException | InvalidTypeException)
      */
-    public function update(int $id, array $attr): void;
+    public function update(int $id, array $fields): void;
 
     /**
      * Finds a user by his email
      *
      * @param  string   $email  The users email.
      * @return null|int the users id (or null if the user cant be found).
+     * 
+     * @throws DBException if there is a problem with the database.
      */
     public function findByEmail(string $email): ?int;
 
     /**
-     * Gets the users attributes from the database
+     * Gets the users fields from the database
      *
      * @param  int  $id                     The users id.
      * @return array<string,mixed>          Returns the $user array.
@@ -109,8 +109,8 @@ interface UserAccessorInterface
      *      "updatedAt"         => (string)     The last DateTime the user was updated.
      *  ]
      *
-     * @throws InvalidArgumentException (1) if there is no user with this id.
-     * @throws DatabaseException (1)        if there is a problem with the database.
+     * @throws DatabaseException if there is a problem with the database.
+     *          (UserNotFoundException | ...)
      */
     public function get(int $id): array;
 }

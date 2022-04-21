@@ -9,9 +9,11 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Exceptions;
 
-use RuntimeException;
+use Exception;
 
-//Exception, that should be thrown if a function call don't make sense in the current state.
-class DatabaseException extends RuntimeException
+/**
+ * Exception that is thrown if something unexpected happened during password hashing
+ */
+class PasswordHashException extends Exception
 {
 }

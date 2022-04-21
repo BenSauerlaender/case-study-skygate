@@ -9,17 +9,16 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
+use BenSauer\CaseStudySkygateApi\Exceptions\PasswordHashException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
-use OutOfRangeException;
-use RuntimeException;
 
 class SecurityUtilities implements SecurityUtilitiesInterface
 {
     public function hashPassword(string $pass): string
     {
         $ret = password_hash($pass, PASSWORD_BCRYPT);
-        if (is_null($ret)) throw new RuntimeException("The password hash algorithm is invalid");
-        if ($ret === false) throw new RuntimeException("The password hash fails");
+        if (is_null($ret)) throw new  PasswordHashException("The password hash algorithm is invalid");
+        if ($ret === false) throw new PasswordHashException("The password hash fails");
         return $ret;
     }
 
@@ -30,10 +29,6 @@ class SecurityUtilities implements SecurityUtilitiesInterface
 
     public function generateCode(int $length): string
     {
-        if ($length < 0 or $length > 99) {
-            throw new OutOfRangeException("The length " . $length . " is not between 0 and 99", 1);
-        }
-
         if ($length === 0) return "";
 
         $code = bin2hex(random_bytes((int)ceil($length / 2)));
