@@ -15,9 +15,9 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
-use BenSauer\CaseStudySkygateApi\ValidationExceptions\ArrayIsEmptyException;
-use BenSauer\CaseStudySkygateApi\ValidationExceptions\InvalidTypeException;
-use BenSauer\CaseStudySkygateApi\ValidationExceptions\UnsupportedFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 
 // class to interact with the user-db-table
 class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface

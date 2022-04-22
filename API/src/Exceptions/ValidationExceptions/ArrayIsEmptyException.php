@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\ValidationExceptions;
+namespace BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions;
 
 /**
  * Exception that is thrown if an array is empty, that should not

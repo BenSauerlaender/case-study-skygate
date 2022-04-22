@@ -12,10 +12,9 @@ namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
+use BenSauer\CaseStudySkygateApi\Utilities\Utilities;
 use PDOException;
 use PDOStatement;
-
-use function BenSauer\CaseStudySkygateApi\Utilities\mapped_implode;
 
 /**
  * Super class for all MySql accessors
@@ -48,6 +47,8 @@ class MySqlAccessor
      * @return PDOStatement             The executed Statement.
      * 
      * @throws DBException  if something fails 
+     *          (UniqueFieldException | FieldNotFoundException | ...)
+     * 
      */
     protected function prepareAndExecute(string $sql, array $params): PDOStatement
     {
@@ -69,13 +70,23 @@ class MySqlAccessor
         return $stmt;
     }
 
+    /**
+     * Get the PDOExceptions from pdo->execute() and throws a new one
+     *
+     * @param  PDOException $e          The exception to handle.
+     * @param  string       $sql        The SQL Statement that was prepared.
+     * @param  array        $params     The parameters that were used to execute.
+     * 
+     * @throws DBException  always.
+     *          (UniqueFieldException | FieldNotFoundException | ...)
+     */
     private function handlePDOException(PDOException $e, string $sql, array $params): void
     {
         $msg = $e->getMessage();
 
         //wrap DBException around PDOException
         try {
-            throw new DBException("Execute PDO-Statement failed. (SQL-Statement: $sql | Parameters: " . mapped_implode(",", $params) . ")", 0, $e);
+            throw new DBException("Execute PDO-Statement failed. (SQL-Statement: $sql | Parameters: " . Utilities::mapped_implode(",", $params) . ")", 0, $e);
         } catch (DBException $dbe) {
 
             // Duplicate field

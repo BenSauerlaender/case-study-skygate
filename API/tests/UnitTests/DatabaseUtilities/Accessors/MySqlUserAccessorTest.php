@@ -10,8 +10,13 @@ namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\Accesso
 
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\MySqlUserAccessor;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\Accessors\BaseMySqlAccessorTest;
-use InvalidArgumentException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use PDO;
 
 /**
@@ -49,8 +54,8 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testInsertFailsByDuplicateEmail(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("There is already a user with email");
+        $this->expectException(DuplicateEmailException::class);
+        $this->expectExceptionMessage("user1");
 
         $this->accessor->insert("user1@mail.de", "user4", "00000", "city", "0123", "1", true, null, 1);
 
@@ -62,8 +67,8 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testInsertFailsByInvalidRole(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("There is no role with roleID");
+        $this->expectException(RoleNotFoundException::class);
+        $this->expectExceptionMessage("3");
 
         $this->accessor->insert("user4@mail.de", "user4", "00000", "city", "0123", "1", true, null, 3);
 
@@ -104,8 +109,8 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testDeleteFailsByInvalidUserID(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("No user with id");
+        $this->expectException(UserNotFoundException::class);
+        $this->expectExceptionMessage("10");
 
         $this->accessor->delete(10);
 
@@ -134,8 +139,8 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testUpdateFailsOnInvalidID(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("No user with id");
+        $this->expectException(UserNotFoundException::class);
+        $this->expectExceptionMessage("10");
 
         $this->accessor->update(10, ["name" => "Klaus"]);
 
@@ -147,8 +152,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testUpdateFailsOnEmptyArray(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("array is empty");
+        $this->expectException(ArrayIsEmptyException::class);
 
         $this->accessor->update(1, []);
 
@@ -160,8 +164,8 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testUpdateFailsOnInvalidKey(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("is not a valid key.");
+        $this->expectException(UnsupportedFieldException::class);
+        $this->expectExceptionMessage("quatsch");
 
         $this->accessor->update(1, ["name" => "Klaus", "quatsch" => "q"]);
 
@@ -173,8 +177,8 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testUpdateFailsOnInvalidType(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("The value of attribute email need to be a string");
+        $this->expectException(InvalidTypeException::class);
+        $this->expectExceptionMessage("email");
 
         $this->accessor->update(1, ["name" => "Klaus", "email" => 123]);
 
@@ -186,8 +190,8 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testUpdateFailsOnDuplicateEmail(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("There is already a user with email");
+        $this->expectException(DuplicateEmailException::class);
+        $this->expectExceptionMessage("user2@mail.de");
 
         $this->accessor->update(1, ["name" => "Klaus", "email" => "user2@mail.de"]);
 
@@ -199,8 +203,8 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testUpdateFailsOnInvalidRole(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("There is no role with roleID");
+        $this->expectException(RoleNotFoundException::class);
+        $this->expectExceptionMessage("10");
 
         $this->accessor->update(1, ["name" => "Klaus", "roleID" => 10]);
 
@@ -274,8 +278,8 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testGetFailsIfUserDontExists()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("There is no request with id");
+        $this->expectException(UserNotFoundException::class);
+        $this->expectExceptionMessage("10");
 
         $this->accessor->get(10);
 

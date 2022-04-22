@@ -10,8 +10,11 @@ namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\Accesso
 
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\MySqlEcrAccessor;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\ECRNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
 use BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\Accessors\BaseMySqlAccessorTest;
-use InvalidArgumentException;
 use PDO;
 
 /**
@@ -128,7 +131,8 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
     public function testDeleteFailsOnInvalidID(): void
     {
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(ECRNotFoundException::class);
+        $this->expectExceptionMessage("5");
 
         $this->accessor->delete(5);
 
@@ -156,8 +160,8 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
     public function testDeleteByUserIDFailsOnInvalidID(): void
     {
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("No request with userID");
+        $this->expectException(ECRNotFoundException::class);
+        $this->expectExceptionMessage("5");
 
         $this->accessor->deleteByUserID(5);
 
@@ -184,8 +188,8 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
     public function testInsertFailsOnDuplicateUser(): void
     {
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("userID");
+        $this->expectException(DuplicateUserException::class);
+        $this->expectExceptionMessage("1");
 
         $this->accessor->insert(1, "neu", "code");
 
@@ -197,8 +201,8 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
      */
     public function testInsertFailsOnDuplicateEmail(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("newEmail");
+        $this->expectException(DuplicateEmailException::class);
+        $this->expectExceptionMessage("newEmailFor1");
 
         $this->accessor->insert(3, "newEmailFor1", "code");
 
@@ -210,8 +214,8 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
      */
     public function testInsertFailsWhenUserNotExists(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("There is no user with userID");
+        $this->expectException(UserNotFoundException::class);
+        $this->expectExceptionMessage("10");
 
         $this->accessor->insert(10, "newE", "code");
 
@@ -242,8 +246,8 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
      */
     public function testGetFailsIfNoRequestWithID(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("no request with");
+        $this->expectException(ECRNotFoundException::class);
+        $this->expectExceptionMessage("10");
 
         $this->accessor->get(10);
 

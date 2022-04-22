@@ -73,7 +73,7 @@ interface UserAccessorInterface
      *  ]
      * 
      * @throws DatabaseException        if there is a problem with the database.
-     *          (UserNotFoundException | ...)
+     *          (UserNotFoundException | RoleNotFoundException | DuplicateEmailException ...)
      * @throws ValidationException      if the fields array is invalid.
      *          (ArrayIsEmptyException | UnsupportedFieldException | InvalidTypeException)
      */
