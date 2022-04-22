@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities;
 
 //load composer dependencies
 require 'vendor/autoload.php';

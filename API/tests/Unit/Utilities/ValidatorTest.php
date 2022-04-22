@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Utilities;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\Utilities;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;

@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\Controller\MySqlTableCreator;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities\Controller\MySqlTableCreator;
 
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlTableCreator;
-use BenSauer\CaseStudySkygateApi\tests\UnitTests\DatabaseUtilities\BaseDatabaseTest;
+use BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities\BaseDatabaseTest;
 use PDO;
 use PDOException;
 
