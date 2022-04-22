@@ -19,5 +19,13 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9"
+    },
+    "scripts": {
+        "gen-code-coverage": [
+            "./vendor/bin/phpunit --coverage-html ./coverage-analysis --configuration phpunit.xml"
+        ],
+        "open-code-coverage": [
+            "firefox coverage-analysis/index.html"
+        ]
     }
 }

@@ -4,4 +4,9 @@
             <directory suffix=".php">src</directory>
         </include>
     </coverage>
+    <testsuites>
+        <testsuite name="Tests">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>
