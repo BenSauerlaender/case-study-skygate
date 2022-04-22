@@ -37,7 +37,7 @@ abstract class BaseDatabaseTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         //load dotenv variables from 'test.env'
-        $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__, "test.env");
+        $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__, "../../test.env");
         $dotenv->load();
 
         self::$pdo = MySqlConnector::getConnection();

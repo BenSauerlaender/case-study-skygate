@@ -52,9 +52,9 @@ class UserController implements UserControllerInterface
     public function createUser(array $fields): array
     {
         //checks if all required fields exists
-        $missingFields = array_diff_key(["email" => "", "name" => "", "postcode" => "", "city" => "", "phone" => "", "password" => ""], $fields);
+        $missingFields = array_diff_key(["email" => "email", "name" => "name", "postcode" => "postcode", "city" => "city", "phone" => "phone", "password" => "password"], $fields);
         if (sizeOf($missingFields) !== 0) {
-            throw new RequiredFieldException("Missing fields: " . implode(", ", $missingFields));
+            throw new RequiredFieldException("Missing fields: " . implode(",", $missingFields));
         }
 
         //validate all fields (except "role").

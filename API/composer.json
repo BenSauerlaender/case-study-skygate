@@ -29,6 +29,12 @@
         ],
         "run-tests": [
             "./vendor/bin/phpunit --testdox tests/"
+        ],
+        "run-unit-tests": [
+            "./vendor/bin/phpunit --testdox tests/Unit/"
+        ],
+        "run-integration-tests": [
+            "./vendor/bin/phpunit --testdox tests/Integration/"
         ]
     }
 }

@@ -96,22 +96,22 @@ class Validator implements ValidatorInterface
         $reasons = [];
 
         //password is at least 8 characters long
-        if (strlen($pass) < 8) $reasons += ["TO_SHORT"];
+        if (strlen($pass) < 8) array_push($reasons, "TO_SHORT");
 
         //password is not longer than 50 characters
-        if (strlen($pass) > 50) $reasons += ["TO_LONG"];
+        if (strlen($pass) > 50) array_push($reasons, "TO_LONG");
 
         //password only contains letters(also umlaute), numbers and these special characters: # ? ! @ $ % ^ & . * - +
-        if (preg_match("/^[a-zA-ZÄÖÜäöüß0-9#?!@$%^&.*\-+]*$/", $pass) !== 1) $reasons += ["INVALID_CHAR"];
+        if (preg_match("/^[a-zA-ZÄÖÜäöüß0-9#?!@$%^&.*\-+]*$/", $pass) !== 1) array_push($reasons, "INVALID_CHAR");
 
         //password contains at least one lower case letter
-        if (preg_match("/[a-zäöüß]+/", $pass) !== 1) $reasons += ["NO_LOWER_CASE"];
+        if (preg_match("/[a-zäöüß]+/", $pass) !== 1) array_push($reasons, "NO_LOWER_CASE");
 
         //password contains at least one upper case letter
-        if (preg_match("/[A-ZÄÖÜ}]+/", $pass) !== 1) $reasons += ["NO_UPPER_CASE"];
+        if (preg_match("/[A-ZÄÖÜ}]+/", $pass) !== 1) array_push($reasons, "NO_UPPER_CASE");
 
         //password contains at least one number
-        if (preg_match("/[0-9]+/", $pass) !== 1) $reasons += ["NO_NUMBER"];
+        if (preg_match("/[0-9]+/", $pass) !== 1) array_push($reasons, "NO_NUMBER");
 
         if (sizeof($reasons) === 0) return true;
         else return $reasons;
