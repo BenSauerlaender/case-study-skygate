@@ -289,21 +289,4 @@ class UserController implements UserControllerInterface
         if (!is_null(($this->ecrAccessor->findByEmail($email)))) return false;
         return true;
     }
-
-    /**
-     * Checks if all keys exists in an array
-     * 
-     * Calls array_key_exists() for each key.
-     *
-     * @param  string[] $keys   A list of all keys to check.
-     * @param  array $arr       The array to check on.
-     * @return bool Returns true if all keys exists, false otherwise.
-     */
-    private function array_keys_exists(array $keys, array $arr): bool
-    {
-        foreach ($keys as $key) {
-            if (!array_key_exists($key, $arr)) return false;
-        }
-        return true;
-    }
 }
