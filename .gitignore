@@ -1,3 +1,4 @@
 /API/vendor/
 *.env
 .vscode/
+*.cache
