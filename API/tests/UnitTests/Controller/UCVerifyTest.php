@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Controller;
 
 use BadMethodCallException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use InvalidArgumentException;
 use OutOfRangeException;
 
@@ -18,17 +19,6 @@ use OutOfRangeException;
 final class UCVerifyTest extends BaseUCTest
 {
     /**
-     * Tests if the method throws an exception if the id is < 0
-     */
-    public function testVerifyUserIDOutOfRange(): void
-    {
-        $this->expectException(OutOfRangeException::class);
-        $this->expectExceptionMessage("is not a valid id");
-
-        $this->userController->verifyUser(-1, "");
-    }
-
-    /**
      * Tests if the method throws an exception if the user is not in the database
      */
     public function testVerifyUserNotExists(): void
@@ -37,10 +27,10 @@ final class UCVerifyTest extends BaseUCTest
         $this->userAccessorMock->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
-            ->willReturn(null);
+            ->will($this->throwException(new UserNotFoundException("User: 1")));
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("There is no user");
+        $this->expectException(UserNotFoundException::class);
+        $this->expectExceptionMessage("1");
 
         $this->userController->verifyUser(1, "");
     }
@@ -57,7 +47,6 @@ final class UCVerifyTest extends BaseUCTest
             ->willReturn(["verified" => true]);
 
         $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage("is already verified");
 
         $this->userController->verifyUser(1, "");
     }
@@ -73,10 +62,8 @@ final class UCVerifyTest extends BaseUCTest
             ->with($this->equalTo(1))
             ->willReturn(["verified" => false, "verificationCode" => "ABC"]);
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Verification code is not correct");
-
-        $this->userController->verifyUser(1, "ABC1");
+        $return = $this->userController->verifyUser(1, "ABC1");
+        $this->assertEquals(false, $return);
     }
 
     /**
@@ -93,6 +80,7 @@ final class UCVerifyTest extends BaseUCTest
             ->method("update")
             ->with($this->equalTo(1, ["verificationCode" => false, "verified" => true]));
 
-        $this->userController->verifyUser(1, "ABC");
+        $return = $this->userController->verifyUser(1, "ABC");
+        $this->assertEquals(true, $return);
     }
 }

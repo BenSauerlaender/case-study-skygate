@@ -8,10 +8,11 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Utilities;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Validator;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 final class ValidatorTest extends TestCase
@@ -39,53 +40,75 @@ final class ValidatorTest extends TestCase
             "phone" => "030 12345-67",
             "password" => "1SicheresPassword"
         ];
-        $this->assertNull(self::$validator->validate($attributes));
+        $this->assertTrue(self::$validator->validate($attributes));
     }
 
+    /**
+     * Tests the validate throws an exception if at least one field is not supported
+     */
+    public function testUnsupportedField(): void
+    {
+        $this->expectException(UnsupportedFieldException::class);
+        self::$validator->validate(["NotAnField" => ""]);
+    }
+
+    /**
+     * Test if validate throws an exception if at the array is empty
+     */
     public function testNotAnAttribute(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        self::$validator->validate(["NotAnAttribute" => ""]);
+        $this->expectException(ArrayIsEmptyException::class);
+        self::$validator->validate([]);
+    }
+
+    private function assertCorrectValidation(string $field, mixed $value, bool $valid, string $reason): void
+    {
+        $ret = self::$validator->validate([$field => $value]);
+
+        if ($valid) {
+            $this->assertTrue($ret);
+        } else {
+            $this->assertCount(1, $ret);
+            $this->assertArrayHasKey($field, $ret);
+            //return contains reason
+            $this->assertStringContainsString($reason, $ret[$field]);
+        }
     }
 
     /**
      * @dataProvider emailProvider
      */
-    public function testEmailValidation(string $email, bool $valid): void
+    public function testEmailValidation(string $email, bool $valid, string $reason): void
     {
-        if (!$valid) $this->expectException(InvalidAttributeException::class);
-        if (!$valid) $this->expectExceptionCode(100);
-
-        $ret = self::$validator->validate(["email" => $email]);
-        if ($valid) $this->assertNull($ret);
+        $this->assertCorrectValidation("email", $email, $valid, $reason);
     }
 
     //tests email validation according to RFC2822 //source: https://en.wikibooks.org/wiki/JavaScript/Best_practices
     public function emailProvider(): array
     {
         return [
-            ["me@example.com", true],
-            ["a.nonymous@example.com", true],
-            ["name+tag@example.com", true],
-            ["a.name+tag@example.com", true],
+            ["me@example.com",                                                      true,   ""],
+            ["a.nonymous@example.com",                                              true,   ""],
+            ["name+tag@example.com",                                                true,   ""],
+            ["a.name+tag@example.com",                                              true,   ""],
             //they are commented out, because they would fail. //TODO maybe improve the implementation
             //["me.example@com", true],
             //["\"spaces must be quoted\"@example.com", true],
-            ["!#$%&'*+-/=.?^_`{|}~@[1.0.0.127]", true],
-            ["!#$%&'*+-/=.?^_`{|}~@[IPv6:0123:4567:89AB:CDEF:0123:4567:89AB:CDEF]", true],
+            ["!#$%&'*+-/=.?^_`{|}~@[1.0.0.127]",                                    true,   "NO_EMAIL"],
+            ["!#$%&'*+-/=.?^_`{|}~@[IPv6:0123:4567:89AB:CDEF:0123:4567:89AB:CDEF]", true,   "NO_EMAIL"],
 
-            ["", false],
-            ["\n", false],
-            ["me@", false],
-            ["@example.com", false],
-            ["me.@example.com", false],
-            [".me@example.com", false],
-            ["me@example..com", false],
-            ["me\@example.com", false],
-            ["spaces\ must\ be\ within\ quotes\ even\ when\ escaped@example.com", false],
-            ["a\@mustbeinquotes@example.com", false],
+            ["",                                                                    false,  "NO_EMAIL"],
+            ["\n",                                                                  false,  "NO_EMAIL"],
+            ["me@",                                                                 false,  "NO_EMAIL"],
+            ["@example.com",                                                        false,  "NO_EMAIL"],
+            ["me.@example.com",                                                     false,  "NO_EMAIL"],
+            [".me@example.com",                                                     false,  "NO_EMAIL"],
+            ["me@example..com",                                                     false,  "NO_EMAIL"],
+            ["me\@example.com",                                                     false,  "NO_EMAIL"],
+            ["spaces\ must\ be\ within\ quotes\ even\ when\ escaped@example.com",   false,  "NO_EMAIL"],
+            ["a\@mustbeinquotes@example.com",                                       false,  "NO_EMAIL"],
             //to long
-            ["eineseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeehrlaaaaaaaaaaaaaaangeeeeeeeeeeeeeeeeeee@email.de", false]
+            ["eineseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeehrlaaaaaaaaaaaaaaangeeeeeeeeeeeeeeeeeeeeeeeee@email.de", false, "TO_LONG"]
         ];
     }
 
@@ -93,163 +116,143 @@ final class ValidatorTest extends TestCase
     /**
      * @dataProvider passwordProvider
      */
-    public function testPasswordValidation(string $pass, bool $valid): void
+    public function testPasswordValidation(string $pass, bool $valid, string $reason): void
     {
-        if (!$valid) $this->expectException(InvalidAttributeException::class);
-        if (!$valid) $this->expectExceptionCode(105);
-
-        $ret = self::$validator->validate(["password" => $pass]);
-        if ($valid) $this->assertNull($ret);
+        $this->assertCorrectValidation("password", $pass, $valid, $reason);
     }
 
     public function passwordProvider(): array
     {
         return [
-            ["HalloDuda2", true],
-            ["MitÜmläüten0", true],
-            ["#?!@$%^&.*-+Aa1", true],
-            ["a.name+Tag3@example.com", true],
+            ["HalloDuda2",                                              true,   ""],
+            ["MitÜmläüten0",                                            true,   ""],
+            ["#?!@$%^&.*-+Aa1",                                         true,   ""],
+            ["a.name+Tag3@example.com",                                 true,   ""],
 
             //toShort:
-            ["", false],
-            ["123Abc!", false],
+            ["",                                                        false,  "TO_SHORT"],
+            ["123Abc!",                                                 false,  "TO_SHORT"],
             //toLong:
-            ["dhkljndfsfbnjkfbbjkhbjsdfbkjlnlkjsdnklnddksdfkknmA1", false],
+            ["dhkljndfsfbnjkfbbjkhbjsdfbkjlnlkjsdnklnddksdfkknmA1",     false,  "TO_LONG"],
             //without uppercase;
-            ["1password", false],
+            ["1password",                                               false,  "NO_UPPER_CASE"],
             //without lowercase:
-            ["1PASSWORD", false],
+            ["1PASSWORD",                                               false,  "NO_LOWER_CASE"],
             //without number:
-            ["DasPasswort", false],
+            ["DasPasswort",                                             false,  "NO_NUMBER"],
             //illegal special character
-            ["MoinMoin3,", false],
-            ["Cooool3\n45", false],
+            ["MoinMoin3,",                                              false,  "INVALID_CHAR"],
+            ["Cooool3\n45",                                             false,  "INVALID_CHAR"],
             //with spaces:
-            ["Pass mit space7", false]
+            ["Pass mit space7",                                         false,  "INVALID_CHAR"]
         ];
     }
 
     /**
      * @dataProvider wordsProvider
      */
-    public function testNameValidation(string $name, bool $valid): void
+    public function testNameValidation(string $name, bool $valid, string $reason): void
     {
-        if (!$valid) $this->expectException(InvalidAttributeException::class);
-        if (!$valid) $this->expectExceptionCode(101);
-
-        $ret = self::$validator->validate(["name" => $name]);
-        if ($valid) $this->assertNull($ret);
+        $this->assertCorrectValidation("name", $name, $valid, $reason);
     }
 
     /**
      * @dataProvider wordsProvider
      */
-    public function testCityValidation(string $city, bool $valid): void
+    public function testCityValidation(string $city, bool $valid, string $reason): void
     {
-        if (!$valid) $this->expectException(InvalidAttributeException::class);
-        if (!$valid) $this->expectExceptionCode(103);
-
-        $ret = self::$validator->validate(["city" => $city]);
-        if ($valid) $this->assertNull($ret);
+        $this->assertCorrectValidation("city", $city, $valid, $reason);
     }
 
     public function wordsProvider(): array
     {
         return [
-            ["Wort", true],
-            ["Zwei Woerter", true],
-            ["Zwei Wörter", true],
-            ["viele Umlaute ßäÖüÜ", true],
-            ["zu", true],
+            ["Wort",                true,   ""],
+            ["Zwei Woerter",        true,   ""],
+            ["Zwei Wörter",         true,   ""],
+            ["viele Umlaute ßäÖüÜ", true,   ""],
+            ["zu",                  true,   ""],
 
             //wrong spaces:
-            ["", false],
-            ["Wort ", false],
-            [" Wort", false],
-            ["Zwei  Spaces", false],
+            ["",                    false,  "NO_WORDS"],
+            ["Wort ",               false,  "NO_WORDS"],
+            [" Wort",               false,  "NO_WORDS"],
+            ["Zwei  Spaces",        false,  "NO_WORDS"],
             //to short :
-            ["a", false],
-            ["a b c", false],
+            ["a",                   false,  "NO_WORDS"],
+            ["a b c",               false,  "NO_WORDS"],
             //with number:
-            ["1Wort", false],
+            ["1Wort",               false,  "NO_WORDS"],
             //special character
-            ["MoinMoin,", false],
-            ["Cooool\n wort", false],
+            ["MoinMoin,",           false,  "NO_WORDS"],
+            ["Cooool\n wort",       false,  "NO_WORDS"],
         ];
     }
 
     /**
      * @dataProvider postcodeProvider
      */
-    public function testPostcodeValidation(string $postcode, bool $valid): void
+    public function testPostcodeValidation(string $postcode, bool $valid, string $reason): void
     {
-        if (!$valid) $this->expectException(InvalidAttributeException::class);
-        if (!$valid) $this->expectExceptionCode(102);
-
-        $ret = self::$validator->validate(["postcode" => $postcode]);
-        if ($valid) $this->assertNull($ret);
+        $this->assertCorrectValidation("postcode", $postcode, $valid, $reason);
     }
 
     public function postcodeProvider(): array
     {
         return [
-            ["00000", true],
-            ["12345", true],
+            ["00000",       true,   ""],
+            ["12345",       true,   ""],
 
             //spaces:
-            ["", false],
-            ["1 2 3 4 5", false],
-            [" 12345", false],
-            ["12345 ", false],
+            ["",            false,  "INVALID_LENGTH"],
+            ["1 2 3 4 5",   false,  "INVALID_LENGTH"],
+            [" 12345",      false,  "INVALID_LENGTH"],
+            ["12345 ",      false,  "INVALID_LENGTH"],
             //to short :
-            ["1234", false],
-            //toLong:
-            ["123456", false],
+            ["1234",        false,  "INVALID_LENGTH"],
+            //toLong
+            ["123456",      false,  "INVALID_LENGTH"],
             //with letters:
-            ["fuenf", false],
+            ["fuenf",       false,  "INVALID_CHAR"],
             //with special character
-            ["1234%", false],
+            ["1234%",       false,  "INVALID_CHAR"],
         ];
     }
 
     /**
      * @dataProvider phoneProvider
      */
-    public function testPhoneValidation(string $phone, bool $valid): void
+    public function testPhoneValidation(string $phone, bool $valid, string $reason): void
     {
-        if (!$valid) $this->expectException(InvalidAttributeException::class);
-        if (!$valid) $this->expectExceptionCode(104);
-
-        $ret = self::$validator->validate(["phone" => $phone]);
-        if ($valid) $this->assertNull($ret);
+        $this->assertCorrectValidation("phone", $phone, $valid, $reason);
     }
 
     //valid examples from https://de.wikipedia.org/wiki/Rufnummer
     public function phoneProvider(): array
     {
         return [
-            ["030 12345-67", true],
-            ["0900 5 123456", true],
-            ["(030) 12345 67", true],
-            ["(030) 12345 67 / 89 ", true],
-            ["0 30 / 1 23 45 67", true],
-            ["+49 30 12345-67", true],
-            ["+49 30 12345 67", true],
-            ["+49-30-1234567", true],
-            ["+49.3012345x67", true],
-            ["+49 (30) 12345 - 67", true],
-            ["+49 (0)30 12345-67", true],
-            ["015735633702", true],
+            ["030 12345-67",            true,   ""],
+            ["0900 5 123456",           true,   ""],
+            ["(030) 12345 67",          true,   ""],
+            ["(030) 12345 67 / 89 ",    true,   ""],
+            ["0 30 / 1 23 45 67",       true,   ""],
+            ["+49 30 12345-67",         true,   ""],
+            ["+49 30 12345 67",         true,   ""],
+            ["+49-30-1234567",          true,   ""],
+            ["+49.3012345x67",          true,   ""],
+            ["+49 (30) 12345 - 67",     true,   ""],
+            ["+49 (0)30 12345-67",      true,   ""],
+            ["015735633702",            true,   ""],
 
             //to short :
-            ["", false],
-            ["123 456 7", false],
+            ["",                        false,  "TO_SHORT"],
+            ["123 456 7",               false,  "TO_SHORT"],
             //toLong:
-            ["1234567890123456", false],
+            ["1234567890123456",        false,  "TO_LONG"],
             //with letters:
-            ["fuenf543543", false],
+            ["fuenf543543543534",       false,  "INVALID_CHAR"],
             //with illegal special character
-            ["1234%457543", false],
+            ["1234%457543",             false,  "INVALID_CHAR"],
         ];
     }
 }

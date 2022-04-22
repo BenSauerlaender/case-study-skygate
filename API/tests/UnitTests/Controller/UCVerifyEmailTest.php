@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Controller;
 
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\ECRNotFoundException;
 use InvalidArgumentException;
 use OutOfRangeException;
 
@@ -16,18 +17,6 @@ use OutOfRangeException;
  */
 final class UCVerifyEmailTest extends BaseUCTest
 {
-    /**
-     * Tests if the method throws an exception if the id is < 0
-     */
-    public function testVerifyEmailWithIDOutOfRange(): void
-    {
-
-        $this->expectException(OutOfRangeException::class);
-        $this->expectExceptionMessage("is not a valid id");
-
-        $this->userController->verifyUsersEmailChange(-1, "");
-    }
-
     /**
      * Tests if the method throws an exception if the request is not in the database
      */
@@ -40,8 +29,8 @@ final class UCVerifyEmailTest extends BaseUCTest
             ->with($this->equalTo(1))
             ->willReturn(null);
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("There is no email change request");
+        $this->expectException(ECRNotFoundException::class);
+        $this->expectExceptionMessage("1");
         $this->userController->verifyUsersEmailChange(1, "");
     }
 
@@ -60,10 +49,8 @@ final class UCVerifyEmailTest extends BaseUCTest
             ->with($this->equalTo(0))
             ->willReturn(["verificationCode" => "code1"]);
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Verification code is incorrect");
-
-        $this->userController->verifyUsersEmailChange(1, "code2");
+        $return = $this->userController->verifyUsersEmailChange(1, "code2");
+        $this->assertEquals(false, $return);
     }
 
     /**
@@ -89,6 +76,7 @@ final class UCVerifyEmailTest extends BaseUCTest
             ->method("delete")
             ->with($this->equalTo(0));
 
-        $this->userController->verifyUsersEmailChange(1, "code1");
+        $return = $this->userController->verifyUsersEmailChange(1, "code1");
+        $this->assertEquals(true, $return);
     }
 }

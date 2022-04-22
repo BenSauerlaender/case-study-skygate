@@ -8,9 +8,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Controller;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
-use InvalidArgumentException;
-use OutOfRangeException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 
 /**
  * Testsuit for UserController->update method
@@ -18,23 +19,36 @@ use OutOfRangeException;
 final class UCUpdateTest extends BaseUCTest
 {
     /**
-     * Tests if the method throws an exception if the id is < 0
+     * Tests if the method throws an exception if there is no user with specified id
      */
-    public function testUpdateUserIDOutOfRange(): void
+    public function testUpdateWithNonExistingUser(): void
     {
-        $this->expectException(OutOfRangeException::class);
-        $this->expectExceptionMessage("is not a valid id");
+        //validator will validate everything
+        $this->validatorMock->expects($this->once())
+            ->method("validate")
+            ->willReturn(true);
 
-        $this->userController->updateUser(-1, []);
+        $this->userAccessorMock->expects($this->once())
+            ->method("update")
+            ->with($this->equalTo(-1, ["name" => "name"]))
+            ->will($this->throwException(new UserNotFoundException()));
+
+        $this->expectException(UserNotFoundException::class);
+
+        $this->userController->updateUser(-1, ["name" => "name"]);
     }
 
     /**
-     * Tests if the method throws an exception if th attribute array is empty
+     * Tests if the method throws an exception if th field array is empty
      */
-    public function testUpdateUserWithoutArguments(): void
+    public function testUpdateUserWithoutFields(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("The attribute array is empty");
+        //validator will validate everything
+        $this->validatorMock->expects($this->once())
+            ->method("validate")
+            ->will($this->throwException(new ArrayIsEmptyException()));
+
+        $this->expectException(ArrayIsEmptyException::class);
 
         $this->userController->updateUser(1, []);
     }
@@ -44,19 +58,18 @@ final class UCUpdateTest extends BaseUCTest
      *
      * @dataProvider invalidArgumentProvider
      */
-    public function testUpdateUserWithInvalidArgument(array $input, string $exceptionMessage): void
+    public function testUpdateUserWithUnsupportedField(string $field): void
     {
         //validator will throw InvalidArgumentException every time.
         //validator will only be called on "quatsch". "password" and "email"will be catched before
         $this->validatorMock
             ->method("validate")
             ->with($this->equalTo(["quatsch" => ""]))
-            ->will($this->throwException(new InvalidArgumentException));
+            ->will($this->throwException(new UnsupportedFieldException()));
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage($exceptionMessage);
+        $this->expectException(UnsupportedFieldException::class);
 
-        $this->userController->updateUser(1, $input);
+        $this->userController->updateUser(1, [$field => ""]);
     }
 
     /**
@@ -65,26 +78,27 @@ final class UCUpdateTest extends BaseUCTest
     public function invalidArgumentProvider(): array
     {
         return [
-            [["password" => ""], "To change the password"],
-            [["email" => ""], "To change the email"],
-            [["quatsch" => ""], ""]
+            ["password"],
+            ["email"],
+            ["quatsch"]
         ];
     }
 
     /**
-     * Tests if the method throws an Exception if at least one of the arguments is invalid
+     * Tests if the method throws an Exception if at least one of the fields is invalid
      *
-     * @dataProvider invalidAttributeProvider
+     * @dataProvider invalidFieldProvider
      */
-    public function testUpdateUserWithInvalidAttribute(string $key, string $value): void
+    public function testUpdateUserWithInvalidField(string $key, string $value): void
     {
         $this->validatorMock->method("validate")
-            ->will($this->throwException(new InvalidAttributeException));
+            ->willReturn([$key => "INVALID"]);
 
         $this->roleAccessorMock->method("findByName")
             ->willReturn(null);
 
-        $this->expectException(InvalidAttributeException::class);
+        $this->expectException(InvalidFieldException::class);
+        $this->expectExceptionMessage($key);
 
         $this->userController->updateUser(1, [$key => $value]);
     }
@@ -92,7 +106,7 @@ final class UCUpdateTest extends BaseUCTest
     /**
      * Provides Arguments that cant be updated.
      */
-    public function invalidAttributeProvider(): array
+    public function invalidFieldProvider(): array
     {
         return [
             ["name", "noName"],
@@ -112,7 +126,8 @@ final class UCUpdateTest extends BaseUCTest
         //validator will validate everything
         $this->validatorMock->expects($this->once())
             ->method("validate")
-            ->with($this->equalTo($validate));
+            ->with($this->equalTo($validate))
+            ->willReturn(true);
 
         if (array_key_exists("role", $input)) {
             //will find always the roleID = 0

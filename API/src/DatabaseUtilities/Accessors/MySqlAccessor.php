@@ -12,6 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
 use BenSauer\CaseStudySkygateApi\Utilities\Utilities;
 use PDOException;
 use PDOStatement;
@@ -56,7 +57,7 @@ class MySqlAccessor
         $stmt = $this->pdo->prepare($sql);
 
         if (is_null($stmt)) {
-            error_log("This should never happen: PDO->prepare() returned null, although the PDO error handling set to exception.");
+            throw new ShouldNeverHappenException("This should never happen: PDO->prepare() returned null, although the PDO error handling set to exception.");
         }
 
         try {

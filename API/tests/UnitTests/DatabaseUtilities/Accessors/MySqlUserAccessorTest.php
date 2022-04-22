@@ -148,7 +148,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     }
 
     /**
-     * Tests if the method throws an exception if the attribute array is empty
+     * Tests if the method throws an exception if the field array is empty
      */
     public function testUpdateFailsOnEmptyArray(): void
     {
@@ -160,7 +160,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     }
 
     /**
-     * Tests if the method throws an exception if the attribute array has at least one invalid key
+     * Tests if the method throws an exception if the field array has at least one invalid key
      */
     public function testUpdateFailsOnInvalidKey(): void
     {
@@ -173,7 +173,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
     }
 
     /**
-     * Tests if the method throws an exception if the attribute array has at least one invalid attribute type
+     * Tests if the method throws an exception if the field array has at least one invalid field type
      */
     public function testUpdateFailsOnInvalidType(): void
     {

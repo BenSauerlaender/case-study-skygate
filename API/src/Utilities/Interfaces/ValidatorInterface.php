@@ -28,7 +28,8 @@ interface ValidatorInterface
      * @return true|array<string,string> True if all valid. Or the reasons why not.
      *  $reasons = [field => reasons("+"-separated)]
      * 
-     * @throws UnsupportedFieldsException
+     * @throws ValidationException  if the fields array is invalid
+     *          (ArrayIsEmptyException | UnsupportedFieldsException=
      */
-    public function validate(array $fields): array;
+    public function validate(array $fields): mixed;
 }

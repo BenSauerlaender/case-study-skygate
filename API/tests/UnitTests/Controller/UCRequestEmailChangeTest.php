@@ -8,40 +8,32 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Controller;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
-use InvalidArgumentException;
-use OutOfRangeException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
 
 /**
  * Testsuit for UserController->requestUsersEmailChange method
  */
 final class UCRequestEmailChangeTest extends BaseUCTest
 {
-    /**
-     * Tests if the method throws an exception if the id is < 0
-     */
-    public function testRequestEmailWithIDOutOfRange(): void
-    {
-
-        $this->expectException(OutOfRangeException::class);
-        $this->expectExceptionMessage("is not a valid id");
-
-        $this->userController->requestUsersEmailChange(-1, "");
-    }
 
     /**
      * Tests if the method throws an exception if the user is not in the database
      */
     public function testRequestEmailUserNotExists(): void
     {
+        $this->validatorMock->expects($this->once())
+            ->method("validate")
+            ->willReturn(true);
 
-        $this->userAccessorMock->expects($this->once())
-            ->method("get")
-            ->with($this->equalTo(1))
-            ->willReturn(null);
+        $this->ecrAccessorMock->expects($this->once())
+            ->method("insert")
+            ->with($this->equalTo(1, "email", "code"))
+            ->will($this->throwException(new UserNotFoundException()));
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("There is no user with id");
+
+        $this->expectException(UserNotFoundException::class);
         $this->userController->requestUsersEmailChange(1, "");
     }
 
@@ -50,16 +42,13 @@ final class UCRequestEmailChangeTest extends BaseUCTest
      */
     public function testRequestEmailWithInvalidEmail(): void
     {
+        $this->validatorMock->expects($this->once())
+            ->method("validate")
+            ->willReturn(["email" => "TO_SHORT"]);
 
-        $this->userAccessorMock->expects($this->once())
-            ->method("get")
-            ->with($this->equalTo(1))
-            ->willReturn([]);
+        $this->expectException(InvalidFieldException::class);
+        $this->expectExceptionMessage("TO_SHORT");
 
-        $this->validatorMock->method("validate")
-            ->will($this->throwException(new InvalidAttributeException));
-
-        $this->expectException(InvalidAttributeException::class);
         $this->userController->requestUsersEmailChange(1, "email");
     }
 
@@ -71,19 +60,18 @@ final class UCRequestEmailChangeTest extends BaseUCTest
      */
     public function testRequestEmailWithNotFreeEmail($emailFreeInUser, $emailFreeInEcr): void
     {
-        $this->userAccessorMock->expects($this->once())
-            ->method("get")
-            ->with($this->equalTo(1))
-            ->willReturn([]);
+        $this->validatorMock->expects($this->once())
+            ->method("validate")
+            ->with($this->equalTo(["email" => "someEmail"]))
+            ->willReturn(true);
 
         $this->configEmailAvailability($emailFreeInUser, $emailFreeInEcr);
 
 
-        $this->expectException(InvalidAttributeException::class);
-        $this->expectExceptionCode(110);
-        $this->expectExceptionMessage("is already in use");
+        $this->expectException(DuplicateEmailException::class);
+        $this->expectExceptionMessage("someEmail");
 
-        $this->userController->requestUsersEmailChange(1, "email");
+        $this->userController->requestUsersEmailChange(1, "someEmail");
     }
 
     /**
@@ -91,15 +79,10 @@ final class UCRequestEmailChangeTest extends BaseUCTest
      */
     public function testRequestEmailSuccessful(): void
     {
-
-        $this->userAccessorMock->expects($this->once())
-            ->method("get")
-            ->with($this->equalTo(1))
-            ->willReturn([]);
-
         $this->validatorMock->expects($this->once())
             ->method("validate")
-            ->with($this->equalTo(["email" => "email"]));
+            ->with($this->equalTo(["email" => "email"]))
+            ->willReturn(true);
 
         $this->configEmailAvailability(true, true);
 

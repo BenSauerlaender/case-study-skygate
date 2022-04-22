@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Controller;
 
-use OutOfRangeException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 
 /**
  * Testsuit for UserController->delete method
@@ -16,12 +16,16 @@ use OutOfRangeException;
 final class UCDeleteTest extends BaseUCTest
 {
     /**
-     * Tests if the method throws an exception if the id is < 0
+     * Tests if the method throws an exception if there is no user with specified id
      */
-    public function testDeleteUserIDOutOfRange(): void
+    public function testDeleteNonExistingUser(): void
     {
-        $this->expectException(OutOfRangeException::class);
-        $this->expectExceptionMessage("is not a valid id");
+        $this->userAccessorMock->expects($this->once())
+            ->method("delete")
+            ->with($this->equalTo("-1"))
+            ->will($this->throwException(new UserNotFoundException()));
+
+        $this->expectException(UserNotFoundException::class);
 
         $this->userController->deleteUser(-1);
     }

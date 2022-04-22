@@ -68,18 +68,4 @@ final class SecurityUtilitiesTest extends TestCase
     {
         return [[3], [0], [10], [99]];
     }
-
-    /**
-     * @dataProvider InvalidCodeLengthProvider
-     */
-    public function testCodeGenerationFail(int $length): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        self::$passUtils->generateCode($length);
-    }
-
-    public function invalidCodeLengthProvider(): array
-    {
-        return [[-1], [100]];
-    }
 }

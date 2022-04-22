@@ -21,11 +21,12 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\D
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
-use BenSauer\CaseStudySkygateApi\ValidationExceptions\ArrayIsEmptyException;
-use BenSauer\CaseStudySkygateApi\ValidationExceptions\InvalidFieldException;
-use BenSauer\CaseStudySkygateApi\ValidationExceptions\RequiredFieldException;
-use BenSauer\CaseStudySkygateApi\ValidationExceptions\UnsupportedFieldException;
-use BenSauer\CaseStudySkygateApi\ValidationExceptions\ValidationException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
+use BenSauer\CaseStudySkygateApi\Utilities\Utilities;
 
 use function BenSauer\CaseStudySkygateApi\Utilities\mapped_implode;
 
@@ -51,16 +52,21 @@ class UserController implements UserControllerInterface
     public function createUser(array $fields): array
     {
         //checks if all required fields exists
-        $missingFields = array_diff_key(["email", "name", "postcode", "city", "phone", "password"], $fields);
+        $missingFields = array_diff_key(["email" => "", "name" => "", "postcode" => "", "city" => "", "phone" => "", "password" => ""], $fields);
         if (sizeOf($missingFields) !== 0) {
             throw new RequiredFieldException("Missing fields: " . implode(", ", $missingFields));
         }
 
         //validate all fields (except "role").
-        $valid = $this->validator->validate(\array_diff_key($fields, ["role" => ""]));
+        try {
+            $valid = $this->validator->validate(\array_diff_key($fields, ["role" => ""]));
+        } catch (ArrayIsEmptyException $e) {
+            throw new ShouldNeverHappenException("The Array cant be empty, because all required fields are there", 0, $e);
+        }
+
         if ($valid !== true) {
             $reasons = $valid;
-            throw new InvalidFieldException("Invalid fields with reasons: " . mapped_implode(",", $reasons));
+            throw new InvalidFieldException("Invalid fields with reasons: " . Utilities::mapped_implode(",", $reasons));
         }
 
         //check if the email is free
@@ -108,8 +114,6 @@ class UserController implements UserControllerInterface
 
     public function updateUser(int $id, array $fields): void
     {
-        if (sizeof($fields) === 0) throw new ArrayIsEmptyException("The fields array is empty");
-
         if (array_key_exists("password", $fields)) throw new UnsupportedFieldException("Field: password. To change the password use updateUserPassword", 2);
         if (array_key_exists("email", $fields)) throw new UnsupportedFieldException("Field: email. To change the email use requestUsersEmailChange", 2);
 
@@ -117,7 +121,7 @@ class UserController implements UserControllerInterface
         $valid = $this->validator->validate(\array_diff_key($fields, ["role" => ""]));
         if ($valid !== true) {
             $reasons = $valid;
-            throw new InvalidFieldException("Invalid fields with reasons: " . mapped_implode(",", $reasons));
+            throw new InvalidFieldException("Invalid fields with reasons: " . Utilities::mapped_implode(",", $reasons));
         }
 
         //replace role name by its id
@@ -171,8 +175,8 @@ class UserController implements UserControllerInterface
                 $reasons = $valid;
                 throw new InvalidFieldException("Password is not valid, because: " . $reasons["password"]);
             }
-        } catch (UnsupportedFieldException $e) {
-            throw new ShouldNeverHappenException("password is a supported field", 0, $e);
+        } catch (ArrayIsEmptyException | UnsupportedFieldException $e) {
+            throw new ShouldNeverHappenException("Array is not empty. And password is a supported field", 0, $e);
         }
 
         //update the database
@@ -181,6 +185,8 @@ class UserController implements UserControllerInterface
         } catch (UserNotFoundException | ValidationException $e) {
             throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e);
         }
+
+        return true;
     }
 
     public function requestUsersEmailChange(int $id, string $newEmail): string
@@ -192,8 +198,8 @@ class UserController implements UserControllerInterface
                 $reasons = $valid;
                 throw new InvalidFieldException("Email is not valid, because: " . $reasons["email"]);
             }
-        } catch (UnsupportedFieldException $e) {
-            throw new ShouldNeverHappenException("email is a supported field", 0, $e);
+        } catch (ArrayIsEmptyException | UnsupportedFieldException $e) {
+            throw new ShouldNeverHappenException("Array is not empty. And email is a supported field", 0, $e);
         }
 
         //check if the email is free
@@ -232,7 +238,7 @@ class UserController implements UserControllerInterface
 
 
             //check if the verification code is correct
-            if ($request["verificationCode"] !== $code) return null;
+            if ($request["verificationCode"] !== $code) return false;
 
             //update the user
             try {

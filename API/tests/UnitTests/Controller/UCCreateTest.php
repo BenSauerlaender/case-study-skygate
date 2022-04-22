@@ -8,8 +8,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Controller;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidAttributeException;
-use InvalidArgumentException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
 
 /**
  * Testsuit for UserController->createUser method
@@ -18,21 +20,20 @@ final class UCCreateTest extends BaseUCTest
 {
 
     /**
-     * Tests if the method throws an Exception if at least one attribute is missing
+     * Tests if the method throws an Exception if at least one field is missing
      * 
      * @dataProvider incompleteAttributeProvider
      */
-    public function testCreateUserWithMissingAttributes(array $attr): void
+    public function testCreateUserWithMissingAttributes(array $fields): void
     {
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("missing attributes");
+        $this->expectException(RequiredFieldException::class);
 
-        $this->userController->createUser($attr);
+        $this->userController->createUser($fields);
     }
 
     /**
-     * Provides different incomplete attribute arrays
+     * Provides different incomplete fields arrays
      */
     public function incompleteAttributeProvider(): array
     {
@@ -56,14 +57,14 @@ final class UCCreateTest extends BaseUCTest
     }
 
     /**
-     * Tests if the method throw an exception if at least one attribute is invalid
+     * Tests if the method throw an exception if at least one field is invalid
      */
     public function testCreateUserWithInvalidAttributes(): void
     {
         //the validator will always throw invalidAttributeException
-        $this->validatorMock->method("validate")->willThrowException(new InvalidAttributeException);
+        $this->validatorMock->method("validate")->willReturn(["email" => "TO_SHORT"]);
 
-        $this->expectException(InvalidAttributeException::class);
+        $this->expectException(InvalidFieldException::class);
         $this->userController->createUser(self::$completeAttr);
     }
 
@@ -74,11 +75,14 @@ final class UCCreateTest extends BaseUCTest
      */
     public function testCreateUserWithDuplicateEmail(bool $emailFreeInUser, bool $emailFreeInEcr): void
     {
+        //validator validates everything
+        $this->validatorMock->expects($this->once())
+            ->method("validate")
+            ->willReturn(true);
+
         $this->configEmailAvailability($emailFreeInUser, $emailFreeInEcr);
 
-        $this->expectException(InvalidAttributeException::class);
-        $this->expectExceptionCode(110);
-        $this->expectExceptionMessage("is already in use");
+        $this->expectException(DuplicateEmailException::class);
 
         $this->userController->createUser(self::$completeAttr);
     }
@@ -88,15 +92,18 @@ final class UCCreateTest extends BaseUCTest
      */
     public function testCreateUserWithInvalidRole(): void
     {
+        //validator validates everything
+        $this->validatorMock->expects($this->once())
+            ->method("validate")
+            ->willReturn(true);
+
         //config mocks so that the email is free
         $this->configEmailAvailability(true, true);
 
         //config mock so that the role can't be found
         $this->roleAccessorMock->method("findByName")->willReturn(null);
 
-        $this->expectException(InvalidAttributeException::class);
-        $this->expectExceptionCode(106);
-        $this->expectExceptionMessage("is not a valid role");
+        $this->expectException(RoleNotFoundException::class);
 
         $this->userController->createUser(self::$completeAttr);
     }
@@ -106,7 +113,7 @@ final class UCCreateTest extends BaseUCTest
      *  
      * @dataProvider goodAttributesProvider
      */
-    public function testCreateUserSuccessful(array $inputAttr, array $expectValidated): void
+    public function testCreateUserSuccessful(array $inputFields, array $expectValidated): void
     {
 
         //the userID for the new created user
@@ -115,22 +122,23 @@ final class UCCreateTest extends BaseUCTest
         //validator validates everything
         $this->validatorMock->expects($this->once())
             ->method("validate")
-            ->with($this->equalTo($expectValidated));
+            ->with($this->equalTo($expectValidated))
+            ->willReturn(true);
 
         //user Accessor cant find the email at the first time - bc they is not in use. But can find it at second time.
         //and then returns userID = 11
         $this->userAccessorMock->expects($this->exactly(2))
             ->method("findByEmail")
-            ->withConsecutive([$this->equalTo($inputAttr["email"])], [$this->equalTo($inputAttr["email"])])
+            ->withConsecutive([$this->equalTo($inputFields["email"])], [$this->equalTo($inputFields["email"])])
             ->willReturnOnConsecutiveCalls(null, $returnedUserID);
 
         //ECR Accessor cant find the email - bc they is not in use
         $this->ecrAccessorMock->expects($this->once())
             ->method("findByEmail")
-            ->with($this->equalTo($inputAttr["email"]));
+            ->with($this->equalTo($inputFields["email"]));
 
         // if role is not specified it will use "user"
-        $expectedRole = $inputAttr["role"] ?? "user";
+        $expectedRole = $inputFields["role"] ?? "user";
         $this->roleAccessorMock->expects($this->once())
             ->method("findByName")
             ->with($this->equalTo($expectedRole))
@@ -139,7 +147,7 @@ final class UCCreateTest extends BaseUCTest
         // return the hash "hash"
         $this->securityUtilitiesMock->expects($this->once())
             ->method("hashPassword")
-            ->with($this->equalTo($inputAttr["password"]))
+            ->with($this->equalTo($inputFields["password"]))
             ->willReturn("hash");
 
         //generate code "ABC"
@@ -152,17 +160,17 @@ final class UCCreateTest extends BaseUCTest
         $this->userAccessorMock->expects($this->once())
             ->method("insert")
             ->with($this->equalTo(
-                $inputAttr["email"],
-                $inputAttr["name"],
-                $inputAttr["postcode"],
-                $inputAttr["city"],
-                $inputAttr["phone"],
+                $inputFields["email"],
+                $inputFields["name"],
+                $inputFields["postcode"],
+                $inputFields["city"],
+                $inputFields["phone"],
                 "hash",
                 "false",
                 $expectedRole
             ));
 
-        $result = $this->userController->createUser($inputAttr);
+        $result = $this->userController->createUser($inputFields);
         $this->assertEquals(["id" => $returnedUserID, "verificationCode" => "ABC"], $result);
     }
 
@@ -210,7 +218,7 @@ final class UCCreateTest extends BaseUCTest
     }
 
     /**
-     * Example attribute array with all attributes
+     * Example field array with all attributes
      *
      */
     private static array $completeAttr = [
