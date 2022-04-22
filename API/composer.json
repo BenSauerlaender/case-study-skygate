@@ -22,10 +22,10 @@
     },
     "scripts": {
         "gen-code-coverage": [
-            "./vendor/bin/phpunit --coverage-html ./coverage-analysis --configuration phpunit.xml"
+            "./vendor/bin/phpunit --coverage-html ./coverage-report --configuration phpunit.xml"
         ],
         "open-code-coverage": [
-            "firefox coverage-analysis/index.html"
+            "firefox coverage-report/index.html"
         ]
     }
 }
