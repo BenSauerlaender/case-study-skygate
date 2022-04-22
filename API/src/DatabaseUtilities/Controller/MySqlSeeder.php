@@ -12,6 +12,11 @@ namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller;
 use Exception;
 
 //seed the db with pre-defined data
+/**
+ * Utilities to seed the database
+ *
+ * @codeCoverageIgnore
+ */
 class MySqlSeeder
 {
 

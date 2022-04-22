@@ -13,6 +13,9 @@ use PDO;
 
 /**
  * Handles database table creation
+ * 
+ * @codeCoverageIgnore
+ * 
  */
 class MySqlTableCreator
 {

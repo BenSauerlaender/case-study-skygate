@@ -60,8 +60,8 @@ class UserController implements UserControllerInterface
         //validate all fields (except "role").
         try {
             $valid = $this->validator->validate(\array_diff_key($fields, ["role" => ""]));
-        } catch (ArrayIsEmptyException $e) {
-            throw new ShouldNeverHappenException("The Array cant be empty, because all required fields are there", 0, $e);
+        } catch (ArrayIsEmptyException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("The Array cant be empty, because all required fields are there", 0, $e); // @codeCoverageIgnore
         }
 
         if ($valid !== true) {
@@ -97,13 +97,13 @@ class UserController implements UserControllerInterface
                 $verificationCode,
                 $roleID
             );
-        } catch (RoleNotFoundException | DuplicateEmailException $e) {
-            throw new ShouldNeverHappenException("Email and Role were checked before", 0, $e);
+        } catch (RoleNotFoundException | DuplicateEmailException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("Email and Role were checked before", 0, $e); // @codeCoverageIgnore
         }
 
         //find the just created user in the database and return his id.
         $id = $this->userAccessor->findByEmail($fields["email"]);
-        if (is_null($id)) throw new ShouldNeverHappenException("The just created user(email: " . $fields["email"] . ") can't be found in the database.");
+        if (is_null($id)) throw new ShouldNeverHappenException("The just created user(email: " . $fields["email"] . ") can't be found in the database."); // @codeCoverageIgnore
         return array("id" => $id, "verificationCode" => $verificationCode);
     }
 
@@ -133,8 +133,8 @@ class UserController implements UserControllerInterface
         //update the database
         try {
             $this->userAccessor->update($id, $fields);
-        } catch (ValidationException $e) {
-            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e);
+        } catch (ValidationException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e); // @codeCoverageIgnore
         }
     }
 
@@ -152,8 +152,8 @@ class UserController implements UserControllerInterface
         //update the database
         try {
             $this->userAccessor->update($id, array("verificationCode" => null, "verified" => true));
-        } catch (UserNotFoundException | ValidationException $e) {
-            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e);
+        } catch (UserNotFoundException | ValidationException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e); // @codeCoverageIgnore
         }
 
         //everything went well
@@ -175,15 +175,15 @@ class UserController implements UserControllerInterface
                 $reasons = $valid;
                 throw new InvalidFieldException("Password is not valid, because: " . $reasons["password"]);
             }
-        } catch (ArrayIsEmptyException | UnsupportedFieldException $e) {
-            throw new ShouldNeverHappenException("Array is not empty. And password is a supported field", 0, $e);
+        } catch (ArrayIsEmptyException | UnsupportedFieldException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("Array is not empty. And password is a supported field", 0, $e); // @codeCoverageIgnore
         }
 
         //update the database
         try {
             $this->userAccessor->update($id, array("hashedPass" => $this->securityUtil->hashPassword($newPassword)));
-        } catch (UserNotFoundException | ValidationException $e) {
-            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e);
+        } catch (UserNotFoundException | ValidationException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e); // @codeCoverageIgnore
         }
 
         return true;
@@ -198,8 +198,8 @@ class UserController implements UserControllerInterface
                 $reasons = $valid;
                 throw new InvalidFieldException("Email is not valid, because: " . $reasons["email"]);
             }
-        } catch (ArrayIsEmptyException | UnsupportedFieldException $e) {
-            throw new ShouldNeverHappenException("Array is not empty. And email is a supported field", 0, $e);
+        } catch (ArrayIsEmptyException | UnsupportedFieldException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("Array is not empty. And email is a supported field", 0, $e); // @codeCoverageIgnore
         }
 
         //check if the email is free
@@ -219,8 +219,8 @@ class UserController implements UserControllerInterface
         //insert the request to the database
         try {
             $this->ecrAccessor->insert($id, $newEmail, $verificationCode);
-        } catch (DuplicateUserException | DuplicateEmailException $e) {
-            throw new ShouldNeverHappenException("All request from this user should be deleted and the email is checked", 0, $e);
+        } catch (DuplicateUserException | DuplicateEmailException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("All request from this user should be deleted and the email is checked", 0, $e); // @codeCoverageIgnore
         }
 
         //return the verification code
@@ -243,14 +243,14 @@ class UserController implements UserControllerInterface
             //update the user
             try {
                 $this->userAccessor->update($id, ["email" => $request["newEmail"]]);
-            } catch (ValidationException $e) {
-                throw new ShouldNeverHappenException("field array is valid", 0, $e);
+            } catch (ValidationException $e) { // @codeCoverageIgnore
+                throw new ShouldNeverHappenException("field array is valid", 0, $e); // @codeCoverageIgnore
             }
 
             //remove the request
             $this->ecrAccessor->delete($requestID);
-        } catch (ECRNotFoundException $e) {
-            throw new ShouldNeverHappenException("The just found request with id: $requestID can now not be found anymore.", 0, $e);
+        } catch (ECRNotFoundException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("The just found request with id: $requestID can now not be found anymore.", 0, $e); // @codeCoverageIgnore
         }
         return true;
     }

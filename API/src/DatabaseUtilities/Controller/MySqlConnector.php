@@ -17,6 +17,8 @@ use PDOException;
  * Handles database connection.
  * 
  * partly taken from: https://developer.okta.com/blog/2019/03/08/simple-rest-api-php
+ * 
+ * @codeCoverageIgnore
  */
 class MySqlConnector
 {
