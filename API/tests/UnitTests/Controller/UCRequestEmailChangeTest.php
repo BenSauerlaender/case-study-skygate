@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\UnitTests\Controller;
 
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\ECRNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
@@ -88,7 +89,8 @@ final class UCRequestEmailChangeTest extends BaseUCTest
 
         $this->ecrAccessorMock->expects($this->once())
             ->method("deleteByUserID")
-            ->with($this->equalTo(1));
+            ->with($this->equalTo(1))
+            ->will($this->throwException(new ECRNotFoundException()));
 
         $this->securityUtilitiesMock->expects($this->once())
             ->method("generateCode")

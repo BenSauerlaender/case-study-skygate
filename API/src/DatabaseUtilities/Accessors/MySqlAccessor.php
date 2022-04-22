@@ -100,7 +100,7 @@ class MySqlAccessor
             }
             //everything else
             else {
-                throw $dbe;
+                throw $dbe; // @codeCoverageIgnore
             }
         }
     }
