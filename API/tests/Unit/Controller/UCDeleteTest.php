@@ -44,7 +44,7 @@ final class UCDeleteTest extends BaseUCTest
             ->with($this->equalTo($id));
 
         $this->ecrAccessorMock->expects($this->once())
-            ->method("delete")
+            ->method("deleteByUserID")
             ->with($this->equalTo($id))
             ->will($this->throwException(new EcrNotFoundException()));
 
