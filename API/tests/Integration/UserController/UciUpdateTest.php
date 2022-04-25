@@ -48,6 +48,8 @@ final class UciUpdateTest extends BaseUCITest
             "phone"     => "111111111",
             "role"      => "admin"
         ]);
+        //suppress risky warning
+        $this->assertTrue(true);
     }
 
 

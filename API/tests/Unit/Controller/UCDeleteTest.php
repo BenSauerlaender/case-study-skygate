@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
 
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 
 /**
@@ -41,6 +42,11 @@ final class UCDeleteTest extends BaseUCTest
         $this->userAccessorMock->expects($this->once())
             ->method("delete")
             ->with($this->equalTo($id));
+
+        $this->ecrAccessorMock->expects($this->once())
+            ->method("delete")
+            ->with($this->equalTo($id))
+            ->will($this->throwException(new EcrNotFoundException()));
 
         $this->userController->deleteUser($id);
     }
