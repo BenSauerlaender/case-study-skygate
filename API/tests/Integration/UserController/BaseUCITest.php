@@ -74,6 +74,11 @@ abstract class BaseUCITest extends TestCase
         MySqlConnector::closeConnection();
     }
 
+    /**
+     * Creates an user and returns verificationCode
+     * 
+     * @return string VerificationCode
+     */
     protected function createUser(): string
     {
         $res = $this->userController->createUser(
@@ -90,6 +95,9 @@ abstract class BaseUCITest extends TestCase
         return $res["verificationCode"];
     }
 
+    /**
+     * Creates 2 users
+     */
     protected function create2Users(): void
     {
         $this->createUser();
@@ -107,6 +115,11 @@ abstract class BaseUCITest extends TestCase
         );
     }
 
+    /**
+     * Creates an user and request an emailChange
+     * 
+     * @return string The code to verify the ecr 
+     */
     protected function createUserWithEcr(): string
     {
         $this->createUser();
