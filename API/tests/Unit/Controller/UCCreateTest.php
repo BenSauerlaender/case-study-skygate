@@ -11,7 +11,9 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 
 /**
  * Testsuit for UserController->createUser method
@@ -57,11 +59,32 @@ final class UCCreateTest extends BaseUCTest
     }
 
     /**
+     * Tests if the method throw an exception if at least one field is unsupported
+     */
+    public function testCreateUserWithUnsupportedFields(): void
+    {
+        $this->validatorMock->method("validate")->will($this->throwException(new UnsupportedFieldException()));
+
+        $this->expectException(UnsupportedFieldException::class);
+        $this->userController->createUser(self::$completeAttr);
+    }
+
+    /**
+     * Tests if the method throw an exception if at least one field has the wrong type
+     */
+    public function testCreateUserWithInvalidTypeFields(): void
+    {
+        $this->validatorMock->method("validate")->will($this->throwException(new InvalidTypeException()));
+
+        $this->expectException(InvalidTypeException::class);
+        $this->userController->createUser(self::$completeAttr);
+    }
+
+    /**
      * Tests if the method throw an exception if at least one field is invalid
      */
-    public function testCreateUserWithInvalidAttributes(): void
+    public function testCreateUserWithInvalidFields(): void
     {
-        //the validator will always throw invalidAttributeException
         $this->validatorMock->method("validate")->willReturn(["email" => "TO_SHORT"]);
 
         $this->expectException(InvalidFieldException::class);

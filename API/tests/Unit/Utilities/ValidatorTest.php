@@ -10,6 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Utilities;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Validator;
@@ -53,7 +54,16 @@ final class ValidatorTest extends TestCase
     }
 
     /**
-     * Tests validate the array is empty
+     * Tests if the validation throws an exception if the value type is invalid
+     */
+    public function testInvalidType(): void
+    {
+        $this->expectException(InvalidTypeException::class);
+        self::$validator->validate(["name" => 123]);
+    }
+
+    /**
+     * Tests validate returns true if the array is empty
      */
     public function testNotAnAttribute(): void
     {

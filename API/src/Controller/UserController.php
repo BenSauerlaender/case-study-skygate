@@ -23,6 +23,7 @@ use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
@@ -173,8 +174,8 @@ class UserController implements UserControllerInterface
                 $reasons = $valid;
                 throw new InvalidFieldException("Password is not valid, because: " . $reasons["password"]);
             }
-        } catch (ArrayIsEmptyException | UnsupportedFieldException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("Array is not empty. And password is a supported field", 0, $e); // @codeCoverageIgnore
+        } catch (ArrayIsEmptyException | UnsupportedFieldException | InvalidTypeException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("Array is not empty. And password is a supported field and a string", 0, $e); // @codeCoverageIgnore
         }
 
         //update the database
@@ -196,8 +197,8 @@ class UserController implements UserControllerInterface
                 $reasons = $valid;
                 throw new InvalidFieldException("Email is not valid, because: " . $reasons["email"]);
             }
-        } catch (ArrayIsEmptyException | UnsupportedFieldException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("Array is not empty. And email is a supported field", 0, $e); // @codeCoverageIgnore
+        } catch (ArrayIsEmptyException | UnsupportedFieldException | InvalidTypeException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("Array is not empty. And email is a supported field and a string", 0, $e); // @codeCoverageIgnore
         }
 
         //check if the email is free

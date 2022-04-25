@@ -9,8 +9,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
+use TypeError;
 
 class Validator implements ValidatorInterface
 {
@@ -48,9 +50,13 @@ class Validator implements ValidatorInterface
             $validator = $this->getValidator[$key];
 
             //if is not valid: collect reasons
-            $return = $this->{$validator}($value);
-            if ($return !== true) {
-                $invalidFields += [$key => implode("+", $return)];
+            try {
+                $return = $this->{$validator}($value);
+                if ($return !== true) {
+                    $invalidFields += [$key => implode("+", $return)];
+                }
+            } catch (TypeError $e) {
+                throw new InvalidTypeException("Type of $key is not valid", 0, $e);
             }
         }
 

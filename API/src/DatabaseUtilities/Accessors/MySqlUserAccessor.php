@@ -195,7 +195,7 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
             "roleID" => "int",
             "hashedPass" => "string",
             "verified" => "bool",
-            "verificationCode" => "string"
+            "verificationCode" => "string|null"
         ];
 
         //throws exception if array is empty
@@ -207,12 +207,15 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
             //throws exception if key is not supported
             if (!in_array($key, $validFields)) throw new UnsupportedFieldException("The field: " . $key . " is not supported.");
 
-            //throws exception if value type is not correct
-            if (
-                ($fieldTypes[$key] === "string" and !is_string($value)) or
-                ($fieldTypes[$key] === "int" and !is_int($value)) or
-                ($fieldTypes[$key] === "bool" and !is_bool($value))
-            ) throw new InvalidTypeException("The value of field $key need to be a $fieldTypes[$key]");
+            //continue with next key if one type matches
+            foreach (explode("|", $fieldTypes[$key]) as $possibleType) {
+                if ($possibleType === "null" and is_null($value)) continue 2;
+                if ($possibleType === "string" and is_string($value)) continue 2;
+                if ($possibleType === "int" and is_int($value)) continue 2;
+                if ($possibleType === "bool" and is_bool($value)) continue 2;
+            }
+            //throws exception if none type matches
+            throw new InvalidTypeException("The value of field $key need to be a $fieldTypes[$key]");
         }
     }
 }

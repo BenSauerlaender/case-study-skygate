@@ -36,7 +36,7 @@ interface UserControllerInterface
      * @throws DatabaseException            if there is a problem with the database.
      *          (DuplicateEmailException | ...)
      * @throws ValidationException          if there are invalid fields.
-     *          (RequiredFieldException | UnsupportedFieldsException | InvalidFieldException)
+     *          (RequiredFieldException | UnsupportedFieldsException | InvalidFieldException | InvalidTypeException)
      */
     public function createUser(array $fields): array;
 
@@ -66,7 +66,7 @@ interface UserControllerInterface
      * @throws DatabaseException    if there is a problem with the database.
      *          (UserNotFoundException | RoleNotFoundException ...)
      * @throws ValidationException  if fields array is invalid.
-     *          (ArrayIsEmptyException | UnsupportedFieldsException | InvalidFieldException)
+     *          (ArrayIsEmptyException | UnsupportedFieldsException | InvalidFieldException | InvalidTypeException)
      */
     public function updateUser(int $id, array $fields): void;
 

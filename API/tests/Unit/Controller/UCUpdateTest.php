@@ -11,6 +11,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 
 /**
@@ -96,6 +97,19 @@ final class UCUpdateTest extends BaseUCTest
         $this->expectExceptionMessage($key);
 
         $this->userController->updateUser(1, [$key => $value]);
+    }
+
+    /**
+     * Tests if the method throws an Exception if at least one of the fields has a wrong type
+     */
+    public function testUpdateUserWithInvalidFieldType(): void
+    {
+        $this->validatorMock->method("validate")
+            ->will($this->throwException(new InvalidTypeException()));
+
+        $this->expectException(InvalidTypeException::class);
+
+        $this->userController->updateUser(1, ["name" => 123]);
     }
 
     /**

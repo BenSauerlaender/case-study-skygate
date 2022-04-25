@@ -29,7 +29,7 @@ interface ValidatorInterface
      *  $reasons = [field => reasons("+"-separated)]
      * 
      * @throws ValidationException  if the fields array is invalid
-     *          (UnsupportedFieldsException)
+     *          (UnsupportedFieldsException | InvalidTypeException)
      */
     public function validate(array $fields): mixed;
 }
