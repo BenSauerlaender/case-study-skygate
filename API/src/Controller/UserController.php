@@ -58,11 +58,7 @@ class UserController implements UserControllerInterface
         }
 
         //validate all fields (except "role").
-        try {
-            $valid = $this->validator->validate(\array_diff_key($fields, ["role" => ""]));
-        } catch (ArrayIsEmptyException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("The Array cant be empty, because all required fields are there", 0, $e); // @codeCoverageIgnore
-        }
+        $valid = $this->validator->validate(\array_diff_key($fields, ["role" => ""]));
 
         if ($valid !== true) {
             $reasons = $valid;
@@ -117,6 +113,8 @@ class UserController implements UserControllerInterface
         if (array_key_exists("password", $fields)) throw new UnsupportedFieldException("Field: password. To change the password use updateUserPassword", 2);
         if (array_key_exists("email", $fields)) throw new UnsupportedFieldException("Field: email. To change the email use requestUsersEmailChange", 2);
 
+        if (sizeof($fields) === 0) throw new ArrayIsEmptyException();
+
         //validate all fields (except "role").
         $valid = $this->validator->validate(\array_diff_key($fields, ["role" => ""]));
         if ($valid !== true) {
@@ -153,7 +151,7 @@ class UserController implements UserControllerInterface
         try {
             $this->userAccessor->update($id, array("verificationCode" => null, "verified" => true));
         } catch (UserNotFoundException | ValidationException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e); // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked. " . $e->getMessage(), 0, $e); // @codeCoverageIgnore
         }
 
         //everything went well

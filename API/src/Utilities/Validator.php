@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 
@@ -33,9 +32,6 @@ class Validator implements ValidatorInterface
 
     public function validate(array $fields): mixed
     {
-
-        if (sizeof($fields) === 0) throw new ArrayIsEmptyException();
-
         //checks if all fields are supported
         //throws Exception if not
         foreach ($fields as $key => $value) {

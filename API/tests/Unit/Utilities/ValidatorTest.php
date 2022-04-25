@@ -53,12 +53,11 @@ final class ValidatorTest extends TestCase
     }
 
     /**
-     * Test if validate throws an exception if at the array is empty
+     * Tests validate the array is empty
      */
     public function testNotAnAttribute(): void
     {
-        $this->expectException(ArrayIsEmptyException::class);
-        self::$validator->validate([]);
+        $this->assertTrue(self::$validator->validate([]));
     }
 
     private function assertCorrectValidation(string $field, mixed $value, bool $valid, string $reason): void

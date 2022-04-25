@@ -43,11 +43,6 @@ final class UCUpdateTest extends BaseUCTest
      */
     public function testUpdateUserWithoutFields(): void
     {
-        //validator will validate everything
-        $this->validatorMock->expects($this->once())
-            ->method("validate")
-            ->will($this->throwException(new ArrayIsEmptyException()));
-
         $this->expectException(ArrayIsEmptyException::class);
 
         $this->userController->updateUser(1, []);
