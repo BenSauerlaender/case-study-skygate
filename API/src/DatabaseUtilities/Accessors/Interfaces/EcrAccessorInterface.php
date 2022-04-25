@@ -41,7 +41,7 @@ interface EcrAccessorInterface
      * @param  int  $id                     The request id.
      * 
      * @throws DatabaseException            if there is a problem with the database.
-     *          (ECRNotFoundException | ...)
+     *          (EcrNotFoundException | ...)
      */
     public function delete(int $id): void;
 
@@ -51,7 +51,7 @@ interface EcrAccessorInterface
      * @param  int  $userID                 The User id.
      * 
      * @throws DatabaseException            if there is a problem with the database.
-     *          (ECRNotFoundException | ...)
+     *          (EcrNotFoundException | ...)
      */
     public function deleteByUserID(int $userID): void;
 
@@ -78,7 +78,7 @@ interface EcrAccessorInterface
      *  ]
      * 
      * @throws DatabaseException            if there is a problem with the database.
-     *          (ECRNotFoundException | ...)
+     *          (EcrNotFoundException | ...)
      */
     public function get(int $id): array;
 }

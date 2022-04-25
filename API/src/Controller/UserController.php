@@ -13,7 +13,7 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\ECRNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
@@ -209,7 +209,7 @@ class UserController implements UserControllerInterface
         //delete old request if there is one
         try {
             $this->ecrAccessor->deleteByUserID($id);
-        } catch (ECRNotFoundException $e) {
+        } catch (EcrNotFoundException $e) {
         } //no need to do something. its fine
 
         //generate a 10-char verification code
@@ -230,7 +230,7 @@ class UserController implements UserControllerInterface
     {
         //get the requestID
         $requestID = $this->ecrAccessor->findByUserID($id);
-        if (is_null($requestID)) throw new ECRNotFoundException("emailChangeRequest from UserID: $id");
+        if (is_null($requestID)) throw new EcrNotFoundException("emailChangeRequest from UserID: $id");
 
         try {
             $request = $this->ecrAccessor->get($requestID);
@@ -248,7 +248,7 @@ class UserController implements UserControllerInterface
 
             //remove the request
             $this->ecrAccessor->delete($requestID);
-        } catch (ECRNotFoundException $e) { // @codeCoverageIgnore
+        } catch (EcrNotFoundException $e) { // @codeCoverageIgnore
             throw new ShouldNeverHappenException("The just found request with id: $requestID can now not be found anymore.", 0, $e); // @codeCoverageIgnore
         }
         return true;

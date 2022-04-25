@@ -10,7 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors;
 
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\ECRNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
@@ -62,7 +62,7 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
         $stmt = $this->prepareAndExecute($sql, ["id" => $id]);
 
         //if no line was deleted:
-        if ($stmt->rowCount() === 0) throw new ECRNotFoundException("No request with id: " . $id . " found.");
+        if ($stmt->rowCount() === 0) throw new EcrNotFoundException("No request with id: " . $id . " found.");
     }
 
     public function deleteByUserID(int $userID): void
@@ -75,7 +75,7 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
         $stmt = $this->prepareAndExecute($sql, ["id" => $userID]);
 
         //if no line was deleted:
-        if ($stmt->rowCount() === 0) throw new ECRNotFoundException("No request with userID: " . $userID . " found.");
+        if ($stmt->rowCount() === 0) throw new EcrNotFoundException("No request with userID: " . $userID . " found.");
     }
 
     public function insert(int $userID, string $newEmail, string $verification_code): void
@@ -112,7 +112,7 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
         $response = $stmt->fetchAll();
 
         //no request found
-        if (sizeof($response) === 0) throw new ECRNotFoundException("RequestID: $id");
+        if (sizeof($response) === 0) throw new EcrNotFoundException("RequestID: $id");
 
         //get the first and only response row
         $response = $response[0];

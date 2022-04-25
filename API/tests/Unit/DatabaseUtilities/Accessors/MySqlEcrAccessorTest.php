@@ -10,7 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities\Accessors\Ec
 
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\MySqlEcrAccessor;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\ECRNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
@@ -131,7 +131,7 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
     public function testDeleteFailsOnInvalidID(): void
     {
 
-        $this->expectException(ECRNotFoundException::class);
+        $this->expectException(EcrNotFoundException::class);
         $this->expectExceptionMessage("5");
 
         $this->accessor->delete(5);
@@ -160,7 +160,7 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
     public function testDeleteByUserIDFailsOnInvalidID(): void
     {
 
-        $this->expectException(ECRNotFoundException::class);
+        $this->expectException(EcrNotFoundException::class);
         $this->expectExceptionMessage("5");
 
         $this->accessor->deleteByUserID(5);
@@ -246,7 +246,7 @@ final class MySqlEcrAccessorTest extends BaseMySqlAccessorTest
      */
     public function testGetFailsIfNoRequestWithID(): void
     {
-        $this->expectException(ECRNotFoundException::class);
+        $this->expectException(EcrNotFoundException::class);
         $this->expectExceptionMessage("10");
 
         $this->accessor->get(10);

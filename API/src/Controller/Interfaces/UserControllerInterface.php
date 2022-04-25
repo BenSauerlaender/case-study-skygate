@@ -118,7 +118,7 @@ interface UserControllerInterface
      *  
      * @throws InvalidFieldException    if the new email is not valid.
      * @throws DatabaseException        if there is a problem with the database.
-     *          (UserNotFoundException | ...)
+     *          (UserNotFoundException | DuplicateEmailException ...)
      */
     public function requestUsersEmailChange(int $id, string $newEmail): string;
 
@@ -134,7 +134,7 @@ interface UserControllerInterface
      * @return bool             returns false if code is incorrect, true otherwise.
      * 
      * @throws DatabaseException        if there is a problem with the database.
-     *          (UserNotFoundException | ...)
+     *          (EcrNotFoundException| ...)
      */
     public function verifyUsersEmailChange(int $id, string $code): bool;
 }

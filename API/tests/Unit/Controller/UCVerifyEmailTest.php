@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\ECRNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use InvalidArgumentException;
 use OutOfRangeException;
 
@@ -29,7 +29,7 @@ final class UCVerifyEmailTest extends BaseUCTest
             ->with($this->equalTo(1))
             ->willReturn(null);
 
-        $this->expectException(ECRNotFoundException::class);
+        $this->expectException(EcrNotFoundException::class);
         $this->expectExceptionMessage("1");
         $this->userController->verifyUsersEmailChange(1, "");
     }

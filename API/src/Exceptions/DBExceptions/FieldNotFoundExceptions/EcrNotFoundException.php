@@ -12,6 +12,6 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExce
 /**
  * Exception that is thrown if the specified request cant be found in the database.
  */
-class ECRNotFoundException extends FieldNotFoundException
+class EcrNotFoundException extends FieldNotFoundException
 {
 }
