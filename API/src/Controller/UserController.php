@@ -106,6 +106,12 @@ class UserController implements UserControllerInterface
 
     public function deleteUser(int $id): void
     {
+        //delete emailChangeRequest if there is one
+        try {
+            $this->ecrAccessor->deleteByUserID($id);
+        } catch (EcrNotFoundException $e) {
+        } //no need to do something. its fine
+
         $this->userAccessor->delete($id);
     }
 

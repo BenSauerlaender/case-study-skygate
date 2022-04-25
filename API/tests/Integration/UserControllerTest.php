@@ -16,6 +16,7 @@ use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\MySqlRoleAccessor;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\MySqlUserAccessor;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlConnector;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlTableCreator;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
@@ -27,6 +28,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFiel
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
 use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
 use BenSauer\CaseStudySkygateApi\Utilities\Validator;
+use Dotenv\Exception\InvalidFileException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -221,7 +223,8 @@ final class UserControllerTest extends TestCase
                 "postcode"  => "54321",
                 "city"      => "yourCity",
                 "phone"     => "987654321",
-                "password"  => "yourPassword1"
+                "password"  => "yourPassword1",
+                "role"      => "admin"
             ]
         );
 
@@ -243,14 +246,165 @@ final class UserControllerTest extends TestCase
     }
 
     /**
+     * Tests if update throws exception on various situations
+     * 
+     * @depends testCreateFirstUser
+     */
+    public function testUpdateFirstUser(): void
+    {
+        self::$userController->updateUser(1, [
+            "name"      => "myNewName",
+            "postcode"  => "11111",
+            "city"      => "yourCity",
+            "phone"     => "111111111",
+            "role"      => "admin"
+        ]);
+    }
+
+    /**
+     * Tests if updatePassword throws exception if user not found
+     * 
+     * @depends testCreateFirstUser
+     */
+    public function testUpdatePassFailsOnInvalidUser(): void
+    {
+        $this->expectException(UserNotFoundException::class);
+        self::$userController->updateUsersPassword(10, "new", "old");
+    }
+
+    /**
+     * Tests if updatePassword throws exception if the new password is invalid
+     * 
+     * @depends testCreateFirstUser
+     */
+    public function testUpdatePassFailsOnInvalidPass(): void
+    {
+        $this->expectException(InvalidFieldException::class);
+        self::$userController->updateUsersPassword(1, "incorrect", "MyPassword1");
+    }
+
+    /**
+     * Tests if updatePassword returns false if the old password is incorrect
+     *
+     * @depends testCreateFirstUser
+     */
+    public function testUpdatePassFailsOnIncorrectPass(): void
+    {
+        $ret = self::$userController->updateUsersPassword(1, "MyPassword2", "notMyPassword");
+        $this->assertFalse($ret);
+    }
+
+    /**
+     * Tests updatePassword 
+     *
+     * @depends testCreateFirstUser
+     */
+    public function testUpdatePass(): void
+    {
+        $ret = self::$userController->updateUsersPassword(1, "MyPassword2", "MyPassword1");
+        $this->assertTrue($ret);
+    }
+
+    /**
+     * Tests if verifyUsersEmailChange throws exception no request found
+     * 
+     * @depends testCreateFirstUser
+     */
+    public function testVerifyEcrNotFound(): void
+    {
+        $this->expectException(EcrNotFoundException::class);
+        self::$userController->verifyUsersEmailChange(1, "code");
+    }
+
+    /**
+     * Tests if requestUsersEmailChange throws exception if user not found
+     * 
+     * @depends testCreateFirstUser
+     */
+    public function testRequestEcrFailsOnInvalidUser(): void
+    {
+        $this->expectException(UserNotFoundException::class);
+        self::$userController->requestUsersEmailChange(10, "myNewEmail@mail.de");
+    }
+
+    /**
+     * Tests if requestUsersEmailChange throws exception if email not free
+     * 
+     * @depends testCreateFirstUser
+     */
+    public function testRequestEcrFailsOnDuplicateEmail(): void
+    {
+        $this->expectException(DuplicateEmailException::class);
+        self::$userController->requestUsersEmailChange(1, "yourEmail@mail.de");
+    }
+
+    /**
+     * Tests if requestUsersEmailChange throws exception if email is invalid
+     * 
+     * @depends testCreateFirstUser
+     */
+    public function testRequestEcrFailsOnInvalidEmail(): void
+    {
+        $this->expectException(InvalidFieldException::class);
+        self::$userController->requestUsersEmailChange(1, "invalidEmail");
+    }
+
+    /**
+     * Tests if requestUsersEmailChange works
+     * 
+     * @depends testCreateFirstUser
+     */
+    public function testRequestEcr(): string
+    {
+        $response = self::$userController->requestUsersEmailChange(1, "myNewEmail@mail.de");
+
+        $this->assertIsString($response);
+        $this->assertEquals(10, strlen($response));
+
+        return $response;
+    }
+
+    /**
+     * Tests if verifyUsersEmailChange throws exception if the code is wrong
+     * 
+     * @depends testRequestEcr
+     */
+    public function testVerifyEcrFailsOnIncorrectCode(): void
+    {
+        $response = self::$userController->verifyUsersEmailChange(1, "code");
+        $this->assertFalse($response);
+    }
+
+    /**
+     * Tests if verifyUsersEmailChange throws exception if the code is wrong
+     * 
+     * @depends testRequestEcr
+     */
+    public function testVerifyEcr(string $code): void
+    {
+        $response = self::$userController->verifyUsersEmailChange(1, $code);
+        $this->assertTrue($response);
+    }
+
+    /**
+     * test if deletion throws exception if user not exists
+     */
+    public function testDeleteUserNotFound()
+    {
+        $this->expectException(UserNotFoundException::class);
+        self::$userController->deleteUser(10);
+        //after ecr
+    }
+
+    /**
      * test if deletion works correctly
      * 
-     * @depends 
+     * @depends testRequestEcr
      */
     public function testDeleteFirstUser()
     {
-
-        //after ecr
+        self::$userController->deleteUser(1);
+        //after ecr 
     }
 
 
@@ -301,6 +455,17 @@ final class UserControllerTest extends TestCase
                     "password"  => "MyPassword",
                     "role"      => "myRole"
                 ], UnsupportedFieldException::class, "Field: quatsch"
+            ],
+            "invalid type" => [
+                [
+                    "email"     => "myEmail@mail.de",
+                    "name"      => 123,
+                    "postcode"  => "12345",
+                    "city"      => "myCity",
+                    "phone"     => "123456789",
+                    "password"  => "MyPassword1",
+                    "role"      => "myRole"
+                ], InvalidTypeException::class, "name"
             ],
             "invalid email and password" => [
                 [
