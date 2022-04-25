@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Integration;
 
+use BadMethodCallException;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\UserController;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\MySqlEcrAccessor;
@@ -15,7 +16,12 @@ use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\MySqlRoleAccessor;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\MySqlUserAccessor;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlConnector;
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlTableCreator;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
@@ -94,7 +100,7 @@ final class UserControllerTest extends TestCase
     /**
      * Tests if the user creation throws Validation Exception by an invalid field-array
      * 
-     * @dataProvider invalidFieldArrayProvider
+     * @dataProvider invalidCreateFieldArrayProvider
      */
     public function testCreateUserFailsOnInvalidFieldData(array $fields, string $exception, string $msg): void
     {
@@ -107,9 +113,8 @@ final class UserControllerTest extends TestCase
 
     /**
      * Tests if the user creation succeeds
-     * 
      */
-    public function testCreateFirstUser(): void
+    public function testCreateFirstUser(): array
     {
         $response = self::$userController->createUser(
             [
@@ -128,17 +133,152 @@ final class UserControllerTest extends TestCase
         $this->assertArrayHasKey("verificationCode", $response);
         $this->assertIsString($response["verificationCode"]);
         $this->assertEquals(10, strlen($response["verificationCode"]));
+
+        return $response;
     }
 
-    /*TODO next: 
-        - verify user fails /succeed 
-        - try to verify again
-        - try to add second user with same email
-        - get users data (check)
+    /**
+     * test if verifyUser returns false if the code is wrong.
+     * 
+     * @depends testCreateFirstUser
+     */
+    public function testVerifyFailsOnWrongUser(array $res): void
+    {
+        $this->expectException(UserNotFoundException::class);
 
-*/
+        self::$userController->verifyUser(101, "123456");
+    }
 
-    public function invalidFieldArrayProvider(): array
+    /**
+     * test if verifyUser returns false if the code is wrong.
+     * 
+     * @depends testCreateFirstUser
+     */
+    public function testVerifyFailsOnWrongCode(array $res): void
+    {
+        $ret = self::$userController->verifyUser($res["id"], "123456");
+        $this->assertFalse($ret);
+    }
+
+    /**
+     * test to verify a just created user.
+     * 
+     * @depends testCreateFirstUser
+     */
+    public function testVerifyFirstUser(array $res): array
+    {
+        $ret = self::$userController->verifyUser($res["id"], $res["verificationCode"]);
+        $this->assertTrue($ret);
+
+        return $res;
+    }
+
+    /**
+     * test if verifyUser returns false if the code is wrong.
+     * 
+     * @depends testVerifyFirstUser
+     */
+    public function testVerifyFailsOnSameUser(array $res): void
+    {
+        $this->expectException(BadMethodCallException::class);
+
+        self::$userController->verifyUser($res["id"], $res["verificationCode"]);
+    }
+
+    /**
+     * Tests if the creation fails if the email is already taken
+     * @depends testCreateFirstUser
+     */
+    public function testCreateUserFailsOnSameEmail(): void
+    {
+
+        $this->expectException(DuplicateEmailException::class);
+
+        self::$userController->createUser(
+            [
+                "email"     => "myEmail@mail.de",
+                "name"      => "myName",
+                "postcode"  => "12345",
+                "city"      => "myCity",
+                "phone"     => "123456789",
+                "password"  => "MyPassword1"
+            ]
+        );
+    }
+
+    /**
+     * test if second user is created and verified correctly
+     * 
+     * @depends testVerifyFirstUser
+     */
+    public function testCreateAndVerifySecondUser(): void
+    {
+
+        $response = self::$userController->createUser(
+            [
+                "email"     => "yourEmail@mail.de",
+                "name"      => "yourName",
+                "postcode"  => "54321",
+                "city"      => "yourCity",
+                "phone"     => "987654321",
+                "password"  => "yourPassword1"
+            ]
+        );
+
+        $ret = self::$userController->verifyUser($response["id"], $response["verificationCode"]);
+        $this->assertTrue($ret);
+    }
+
+    /**
+     * Tests if update throws exception on various situations
+     * 
+     * @depends testCreateAndVerifySecondUser
+     * @dataProvider invalidUpdateFieldArrayProvider
+     */
+    public function testUpdateFirstUserFails(int $id, array $fields, string $exception): void
+    {
+        $this->expectException($exception);
+
+        self::$userController->updateUser($id, $fields);
+    }
+
+    /**
+     * test if deletion works correctly
+     * 
+     * @depends 
+     */
+    public function testDeleteFirstUser()
+    {
+
+        //after ecr
+    }
+
+
+    public function invalidUpdateFieldArrayProvider(): array
+    {
+        return [
+            "invalid userID" => [
+                10, ["name" => "newName"], UserNotFoundException::class
+            ],
+            "empty array" => [
+                1, [], ArrayIsEmptyException::class
+            ],
+            "unsupported field" => [
+                1, ["quatsch" => "quatsch"], UnsupportedFieldException::class
+            ],
+            "invalid type" => [
+                1, ["name" => 123], InvalidTypeException::class
+            ],
+            "invalid field" => [
+                1, ["name" => "1!"], InvalidFieldException::class
+            ],
+            "invalid role" => [
+                1, ["role" => "quatsch"], RoleNotFoundException::class
+            ],
+        ];
+    }
+
+    public function invalidCreateFieldArrayProvider(): array
     {
         return [
             "missing email and name" => [
