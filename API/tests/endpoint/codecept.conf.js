@@ -9,7 +9,7 @@ setHeadlessWhen(process.env.HEADLESS);
 setCommonPlugins();
 
 exports.config = {
-  tests: "./*_test.js",
+  tests: "./test/*_test.ts",
   output: "./output",
   helpers: {
     REST: {
