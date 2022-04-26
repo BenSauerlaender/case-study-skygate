@@ -3,3 +3,4 @@
 .vscode/
 *.cache
 coverage-report/
+node_modules
