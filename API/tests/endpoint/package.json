@@ -1,29 +1,16 @@
 {
-    "name": "skygate-case-study-endpoint-test",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "codeceptjs": "codeceptjs run --steps",
-        "codeceptjs:headless": "HEADLESS=true codeceptjs run --steps",
-        "codeceptjs:ui": "codecept-ui --app",
-        "codeceptjs:demo": "codeceptjs run --steps -c node_modules/@codeceptjs/examples",
-        "codeceptjs:demo:headless": "HEADLESS=true codeceptjs run --steps -c node_modules/@codeceptjs/examples",
-        "codeceptjs:demo:ui": "codecept-ui --app  -c node_modules/@codeceptjs/examples"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "@codeceptjs/configure": "^0.8.0",
-        "@codeceptjs/examples": "^1.2.1",
-        "@codeceptjs/ui": "^0.4.6",
-        "codeceptjs": "^3.3.0",
-        "playwright": "^1.21.1"
-    },
-    "dependencies": {
-        "got": "^12.0.4",
-        "ts-node": "^10.7.0",
-        "typescript": "^4.6.3"
-    }
+  "name": "endpoint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/*.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^9.2.2",
+    "supertest": "^6.2.2"
+  }
 }
