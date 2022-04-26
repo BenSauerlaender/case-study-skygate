@@ -41,9 +41,9 @@ abstract class BaseMySqlAccessorTest extends BaseDatabaseTest
      */
     protected static function resetDB(): void
     {
-        self::$pdo->exec("DROP DATABASE " . $_ENV['DB_DATABASE'] . ";");
-        self::$pdo->exec("CREATE DATABASE " . $_ENV['DB_DATABASE'] . ";");
-        self::$pdo->exec("use " . $_ENV['DB_DATABASE'] . ";");
+        self::$pdo->exec("DROP DATABASE " . $_ENV['MYSQL_DATABASE'] . ";");
+        self::$pdo->exec("CREATE DATABASE " . $_ENV['MYSQL_DATABASE'] . ";");
+        self::$pdo->exec("use " . $_ENV['MYSQL_DATABASE'] . ";");
 
         //create tables
         MySqlTableCreator::create(self::$pdo);

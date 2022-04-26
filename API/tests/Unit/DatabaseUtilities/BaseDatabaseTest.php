@@ -41,6 +41,10 @@ abstract class BaseDatabaseTest extends TestCase
         $dotenv->load();
 
         self::$pdo = MySqlConnector::getConnection();
+
+        self::$pdo->exec("DROP DATABASE IF EXISTS " . $_ENV['MYSQL_DATABASE'] . ";");
+        self::$pdo->exec("CREATE DATABASE " . $_ENV['MYSQL_DATABASE'] . ";");
+        self::$pdo->exec("use " . $_ENV['MYSQL_DATABASE'] . ";");
     }
 
     /**

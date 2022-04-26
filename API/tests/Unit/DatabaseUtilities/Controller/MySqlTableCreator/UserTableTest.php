@@ -299,8 +299,8 @@ final class UserTableTest extends BaseDatabaseTest
     public function tearDown(): void
     {
         //nuke the db
-        self::$pdo->exec("DROP DATABASE " . $_ENV['DB_DATABASE'] . ";");
-        self::$pdo->exec("CREATE DATABASE " . $_ENV['DB_DATABASE'] . ";");
-        self::$pdo->exec("use " . $_ENV['DB_DATABASE'] . ";");
+        self::$pdo->exec("DROP DATABASE " . $_ENV['MYSQL_DATABASE'] . ";");
+        self::$pdo->exec("CREATE DATABASE " . $_ENV['MYSQL_DATABASE'] . ";");
+        self::$pdo->exec("use " . $_ENV['MYSQL_DATABASE'] . ";");
     }
 }

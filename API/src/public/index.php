@@ -3,22 +3,18 @@
 //activate strict mode
 declare(strict_types=1);
 
-//load composer dependencies
-require 'vendor/autoload.php';
+use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlConnector;
 
-use BenSauer\CaseStudySkygateApi\DatabaseController\DatabaseConnector;
-use BenSauer\CaseStudySkygateApi\DatabaseController\DatabaseCreator;
-use BenSauer\CaseStudySkygateApi\DatabaseController\DatabaseSeeder;
+//load composer dependencies
+require './../../vendor/autoload.php';
+
 
 //load dotenv variables from '.env'
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable("./../../", ".env");
 $dotenv->load();
 
-header("HTTP/1.1 400");
-exit();
-
 //connect to the Database
-//DatabaseConnector::connect();
+MySqlConnector::getConnection();
 
 //create database tables if they not exists
 //DatabaseCreator::create(); //TODO remove later

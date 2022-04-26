@@ -52,11 +52,12 @@ class MySqlConnector
     private static function startConnection()
     {
         //get all required dotEnv Variables
-        $host = $_ENV['DB_HOST'];
-        $port = $_ENV['DB_PORT'];
-        $db   = $_ENV['DB_DATABASE'];
-        $user = $_ENV['DB_USERNAME'];
-        $pass = $_ENV['DB_PASSWORD'];
+        $host = $_ENV['MYSQL_HOST'];
+        $port = $_ENV['MYSQL_PORT'];
+        $user = $_ENV['MYSQL_USER'];
+        $pass = $_ENV['MYSQL_PASSWORD'];
+
+        if (strlen($user) === 0) $user = "root";
 
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
@@ -67,7 +68,7 @@ class MySqlConnector
         try {
             //start the connection and store to $dbConnection
             self::$db = new PDO(
-                "mysql:host=$host;port=$port;charset=utf8mb4;dbname=$db",
+                "mysql:host=$host;port=$port;charset=utf8mb4;",
                 $user,
                 $pass,
                 $options

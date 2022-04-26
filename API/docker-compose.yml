@@ -1,0 +1,29 @@
+version: '3'
+services:
+    web-server:
+        image: nginx:latest
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+            - ./src:/api/src
+    php:
+        build:
+          context: .
+          dockerfile: PHP.Dockerfile
+        volumes:
+            - ./src:/api/src
+            - ./vendor:/api/vendor
+            - ./.env:/api/.env
+    mysql:
+        image: mysql:latest
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        env_file:
+            - .env
+        volumes:
+            - mysqldata:/var/lib/mysql
+        ports:
+            - 3306:3306
+volumes:
+    mysqldata: {}

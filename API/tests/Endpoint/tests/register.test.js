@@ -1,6 +1,6 @@
 const { request, expect } = require("../config");
 
-request("http://localhost:3000")
+request("http://localhost")
   .get("/api/breeds/image/random")
   .end(function (err, res) {
     if (err) throw err;
