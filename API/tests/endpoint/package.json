@@ -20,5 +20,9 @@
         "@codeceptjs/ui": "^0.4.6",
         "codeceptjs": "^3.3.0",
         "playwright": "^1.21.1"
+    },
+    "dependencies": {
+        "ts-node": "^10.7.0",
+        "typescript": "^4.6.3"
     }
 }

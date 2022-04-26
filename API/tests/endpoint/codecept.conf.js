@@ -1,3 +1,4 @@
+require("ts-node/register");
 const { setHeadlessWhen, setCommonPlugins } = require("@codeceptjs/configure");
 
 // turn on headless mode when running with HEADLESS=true environment variable
@@ -21,5 +22,4 @@ exports.config = {
   bootstrap: null,
   mocha: {},
   name: "endpoint",
-  translation: "de-DE",
 };
