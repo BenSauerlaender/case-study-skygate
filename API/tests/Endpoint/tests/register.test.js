@@ -57,7 +57,7 @@ describe("/register", () => {
       const response = await request.get("/register");
 
       expect(response.statusCode).to.eql(405);
-      expect(response.body.data.length).to.eql(0);
+      expect(response.body).not.have.property("data");
     });
   });
 
@@ -66,7 +66,7 @@ describe("/register", () => {
       const response = await request.put("/register");
 
       expect(response.statusCode).to.eql(405);
-      expect(response.body.data.length).to.eql(0);
+      expect(response.body).not.have.property("data");
     });
   });
 
@@ -75,7 +75,7 @@ describe("/register", () => {
       const response = await request.delete("/register");
 
       expect(response.statusCode).to.eql(405);
-      expect(response.body.data.length).to.eql(0);
+      expect(response.body).not.have.property("data");
     });
   });
 
@@ -84,7 +84,7 @@ describe("/register", () => {
       const response = await request.patch("/register");
 
       expect(response.statusCode).to.eql(405);
-      expect(response.body.data.length).to.eql(0);
+      expect(response.body).not.have.property("data");
     });
   });
 });
