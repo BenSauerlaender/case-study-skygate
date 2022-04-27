@@ -21,20 +21,26 @@
         "phpunit/phpunit": "^9"
     },
     "scripts": {
+        "start": [
+            "cd docker && docker-compose up -d && cd -"
+        ],
+        "stop": [
+            "cd docker && docker-compose down && cd -"
+        ],
         "run-code-coverage": [
             "./vendor/bin/phpunit --coverage-html ./coverage-report --configuration phpunit.xml"
         ],
         "open-code-coverage": [
             "firefox coverage-report/index.html"
         ],
-        "run-tests": [
-            "./vendor/bin/phpunit --testdox tests/"
-        ],
         "run-unit-tests": [
-            "./vendor/bin/phpunit --testdox tests/Unit/"
+            "./vendor/bin/phpunit --testsuit Unit --configuration phpunit.xml --testdox"
         ],
         "run-integration-tests": [
-            "./vendor/bin/phpunit --testdox tests/Integration/"
+            "./vendor/bin/phpunit --testsuit Integration --configuration phpunit.xml --testdox"
+        ],
+        "run-endpoint-tests": [
+            "cd tests/Endpoint && npm test && cd -"
         ]
     }
 }

@@ -6,21 +6,22 @@ services:
             - "3000:3000"
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
-            - ./src:/api/src
+            - ../src:/api/src
     php:
         build:
           context: .
           dockerfile: PHP.Dockerfile
         volumes:
-            - ./src:/api/src
-            - ./vendor:/api/vendor
-            - ./.env:/api/.env
+            - ../src:/api/src
+            - ../vendor:/api/vendor
+            - ../.env:/api/.env
+            - ../scripts:/api/scripts
     mysql:
         image: mysql:latest
         command: --default-authentication-plugin=mysql_native_password
         restart: always
         env_file:
-            - .env
+            - ../.env
         volumes:
             - mysqldata:/var/lib/mysql
         ports:
