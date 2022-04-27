@@ -27,6 +27,9 @@
         "stop": [
             "cd docker && docker-compose down && cd -"
         ],
+        "logs": [
+            "cd docker && docker-compose logs && cd -"
+        ],
         "run-unit-test-code-coverage": [
             "./vendor/bin/phpunit --testsuit Unit --coverage-html ./coverage-report --configuration phpunit.xml"
         ],
