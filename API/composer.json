@@ -27,8 +27,8 @@
         "stop": [
             "cd docker && docker-compose down && cd -"
         ],
-        "run-code-coverage": [
-            "./vendor/bin/phpunit --coverage-html ./coverage-report --configuration phpunit.xml"
+        "run-unit-test-code-coverage": [
+            "./vendor/bin/phpunit --testsuit Unit --coverage-html ./coverage-report --configuration phpunit.xml"
         ],
         "open-code-coverage": [
             "firefox coverage-report/index.html"

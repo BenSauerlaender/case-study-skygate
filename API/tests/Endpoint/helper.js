@@ -28,6 +28,11 @@ exports.mochaHooks = {
       done();
     });
   },
+  afterAll(done) {
+    connection.end();
+    console.log("Disconnected from Database!");
+    done();
+  },
 };
 
 /**

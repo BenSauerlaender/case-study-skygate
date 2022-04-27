@@ -61,15 +61,6 @@ describe("/register", () => {
     });
   });
 
-  describe("Head /register", () => {
-    it("returns Method Not Allowed", async () => {
-      const response = await request.head("/register");
-
-      expect(response.statusCode).to.eql(405);
-      expect(response.body.data.length).to.eql(0);
-    });
-  });
-
   describe("Put /register", () => {
     it("returns Method Not Allowed", async () => {
       const response = await request.put("/register");
@@ -82,33 +73,6 @@ describe("/register", () => {
   describe("Delete /register", () => {
     it("returns Method Not Allowed", async () => {
       const response = await request.delete("/register");
-
-      expect(response.statusCode).to.eql(405);
-      expect(response.body.data.length).to.eql(0);
-    });
-  });
-
-  describe("Connect /register", () => {
-    it("returns Method Not Allowed", async () => {
-      const response = await request.connect("/register");
-
-      expect(response.statusCode).to.eql(405);
-      expect(response.body.data.length).to.eql(0);
-    });
-  });
-
-  describe("Options /register", () => {
-    it("returns Method Not Allowed", async () => {
-      const response = await request.options("/register");
-
-      expect(response.statusCode).to.eql(405);
-      expect(response.body.data.length).to.eql(0);
-    });
-  });
-
-  describe("Trace /register", () => {
-    it("returns Method Not Allowed", async () => {
-      const response = await request.trace("/register");
 
       expect(response.statusCode).to.eql(405);
       expect(response.body.data.length).to.eql(0);
