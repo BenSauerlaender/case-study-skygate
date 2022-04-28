@@ -8,9 +8,6 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities;
 
-//load composer dependencies
-require 'vendor/autoload.php';
-
 use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlConnector;
 use PDO;
 use PHPUnit\Framework\TestCase;
