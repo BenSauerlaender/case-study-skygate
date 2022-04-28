@@ -16,4 +16,10 @@ use BenSauer\CaseStudySkygateApi\Router\Requests\RouterInterface;
  */
 class Router implements RouterInterface
 {
+    /**
+     * Array that contains all the possible routes
+     *
+     * @var array<string,array<Request
+     */
+    private array $routes;
 }
