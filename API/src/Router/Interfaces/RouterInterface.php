@@ -17,8 +17,8 @@ interface RouterInterface
     /**
      * Chooses the right handler for the path and method
      *
-     * @param  string                  $path    The requested path
-     * @param  string                  $method  The requested method
+     * @param  ApiPath                     $path    The requested path exploded by /
+     * @param  HttpMethod                  $method  The requested method
      */
-    public function route(string $path, string $method): RequestHandlerInterface;
+    public function route(ApiPath $path, HttpMethod $method): RequestHandlerInterface;
 }
