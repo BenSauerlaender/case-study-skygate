@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Router;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\Router\Requests;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
-use BenSauer\CaseStudySkygateApi\Router\ApiPath;
+use BenSauer\CaseStudySkygateApi\Router\Requests\ApiPath;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -44,7 +44,7 @@ final class ApiPathTest extends TestCase
      */
     public function testApiPathSuccessful(string $in, array $exp): void
     {
-        $return = (new ApiPath($in))->get();
+        $return = (new ApiPath($in))->getArray();
         $this->assertEquals($return, $exp);
     }
 

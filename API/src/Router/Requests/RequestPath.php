@@ -7,14 +7,15 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Router;
+namespace BenSauer\CaseStudySkygateApi\Router\Requests;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
+use BenSauer\CaseStudySkygateApi\Router\Requests\Interfaces\RequestPathInterface;
 
 /**
- * Class to represent an api Path
+ * Class that implements ApiPathInterface
  */
-class ApiPath
+class RequestPath implements RequestPathInterface
 {
     /**
      * The Path stored as an array of strings.
@@ -47,7 +48,7 @@ class ApiPath
         $this->path = $array;
     }
 
-    public function get(): array
+    public function getArray(): array
     {
         return $this->path;
     }

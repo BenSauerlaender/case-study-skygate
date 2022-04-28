@@ -3,7 +3,12 @@
 //activate strict mode
 declare(strict_types=1);
 
-try{
+use BenSauer\CaseStudySkygateApi\Router\Requests\RequestBuilder;
+use BenSauer\CaseStudySkygateApi\Router\RouterBuilder;
+use BenSauer\CaseStudySkygateApi\Router\Responses\RecourseNotFoundResponse;
+use BenSauer\CaseStudySkygateApi\Router\Responses\NotSecureResponse;
+
+try {
     //load composer dependencies
     require './../../vendor/autoload.php';
 
@@ -11,29 +16,31 @@ try{
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../../", ".env");
     $dotenv->load();
 
-    $path = $_SERVER["REQUEST_URI"];
-    $method = $_SERVER["REQUEST_METHOD"];
-    $params = $_SERVER["QUERY_STRING"];
-    $headers = //acceptence
+    $PATH_PREFIX = "/api/v1";
 
-    if(isNot /API/v1/)
-    $response = new NotFoundResponse
-    else if(no https)
-    $response = new NotsecureResponse
-    else {
-        $handler = handlerfactory($path)
+    //check for correct version
+    if (!str_starts_with($_SERVER["REQUEST_URI"], $PATH_PREFIX)) {
 
-        $request = new Request(....)
+        $response = new RecourseNotFoundResponse();
+
+        //check for ssl connection
+    } else if ($_ENV["ENVIRONMENT"] === "PRODUCTION" and ($_SERVER["HTTPS"] !== "")) {
+
+        $response = new NotSecureResponse();
+    } else {
+
+        $router = RouterBuilder::build();
+        $handler = $router->route($apiPath, $method);
+
+        $request = RequestBuilder::build($_SERVER["REQUEST_URI"], $_COOKIE, $PATH_PREFIX);
+
         $response = $handler->handle($request);
-
     }
 
     $response->send();
     exit();
-
-
-}catch(Exception $e){
-    error_log($e);
-    header("Internal Error");
+} catch (Exception $e) {
+    error_log($e->getMessage());
+    header($_SERVER["SERVER_PROTOCOL"] . ' 500 Internal Server Error', true, 500);
     exit();
 }

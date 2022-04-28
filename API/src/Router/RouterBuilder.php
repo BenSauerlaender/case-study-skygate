@@ -10,8 +10,12 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Router;
 
 /**
- * Interface for Request
+ * Class to build the Router object
  */
-interface RequestInterface
+class RouterBuilder
 {
+
+    public static function build(): RouterInterface
+    {
+    }
 }

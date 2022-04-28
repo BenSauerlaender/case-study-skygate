@@ -9,11 +9,6 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Router\Responses;
 
-use BenSauer\CaseStudySkygateApi\Router\Requests\ResponseInterface;
-
-/**
- * Class to represent an API Response
- */
-class Response implements ResponseInterface
+class NotSecureResponse extends Response
 {
 }

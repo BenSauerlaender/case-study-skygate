@@ -7,11 +7,14 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Router;
+namespace BenSauer\CaseStudySkygateApi\Router\Requests;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidHttpMethodException;
 
-enum HttpMethod
+/**
+ * An enum to represent valid methods for an API request
+ */
+enum RequestMethod
 {
     case GET;
     case POST;

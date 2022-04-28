@@ -7,18 +7,20 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Router;
+namespace BenSauer\CaseStudySkygateApi\Router\Requests;
+
+use BenSauer\CaseStudySkygateApi\Router\RequestHandlerInterface;
 
 /**
- * Class to choose which Route should be used.
+ * Interface for Router
  */
 interface RouterInterface
 {
     /**
      * Chooses the right handler for the path and method
      *
-     * @param  ApiPath                     $path    The requested path exploded by /
-     * @param  HttpMethod                  $method  The requested method
+     * @param  RequestPath                     $path    The requested path exploded by /
+     * @param  RequestMethod                  $method  The requested method
      */
-    public function route(ApiPath $path, HttpMethod $method): RequestHandlerInterface;
+    public function route(RequestPath $path, RequestMethod $method): RequestHandlerInterface;
 }

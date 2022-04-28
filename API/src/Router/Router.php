@@ -9,9 +9,11 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Router;
 
+use BenSauer\CaseStudySkygateApi\Router\Requests\RouterInterface;
+
 /**
- * Interface for Request
+ * Class to choose which Route should be used.
  */
-interface RequestInterface
+class Router implements RouterInterface
 {
 }

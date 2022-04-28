@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Router;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\Router\Requests;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidHttpMethodException;
-use BenSauer\CaseStudySkygateApi\Router\HttpMethod;
+use BenSauer\CaseStudySkygateApi\Router\Requests\HttpMethod;
 use PHPUnit\Framework\TestCase;
 
 /**

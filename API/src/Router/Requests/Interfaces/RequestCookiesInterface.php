@@ -7,8 +7,11 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Router\Responses;
+namespace BenSauer\CaseStudySkygateApi\Router\Requests;
 
-class NotFoundResponse extends Response
+/**
+ * Interface for RequestCookies
+ */
+interface RequestCookiesInterface
 {
 }

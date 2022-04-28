@@ -10,12 +10,8 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Router\Requests;
 
 /**
- * Interface for Response
+ * Class to represent Cookies that were send along with a Api request
  */
-interface ResponseInterface
+class RequestCookies implements RequestCookiesInterface
 {
-    /**
-     * Sends the response to the client.
-     */
-    public function send(): void;
 }
