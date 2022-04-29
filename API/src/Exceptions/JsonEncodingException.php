@@ -11,7 +11,7 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 
 use Exception;
 
-//Exception, that should be thrown if an RequestPath is not valid
-class InvalidRequestPathException extends Exception
+//Exception, that should be thrown if json_encode fails
+class JsonEncodingException extends Exception
 {
 }

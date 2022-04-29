@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Router\Responses;
+namespace BenSauer\CaseStudySkygateApi\Router\Responses\Interfaces;
 
 
 /**

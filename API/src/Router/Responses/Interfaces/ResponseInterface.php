@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Router\Requests;
+namespace BenSauer\CaseStudySkygateApi\Router\Responses\Interfaces;
 
 /**
  * Interface for Response
@@ -40,5 +40,5 @@ interface ResponseInterface
      * 
      * @return string The json encoded data.
      */
-    public function getJson(): string;
+    public function getData(): string;
 }

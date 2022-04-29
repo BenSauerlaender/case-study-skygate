@@ -11,7 +11,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Router\Response;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
 use BenSauer\CaseStudySkygateApi\Router\Responses\BaseResponse;
-use BenSauer\CaseStudySkygateApi\Router\Responses\ResponseCookieInterface;
+use BenSauer\CaseStudySkygateApi\Router\Responses\Interfaces\ResponseCookieInterface;
 use PHPUnit\Framework\TestCase;
 
 class mockResponse extends BaseResponse
@@ -49,9 +49,9 @@ final class BaseResponseTest extends TestCase
         $response = new mockResponse();
 
         $this->assertEquals(501, $response->getCode());
-        $this->assertEmpty($response->getCookies());
-        $this->assertEmpty($response->getHeaders());
-        $this->assertEmpty($response->getJson());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+        $this->assertEquals(0, sizeof($response->getHeaders()));
+        $this->assertEquals(0, strlen($response->getData()));
     }
 
     /**
@@ -76,9 +76,9 @@ final class BaseResponseTest extends TestCase
         $response->setCode($code);
 
         $this->assertEquals($code, $response->getCode());
-        $this->assertEmpty($response->getCookies());
-        $this->assertEmpty($response->getHeaders());
-        $this->assertEmpty($response->getJson());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+        $this->assertEquals(0, sizeof($response->getHeaders()));
+        $this->assertEquals(0, strlen($response->getData()));
     }
 
     public function supportedCodeProvider(): array
@@ -107,9 +107,9 @@ final class BaseResponseTest extends TestCase
         $response->setCode((201));
 
         $this->assertEquals(201, $response->getCode());
-        $this->assertEmpty($response->getCookies());
-        $this->assertEmpty($response->getHeaders());
-        $this->assertEmpty($response->getJson());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+        $this->assertEquals(0, sizeof($response->getHeaders()));
+        $this->assertEquals(0, strlen($response->getData()));
     }
 
     /**
@@ -120,12 +120,12 @@ final class BaseResponseTest extends TestCase
         $response = new mockResponse();
 
         $cookie = $this->createMock(ResponseCookieInterface::class);
-        $cookie->expects($this->once)->method("getName")->willReturn("cookie1");
+        $cookie->expects($this->once())->method("getName")->willReturn("cookie1");
         $response->addCookie($cookie);
 
         $this->assertEquals(501, $response->getCode());
-        $this->assertEmpty($response->getHeaders());
-        $this->assertEmpty($response->getJson());
+        $this->assertEquals(0, sizeof($response->getHeaders()));
+        $this->assertEquals(0, strlen($response->getData()));
 
         $this->assertEquals(1, sizeof($response->getCookies()));
         $this->assertEquals($cookie, $response->getCookies()[0]);
@@ -139,16 +139,16 @@ final class BaseResponseTest extends TestCase
         $response = new mockResponse();
 
         $cookie = $this->createMock(ResponseCookieInterface::class);
-        $cookie->expects($this->once)->method("getName")->willReturn("cookie1");
+        $cookie->expects($this->once())->method("getName")->willReturn("cookie1");
         $response->addCookie($cookie);
 
         $cookie2 = $this->createMock(ResponseCookieInterface::class);
-        $cookie2->expects($this->once)->method("getName")->willReturn("cookie2");
+        $cookie2->expects($this->once())->method("getName")->willReturn("cookie2");
         $response->addCookie($cookie2);
 
         $this->assertEquals(501, $response->getCode());
-        $this->assertEmpty($response->getHeaders());
-        $this->assertEmpty($response->getJson());
+        $this->assertEquals(0, sizeof($response->getHeaders()));
+        $this->assertEquals(0, strlen($response->getData()));
 
         $this->assertEquals(2, sizeof($response->getCookies()));
         $this->assertEqualsCanonicalizing([$cookie, $cookie2], $response->getCookies());
@@ -164,16 +164,16 @@ final class BaseResponseTest extends TestCase
         $response = new mockResponse();
 
         $cookie = $this->createMock(ResponseCookieInterface::class);
-        $cookie->expects($this->once)->method("getName")->willReturn("cookie1");
+        $cookie->expects($this->once())->method("getName")->willReturn("cookie1");
         $response->addCookie($cookie);
 
         $cookie2 = $this->createMock(ResponseCookieInterface::class);
-        $cookie2->expects($this->once)->method("getName")->willReturn("cOOkie1");
+        $cookie2->expects($this->once())->method("getName")->willReturn("cOOkie1");
         $response->addCookie($cookie2);
 
         $this->assertEquals(501, $response->getCode());
-        $this->assertEmpty($response->getHeaders());
-        $this->assertEmpty($response->getJson());
+        $this->assertEquals(0, sizeof($response->getHeaders()));
+        $this->assertEquals(0, strlen($response->getData()));
 
         $this->assertEquals(1, sizeof($response->getCookies()));
         $this->assertEquals($cookie2, $response->getCookies()[0]);
@@ -202,8 +202,8 @@ final class BaseResponseTest extends TestCase
         $response->addHeader($headerName, "value");
 
         $this->assertEquals(501, $response->getCode());
-        $this->assertEmpty($response->getCookies());
-        $this->assertEmpty($response->getJson());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+        $this->assertEquals(0, strlen($response->getData()));
 
         $this->assertEquals(1, sizeof($response->getHeaders()));
         $this->assertEquals("value", $response->getHeaders()[$headerName]);
@@ -229,8 +229,8 @@ final class BaseResponseTest extends TestCase
         $response->addHeader("Content-Length", "value2");
 
         $this->assertEquals(501, $response->getCode());
-        $this->assertEmpty($response->getCookies());
-        $this->assertEmpty($response->getJson());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+        $this->assertEquals(0, strlen($response->getData()));
 
         $this->assertEquals(2, sizeof($response->getHeaders()));
         $this->assertEquals("value1", $response->getHeaders()["Content-Type"]);
@@ -248,11 +248,11 @@ final class BaseResponseTest extends TestCase
         $response->addHeader("Content-Type", "value2");
 
         $this->assertEquals(501, $response->getCode());
-        $this->assertEmpty($response->getCookies());
-        $this->assertEmpty($response->getJson());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+        $this->assertEquals(0, strlen($response->getData()));
 
         $this->assertEquals(1, sizeof($response->getHeaders()));
-        $this->assertEquals("value2", $response->getHeaders()["Content-Length"]);
+        $this->assertEquals("value2", $response->getHeaders()["Content-Type"]);
     }
 
     /**
@@ -265,16 +265,13 @@ final class BaseResponseTest extends TestCase
         $response->setData(["test-string" => "Das ein Test!", "test-number" => 42]);
 
         $this->assertEquals(501, $response->getCode());
-        $this->assertEmpty($response->getCookies());
-        $this->assertEmpty($response->getJson());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+
         $this->assertEquals(2, sizeof($response->getHeaders()));
-        $this->assertEquals("57", $response->getHeaders()["Content-Length"]);
+        $this->assertEquals("48", $response->getHeaders()["Content-Length"]);
         $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
 
-        $this->assertEquals('{
-            "test-string": "Das ein Test!",
-            "test-number": 42
-          }', $response->getJson());
+        $this->assertEquals('{"test-string":"Das ein Test!","test-number":42}', $response->getData());
     }
 
     /**
@@ -289,15 +286,12 @@ final class BaseResponseTest extends TestCase
         $response->setData(["test-string" => "Das ein Test!", "test-number" => 42]);
 
         $this->assertEquals(501, $response->getCode());
-        $this->assertEmpty($response->getCookies());
-        $this->assertEmpty($response->getJson());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+
         $this->assertEquals(2, sizeof($response->getHeaders()));
-        $this->assertEquals("57", $response->getHeaders()["Content-Length"]);
+        $this->assertEquals("48", $response->getHeaders()["Content-Length"]);
         $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
 
-        $this->assertEquals('{
-            "test-string": "Das ein Test!",
-            "test-number": 42
-          }', $response->getJson());
+        $this->assertEquals('{"test-string":"Das ein Test!","test-number":42}', $response->getData());
     }
 }
