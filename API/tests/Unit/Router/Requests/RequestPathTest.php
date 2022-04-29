@@ -28,7 +28,7 @@ final class RequestPathTest extends TestCase
         new RequestPath($input);
     }
 
-    public function invalidApiPathProvider(): array
+    public function invalidRequestPathProvider(): array
     {
         return [
             "empty string" => [""],
