@@ -9,11 +9,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Router\Responses;
 
-use BenSauer\CaseStudySkygateApi\Router\Requests\ResponseInterface;
 
 /**
- * Class to represent an API Response
+ * Class to represent an Cookie that can be send to the client
  */
-class Response implements ResponseInterface
+class ResponseCookie implements ResponseCookieInterface
 {
 }

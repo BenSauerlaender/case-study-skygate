@@ -27,7 +27,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeExce
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
-use BenSauer\CaseStudySkygateApi\Utilities\Utilities;
+use BenSauer\CaseStudySkygateApi\Utilities\SharedUtilities;
 
 use function BenSauer\CaseStudySkygateApi\Utilities\mapped_implode;
 
@@ -63,7 +63,7 @@ class UserController implements UserControllerInterface
 
         if ($valid !== true) {
             $reasons = $valid;
-            throw new InvalidFieldException("Invalid fields with reasons: " . Utilities::mapped_implode(",", $reasons));
+            throw new InvalidFieldException("Invalid fields with reasons: " . SharedUtilities::mapped_implode(",", $reasons));
         }
 
         //check if the email is free
@@ -126,7 +126,7 @@ class UserController implements UserControllerInterface
         $valid = $this->validator->validate(\array_diff_key($fields, ["role" => ""]));
         if ($valid !== true) {
             $reasons = $valid;
-            throw new InvalidFieldException("Invalid fields with reasons: " . Utilities::mapped_implode(",", $reasons));
+            throw new InvalidFieldException("Invalid fields with reasons: " . SharedUtilities::mapped_implode(",", $reasons));
         }
 
         //replace role name by its id

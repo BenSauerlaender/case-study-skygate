@@ -15,7 +15,30 @@ namespace BenSauer\CaseStudySkygateApi\Router\Requests;
 interface ResponseInterface
 {
     /**
-     * Sends the response to the client.
+     * Returns the response code
+     * 
+     * @return int The response code
      */
-    public function send(): void;
+    public function getCode(): int;
+
+    /**
+     * Returns an array of cookies to be set.
+     * 
+     * @return array<ResponseCookieInterface> The array of Cookies.
+     */
+    public function getCookies(): array;
+
+    /**
+     * Returns the headers to send.
+     * 
+     * @return array<string,string> An Array of key-value-pairs for the header.
+     */
+    public function getHeaders(): array;
+
+    /**
+     * Returns the data to send in the response body
+     * 
+     * @return string The json encoded data.
+     */
+    public function getData(): string;
 }

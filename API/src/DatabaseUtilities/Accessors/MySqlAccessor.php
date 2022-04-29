@@ -13,7 +13,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
-use BenSauer\CaseStudySkygateApi\Utilities\Utilities;
+use BenSauer\CaseStudySkygateApi\Utilities\SharedUtilities;
 use PDOException;
 use PDOStatement;
 

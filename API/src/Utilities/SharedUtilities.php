@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
-class Utilities
+class SharedUtilities
 {
     //TODO Test this
     /**

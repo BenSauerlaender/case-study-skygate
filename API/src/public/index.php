@@ -7,6 +7,7 @@ use BenSauer\CaseStudySkygateApi\Router\Requests\RequestBuilder;
 use BenSauer\CaseStudySkygateApi\Router\RouterBuilder;
 use BenSauer\CaseStudySkygateApi\Router\Responses\RecourseNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\Router\Responses\NotSecureResponse;
+use BenSauer\CaseStudySkygateApi\Utilities\RouterUtilities;
 
 try {
     //load composer dependencies
@@ -37,7 +38,7 @@ try {
         $response = $handler->handle($request);
     }
 
-    $response->send();
+    RouterUtilities::sendResponse($response);
     exit();
 } catch (Exception $e) {
     error_log($e->getMessage());
