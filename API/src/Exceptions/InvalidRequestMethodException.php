@@ -12,8 +12,8 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 use Exception;
 
 /**
- * Exception that is thrown if a invalid HTTPMethod occurs
+ * Exception that is thrown if a invalid RequestMethod occurs
  */
-class InvalidHttpMethodException extends Exception
+class InvalidRequestMethodException extends Exception
 {
 }

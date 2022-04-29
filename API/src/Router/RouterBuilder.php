@@ -14,8 +14,4 @@ namespace BenSauer\CaseStudySkygateApi\Router;
  */
 class RouterBuilder
 {
-
-    public static function build(): RouterInterface
-    {
-    }
 }

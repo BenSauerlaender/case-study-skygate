@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Router\Requests;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidHttpMethodException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestMethodException;
 
 /**
- * An enum to represent valid methods for an API request
+ * An enum to represent valid methods for an Request request
  */
 enum RequestMethod
 {
@@ -33,7 +33,7 @@ enum RequestMethod
      *
      * @param  string $s The string to evaluate
      * 
-     * @throws InvalidHttpMethodException if the string cant be evaluated
+     * @throws InvalidRequestMethodException if the string cant be evaluated
      */
     static function fromString(string $s): self
     {
@@ -66,7 +66,7 @@ enum RequestMethod
                 return self::PATCH;
                 break;
             default:
-                throw new InvalidHttpMethodException("The method $s is not supported.");
+                throw new InvalidRequestMethodException("The method $s is not supported.");
         }
     }
 }

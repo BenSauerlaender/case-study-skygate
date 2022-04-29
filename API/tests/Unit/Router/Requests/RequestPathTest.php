@@ -8,24 +8,24 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Router\Requests;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
-use BenSauer\CaseStudySkygateApi\Router\Requests\ApiPath;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestPathException;
+use BenSauer\CaseStudySkygateApi\Router\Requests\RequestPath;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for the ApiPath method
+ * Tests for the RequestPath method
  */
-final class ApiPathTest extends TestCase
+final class RequestPathTest extends TestCase
 {
     /**
      * Tests if the method throws the right exception if the input is not a valid path
      * 
-     * @dataProvider invalidApiPathProvider
+     * @dataProvider invalidRequestPathProvider
      */
-    public function testApiPathConstructionFailsByInvalidPath($input): void
+    public function testRequestPathConstructionFailsByInvalidPath($input): void
     {
-        $this->expectException(InvalidApiPathException::class);
-        new ApiPath($input);
+        $this->expectException(InvalidRequestPathException::class);
+        new RequestPath($input);
     }
 
     public function invalidApiPathProvider(): array
@@ -40,15 +40,15 @@ final class ApiPathTest extends TestCase
     /**
      * Tests if the method returns the correct array
      * 
-     * @dataProvider ApiPathProvider
+     * @dataProvider RequestPathProvider
      */
-    public function testApiPathSuccessful(string $in, array $exp): void
+    public function testRequestPathSuccessful(string $in, array $exp): void
     {
-        $return = (new ApiPath($in))->getArray();
+        $return = (new RequestPath($in))->getArray();
         $this->assertEquals($return, $exp);
     }
 
-    public function ApiPathProvider(): array
+    public function RequestPathProvider(): array
     {
         return [
             ["test", ["test"]],

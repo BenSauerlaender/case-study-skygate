@@ -87,7 +87,7 @@ class MySqlAccessor
 
         //wrap DBException around PDOException
         try {
-            throw new DBException("Execute PDO-Statement failed. (SQL-Statement: $sql | Parameters: " . Utilities::mapped_implode(",", $params) . ")", 0, $e);
+            throw new DBException("Execute PDO-Statement failed. (SQL-Statement: $sql | Parameters: " . SharedUtilities::mapped_implode(",", $params) . ")", 0, $e);
         } catch (DBException $dbe) {
 
             // Duplicate field
