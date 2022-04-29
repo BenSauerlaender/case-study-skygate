@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
-use BenSauer\CaseStudySkygateApi\Router\Requests\ResponseInterface;
+use BenSauer\CaseStudySkygateApi\Router\Requests\Interfaces\ResponseInterface;
 
 class RouterUtilities
 {
