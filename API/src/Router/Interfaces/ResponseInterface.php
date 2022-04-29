@@ -36,9 +36,9 @@ interface ResponseInterface
     public function getHeaders(): array;
 
     /**
-     * Returns the data to send in the response body
+     * Returns the data in json format to send in the response body
      * 
      * @return string The json encoded data.
      */
-    public function getData(): string;
+    public function getJson(): string;
 }

@@ -30,4 +30,10 @@ interface ResponseCookieInterface
      *      ]
      */
     public function get(): array;
+
+    /**
+     * Returns the name of the cookie
+     * @return string The cookies name.
+     */
+    public function getName(): string;
 }

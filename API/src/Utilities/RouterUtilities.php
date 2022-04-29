@@ -20,5 +20,7 @@ class RouterUtilities
      */
     static public function sendResponse(ResponseInterface $response): void
     {
+        //set Server and Date Header
+        //add base PATH to Cookie path
     }
 }

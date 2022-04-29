@@ -16,19 +16,43 @@ use BenSauer\CaseStudySkygateApi\Router\Requests\ResponseInterface;
  */
 abstract class BaseResponse implements ResponseInterface
 {
-    protected function setCode(): void
+    /**
+     * Sets the Response Code
+     *
+     * @param  int  $code
+     * @throws UnsupportedResponseCodeException if the code is not supported.
+     */
+    protected function setCode(int $code): void
     {
     }
 
-    protected function setCookies(): void
+    /**
+     * Adds a cookie to be send.
+     *
+     * @param  ResponseCookieInterface $cookie
+     */
+    protected function addCookie(ResponseCookieInterface $cookie): void
     {
     }
 
-    protected function setHeaders(): void
+    /**
+     * Adds a header to be send.
+     *
+     * @param  string $name     The Headers name.
+     * @param  string $value    The headers value.
+     * 
+     * @throws UnsupportedResponseHeaderException
+     */
+    protected function addHeader(string $name, string $value): void
     {
     }
 
-    protected function setData(): void
+    /**
+     * Sets data to be send in body
+     * 
+     * @param array $data
+     */
+    protected function setData(array $data): void
     {
     }
 
@@ -47,7 +71,7 @@ abstract class BaseResponse implements ResponseInterface
         return [];
     }
 
-    public function getData(): string
+    public function getJson(): string
     {
         return "";
     }
