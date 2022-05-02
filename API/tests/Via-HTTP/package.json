@@ -1,0 +1,19 @@
+{
+  "name": "Tests-via-HTTP",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "endpoint-test": "mocha tests-endpoint/*.test.js --require helper.js",
+    "sendResponse-test": "mv ../../src/index.php test-sendResponse/org.index.php ; mv test-sendResponse/replace.index.php ../../src/index.php ; cp test-sendResponse/helper.php  ../../src/ ; mocha test-sendResponse/*.test.js --require helper.js ;rm ../../src/helper.php ; mv ../../src/index.php test-sendResponse/replace.index.php ; mv test-sendResponse/org.index.php ../../src/index.php"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "dotenv": "^16.0.0",
+    "mocha": "^9.2.2",
+    "mysql": "^2.18.1",
+    "supertest": "^6.2.2"
+  }
+}
