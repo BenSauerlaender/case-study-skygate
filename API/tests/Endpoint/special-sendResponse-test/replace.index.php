@@ -18,4 +18,7 @@ $response = new mockResponse();
 $response->setCode(400);
 
 RouterUtilities::sendResponse($response);
+
+http_response_code(400);
+header()
 exit();

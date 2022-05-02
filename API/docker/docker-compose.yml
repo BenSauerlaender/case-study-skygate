@@ -1,21 +1,16 @@
 version: '3'
 services:
-    web-server:
-        image: nginx:latest
-        ports:
-            - "3000:3000"
-        volumes:
-            - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
-            - ../src:/api/src
-    php:
+    php-apache:
         build:
           context: .
           dockerfile: PHP.Dockerfile
+        ports:
+            - "3000:80"
         volumes:
-            - ../src:/api/src
-            - ../vendor:/api/vendor
-            - ../.env:/api/.env
-            - ../scripts:/api/scripts
+            - ../src:/var/www/html/
+            - ../vendor:/var/www/html/vendor
+            - ../.env:/var/www/html/.env
+            - ./apache.conf:/etc/apache2/sites-available/000-default.conf
     mysql:
         image: mysql:latest
         command: --default-authentication-plugin=mysql_native_password

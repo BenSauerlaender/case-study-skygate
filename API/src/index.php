@@ -11,10 +11,10 @@ use BenSauer\CaseStudySkygateApi\Utilities\RouterUtilities;
 
 try {
     //load composer dependencies
-    require './../../vendor/autoload.php';
+    require 'vendor/autoload.php';
 
     //load dotenv variables from '.env'
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../../", ".env");
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 
     //check for correct version

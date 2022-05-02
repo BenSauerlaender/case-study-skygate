@@ -1,5 +1,5 @@
-FROM php:fpm
+FROM php:apache
 
-WORKDIR /api
+RUN a2enmod rewrite
 
 RUN docker-php-ext-install pdo pdo_mysql
