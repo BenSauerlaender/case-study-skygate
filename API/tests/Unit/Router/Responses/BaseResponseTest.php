@@ -213,7 +213,6 @@ final class BaseResponseTest extends TestCase
     {
         return [
             ["Content-Type"],
-            ["Content-Length"],
             ["Last-Modified"]
         ];
     }
@@ -226,7 +225,7 @@ final class BaseResponseTest extends TestCase
         $response = new mockResponse();
 
         $response->addHeader("Content-Type", "value1");
-        $response->addHeader("Content-Length", "value2");
+        $response->addHeader("Last-Modified", "value2");
 
         $this->assertEquals(501, $response->getCode());
         $this->assertEquals(0, sizeof($response->getCookies()));
@@ -234,7 +233,7 @@ final class BaseResponseTest extends TestCase
 
         $this->assertEquals(2, sizeof($response->getHeaders()));
         $this->assertEquals("value1", $response->getHeaders()["Content-Type"]);
-        $this->assertEquals("value2", $response->getHeaders()["Content-Length"]);
+        $this->assertEquals("value2", $response->getHeaders()["Last-Modified"]);
     }
 
     /**
@@ -267,8 +266,7 @@ final class BaseResponseTest extends TestCase
         $this->assertEquals(501, $response->getCode());
         $this->assertEquals(0, sizeof($response->getCookies()));
 
-        $this->assertEquals(2, sizeof($response->getHeaders()));
-        $this->assertEquals("48", $response->getHeaders()["Content-Length"]);
+        $this->assertEquals(1, sizeof($response->getHeaders()));
         $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
 
         $this->assertEquals('{"test-string":"Das ein Test!","test-number":42}', $response->getData());
@@ -288,8 +286,7 @@ final class BaseResponseTest extends TestCase
         $this->assertEquals(501, $response->getCode());
         $this->assertEquals(0, sizeof($response->getCookies()));
 
-        $this->assertEquals(2, sizeof($response->getHeaders()));
-        $this->assertEquals("48", $response->getHeaders()["Content-Length"]);
+        $this->assertEquals(1, sizeof($response->getHeaders()));
         $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
 
         $this->assertEquals('{"test-string":"Das ein Test!","test-number":42}', $response->getData());

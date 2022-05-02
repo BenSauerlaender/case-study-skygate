@@ -10,7 +10,44 @@ declare(strict_types=1);
 use BenSauer\CaseStudySkygateApi\Router\Responses\BaseResponse;
 use BenSauer\CaseStudySkygateApi\Router\Responses\Interfaces\ResponseCookieInterface;
 
-//Create a new SimpleResponse class to create simple and dynamic Responses to test the sendResponse function 
+//Simple Helper Class to create a dummy ResponseCookie
+final class SimpleResponseCookie implements ResponseCookieInterface
+{
+    private $name;
+    private $value;
+    private $expiresIn;
+    private $path;
+    private $secure;
+    private $httponly;
+
+    function __construct(string $name, string $value, int $expiresIn, string $path, bool $secure, bool $httponly)
+    {
+        $this->name = $name;
+        $this->value = $value;
+        $this->expiresIn = $expiresIn;
+        $this->path = $path;
+        $this->secure = $secure;
+        $this->httponly = $httponly;
+    }
+    public function getName(): string
+    {
+        return $this->name;
+    }
+    public function get(): array
+    {
+        return [
+
+            "name" => $this->name,
+            "value" => $this->value,
+            "expiresIn" => $this->expiresIn,
+            "path" => $this->path,
+            "secure" => $this->secure,
+            "httpOnly" => $this->httponly
+        ];
+    }
+}
+
+//Simple Helper Class to create a dummy Response
 final class SimpleResponse extends BaseResponse
 {
     public function setCode(int $code): void

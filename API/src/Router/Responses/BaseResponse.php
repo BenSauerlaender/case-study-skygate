@@ -37,7 +37,7 @@ abstract class BaseResponse implements ResponseInterface
 
     private const SUPPORTED_CODES = [200, 201, 204, 400, 401, 403, 404, 405, 406, 501];
 
-    private const SUPPORTED_HEADER = ["Content-Type", "Content-Length", "Last-Modified"];
+    private const SUPPORTED_HEADER = ["Content-Type", "Last-Modified"];
 
     /**
      * Sets the Response Code
@@ -97,6 +97,8 @@ abstract class BaseResponse implements ResponseInterface
         if ($str === false) throw new JsonEncodingException("The encoding of response data failed");
 
         $this->data = $str;
+
+        $this->addHeader("Content-Type", "application/json;charset=UTF-8");
     }
 
     public function getCode(): int
@@ -111,10 +113,6 @@ abstract class BaseResponse implements ResponseInterface
 
     public function getHeaders(): array
     {
-        if ($this->data !== "") {
-            $this->addHeader("Content-Type", "application/json;charset=UTF-8");
-            $this->addHeader("Content-Length", strval(mb_strlen($this->data, '8bit')));
-        }
         return $this->headers;
     }
 

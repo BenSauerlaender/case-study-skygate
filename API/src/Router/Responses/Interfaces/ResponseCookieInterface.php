@@ -24,9 +24,8 @@ interface ResponseCookieInterface
      *          "value"     => (string)     The cookies value.
      *          "expiresIn" => (int)        The Time in seconds, when the cookie will expire.
      *          "path"      => (string)     The Path, where the Cookie will be available.
-     *          "domain"    => (string)     The Domain, where the Cookie will be available.
      *          "secure"    => (bool)       When True the cookie is only available via a ssl connection.
-     *          "httponly"  => (bool)       When True the cookie is only available via http.
+     *          "httpOnly"  => (bool)       When True the cookie is only available via http.
      *      ]
      */
     public function get(): array;
