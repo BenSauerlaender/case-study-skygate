@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
-use BenSauer\CaseStudySkygateApi\Router\Requests\Interfaces\ResponseInterface;
+use BenSauer\CaseStudySkygateApi\Router\Responses\Interfaces\ResponseInterface;
 
 class RouterUtilities
 {
@@ -20,6 +20,7 @@ class RouterUtilities
      */
     static public function sendResponse(ResponseInterface $response): void
     {
+        http_response_code($response->getCode());
         //set Server and Date Header
         //add base PATH to Cookie path
     }

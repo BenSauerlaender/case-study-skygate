@@ -12,9 +12,10 @@ use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedRespon
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
 use BenSauer\CaseStudySkygateApi\Router\Responses\BaseResponse;
 use BenSauer\CaseStudySkygateApi\Router\Responses\Interfaces\ResponseCookieInterface;
+use BenSauer\CaseStudySkygateApi\Router\Responses\Interfaces\ResponseInterface;
 use PHPUnit\Framework\TestCase;
 
-class mockResponse extends BaseResponse
+class mockResponse extends BaseResponse implements ResponseInterface
 {
     public function setCode(int $code): void
     {

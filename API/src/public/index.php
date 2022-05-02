@@ -17,8 +17,6 @@ try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/../../", ".env");
     $dotenv->load();
 
-    $PATH_PREFIX = "/api/v1";
-
     //check for correct version
     if (!str_starts_with($_SERVER["REQUEST_URI"], $PATH_PREFIX)) {
 

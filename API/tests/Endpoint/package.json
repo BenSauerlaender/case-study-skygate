@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests/*.test.js --require helper.js"
+    "endpoint-test": "mocha tests/*.test.js --require helper.js",
+    "sendResponse-test": "mv ../../src/public/index.php . ; mv special-sendResponse-test/replace.index.php ../../src/public/index.php ; mocha special-sendResponse-test/*.test.js --require helper.js ; mv ../../src/public/index.php special-sendResponse-test/replace.index.php ; mv special-sendResponse-test/org.index.php ../../src/public/index.php"
   },
   "author": "",
   "license": "ISC",
