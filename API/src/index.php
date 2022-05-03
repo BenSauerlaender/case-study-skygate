@@ -40,6 +40,7 @@ try {
     exit();
 } catch (Exception $e) {
     error_log($e->getMessage());
-    header($_SERVER["SERVER_PROTOCOL"] . ' 500 Internal Server Error', true, 500);
+    header_remove();
+    http_response_code(500);
     exit();
 }
