@@ -33,7 +33,8 @@ final class ApiPathTest extends TestCase
         return [
             "empty string" => [""],
             "empty sub-part" => ["test//test"],
-            "invalid character" => ["/test+ding/jo"]
+            "invalid character" => ["/test+ding/jo"],
+            "combination of letter and number" => ["/test/t1"]
         ];
     }
 
@@ -52,9 +53,75 @@ final class ApiPathTest extends TestCase
     {
         return [
             ["test", ["test"]],
+            ["TEST", ["test"]],
             ["/test", ["test"]],
             ["test/", ["test"]],
-            ["/test/123/test", ["test", "123", "test"]]
+            ["/1/2/0", [1, 2, 0]],
+            ["/test/123/test", ["test", 123, "test"]],
+            ["/tEst/123/teST", ["test", 123, "test"]]
+        ];
+    }
+
+    /**
+     * Tests if the getIDs method returns the correct array
+     * 
+     * @dataProvider ApiPathWithIDsProvider
+     */
+    public function testApiPathGetIDs(string $in, array $exp): void
+    {
+        $return = (new ApiPath($in))->getIDs();
+        $this->assertEquals($return, $exp);
+    }
+
+    public function ApiPathWithIDsProvider(): array
+    {
+        return [
+            ["1", [1]],
+            ["/test", []],
+            ["test/1", [1]],
+            ["/1/2/test/3", [1, 2, 3]]
+        ];
+    }
+
+    /**
+     * Tests if the getLength method returns the correct length
+     * 
+     * @dataProvider ApiPathLengthProvider
+     */
+    public function testApiPathGetLength(string $in, int $exp): void
+    {
+        $return = (new ApiPath($in))->getLength();
+        $this->assertEquals($return, $exp);
+    }
+
+    public function ApiPathLengthProvider(): array
+    {
+        return [
+            ["/test/", 1],
+            ["/test/test", 2],
+            ["test/1", 2],
+            ["/1/2/test/3", 4]
+        ];
+    }
+
+    /**
+     * Tests if the getStringWithPlaceholders method returns the correct string
+     * 
+     * @dataProvider ApiPathStringWithPlaceholderProvider
+     */
+    public function testApiPathGetStringWithPlaceholder(string $in, string $exp): void
+    {
+        $return = (new ApiPath($in))->getStringWithPlaceholders();
+        $this->assertEquals($return, $exp);
+    }
+
+    public function ApiPathStringWithPlaceholderProvider(): array
+    {
+        return [
+            ["/test/", "/test"],
+            ["/test/test", "/test/test"],
+            ["test/1", "/test/{id}"],
+            ["/1/2/test/3", "/{id}/{id}/test/{id}"]
         ];
     }
 }

@@ -16,7 +16,7 @@ function getRoutes(): array
     return [
         "/users/{int}" => [
             "GET" => [
-                "params" => ["userID"],
+                "ids" => ["userID"],
                 "requireAuth" => true,
                 "permissions" => ["user:read:these"],
                 "function" => function (ApiRequestInterface $req) {

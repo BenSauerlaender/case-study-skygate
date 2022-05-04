@@ -26,6 +26,21 @@ enum ApiMethod
     case TRACE;
     case PATCH;
 
+    public function toString(): string
+    {
+        return match ($this) {
+            ApiMethod::GET => "GET",
+            ApiMethod::POST => "POST",
+            ApiMethod::HEAD => "HEAD",
+            ApiMethod::PUT => "PUT",
+            ApiMethod::DELETE => "DELETE",
+            ApiMethod::CONNECT => "CONNECT",
+            ApiMethod::OPTIONS => "OPTIONS",
+            ApiMethod::TRACE => "TRACE",
+            ApiMethod::PATCH => "PATCH"
+        };
+    }
+
     /**
      * Returns the correct HttpMethod from an string
      * 

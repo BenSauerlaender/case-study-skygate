@@ -9,10 +9,9 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
 
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiMethod;
-use BenSauer\CaseStudySkygateApi\ApiComponents\Interfaces\ApiPathInterface;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiPath;
 use BenSauer\CaseStudySkygateApi\Controller\RoutingController;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\BrokenRouteException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,19 +19,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class RoutingControllerTest extends TestCase
 {
-
-    private ?ApiPathInterface $pathMock;
-
-    public function setUp(): void
-    {
-        $this->pathMock = $this->createMock(ApiPathInterface::class);
-    }
-
-    public function tearDown(): void
-    {
-        $this->pathMock = null;
-    }
-
     /**
      * Tests if the routing throws the right exception if the route array is empty
      */
@@ -41,7 +27,7 @@ final class RoutingControllerTest extends TestCase
         $this->expectException(ApiPathNotFoundException::class);
 
         $rc = new RoutingController([]);
-        $rc->route($this->pathMock, ApiMethod::GET);
+        $rc->route(new ApiPath("test"), ApiMethod::GET);
     }
 
     /**
@@ -51,101 +37,29 @@ final class RoutingControllerTest extends TestCase
     {
         $this->expectException(ApiPathNotFoundException::class);
 
-        $this->pathMock->expects($this->once())->willReturn(["test", "path"]);
-
         $rc = new RoutingController(["/test" => []]);
-        $rc->route($this->pathMock, ApiMethod::GET);
+        $rc->route(new ApiPath("test/path"), ApiMethod::GET);
     }
 
     /**
-     * Tests if the routing throws the right exception if there is no route with specified path with params
+     * Tests if the routing throws the right exception if there is no route with specified path with ids
      */
-    public function testRouteAnUnavailablePathWithParams(): void
+    public function testRouteAnUnavailablePathWithIDs(): void
     {
         $this->expectException(ApiPathNotFoundException::class);
 
-        $this->pathMock->expects($this->once())->willReturn(["test", "x"]);
-
-        $rc = new RoutingController(["/test/{int}" => []]);
-        $rc->route($this->pathMock, ApiMethod::GET);
+        $rc = new RoutingController(["/test/{id}" => []]);
+        $rc->route(new ApiPath("test/x"), ApiMethod::GET);
     }
 
     /**
-     * Tests if the routing throws the right exception if the routes array is broken
-     * 
-     * @dataProvider brokenRoutesProvider
+     * Tests if the routing returns the right array if no ids are given.
      */
-    public function testRouteWithBrokenRoutes(array $routes): void
-    {
-        $this->expectException(BrokenRouteException::class);
-
-        $this->pathMock->expects($this->once())->willReturn(["test"]);
-
-        $rc = new RoutingController($routes);
-        $rc->route($this->pathMock, ApiMethod::GET);
-    }
-
-    public function brokenRoutesProvider(): array
-    {
-        return [
-            "invalid Path" => [
-                [0 => []]
-            ],
-            "no params" => [
-                ["/test" => ["GET" => [
-                    "requireAuth" => true,
-                    "permissions" => ["user:read:these"],
-                    "function" => function () {
-                        return null;
-                    }
-                ]]]
-            ],
-            "no requireAuth" => [
-                ["/test" => ["GET" => [
-                    "params" => ["userID"],
-                    "permissions" => ["user:read:these"],
-                    "function" => function () {
-                        return null;
-                    }
-                ]]]
-            ],
-            "no permission" => [
-                ["/test" => ["GET" => [
-                    "params" => ["userID"],
-                    "requireAuth" => true,
-                    "function" => function () {
-                        return null;
-                    }
-                ]]]
-            ],
-            "no function" => [
-                ["/test" => ["GET" => [
-                    "params" => ["userID"],
-                    "requireAuth" => true,
-                    "permissions" => ["user:read:these"]
-                ]]]
-            ],
-            "invalid params" => [
-                ["/test" => ["GET" => [
-                    "params" => [333],
-                    "requireAuth" => true,
-                    "permissions" => ["user:read:these"],
-                    "function" => function () {
-                        return null;
-                    }
-                ]]]
-            ]
-        ];
-    }
-
-    /**
-     * Tests if the routing returns the right array if no params are given.
-     */
-    public function testRouteReturnsCorrectArraySimple(array $routeIn, array $routeOut): void
+    public function testRouteReturnsCorrectArraySimple(): void
     {
 
-        $rc = new RoutingController(["/test" => ["GET" => [
-            "params" => [],
+        $rc = new RoutingController(["/test/path" => ["GET" => [
+            "ids" => [],
             "requireAuth" => true,
             "permissions" => ["per1", "per2"],
             "function" => function () {
@@ -153,11 +67,10 @@ final class RoutingControllerTest extends TestCase
             }
         ]]]);
 
-        $this->pathMock->expects($this->once())->willReturn(["test"]);
-        $out = $rc->route($this->pathMock, ApiMethod::GET);
+        $out = $rc->route(new ApiPath("test/path"), ApiMethod::GET);
 
         $this->assertEquals([
-            "params" => [],
+            "ids" => [],
             "requireAuth" => true,
             "permissions" => ["per1", "per2"],
             "function" => function () {
@@ -167,12 +80,12 @@ final class RoutingControllerTest extends TestCase
     }
 
     /**
-     * Tests if the routing returns the right array if params are given.
+     * Tests if the routing returns the right array if ids are given.
      */
-    public function testRouteReturnsCorrectArrayWithParams(): void
+    public function testRouteReturnsCorrectArrayWithIds(): void
     {
-        $rc = new RoutingController(["/test/{int}/{int}" => ["GET" => [
-            "params" => ["para1", "para2"],
+        $rc = new RoutingController(["/test/{id}/{id}" => ["GET" => [
+            "ids" => ["id1", "id2"],
             "requireAuth" => false,
             "permissions" => [],
             "function" => function () {
@@ -180,11 +93,10 @@ final class RoutingControllerTest extends TestCase
             }
         ]]]);
 
-        $this->pathMock->expects($this->once())->willReturn(["test", "13", "0"]);
-        $out = $rc->route($this->pathMock, ApiMethod::GET);
+        $out = $rc->route(new ApiPath("test/13/0"), ApiMethod::GET);
 
         $this->assertEquals([
-            "params" => ["para1" => 13, "para2" => 0],
+            "ids" => ["id1" => 13, "id2" => 0],
             "requireAuth" => false,
             "permissions" => [],
             "function" => function () {
