@@ -59,7 +59,7 @@ class ApiPath implements ApiPathInterface
                 //if only letters:
                 array_push($path, $e);
             } else if (preg_match("/^[0-9]+$/", $e) === 1) {
-                //if only numbers its an id:
+                //if only numbers its an id: save as int
                 array_push($path, (int)$e);
                 array_push($ids, (int)$e);
             } else {
@@ -80,14 +80,20 @@ class ApiPath implements ApiPathInterface
     public function getStringWithPlaceholders(): string
     {
         $ret =  "";
+
+        //go through each subpath
         foreach ($this->path as $sub) {
+            //append a /
             $ret = $ret . "/";
+
+            //append {id} if its an id otherwise the subpath itself
             if (is_int($sub)) {
                 $ret = $ret . "{id}";
             } else {
                 $ret = $ret . $sub;
             }
         }
+
         return $ret;
     }
 
