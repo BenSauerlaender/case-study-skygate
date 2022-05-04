@@ -11,7 +11,7 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 
 use Exception;
 
-//Exception, that should be thrown if an RequestPath is not valid
-class InvalidRequestPathException extends Exception
+//Exception, that should be thrown if an ApiPath is not valid
+class InvalidApiPathException extends Exception
 {
 }

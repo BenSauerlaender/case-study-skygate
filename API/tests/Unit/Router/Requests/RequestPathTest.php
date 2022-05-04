@@ -8,27 +8,27 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\ApiComponents\ApiRequests;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestPathException;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\RequestPath;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\ApiPath;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for the RequestPath method
+ * Tests for the ApiPath method
  */
-final class RequestPathTest extends TestCase
+final class ApiPathTest extends TestCase
 {
     /**
      * Tests if the method throws the right exception if the input is not a valid path
      * 
-     * @dataProvider invalidRequestPathProvider
+     * @dataProvider invalidApiPathProvider
      */
-    public function testRequestPathConstructionFailsByInvalidPath($input): void
+    public function testApiPathConstructionFailsByInvalidPath($input): void
     {
-        $this->expectException(InvalidRequestPathException::class);
-        new RequestPath($input);
+        $this->expectException(InvalidApiPathException::class);
+        new ApiPath($input);
     }
 
-    public function invalidRequestPathProvider(): array
+    public function invalidApiPathProvider(): array
     {
         return [
             "empty string" => [""],
@@ -40,15 +40,15 @@ final class RequestPathTest extends TestCase
     /**
      * Tests if the method returns the correct array
      * 
-     * @dataProvider RequestPathProvider
+     * @dataProvider ApiPathProvider
      */
-    public function testRequestPathSuccessful(string $in, array $exp): void
+    public function testApiPathSuccessful(string $in, array $exp): void
     {
-        $return = (new RequestPath($in))->getArray();
+        $return = (new ApiPath($in))->getArray();
         $this->assertEquals($return, $exp);
     }
 
-    public function RequestPathProvider(): array
+    public function ApiPathProvider(): array
     {
         return [
             ["test", ["test"]],

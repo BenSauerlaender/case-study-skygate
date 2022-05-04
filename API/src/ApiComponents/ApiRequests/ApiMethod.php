@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestMethodException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
 
 /**
  * An enum to represent valid methods for an Request Request
  */
-enum RequestMethod
+enum ApiMethod
 {
     case GET;
     case POST;
@@ -33,7 +33,7 @@ enum RequestMethod
      *
      * @param  string $s The string to evaluate
      * 
-     * @throws InvalidRequestMethodException if the string cant be evaluated
+     * @throws InvalidApiMethodException if the string cant be evaluated
      */
     static function fromString(string $s): self
     {
@@ -66,7 +66,7 @@ enum RequestMethod
                 return self::PATCH;
                 break;
             default:
-                throw new InvalidRequestMethodException("The method $s is not supported.");
+                throw new InvalidApiMethodException("The method $s is not supported.");
         }
     }
 }

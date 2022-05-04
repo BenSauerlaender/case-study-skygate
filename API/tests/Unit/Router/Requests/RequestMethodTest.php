@@ -8,22 +8,22 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\ApiComponents\ApiRequests;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestMethodException;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\RequestMethod;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\ApiMethod;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for the HttpMethod enum
  */
-final class RequestMethodTest extends TestCase
+final class ApiMethodTest extends TestCase
 {
     /**
      * Tests if the method throws the right exception if the input is not a valid HttpMethod
      */
     public function testFromStringWithInvalidMethod(): void
     {
-        $this->expectException(InvalidRequestMethodException::class);
-        RequestMethod::fromString("quatsch");
+        $this->expectException(InvalidApiMethodException::class);
+        ApiMethod::fromString("quatsch");
     }
 
     /**
@@ -31,24 +31,24 @@ final class RequestMethodTest extends TestCase
      * 
      * @dataProvider httpMethodProvider
      */
-    public function testFromStringSuccessful(string $in, RequestMethod $exp): void
+    public function testFromStringSuccessful(string $in, ApiMethod $exp): void
     {
-        $return = RequestMethod::fromString($in);
+        $return = ApiMethod::fromString($in);
         $this->assertEquals($return, $exp);
     }
 
     public function httpMethodProvider(): array
     {
         return [
-            ["Get", RequestMethod::GET],
-            ["Post", RequestMethod::POST],
-            ["Head", RequestMethod::HEAD],
-            ["Put", RequestMethod::PUT],
-            ["Delete", RequestMethod::DELETE],
-            ["Connect", RequestMethod::CONNECT],
-            ["Options", RequestMethod::OPTIONS],
-            ["Trace", RequestMethod::TRACE],
-            ["Patch", RequestMethod::PATCH],
+            ["Get", ApiMethod::GET],
+            ["Post", ApiMethod::POST],
+            ["Head", ApiMethod::HEAD],
+            ["Put", ApiMethod::PUT],
+            ["Delete", ApiMethod::DELETE],
+            ["Connect", ApiMethod::CONNECT],
+            ["Options", ApiMethod::OPTIONS],
+            ["Trace", ApiMethod::TRACE],
+            ["Patch", ApiMethod::PATCH],
         ];
     }
 }

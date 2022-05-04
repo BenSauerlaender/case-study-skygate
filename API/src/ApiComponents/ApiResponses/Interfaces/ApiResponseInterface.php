@@ -12,7 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces;
 /**
  * Interface for Response
  */
-interface ResponseInterface
+interface ApiResponseInterface
 {
     /**
      * Returns the response code

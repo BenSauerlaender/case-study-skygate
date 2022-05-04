@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces;
 
 /**
- * Interface for RequestPath
+ * Interface for ApiPath
  */
-interface RequestPathInterface
+interface ApiPathInterface
 {
     /**
      * Gets the path as array

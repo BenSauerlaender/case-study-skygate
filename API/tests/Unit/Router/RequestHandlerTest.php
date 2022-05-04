@@ -11,7 +11,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Router\Response;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\BadRequestHandlerException;
 use BenSauer\CaseStudySkygateApi\Router\RequestHandler;
-use BenSauer\CaseStudySkygateApi\Router\Interfaces\RequestInterface;
+use BenSauer\CaseStudySkygateApi\Router\Interfaces\ApiRequestInterface;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BaseResponse;
 use PHPUnit\Framework\TestCase;
 
@@ -38,12 +38,12 @@ final class RequestHandlerTest extends TestCase
     public function testHandlerReturnCorrectly(): void
     {
         //Creates a new handle that just returns a Response
-        $handler = new RequestHandler(function (RequestInterface $req) {
+        $handler = new RequestHandler(function (ApiRequestInterface $req) {
             return new SimpleResponse(404);
         });
 
         //creates an Mock request
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createMock(ApiRequestInterface::class);
 
         //call the handle function
         $response = $handler->handle($request);
@@ -58,13 +58,13 @@ final class RequestHandlerTest extends TestCase
     public function testHandlerCanAccessRequest(): void
     {
         //Creates a new handle that just gets  returns a Response
-        $handler = new RequestHandler(function (RequestInterface $req) {
+        $handler = new RequestHandler(function (ApiRequestInterface $req) {
             $req->getQuery();
             return new SimpleResponse();
         });
 
         //creates an Mock request assert that getQuery is called once
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createMock(ApiRequestInterface::class);
         $request->expects($this->once())->method("getQuery");
 
         //call the handle function
@@ -81,7 +81,7 @@ final class RequestHandlerTest extends TestCase
         $controller->expects($this->once())->method("deleteUser");
 
         //Creates a new handle that just gets  returns a Response
-        $handler = new RequestHandler(function (RequestInterface $req) {
+        $handler = new RequestHandler(function (ApiRequestInterface $req) {
             /** @var UserControllerInterface */
             $uc = $this->getController(UserControllerInterface::class);
             $uc->deleteUser(1);
@@ -89,7 +89,7 @@ final class RequestHandlerTest extends TestCase
         }, [UserControllerInterface::class => $controller]);
 
         //creates an Mock request assert that getQuery is called once
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createMock(ApiRequestInterface::class);
 
         //call the handle function
         $handler->handle($request);
@@ -101,12 +101,12 @@ final class RequestHandlerTest extends TestCase
     public function testHandlerThrowsExceptionIfControllerIsMissing(): void
     {
         //Creates a new handler that just uses a controller that not exists
-        $handler = new RequestHandler(function (RequestInterface $req) {
+        $handler = new RequestHandler(function (ApiRequestInterface $req) {
             $this->getController("test");
         });
 
         //creates an Mock request
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createMock(ApiRequestInterface::class);
 
         //expect exception during handle()
         $this->expectException(BadRequestHandlerException::class);
@@ -126,7 +126,7 @@ final class RequestHandlerTest extends TestCase
         $this->expectException(BadRequestHandlerException::class);
 
         //Try to create a new handle with a wrong controllers array
-        $handler = new RequestHandler(function (RequestInterface $req) {
+        $handler = new RequestHandler(function (ApiRequestInterface $req) {
         }, ["test" => $controller]);
     }
 }

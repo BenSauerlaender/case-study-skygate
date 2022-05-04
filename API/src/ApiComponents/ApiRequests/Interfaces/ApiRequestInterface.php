@@ -12,7 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\Router\Interfaces;
 /**
  * Interface for Request
  */
-interface RequestInterface
+interface ApiRequestInterface
 {
     /**
      * Gets the Query in a key-value format.

@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestPathException;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\RequestPathInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiPathInterface;
 
 /**
- * Class that implements RequestPathInterface
+ * Class that implements ApiPathInterface
  */
-class RequestPath implements RequestPathInterface
+class ApiPath implements ApiPathInterface
 {
     /**
      * The Path stored as an array of strings.
@@ -41,9 +41,9 @@ class RequestPath implements RequestPathInterface
 
         //validate sub-parts
         foreach ($array as $e) {
-            if (preg_match("/^[a-z0-9]+$/", $e) !== 1) throw new InvalidRequestPathException("The path-sub-part: '$e' contains invalid characters");
+            if (preg_match("/^[a-z0-9]+$/", $e) !== 1) throw new InvalidApiPathException("The path-sub-part: '$e' contains invalid characters");
         }
-        if (sizeof($array) === 0) throw new InvalidRequestPathException("Path $s need to contain at least one sub-part");
+        if (sizeof($array) === 0) throw new InvalidApiPathException("Path $s need to contain at least one sub-part");
 
         $this->path = $array;
     }

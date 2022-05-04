@@ -9,17 +9,17 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ResponseInterface;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ApiResponseInterface;
 
 class ApiUtilities
 {
     /**
      * Utility function to send a response to the user
      *
-     * @param  ResponseInterface $response The response to be send
+     * @param  ApiResponseInterface $response The response to be send
      * @param  string $domain The Servers Domain.
      */
-    static public function sendResponse(ResponseInterface $response, string $domain, string $basePath): void
+    static public function sendResponse(ApiResponseInterface $response, string $domain, string $basePath): void
     {
         //clear all headers
         header_remove();

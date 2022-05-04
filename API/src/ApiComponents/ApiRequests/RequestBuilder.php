@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests;
 
-use BenSauer\CaseStudySkygateApi\Router\RequestInterface;
+use BenSauer\CaseStudySkygateApi\Router\ApiRequestInterface;
 
 /**
  * Class to build a Request
@@ -23,7 +23,7 @@ class RequestBuilder
      * @param  array  $cookie           The $_COOKIE array
      * @param  string $PATH_PREFIX      The prefix to cut in front of path
      */
-    static public function build(array $server, array $cookie, string $PATH_PREFIX): RequestInterface
+    static public function build(array $server, array $cookie, string $PATH_PREFIX): ApiRequestInterface
     {
     }
 }

@@ -13,12 +13,12 @@ use BenSauer\CaseStudySkygateApi\Exceptions\JsonEncodingException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ResponseCookieInterface;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ResponseInterface;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ApiResponseInterface;
 
 /**
  * Base Class for API Responses
  */
-abstract class BaseResponse implements ResponseInterface
+abstract class BaseResponse implements ApiResponseInterface
 {
 
     private int $code = 501;

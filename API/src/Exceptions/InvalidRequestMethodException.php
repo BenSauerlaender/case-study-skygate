@@ -12,8 +12,8 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 use Exception;
 
 /**
- * Exception that is thrown if a invalid RequestMethod occurs
+ * Exception that is thrown if a invalid ApiMethod occurs
  */
-class InvalidRequestMethodException extends Exception
+class InvalidApiMethodException extends Exception
 {
 }
