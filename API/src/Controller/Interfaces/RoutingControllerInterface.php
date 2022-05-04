@@ -28,6 +28,8 @@ interface RoutingControllerInterface
      *     "permissions"    => (array<string>)          List of required permissions.
      *     "function"       => (Closure)                Anonymous function that process the route.
      *   ]
+     * @throws ApiPathNotFoundException     if there is no route with this path.
+     * @throws ApiMethodNotFoundException   if there is no route with this path, that uses this method.
      */
     public function route(ApiPath $path, ApiMethod $method): array;
 }

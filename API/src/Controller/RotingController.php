@@ -16,8 +16,6 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 class RoutingController implements RoutingControllerInterface
 {
 
-    private UserControllerInterface $uc;
-
     /**
      * An array of all available routes
      *
@@ -25,9 +23,8 @@ class RoutingController implements RoutingControllerInterface
      */
     private array $routes;
 
-    public function __construct(array $routes, UserControllerInterface $uc)
+    public function __construct(array $routes)
     {
-        $this->uc = $uc;
         $this->routes = $routes;
     }
 
