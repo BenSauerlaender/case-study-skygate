@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
@@ -94,7 +94,7 @@ final class UCCreateTest extends BaseUCTest
     /**
      * Tests if the method throws an exception if the email is already in use in at least one of the relevant tables
      * 
-     * @dataProvider \BenSauer\CaseStudySkygateApi\tests\Unit\Controller\Provider::NANDProvider()
+     * @dataProvider \BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController\Provider::NANDProvider()
      */
     public function testCreateUserWithDuplicateEmail(bool $emailFreeInUser, bool $emailFreeInEcr): void
     {

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
 /**
  * A Collection of DataProviders for UserController tests

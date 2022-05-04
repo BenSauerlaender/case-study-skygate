@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\ApiComponents\ApiRequests;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\ApiPath;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiPath;
 use PHPUnit\Framework\TestCase;
 
 /**

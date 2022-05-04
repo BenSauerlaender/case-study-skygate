@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests;
+namespace BenSauer\CaseStudySkygateApi\ApiComponents;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
 

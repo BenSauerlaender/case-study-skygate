@@ -37,7 +37,7 @@ class MySqlTableCreator
     /**
      * relative Path to the sql-files
      */
-    private const PATH_TO_SQL = __DIR__ . "/../../../SQL/";
+    private const PATH_TO_SQL = __DIR__ . "/../../SQL/";
 
     /**
      * SQL-files with CREATE Table - Statements for each table

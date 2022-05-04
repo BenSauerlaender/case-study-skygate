@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests;
 
 use BenSauer\CaseStudySkygateApi\Router\ApiRequestInterface;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\ApiMethod;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiMethod;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiPathInterface;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\RequestQueryInterface;
 
