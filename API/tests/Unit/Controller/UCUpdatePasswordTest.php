@@ -10,7 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
-use BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities\Controller\MySqlTableCreator\UserTableTest;
+use BenSauer\CaseStudySkygateApi\tests\Unit\Utilities\MySqlTableCreator\UserTableTest;
 
 /**
  * Testsuit for UserController->updateUsersPassword method
@@ -69,7 +69,7 @@ final class UCUpdatePasswordTest extends BaseUCTest
             ->willReturn(true);
 
         //validation will fail
-        $this->validatorMock->expects($this->once())
+        $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->with($this->equalTo(["password" => "newPass"]))
             ->willReturn(["password" => "TO_SHORT"]);
@@ -95,7 +95,7 @@ final class UCUpdatePasswordTest extends BaseUCTest
             ->with($this->equalTo("oldPass", "hash"))
             ->willReturn(true);
 
-        $this->validatorMock->expects($this->once())
+        $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->with($this->equalTo(["password" => "newPass"]))
             ->willReturn(true);

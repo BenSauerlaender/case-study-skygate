@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-use BenSauer\CaseStudySkygateApi\Utilities\RouterUtilities;
+use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 
 try {
     //load composer dependencies
@@ -63,7 +63,7 @@ try {
     }
 
     //call the function to test
-    RouterUtilities::sendResponse($response, "domain", "api/v1/");
+    ApiUtilities::sendResponse($response, "domain", "api/v1/");
     exit();
 } catch (Exception $e) {
     error_log($e->getMessage());

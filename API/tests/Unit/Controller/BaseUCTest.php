@@ -10,11 +10,11 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
 
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\UserController;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\EcrAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\RoleAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\Interfaces\UserAccessorInterface;
+use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\EcrAccessorInterface;
+use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
+use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
-use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
+use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
 use PHPUnit\Framework\TestCase;
 
@@ -25,7 +25,7 @@ abstract class BaseUCTest extends TestCase
 {
 
     protected ?SecurityUtilitiesInterface $securityUtilitiesMock;
-    protected ?ValidatorInterface $validatorMock;
+    protected ?ValidationControllerInterface $ValidationControllerMock;
     protected ?UserAccessorInterface $userAccessorMock;
     protected ?RoleAccessorInterface $roleAccessorMock;
     protected ?EcrAccessorInterface $ecrAccessorMock;
@@ -42,7 +42,7 @@ abstract class BaseUCTest extends TestCase
 
         //create all mocks
         $this->securityUtilitiesMock = $this->createMock(SecurityUtilities::class);
-        $this->validatorMock = $this->createMock(ValidatorInterface::class);
+        $this->ValidationControllerMock = $this->createMock(ValidationControllerInterface::class);
         $this->userAccessorMock = $this->createMock(UserAccessorInterface::class);
         $this->roleAccessorMock = $this->createMock(RoleAccessorInterface::class);
         $this->ecrAccessorMock = $this->createMock(EcrAccessorInterface::class);
@@ -50,7 +50,7 @@ abstract class BaseUCTest extends TestCase
         //setUp the userController
         $this->userController = new UserController(
             $this->securityUtilitiesMock,
-            $this->validatorMock,
+            $this->ValidationControllerMock,
             $this->userAccessorMock,
             $this->roleAccessorMock,
             $this->ecrAccessorMock,
@@ -61,7 +61,7 @@ abstract class BaseUCTest extends TestCase
     {
 
         $this->securityUtilitiesMock = null;
-        $this->validatorMock = null;
+        $this->ValidationControllerMock = null;
         $this->userAccessorMock = null;
         $this->roleAccessorMock = null;
         $this->ecrAccessorMock = null;

@@ -10,13 +10,13 @@ namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
 
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\UserController;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\MySqlEcrAccessor;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\MySqlRoleAccessor;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Accessors\MySqlUserAccessor;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlConnector;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlTableCreator;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlEcrAccessor;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRoleAccessor;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserAccessor;
+use BenSauer\CaseStudySkygateApi\Utilities\MySqlConnector;
+use BenSauer\CaseStudySkygateApi\Utilities\MySqlTableCreator;
 use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
-use BenSauer\CaseStudySkygateApi\Utilities\Validator;
+use BenSauer\CaseStudySkygateApi\Controller\ValidationController;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -61,7 +61,7 @@ abstract class BaseUCITest extends TestCase
         //setUp the userController
         $this->userController = new UserController(
             new SecurityUtilities(),
-            new Validator(),
+            new ValidationController(),
             new MySqlUserAccessor($pdo),
             new MySqlRoleAccessor($pdo),
             new MySqlEcrAccessor($pdo),

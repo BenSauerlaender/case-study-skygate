@@ -7,8 +7,8 @@
 //activate strict mode
 declare(strict_types=1);
 
-use BenSauer\CaseStudySkygateApi\Router\Responses\BaseResponse;
-use BenSauer\CaseStudySkygateApi\Router\Responses\Interfaces\ResponseCookieInterface;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BaseResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ResponseCookieInterface;
 
 //Simple Helper Class to create a dummy ResponseCookie
 final class SimpleResponseCookie implements ResponseCookieInterface

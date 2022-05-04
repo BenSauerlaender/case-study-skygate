@@ -24,8 +24,8 @@ final class UCUpdateTest extends BaseUCTest
      */
     public function testUpdateWithNonExistingUser(): void
     {
-        //validator will validate everything
-        $this->validatorMock->expects($this->once())
+        //ValidationController will validate everything
+        $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->willReturn(true);
 
@@ -56,9 +56,9 @@ final class UCUpdateTest extends BaseUCTest
      */
     public function testUpdateUserWithUnsupportedField(string $field): void
     {
-        //validator will throw InvalidArgumentException every time.
-        //validator will only be called on "quatsch". "password" and "email"will be catched before
-        $this->validatorMock
+        //ValidationController will throw InvalidArgumentException every time.
+        //ValidationController will only be called on "quatsch". "password" and "email"will be catched before
+        $this->ValidationControllerMock
             ->method("validate")
             ->with($this->equalTo(["quatsch" => ""]))
             ->will($this->throwException(new UnsupportedFieldException()));
@@ -87,7 +87,7 @@ final class UCUpdateTest extends BaseUCTest
      */
     public function testUpdateUserWithInvalidField(string $key, string $value): void
     {
-        $this->validatorMock->method("validate")
+        $this->ValidationControllerMock->method("validate")
             ->willReturn([$key => "INVALID"]);
 
         $this->roleAccessorMock->method("findByName")
@@ -104,7 +104,7 @@ final class UCUpdateTest extends BaseUCTest
      */
     public function testUpdateUserWithInvalidFieldType(): void
     {
-        $this->validatorMock->method("validate")
+        $this->ValidationControllerMock->method("validate")
             ->will($this->throwException(new InvalidTypeException()));
 
         $this->expectException(InvalidTypeException::class);
@@ -132,8 +132,8 @@ final class UCUpdateTest extends BaseUCTest
     {
         $userID = 1;
 
-        //validator will validate everything
-        $this->validatorMock->expects($this->once())
+        //ValidationController will validate everything
+        $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->with($this->equalTo($validate))
             ->willReturn(true);

@@ -12,7 +12,7 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\BadRequestHandlerException;
 use BenSauer\CaseStudySkygateApi\Router\RequestHandler;
 use BenSauer\CaseStudySkygateApi\Router\Interfaces\RequestInterface;
-use BenSauer\CaseStudySkygateApi\Router\Responses\BaseResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BaseResponse;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -24,7 +24,7 @@ final class UCRequestEmailChangeTest extends BaseUCTest
      */
     public function testRequestEmailUserNotExists(): void
     {
-        $this->validatorMock->expects($this->once())
+        $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->willReturn(true);
 
@@ -43,7 +43,7 @@ final class UCRequestEmailChangeTest extends BaseUCTest
      */
     public function testRequestEmailWithInvalidEmail(): void
     {
-        $this->validatorMock->expects($this->once())
+        $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->willReturn(["email" => "TO_SHORT"]);
 
@@ -61,7 +61,7 @@ final class UCRequestEmailChangeTest extends BaseUCTest
      */
     public function testRequestEmailWithNotFreeEmail($emailFreeInUser, $emailFreeInEcr): void
     {
-        $this->validatorMock->expects($this->once())
+        $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->with($this->equalTo(["email" => "someEmail"]))
             ->willReturn(true);
@@ -80,7 +80,7 @@ final class UCRequestEmailChangeTest extends BaseUCTest
      */
     public function testRequestEmailSuccessful(): void
     {
-        $this->validatorMock->expects($this->once())
+        $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->with($this->equalTo(["email" => "email"]))
             ->willReturn(true);

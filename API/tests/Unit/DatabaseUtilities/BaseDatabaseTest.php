@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities;
 
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlConnector;
+use BenSauer\CaseStudySkygateApi\Utilities\MySqlConnector;
 use PDO;
 use PHPUnit\Framework\TestCase;
 

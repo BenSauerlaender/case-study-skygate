@@ -63,7 +63,7 @@ final class UCCreateTest extends BaseUCTest
      */
     public function testCreateUserWithUnsupportedFields(): void
     {
-        $this->validatorMock->method("validate")->will($this->throwException(new UnsupportedFieldException()));
+        $this->ValidationControllerMock->method("validate")->will($this->throwException(new UnsupportedFieldException()));
 
         $this->expectException(UnsupportedFieldException::class);
         $this->userController->createUser(self::$completeAttr);
@@ -74,7 +74,7 @@ final class UCCreateTest extends BaseUCTest
      */
     public function testCreateUserWithInvalidTypeFields(): void
     {
-        $this->validatorMock->method("validate")->will($this->throwException(new InvalidTypeException()));
+        $this->ValidationControllerMock->method("validate")->will($this->throwException(new InvalidTypeException()));
 
         $this->expectException(InvalidTypeException::class);
         $this->userController->createUser(self::$completeAttr);
@@ -85,7 +85,7 @@ final class UCCreateTest extends BaseUCTest
      */
     public function testCreateUserWithInvalidFields(): void
     {
-        $this->validatorMock->method("validate")->willReturn(["email" => "TO_SHORT"]);
+        $this->ValidationControllerMock->method("validate")->willReturn(["email" => "TO_SHORT"]);
 
         $this->expectException(InvalidFieldException::class);
         $this->userController->createUser(self::$completeAttr);
@@ -98,8 +98,8 @@ final class UCCreateTest extends BaseUCTest
      */
     public function testCreateUserWithDuplicateEmail(bool $emailFreeInUser, bool $emailFreeInEcr): void
     {
-        //validator validates everything
-        $this->validatorMock->expects($this->once())
+        //ValidationController validates everything
+        $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->willReturn(true);
 
@@ -115,8 +115,8 @@ final class UCCreateTest extends BaseUCTest
      */
     public function testCreateUserWithInvalidRole(): void
     {
-        //validator validates everything
-        $this->validatorMock->expects($this->once())
+        //ValidationController validates everything
+        $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->willReturn(true);
 
@@ -142,8 +142,8 @@ final class UCCreateTest extends BaseUCTest
         //the userID for the new created user
         $returnedUserID = 11;
 
-        //validator validates everything
-        $this->validatorMock->expects($this->once())
+        //ValidationController validates everything
+        $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->with($this->equalTo($expectValidated))
             ->willReturn(true);

@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities\Accessors;
 
 use BadMethodCallException;
-use BenSauer\CaseStudySkygateApi\DatabaseUtilities\Controller\MySqlTableCreator;
+use BenSauer\CaseStudySkygateApi\Utilities\MySqlTableCreator;
 use BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities\BaseDatabaseTest;
 use InvalidArgumentException;
 use PDO;

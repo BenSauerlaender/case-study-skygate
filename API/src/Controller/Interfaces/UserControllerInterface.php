@@ -106,26 +106,26 @@ interface UserControllerInterface
     public function updateUsersPassword(int $id, string $new_password, string $old_password): bool;
 
     /**
-     * Creates an request to change the users email.
+     * Creates an Request to change the users email.
      * 
      * Validates new email.
      * Generates a verification code.
-     * Write a request to change the users email to the database.
+     * Write a Request to change the users email to the database.
      *
      * @param  int    $id       The users id.
      * @param  string $newEmail The users new email.
-     * @return string           The verification code to verify the request.   
+     * @return string           The verification code to verify the Request.   
      *  
      * @throws InvalidFieldException    if the new email is not valid.
      * @throws DatabaseException        if there is a problem with the database.
      *          (UserNotFoundException | DuplicateEmailException ...)
      */
-    public function requestUsersEmailChange(int $id, string $newEmail): string;
+    public function RequestUsersEmailChange(int $id, string $newEmail): string;
 
     /**
-     * Verifies the request to change the user's email if the code is correct
+     * Verifies the Request to change the user's email if the code is correct
      * 
-     * Gets the request.
+     * Gets the Request.
      * Checks if the verification code is correct.
      * Writes the new email to the database.
      * 

@@ -3,11 +3,11 @@
 //activate strict mode
 declare(strict_types=1);
 
-use BenSauer\CaseStudySkygateApi\Router\Requests\RequestBuilder;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\RequestBuilder;
 use BenSauer\CaseStudySkygateApi\Router\RouterBuilder;
-use BenSauer\CaseStudySkygateApi\Router\Responses\RecourseNotFoundResponse;
-use BenSauer\CaseStudySkygateApi\Router\Responses\NotSecureResponse;
-use BenSauer\CaseStudySkygateApi\Utilities\RouterUtilities;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\RecourseNotFoundResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\NotSecureResponse;
+use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 
 try {
     //load composer dependencies
@@ -18,7 +18,7 @@ try {
     $dotenv->load();
 
     //check for correct version
-    if (!str_starts_with($_SERVER["REQUEST_URI"], $PATH_PREFIX)) {
+    if (!str_starts_with($_SERVER["Request_URI"], $PATH_PREFIX)) {
 
         $response = new RecourseNotFoundResponse();
 
@@ -31,12 +31,12 @@ try {
         $router = RouterBuilder::build();
         $handler = $router->route($apiPath, $method);
 
-        $request = RequestBuilder::build($_SERVER["REQUEST_URI"], $_COOKIE, $PATH_PREFIX);
+        $Request = RequestBuilder::build($_SERVER["Request_URI"], $_COOKIE, $PATH_PREFIX);
 
-        $response = $handler->handle($request);
+        $response = $handler->handle($Request);
     }
 
-    RouterUtilities::sendResponse($response);
+    ApiUtilities::sendResponse($response);
     exit();
 } catch (Exception $e) {
     error_log($e->getMessage());

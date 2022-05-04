@@ -10,8 +10,8 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Router\Response;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
-use BenSauer\CaseStudySkygateApi\Router\Responses\BaseResponse;
-use BenSauer\CaseStudySkygateApi\Router\Responses\Interfaces\ResponseCookieInterface;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BaseResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ResponseCookieInterface;
 use PHPUnit\Framework\TestCase;
 
 class mockResponse extends BaseResponse

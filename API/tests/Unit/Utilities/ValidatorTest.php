@@ -12,23 +12,23 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
-use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\ValidatorInterface;
-use BenSauer\CaseStudySkygateApi\Utilities\Validator;
+use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
+use BenSauer\CaseStudySkygateApi\Controller\ValidationController;
 use PHPUnit\Framework\TestCase;
 
-final class ValidatorTest extends TestCase
+final class ValidationControllerTest extends TestCase
 {
 
-    private static ?ValidatorInterface $validator = null;
+    private static ?ValidationControllerInterface $ValidationController = null;
 
     public static function setUpBeforeClass(): void
     {
-        self::$validator = new Validator;
+        self::$ValidationController = new ValidationController;
     }
 
     public static function tearDownAfterClass(): void
     {
-        self::$validator = null;
+        self::$ValidationController = null;
     }
 
     public function testMultipleValidations(): void
@@ -41,7 +41,7 @@ final class ValidatorTest extends TestCase
             "phone" => "030 12345-67",
             "password" => "1SicheresPassword"
         ];
-        $this->assertTrue(self::$validator->validate($attributes));
+        $this->assertTrue(self::$ValidationController->validate($attributes));
     }
 
     /**
@@ -50,7 +50,7 @@ final class ValidatorTest extends TestCase
     public function testUnsupportedField(): void
     {
         $this->expectException(UnsupportedFieldException::class);
-        self::$validator->validate(["NotAnField" => ""]);
+        self::$ValidationController->validate(["NotAnField" => ""]);
     }
 
     /**
@@ -59,7 +59,7 @@ final class ValidatorTest extends TestCase
     public function testInvalidType(): void
     {
         $this->expectException(InvalidTypeException::class);
-        self::$validator->validate(["name" => 123]);
+        self::$ValidationController->validate(["name" => 123]);
     }
 
     /**
@@ -67,12 +67,12 @@ final class ValidatorTest extends TestCase
      */
     public function testNotAnAttribute(): void
     {
-        $this->assertTrue(self::$validator->validate([]));
+        $this->assertTrue(self::$ValidationController->validate([]));
     }
 
     private function assertCorrectValidation(string $field, mixed $value, bool $valid, string $reason): void
     {
-        $ret = self::$validator->validate([$field => $value]);
+        $ret = self::$ValidationController->validate([$field => $value]);
 
         if ($valid) {
             $this->assertTrue($ret);
