@@ -27,7 +27,7 @@ abstract class BaseMySqlAccessorTest extends BaseDatabaseTest
      *
      * @var array<string>
      */
-    private static array $tables = ["user", "role", "emailChangeRequest"];
+    private static array $tables = ["user", "role", "emailChangeRequest", "refreshToken"];
 
     /**
      * An Array that contains an Array for each table, where all created_at fields are stored

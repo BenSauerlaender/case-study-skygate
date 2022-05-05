@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\DbAccessors;
 
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
 
@@ -36,16 +37,18 @@ class MySqlRefreshTokenAccessor extends MySqlAccessor implements RefreshTokenAcc
     {
         //if no entry exist create one
         //else increase by one
-        $sql = 'IF NOT EXISTS (SELECT * FROM refreshToken WHERE user_id = :id) THEN
-                    INSERT INTO refreshToken (user_id)
-                    VALUES (:id)
-                ELSE
-                    UPDATE refreshToken
-                    SET count=count+1
-                    WHERE user_id=:id
-                END IF;';
+        $sql = 'INSERT INTO refreshToken 
+                    (user_id) 
+                VALUES 
+                    (:userID) 
+                ON DUPLICATE KEY UPDATE 
+                    count = count + 1;';
 
-        $stmt = $this->prepareAndExecute($sql, ["id" => $userID]);
+        try {
+            $stmt = $this->prepareAndExecute($sql, ["userID" => $userID]);
+        } catch (FieldNotFoundException $e) {
+            throw new UserNotFoundException("user with id $userID not exists.", 0, $e);
+        }
 
         //if no user updated
         if ($stmt->rowCount() === 0) throw new ShouldNeverHappenException("Either a new entry was made or an existing was updated.");

@@ -26,11 +26,12 @@ interface RefreshTokenAccessorInterface
     public function getCountByUserID(int $userID): ?int;
 
     /**
-     * Increase the value of 'count' for the specified use by 1 r
+     * Increase the value of 'count' for the specified use by 1
      *
      * @param  int   $userID        The users id.
      * 
      * @throws DBexception        if there is a problem with the database.
+     *      (UserNotFoundException | ...)   if there is no user with this id.
      */
     public function increaseCount(int $userID): void;
 }
