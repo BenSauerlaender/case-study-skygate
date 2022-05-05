@@ -43,11 +43,20 @@ class ApiController implements ApiControllerInterface
         //if the route require authentication
         if ($route["requireAuth"]) {
 
+            $accessToken = $request->getAccessToken();
+            if(is_null($accessToken)){
+                //send auth required
+            }
+
             //authenticate the requester
-            $auth = $this->auth->authenticateRequest($request);
+            try{
+                $auth = $this->auth->authenticate($request);
+            }catch(AccessTokenInvalidException $e){
+                //expired or not valid :send auth failed
+            }
 
             //check if the requester has all required permissions for this route
-            if(!$this->routing->hasPermission($route, $auth["permissions"])){
+            if(!$this->auth->hasPermissions($route, $auth)){
                 
             }
         }
