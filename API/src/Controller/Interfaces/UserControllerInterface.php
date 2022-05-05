@@ -33,7 +33,7 @@ interface UserControllerInterface
      *  ]
      * @return array{id: int, verificationCode: string} The user's id and the verification code to verify the user 
      * 
-     * @throws DatabaseException            if there is a problem with the database.
+     * @throws DBexception            if there is a problem with the database.
      *          (DuplicateEmailException | ...)
      * @throws ValidationException          if there are invalid fields.
      *          (RequiredFieldException | UnsupportedFieldsException | InvalidFieldException | InvalidTypeException)
@@ -45,7 +45,7 @@ interface UserControllerInterface
      *
      * @param  int  $id the user's id 
      * 
-     * @throws DatabaseException    if there is a problem with the database.
+     * @throws DBexception    if there is a problem with the database.
      *          (UserNotFoundException | ...)
      */
     public function deleteUser(int $id): void;
@@ -63,7 +63,7 @@ interface UserControllerInterface
      *      "role"      => (string)   The users role. Options: "user", "admin".
      *  ]
      * 
-     * @throws DatabaseException    if there is a problem with the database.
+     * @throws DBexception    if there is a problem with the database.
      *          (UserNotFoundException | RoleNotFoundException ...)
      * @throws ValidationException  if fields array is invalid.
      *          (ArrayIsEmptyException | UnsupportedFieldsException | InvalidFieldException | InvalidTypeException)
@@ -81,7 +81,7 @@ interface UserControllerInterface
      * @return bool                         returns false if code is incorrect, true otherwise.
      * 
      * @throws BadMethodCallException   if the user is already verified.
-     * @throws DatabaseException        if there is a problem with the database.
+     * @throws DBexception        if there is a problem with the database.
      *          (UserNotFoundException | ...)
      */
     public function verifyUser(int $id, string $verificationCode): bool;
@@ -100,7 +100,7 @@ interface UserControllerInterface
      * @return bool                     returns false if old password is incorrect, true otherwise.
      * 
      * @throws InvalidFieldException    if the new password is not valid.
-     * @throws DatabaseException        if there is a problem with the database.
+     * @throws DBexception        if there is a problem with the database.
      *          (UserNotFoundException | ...)
      */
     public function updateUsersPassword(int $id, string $new_password, string $old_password): bool;
@@ -117,7 +117,7 @@ interface UserControllerInterface
      * @return string           The verification code to verify the Request.   
      *  
      * @throws InvalidFieldException    if the new email is not valid.
-     * @throws DatabaseException        if there is a problem with the database.
+     * @throws DBexception        if there is a problem with the database.
      *          (UserNotFoundException | DuplicateEmailException ...)
      */
     public function RequestUsersEmailChange(int $id, string $newEmail): string;
@@ -133,7 +133,7 @@ interface UserControllerInterface
      * @param  string $code     The verification code to verify the email change.
      * @return bool             returns false if code is incorrect, true otherwise.
      * 
-     * @throws DatabaseException        if there is a problem with the database.
+     * @throws DBexception        if there is a problem with the database.
      *          (EcrNotFoundException| ...)
      */
     public function verifyUsersEmailChange(int $id, string $code): bool;

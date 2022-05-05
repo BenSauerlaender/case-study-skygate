@@ -21,7 +21,7 @@ interface EcrAccessorInterface
      * @param  int   $userID        The users id.
      * @return null|int             The Request id (or null if the Request cant be found).
      * 
-     * @throws DatabaseException    if there is a problem with the database.
+     * @throws DBexception    if there is a problem with the database.
      */
     public function findByUserID(int $userID): ?int;
 
@@ -31,7 +31,7 @@ interface EcrAccessorInterface
      * @param  string   $email      The email, the user Requested.
      * @return null|int             The Request id (or null if the Request cant be found).
      * 
-     * @throws DatabaseException    if there is a problem with the database.
+     * @throws DBexception    if there is a problem with the database.
      */
     public function findByEmail(string $email): ?int;
 
@@ -40,7 +40,7 @@ interface EcrAccessorInterface
      *
      * @param  int  $id                     The Request id.
      * 
-     * @throws DatabaseException            if there is a problem with the database.
+     * @throws DBexception            if there is a problem with the database.
      *          (EcrNotFoundException | ...)
      */
     public function delete(int $id): void;
@@ -50,7 +50,7 @@ interface EcrAccessorInterface
      *
      * @param  int  $userID                 The User id.
      * 
-     * @throws DatabaseException            if there is a problem with the database.
+     * @throws DBexception            if there is a problem with the database.
      *          (EcrNotFoundException | ...)
      */
     public function deleteByUserID(int $userID): void;
@@ -62,7 +62,7 @@ interface EcrAccessorInterface
      * @param  string $newEmail             The Requested email.
      * @param  string $verification_code    The code to verify the Request.
      * 
-     * @throws DatabaseException            if there is a problem with the database.
+     * @throws DBexception            if there is a problem with the database.
      *          (UserNotFoundException | DuplicateUserException | DuplicateEmailException | ...)
      */
     public function insert(int $userID, string $newEmail, string $verification_code): void;
@@ -77,7 +77,7 @@ interface EcrAccessorInterface
      *      "verificationCode"  => (string)     The code to verify the Request.
      *  ]
      * 
-     * @throws DatabaseException            if there is a problem with the database.
+     * @throws DBexception            if there is a problem with the database.
      *          (EcrNotFoundException | ...)
      */
     public function get(int $id): array;

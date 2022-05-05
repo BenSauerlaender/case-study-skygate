@@ -286,7 +286,7 @@ class UserController implements UserControllerInterface
      * @param  string $email    The email to check for.
      * @return bool             returns true if the email is free, otherwise false.
      * 
-     * @throws DatabaseException        if there is a problem with the database.
+     * @throws DBexception        if there is a problem with the database.
      */
     private function isEmailFree(string $email): bool
     {

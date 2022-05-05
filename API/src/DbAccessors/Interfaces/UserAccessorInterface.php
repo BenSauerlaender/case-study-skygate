@@ -29,7 +29,7 @@ interface UserAccessorInterface
      * @param  string|null  $verificationCode     Code to verify the user.
      * @param  int          $roleID               The ID of the users permission role.
      * 
-     * @throws DatabaseException if there is a problem with the database.
+     * @throws DBexception if there is a problem with the database.
      *          (RoleNotFoundException | DuplicateEmailException | ...)
      */
     public function insert(
@@ -49,7 +49,7 @@ interface UserAccessorInterface
      *
      * @param  int  $id     The users id.
      * 
-     * @throws DatabaseException         if there is a problem with the database.
+     * @throws DBexception         if there is a problem with the database.
      *          (UserNotFoundException | ...)
      */
     public function delete(int $id): void;
@@ -72,7 +72,7 @@ interface UserAccessorInterface
      *      "verificationCode"  => (string)     Verification code to verify the user.
      *  ]
      * 
-     * @throws DatabaseException        if there is a problem with the database.
+     * @throws DBexception        if there is a problem with the database.
      *          (UserNotFoundException | RoleNotFoundException | DuplicateEmailException ...)
      * @throws ValidationException      if the fields array is invalid.
      *          (ArrayIsEmptyException | UnsupportedFieldException | InvalidTypeException)
@@ -109,7 +109,7 @@ interface UserAccessorInterface
      *      "updatedAt"         => (string)     The last DateTime the user was updated.
      *  ]
      *
-     * @throws DatabaseException if there is a problem with the database.
+     * @throws DBexception if there is a problem with the database.
      *          (UserNotFoundException | ...)
      */
     public function get(int $id): array;
