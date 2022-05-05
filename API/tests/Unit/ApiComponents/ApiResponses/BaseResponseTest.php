@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Router\Response;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\ApiComponents\Responses;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;

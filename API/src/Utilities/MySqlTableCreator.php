@@ -42,5 +42,5 @@ class MySqlTableCreator
     /**
      * SQL-files with CREATE Table - Statements for each table
      */
-    private const TABLES = ["role.sql", "user.sql", "emailChangeRequest.sql"];
+    private const TABLES = ["role.sql", "user.sql", "emailChangeRequest.sql", "refreshToken.sql"];
 }

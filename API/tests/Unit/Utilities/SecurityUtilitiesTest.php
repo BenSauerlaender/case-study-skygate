@@ -10,7 +10,6 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Utilities;
 
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
 use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 final class SecurityUtilitiesTest extends TestCase

@@ -14,6 +14,7 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerI
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\RoutingControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\Router\Interfaces\ApiRequestInterface;
+use Closure;
 
 class ApiController implements ApiControllerInterface
 {
@@ -33,23 +34,31 @@ class ApiController implements ApiControllerInterface
     public function handleRequest(ApiRequestInterface $request): ApiResponseInterface
     {
         //search for the right route
-        $route = $this->routing->route($request->getPath, $request->getMethod);
+        try{
+            $route = $this->routing->route($request->getPath, $request->getMethod);
+        }catch(){
+
+        }
 
         //if the route require authentication
         if ($route["requireAuth"]) {
 
             //authenticate the requester
-            $auth = $this->auth->authenticate($request);
+            $auth = $this->auth->authenticateRequest($request);
 
             //check if the requester has all required permissions for this route
-            $this->auth->checkPermission($route["requiredPermissions"], $auth["permissions"]);
+            if(!$this->routing->hasPermission($route, $auth["permissions"])){
+                
+            }
         }
 
-        //process the request in the route
-        return $this->runRoute($route, $request);
-    }
+        /** @var Closure */
+        $func = $route["function"];
 
-    private function runRoute(array $route, ApiRequestInterface $req): ApiResponseInterface
-    {
+        //get the ids given in the requested route
+        $ids = $route["ids"];
+
+        //call the routes function in this object
+        return $func->call($this, $request, $ids);
     }
 }

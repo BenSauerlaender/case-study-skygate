@@ -15,6 +15,13 @@ use BenSauer\CaseStudySkygateApi\Router\Interfaces\ApiRequestInterface;
  */
 interface AuthenticationControllerInterface
 {
-    public function authenticate(ApiRequestInterface $req): void;
-    public function checkPermission(array $requiredPermissions, array $permissions): void;
+    /**
+     * Authenticates a Requester based on the token provided via the request.
+     * 
+     * @param  ApiRequestInterface $request The request
+     * @return array<string,mixed>  $auth = [
+     * 
+     * ]
+     */
+    public function authenticateRequest(ApiRequestInterface $request): array;
 }

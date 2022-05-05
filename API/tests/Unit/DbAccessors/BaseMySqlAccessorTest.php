@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities\Accessors;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\DbAccessors;
 
 use BadMethodCallException;
+use BenSauer\CaseStudySkygateApi\tests\Database\BaseDatabaseTest;
 use BenSauer\CaseStudySkygateApi\Utilities\MySqlTableCreator;
-use BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities\BaseDatabaseTest;
 use InvalidArgumentException;
 use PDO;
 

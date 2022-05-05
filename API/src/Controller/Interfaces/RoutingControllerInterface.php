@@ -32,4 +32,12 @@ interface RoutingControllerInterface
      * @throws ApiMethodNotFoundException   if there is no route with this path, that uses this method.
      */
     public function route(ApiPathInterface $path, ApiMethod $method): array;
+
+    /**
+     * Check if the given Permissions are enough to use the specified route
+     *
+     * @param  array $route         The route to use.
+     * @param  array $permissions   The given Permission.
+     */
+    public function hasPermission(array $route, array $givenPermissions): bool;
 }

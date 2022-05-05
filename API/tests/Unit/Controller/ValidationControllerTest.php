@@ -6,10 +6,8 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Utilities;
+namespace BenSauer\CaseStudySkygateApi\tests\Controller;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidFieldException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;

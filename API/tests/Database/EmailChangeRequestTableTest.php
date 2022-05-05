@@ -6,15 +6,14 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Utilities\MySqlTableCreator;
+namespace BenSauer\CaseStudySkygateApi\tests\Database;
 
 use BenSauer\CaseStudySkygateApi\Utilities\MySqlTableCreator;
-use BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities\BaseDatabaseTest;
 use PDO;
 use PDOException;
 
 /**
- * Testsuit for the ECR table creation from MySqlTableCreator 
+ * Testsuit for the ECR table creation
  */
 final class EmailChangeRequestTableTest extends BaseDatabaseTest
 {

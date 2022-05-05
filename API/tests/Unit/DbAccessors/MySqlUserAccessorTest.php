@@ -6,14 +6,13 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities\Accessors\EcrAccessor;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\DbAccessors;
 
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserAccessor;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
-use BenSauer\CaseStudySkygateApi\tests\Unit\DatabaseUtilities\Accessors\BaseMySqlAccessorTest;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;

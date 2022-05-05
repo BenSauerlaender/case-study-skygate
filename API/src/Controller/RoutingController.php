@@ -89,4 +89,8 @@ class RoutingController implements RoutingControllerInterface
             "function"      => $route["function"]
         ];
     }
+    public function hasPermission(array $route, array $givenPermissions): bool
+    {
+        return true;
+    }
 }

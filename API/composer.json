@@ -39,6 +39,9 @@
         "run-unit-tests": [
             "./vendor/bin/phpunit --testsuit Unit --configuration phpunit.xml --testdox"
         ],
+        "run-db-tests": [
+            "./vendor/bin/phpunit --testsuit Database --configuration phpunit.xml --testdox"
+        ],
         "run-integration-tests": [
             "./vendor/bin/phpunit --testsuit Integration --configuration phpunit.xml --testdox"
         ],
