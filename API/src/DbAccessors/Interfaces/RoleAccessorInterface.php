@@ -27,5 +27,21 @@ interface RoleAccessorInterface
      */
     public function findByName(string $name): ?int;
 
+    /**
+     * Gets the roles entry
+     *
+     * @param  int   $id    The roles id.
+     * @return array<string,string|int> The $role array.
+     *  $role = [
+     *      "id"                => (int)        The roles id. 
+     *      "name"              => (string)     The roles name.
+     *      "permissions"       => (string)     The roles permissions.
+     *      "createdAt"         => (string)     The DateTime the user was created.
+     *      "updatedAt"         => (string)     The last DateTime the user was updated.
+     *  ]
+     * 
+     * @throws DBException if there is a problem with the database.
+     *          (RoleNotFoundException | ...)
+     */
     public function get(int $id): array;
 }
