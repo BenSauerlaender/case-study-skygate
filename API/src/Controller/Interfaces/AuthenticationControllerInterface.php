@@ -21,7 +21,10 @@ interface AuthenticationControllerInterface
      *      "userID"        => (int)            The Users ID.
      *      "permissions"   => (array<string>)  The Users Permissions.
      * ]
-     * @throws  AccessTokenExpiredException if the access token is expired.
+     * 
+     * @throws InvalidArgumentException     if the string is not a jwt.
+     * @throws InvalidTokenException        if the token is invalid.
+     *      (ExpiredTokenException | ...)   if the token is expired.
      */
     public function authenticateAccessToken(string $accessToken): array;
 
@@ -29,6 +32,8 @@ interface AuthenticationControllerInterface
      * Generate and Return a new refresh token for the user. Only the new token is valid then.
      * 
      * @param int $userID The User's ID
+     * 
+     * @return string The new refresh token.
      */
     public function getNewRefreshToken(int $userID): string;
 
@@ -36,6 +41,12 @@ interface AuthenticationControllerInterface
      * Generate a new access token.
      *
      * @param  string $refreshToken The requesters refreshToken
+     * 
+     * @return string The new access token.
+     * 
+     * @throws InvalidArgumentException     if the string is not a jwt.
+     * @throws InvalidTokenException        if the token is invalid.
+     *      (ExpiredTokenException | ...)   if the token is expired.
      */
     public function getNewAccessToken(string $refreshToken): string;
 
