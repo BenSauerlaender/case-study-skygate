@@ -225,6 +225,32 @@ final class UserTableTest extends BaseDatabaseTest
     }
 
     /**
+     * Tests if the User deletion fails if the user has an refresh token count
+     */
+    public function testDeleteFailsIfUserHasAnRefreshTokenCount(): void
+    {
+        $this->insertRole();
+
+        self::$pdo->exec('
+                INSERT INTO user
+                    (email, name, postcode, city, phone, hashed_pass, verified, role_id)
+                VALUES 
+                    ("admin3@mail.de","admin","00000","admintown","015937839","1",true,1);');
+
+        self::$pdo->exec('
+                INSERT INTO refreshToken
+                    (user_id, count)
+                VALUES 
+                    (1,0);');
+
+
+        $this->expectException(PDOException::class);
+        $this->expectExceptionMessage("a foreign key constraint fails");
+
+        self::$pdo->exec('DELETE FROM user WHERE user_id=1');
+    }
+
+    /**
      * Tests if the created_at and updated_at field is set correctly by an insert
      */
     public function testCreatedAndUpdatedAtIfInserted(): void
@@ -284,9 +310,9 @@ final class UserTableTest extends BaseDatabaseTest
     {
         self::$pdo->exec('
             INSERT INTO role
-                (name, role_read, role_write, role_delete, user_read, user_write, user_delete)
+                (name)
             VALUES 
-                ("admin",true,true,true,true,true,true);');
+                ("admin");');
     }
 
     public function setUp(): void

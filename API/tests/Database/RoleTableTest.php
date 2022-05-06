@@ -42,7 +42,7 @@ final class RoleTableTest extends BaseDatabaseTest
 
         $columns = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-        $expectedColumns = ["role_id", "name", "role_read", "role_write", "role_delete", "user_read", "user_write", "user_delete", "created_at", "updated_at"];
+        $expectedColumns = ["role_id", "name", "permissions", "created_at", "updated_at"];
 
         //compares both arrays but ignores the order
         $this->assertEqualsCanonicalizing($expectedColumns, $columns);
@@ -58,9 +58,9 @@ final class RoleTableTest extends BaseDatabaseTest
 
         self::$pdo->exec('
                 INSERT INTO role
-                    (role_id, role_read, role_write, role_delete, user_read, user_write, user_delete)
+                    (role_id, permissions)
                 VALUES 
-                    (0,true,true,true,true,true,true);
+                    (0,"");
             ');
     }
 
@@ -99,18 +99,13 @@ final class RoleTableTest extends BaseDatabaseTest
         ');
 
         $response = self::$pdo->query('
-            SELECT role_read, role_write, role_delete, user_read, user_write, user_delete FROM role;
+            SELECT permissions FROM role;
         ')->fetchAll(PDO::FETCH_ASSOC);
 
         //check all not set values
         $this->assertEquals([
             [
-                "role_read" => 0,
-                "role_write" => 0,
-                "role_delete" => 0,
-                "user_read" => 0,
-                "user_write" => 0,
-                "user_delete" => 0
+                "permissions" => ""
             ]
         ], $response);
     }

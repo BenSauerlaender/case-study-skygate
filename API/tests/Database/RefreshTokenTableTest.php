@@ -175,9 +175,9 @@ final class RefreshTokenTableTest extends BaseDatabaseTest
 
         self::$pdo->exec('
             INSERT INTO role
-                (name, role_read, role_write, role_delete, user_read, user_write, user_delete)
+                (name)
             VALUES 
-                ("admin",true,true,true,true,true,true);');
+                ("admin");');
 
         self::$pdo->exec('
                 INSERT INTO user
