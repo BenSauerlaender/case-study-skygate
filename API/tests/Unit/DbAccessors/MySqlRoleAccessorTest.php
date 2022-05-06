@@ -10,6 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\DbAccessors;
 
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRoleAccessor;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 
 /**
  * Test class for the MySqlRoleAccessor 
@@ -25,9 +26,9 @@ final class MySqlRoleAccessorTest extends BaseMySqlAccessorTest
         //creates a role
         self::$pdo->exec('
             INSERT INTO role
-                (name)
+                (name,permissions)
             VALUES 
-                ("test");
+                ("test","perm123");
         ');
 
         $this->startChangedRowsObservation();
@@ -54,6 +55,36 @@ final class MySqlRoleAccessorTest extends BaseMySqlAccessorTest
     {
         $response = $this->accessor->findByName("test");
         $this->assertEquals(1, $response);
+
+        $this->assertChangedRowsEquals(0);
+    }
+
+    /**
+     * Tests if the method throws the correct error if the role with this id do not exists
+     */
+    public function testGetWithWrongID(): void
+    {
+        $this->expectException(RoleNotFoundException::class);
+
+        $this->accessor->get(11);
+
+        $this->assertChangedRowsEquals(0);
+    }
+
+    /**
+     * Tests if the method throws the correct error if the role with this id do not exists
+     */
+    public function testGetSuccessful(): void
+    {
+
+        $response = $this->accessor->get(1);
+
+        $this->assertArrayHasKey("createdAt", $response);
+        $this->assertArrayHasKey("updatedAt", $response);
+
+        $this->assertEquals("test", $response["name"]);
+        $this->assertEquals("perm123", $response["permissions"]);
+        $this->assertEquals(1, $response["id"]);
 
         $this->assertChangedRowsEquals(0);
     }
