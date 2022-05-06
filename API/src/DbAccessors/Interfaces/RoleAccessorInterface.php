@@ -26,4 +26,6 @@ interface RoleAccessorInterface
      * @throws DBException if there is a problem with the database.
      */
     public function findByName(string $name): ?int;
+
+    public function get(int $id): array;
 }

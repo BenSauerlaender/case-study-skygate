@@ -13,6 +13,7 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerI
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
+use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use ReallySimpleJWT\Token;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +23,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class AuthenticationControllerTest extends TestCase
 {
-    private ?UserControllerInterface $ucMock = null;
+    private ?UserAccessorInterface $userAccessorMock = null;
     private ?RefreshTokenAccessorInterface $rtAccessorMock = null;
     private ?RoleAccessorInterface $roleAccessorMock = null;
 
@@ -31,7 +32,8 @@ final class AuthenticationControllerTest extends TestCase
     private static $refreshSecret = "";
 
 
-    public static function setUpBerforeClass():void{
+    public static function setUpBerforeClass(): void
+    {
         //load dotenv variables from 'test.env'
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__, "../../test.env");
         $dotenv->load();
@@ -40,7 +42,7 @@ final class AuthenticationControllerTest extends TestCase
 
     public function setUp(): void
     {
-        $this->ucMock = $this->createMock(UserControllerInterface::class);
+        $this->userAccessorMock = $this->createMock(UserAccessorInterface::class);
         $this->rtAccessorMock = $this->createMock(RefreshTokenAccessorInterface::class);
         $this->roleAccessorMock = $this->createMock(RoleAccessorInterface::class);
         $this->authController = new AuthenticationController($this->ucMock, $this->rtAccessorMock, $this->roleAccessorMock);
@@ -48,37 +50,49 @@ final class AuthenticationControllerTest extends TestCase
 
     public function tearDown(): void
     {
-        $this->ucMock = null;
+        $this->userAccessorMock = null;
         $this->rtAccessorMock = null;
         $this->roleAccessorMock = null;
         $this->authController  = null;
     }
 
     /**
-     * Tests if the method throws the right exception if the user with the specified userID is not there
+     * Tests if the method throws the correct exception if the user with the specified userID is not there
      */
     public function testGetNewRefreshTokenOnInvalidUserID(): void
     {
         $this->expectException(UserNotFoundException::class);
 
-        $this->rtAccessorMock
+        $this->userAccessorMock
             ->expect($this->once())
-            ->method("increaseCount")
+            ->method("get")
+            ->with($this->equalTo(0))
             ->will($this->throwException(new UserNotFoundException()));
 
         $this->authController->getNewRefreshToken(0);
     }
 
     /**
-     * Tests if the method throws the right exception if the user with the specified userID is not there
+     * Tests if the method returns a valid token with the correct payload
      */
     public function testGetNewRefreshTokenSuccessful(): void
     {
+        $this->userAccessorMock
+            ->expect($this->once())
+            ->method("get")
+            ->with($this->equalTo(0))
+            ->willReturn(["roleID" => 1]);
+
+        $this->roleAccessorMock
+            ->expect($this->once())
+            ->method("get")
+            ->with($this->equalTo(1))
+            ->willReturn(["permissions" => "permission123"]);
+
         $this->rtAccessorMock
             ->expect($this->once())
             ->method("increaseCount")
-            ->with($this->equalTo(0))
-            ->will($this->throwException(new UserNotFoundException()));
+            ->with($this->equalTo(0));
 
         $this->rtAccessorMock
             ->expect($this->once())
@@ -89,7 +103,12 @@ final class AuthenticationControllerTest extends TestCase
         $ret = $this->authController->getNewRefreshToken(0);
 
         //expect token is valid
-        Token::validate($ret, self::$refreshSecret)
+        Token::validate($ret, self::$refreshSecret);
 
+
+        $payload = Token::getPayLoad($ret);
+        $this->assertEquals(11, $payload["cnt"]);
+        $this->assertEquals(0, $payload["id"]);
+        $this->assertEquals("permission123", $payload["perm"]);
     }
 }

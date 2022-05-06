@@ -9,19 +9,19 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
+use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
 
 class AuthenticationController implements AuthenticationControllerInterface
 {
-    private UserControllerInterface $uc;
+    private UserAccessorInterface $userAccessor;
     private RefreshTokenAccessorInterface $refreshTokenAccessor;
     private RoleAccessorInterface $roleAccessor;
 
-    public function __construct(UserControllerInterface $uc, RefreshTokenAccessorInterface $refreshTokenAccessor, RoleAccessorInterface $roleAccessor)
+    public function __construct(UserAccessorInterface $userAccessor, RefreshTokenAccessorInterface $refreshTokenAccessor, RoleAccessorInterface $roleAccessor)
     {
-        $this->uc = $uc;
+        $this->userAccessor = $userAccessor;
         $this->refreshTokenAccessor = $refreshTokenAccessor;
         $this->roleAccessor = $roleAccessor;
     }
