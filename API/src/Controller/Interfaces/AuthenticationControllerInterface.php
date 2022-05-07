@@ -34,6 +34,8 @@ interface AuthenticationControllerInterface
      * @param int $userID The User's ID
      * 
      * @return string The new refresh token.
+     * 
+     * @throws UserNotFoundException if the user do not exist
      */
     public function getNewRefreshToken(int $userID): string;
 
@@ -47,14 +49,15 @@ interface AuthenticationControllerInterface
      * @throws InvalidArgumentException     if the string is not a jwt.
      * @throws InvalidTokenException        if the token is invalid.
      *      (ExpiredTokenException | ...)   if the token is expired.
+     * @throws UserNotFoundException        if the user of the token not exists anymore.
      */
     public function getNewAccessToken(string $refreshToken): string;
 
     /**
      * Check if the given Permissions are enough to use the specified route
      *
-     * @param  array $route         The route to use.
-     * @param  array $permissions   The given Permission.
+     * @param  array $route  The route to use.
+     * @param  array $auth   The requesters auth.
      */
-    public function hasPermission(array $route, array $givenPermissions): bool;
+    public function hasPermission(array $route, array $auth): bool;
 }

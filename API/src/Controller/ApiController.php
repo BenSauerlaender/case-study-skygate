@@ -56,7 +56,7 @@ class ApiController implements ApiControllerInterface
             }
 
             //check if the requester has all required permissions for this route
-            if(!$this->auth->hasPermissions($route, $auth)){
+            if(!$this->auth->hasPermissions($route["permissions"], $auth["permissions"])){
                 
             }
         }
