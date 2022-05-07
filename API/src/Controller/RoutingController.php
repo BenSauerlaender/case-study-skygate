@@ -66,8 +66,7 @@ class RoutingController implements RoutingControllerInterface
 
         //throw exception if there is no route with the requested path available
         if (!array_key_exists($methodString, $path)) {
-            $availableMethods = implode(",", array_keys($path));
-            throw new ApiMethodNotFoundException("The Path: $reqPath has no method: $methodString; Available Methods are: [$availableMethods];");
+            throw new ApiMethodNotFoundException("The Path: $reqPath has no method: $methodString;", array_keys($path));
         }
 
         //get the route

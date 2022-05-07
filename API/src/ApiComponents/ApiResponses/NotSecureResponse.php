@@ -9,6 +9,6 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses;
 
-class NotSecureResponse extends Response
+class NotSecureResponse extends BaseResponse
 {
 }
