@@ -56,8 +56,8 @@ interface AuthenticationControllerInterface
     /**
      * Check if the given Permissions are enough to use the specified route
      *
-     * @param  array $route  The route to use.
-     * @param  array $auth   The requesters auth.
+     * @param  array<string,mixed> $route  The route to use.
+     * @param  array<string,mixed> $auth   The requesters auth.
      */
     public function hasPermission(array $route, array $auth): bool;
 }
