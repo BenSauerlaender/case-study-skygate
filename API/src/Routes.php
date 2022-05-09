@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi;
 
-use BenSauer\CaseStudySkygateApi\Router\Interfaces\ApiRequestInterface;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
 
 function getRoutes(): array
 {
@@ -19,7 +19,7 @@ function getRoutes(): array
                 "ids" => ["userID"],
                 "requireAuth" => true,
                 "permissions" => ["user:read:these"],
-                "function" => function (ApiRequestInterface $req) {
+                "function" => function (ApiRequestInterface $req, array $ids) {
                     return null;
                 }
             ]

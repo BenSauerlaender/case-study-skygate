@@ -37,6 +37,8 @@ class ApiPath implements ApiPathInterface
      * Validates and stores the path.
      *
      * @param  string $s    The "/" separated path.
+     * 
+     * @throws InvalidApiPathException
      */
     function __construct(string $s)
     {

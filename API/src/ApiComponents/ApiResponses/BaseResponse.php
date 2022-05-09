@@ -21,7 +21,7 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ApiRespon
 abstract class BaseResponse implements ApiResponseInterface
 {
 
-    private int $code = 501;
+    private int $code = 500;
 
     /**
      * @var array<string,ResponseCookieInterface>
@@ -35,7 +35,7 @@ abstract class BaseResponse implements ApiResponseInterface
 
     private string $data = "";
 
-    private const SUPPORTED_CODES = [200, 201, 204, 400, 401, 403, 404, 405, 406, 501];
+    private const SUPPORTED_CODES = [200, 201, 204, 400, 401, 403, 404, 405, 406, 500];
 
     private const SUPPORTED_HEADER = ["Content-Type", "Last-Modified"];
 

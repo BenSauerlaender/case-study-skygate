@@ -14,7 +14,7 @@ namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses;
  */
 class InternalErrorResponse extends BaseResponse
 {
-    public function __construct(string $msg)
+    public function __construct(string $msg = "There are internal problems. Try again later or contact the support.")
     {
         $this->setCode(500);
         $this->setData(["msg" => $msg]);

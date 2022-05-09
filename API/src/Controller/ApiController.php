@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\AccessTokenExpiredResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\AccessTokenNotValidResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\AuthenticationRequiredResponse;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\AuthorizationRequiredResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ApiResponseInterface;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\InternalErrorResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\MethodNotAllowedResponse;
@@ -26,7 +26,6 @@ use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundE
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
-use BenSauer\CaseStudySkygateApi\Router\Interfaces\ApiRequestInterface;
 use Closure;
 use Exception;
 use InvalidArgumentException;
@@ -34,23 +33,31 @@ use InvalidArgumentException;
 class ApiController implements ApiControllerInterface
 {
 
-    //Attention: although a controller is not used in this class, they can be used by the routes!
     private RoutingControllerInterface $routing;
     private AuthenticationControllerInterface $auth;
-    private UserControllerInterface $uc;
 
-    public function __construct(RoutingControllerInterface $routing, AuthenticationControllerInterface $auth, UserControllerInterface $uc)
+    //Attention: This is used inside the route functions
+    private array $controller;
+
+    /**
+     * Construct the ApiController
+     *
+     * @param  RoutingControllerInterface        $routing               A RoutingController to choose a route.
+     * @param  AuthenticationControllerInterface $auth                  A authenticationController authenticate the request.
+     * @param  array<string,mixed>               $additionalController  An Array of additional Controllers (with there names as keys), that can be used from the routes functions.
+     */
+    public function __construct(RoutingControllerInterface $routing, AuthenticationControllerInterface $auth,  array $additionalController)
     {
-        $this->uc = $uc;
         $this->routing = $routing;
         $this->auth = $auth;
+        $this->controller = $additionalController;
     }
 
     public function handleRequest(ApiRequestInterface $request): ApiResponseInterface
     {
         //search for the right route
         try {
-            $route = $this->routing->route($request->getPath, $request->getMethod);
+            $route = $this->routing->route($request->getPath(), $request->getMethod());
         } catch (ApiPathNotFoundException $e) {
             return new ResourceNotFoundResponse();
         } catch (ApiMethodNotFoundException $e) {
@@ -90,9 +97,9 @@ class ApiController implements ApiControllerInterface
             //call the routes function in this object
             return $func->call($this, $request, $ids);
         } catch (DBException $e) {
-            throw new InternalErrorResponse("There are Database problems. Try again later or contact the support.");
+            return new InternalErrorResponse("There are Database problems. Try again later or contact the support.");
         } catch (Exception $e) {
-            throw new InternalErrorResponse("There are internal problems. Try again later or contact the support.");
+            return new InternalErrorResponse();
         }
     }
 }

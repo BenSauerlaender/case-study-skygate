@@ -3,10 +3,8 @@
 //activate strict mode
 declare(strict_types=1);
 
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\RequestBuilder;
-use BenSauer\CaseStudySkygateApi\Router\RouterBuilder;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\RecourseNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\NotSecureResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\ResourceNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 
 try {
@@ -17,29 +15,41 @@ try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 
-    //check for correct version
+    //check for correct path syntax
     if (!str_starts_with($_SERVER["Request_URI"], $PATH_PREFIX)) {
 
-        $response = new RecourseNotFoundResponse();
-
-        //check for ssl connection
-    } else if ($_ENV["ENVIRONMENT"] === "PRODUCTION" and ($_SERVER["HTTPS"] !== "")) {
+        $response = new ResourceNotFoundResponse();
+    }
+    //check for ssl connection
+    else if ($_ENV["ENVIRONMENT"] === "PRODUCTION" and ($_SERVER["HTTPS"] !== "")) {
 
         $response = new NotSecureResponse();
-    } else {
+    }
+    //normal procedure
+    else {
 
-        $router = RouterBuilder::build();
-        $handler = $router->route($apiPath, $method);
+        //get the constructed apiController
+        $apiController = ApiUtilities::getApiController();
 
-        $Request = RequestBuilder::build($_SERVER["Request_URI"], $_COOKIE, $PATH_PREFIX);
+        //get the request
+        $request = ApiUtilities::getRequest($_SERVER, $_COOKIE, $PATH_PREFIX);
 
-        $response = $handler->handle($Request);
+        //get the response
+        $response = $apiController->handle($request);
     }
 
+    //send the response
     ApiUtilities::sendResponse($response);
+
     exit();
-} catch (Exception $e) {
+}
+//catch all completely unexpected exceptions
+catch (Exception $e) {
+
+    //log them
     error_log($e->getMessage());
+
+    //send a 500 internal server error
     header_remove();
     http_response_code(500);
     exit();

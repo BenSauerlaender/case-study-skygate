@@ -7,7 +7,10 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Router\Interfaces;
+namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces;
+
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiMethod;
+use BenSauer\CaseStudySkygateApi\ApiComponents\Interfaces\ApiPathInterface;
 
 /**
  * Interface for Request
@@ -15,11 +18,11 @@ namespace BenSauer\CaseStudySkygateApi\Router\Interfaces;
 interface ApiRequestInterface
 {
     /**
-     * Gets the Query in a key-value format.
+     * Gets the value of the specified parameter.
      * 
-     * @return array<string,string>
+     * @return null|string|int
      */
-    public function getQuery(): array;
+    public function getQueryValue(string $parameter): mixed;
 
     /**
      * Gets the value of the specified header
@@ -28,17 +31,16 @@ interface ApiRequestInterface
      * 
      * @return string The value of the header
      */
-    public function getHeader(string $key): string;
+    public function getHeader(string $key): ?string;
 
     /**
-     * Gets the accessToken provided by the request
+     * Gets the value of the specified cookie
+     *
+     * @param  string $key  The cookies's key.
      * 
-     * @return string The access token without any prefix
-     * 
-     * @throws NoAccessTokenProvided if the request dont have an access token.
+     * @return string The value of the cookie
      */
-
-    public function getRefreshToken(): string;
+    public function getCookie(string $key): ?string;
 
     /**
      * Gets the refresh token provided by the request
@@ -46,4 +48,16 @@ interface ApiRequestInterface
      * @return null|string The refresh token without any prefix or null if no token provided
      */
     public function getAccessToken(): ?string;
+
+    /**
+     * Gets the requested Path
+     * @return ApiPath The requested api path
+     */
+    public function getPath(): ApiPathInterface;
+
+    /**
+     * Gets the requested Method
+     * @returns ApiMethod The requestedMethod
+     */
+    public function getMethod(): ApiMethod;
 }

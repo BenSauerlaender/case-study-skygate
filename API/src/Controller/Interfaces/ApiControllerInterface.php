@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller\Interfaces;
 
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ApiResponseInterface;
-use BenSauer\CaseStudySkygateApi\Router\Interfaces\ApiRequestInterface;
 
 /**
  * Main Controller for the whole api
