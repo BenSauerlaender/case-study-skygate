@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Request;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ApiResponseInterface;
 
 class ApiUtilities
@@ -51,5 +53,17 @@ class ApiUtilities
         if ($data !== "") {
             echo $data;
         }
+    }
+
+    /**
+     * Constructs a request with all needed variables
+     *
+     * @param  array               $server      The $_SERVER array.
+     * @param  array               $headers     The response array of getallheaders().
+     * @param  string              $pathPrefix  The prefix in front of an api path e.g. /api/v1/.
+     */
+    static function getRequest(array $server, array $headers, string $pathPrefix): ApiRequestInterface
+    {
+        return new Request("", "", "", []);
     }
 }

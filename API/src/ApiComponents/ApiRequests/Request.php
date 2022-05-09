@@ -43,8 +43,11 @@ class Request implements ApiRequestInterface
      * @param  string $query                    The query string from the request
      * @param  array<string,string>  $headers   The headers provided by the request.
      * 
-     * @throws InvalidApiPathException if the path string can not parsed into an ApiPath.
-     * @throws InvalidApiMethodException if the method string can not parsed into an ApiMethod.
+     * @throws InvalidApiPathException      if the path string can not parsed into an ApiPath.
+     * @throws InvalidApiMethodException    if the method string can not parsed into an ApiMethod.
+     * @throws InvalidApiQueryException     if the query string can not be parsed into an valid array.
+     * @throws InvalidApiHeaderException    if a header can not be parsed into an valid array.
+     * @throws InvalidApiCookieException    if a cookie can not be parsed into an valid array.
      */
     public function __construct(string $path, string $method, string $query, array $headers)
     {

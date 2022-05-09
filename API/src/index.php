@@ -32,7 +32,7 @@ try {
         $apiController = ApiUtilities::getApiController();
 
         //get the request
-        $request = ApiUtilities::getRequest($_SERVER, $_COOKIE, $PATH_PREFIX);
+        $request = ApiUtilities::getRequest($_SERVER, getallheaders(), $PATH_PREFIX);
 
         //get the response
         $response = $apiController->handle($request);
