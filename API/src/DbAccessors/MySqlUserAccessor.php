@@ -18,6 +18,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\U
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
+use PDOException;
 
 // class to interact with the user-db-table
 class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface

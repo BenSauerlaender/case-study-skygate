@@ -27,7 +27,7 @@ class MySqlAccessor
     /**
      * PDO object for database interaction
      */
-    protected \PDO $pdo;
+    private \PDO $pdo;
 
     /**
      * Sets the PDO object
@@ -53,14 +53,13 @@ class MySqlAccessor
      */
     protected function prepareAndExecute(string $sql, array $params): PDOStatement
     {
-        //prepare the statement
-        $stmt = $this->pdo->prepare($sql);
-
-        if (is_null($stmt)) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("This should never happen: PDO->prepare() returned null, although the PDO error handling set to exception."); // @codeCoverageIgnore
-        }
-
         try {
+            //prepare the statement
+            $stmt = $this->pdo->prepare($sql);
+            if (is_null($stmt)) { // @codeCoverageIgnore
+                throw new ShouldNeverHappenException("This should never happen: PDO->prepare() returned null, although the PDO error handling set to exception."); // @codeCoverageIgnore
+            }
+
             //execute the statement
             $success = $stmt->execute($params);
             if (!$success) throw new PDOException();
@@ -87,7 +86,7 @@ class MySqlAccessor
 
         //wrap DBException around PDOException
         try {
-            throw new DBException("Execute PDO-Statement failed. (SQL-Statement: $sql | Parameters: " . SharedUtilities::mapped_implode(",", $params) . ")", 0, $e);
+            throw new DBException("Execute PDO-Statement failed. ($msg)", 0, $e);
         } catch (DBException $dbe) {
 
             // Duplicate field

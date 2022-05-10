@@ -51,13 +51,22 @@ interface ApiRequestInterface
 
     /**
      * Gets the requested Path
+     * 
      * @return ApiPathInterface The requested api path
      */
     public function getPath(): ApiPathInterface;
 
     /**
      * Gets the requested Method
-     * @returns ApiMethod The requestedMethod
+     * 
+     * @return ApiMethod The requestedMethod
      */
     public function getMethod(): ApiMethod;
+
+    /**
+     * Gets the http body of the request
+     * 
+     * @return array The Body of the request
+     */
+    public function getBody(): ?array;
 }

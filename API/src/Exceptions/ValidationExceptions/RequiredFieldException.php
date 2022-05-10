@@ -14,4 +14,16 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions;
  */
 class RequiredFieldException extends ValidationException
 {
+    private array $missing;
+
+    public function __construct(array $missing, $code = 0, $previous = null)
+    {
+        $this->missing = $missing;
+        parent::__construct("Missing fields: " . implode(",", $missing), $code, $previous);
+    }
+
+    public function getMissing(): array
+    {
+        return $this->missing;
+    }
 }

@@ -21,6 +21,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\D
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
@@ -28,6 +29,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldEx
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
 use BenSauer\CaseStudySkygateApi\Utilities\SharedUtilities;
+use PDOException;
 
 use function BenSauer\CaseStudySkygateApi\Utilities\mapped_implode;
 
@@ -55,7 +57,7 @@ class UserController implements UserControllerInterface
         //checks if all required fields exists
         $missingFields = array_diff_key(["email" => "email", "name" => "name", "postcode" => "postcode", "city" => "city", "phone" => "phone", "password" => "password"], $fields);
         if (sizeOf($missingFields) !== 0) {
-            throw new RequiredFieldException("Missing fields: " . implode(",", $missingFields));
+            throw new RequiredFieldException($missingFields);
         }
 
         //validate all fields (except "role").

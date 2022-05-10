@@ -11,7 +11,7 @@ describe("/register", () => {
       const response = await request.post("/register");
 
       expect(response.statusCode).to.eql(400);
-      expect(response.body.data.length).to.eql(0);
+      expect(response.body.data).to.be.undefined;
     });
 
     it("returns Bad Request if not all attributes are given", async () => {
@@ -20,7 +20,7 @@ describe("/register", () => {
         .send({ email: "email@mail.de" });
 
       expect(response.statusCode).to.eql(400);
-      expect(response.body.data.length).to.eql(0);
+      expect(response.body.data).to.be.undefined;
     });
 
     it("returns Bad Request if not all attributes are valid", async () => {
@@ -34,7 +34,7 @@ describe("/register", () => {
       });
 
       expect(response.statusCode).to.eql(400);
-      expect(response.body.data.length).to.eql(0);
+      expect(response.body.data).to.be.undefined;
     });
 
     it("returns Created if everything is correct", async () => {
@@ -48,7 +48,7 @@ describe("/register", () => {
       });
 
       expect(response.statusCode).to.eql(201);
-      expect(response.body.data.length).to.eql(0);
+      expect(response.body.data).to.be.undefined;
     });
   });
 

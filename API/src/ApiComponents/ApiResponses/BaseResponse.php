@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\JsonEncodingException;
+use BenSauer\CaseStudySkygateApi\Exceptions\JsonException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ResponseCookieInterface;
@@ -87,14 +87,14 @@ abstract class BaseResponse implements ApiResponseInterface
      * Sets data to be send in body
      * 
      * @param array $data
-     * @throws JsonEncodingException if the encoding fails.
+     * @throws JsonException if the encoding fails.
      */
     protected function setData(array $data): void
     {
         if (sizeof($data) == 0) $str = "";
 
         $str = json_encode($data);
-        if ($str === false) throw new JsonEncodingException("The encoding of response data failed");
+        if ($str === false) throw new JsonException("The encoding of response data failed");
 
         $this->data = $str;
 

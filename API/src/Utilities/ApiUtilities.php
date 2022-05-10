@@ -28,6 +28,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
 use BenSauer\CaseStudySkygateApi\Routes;
+use JsonException;
 
 class ApiUtilities
 {
@@ -84,7 +85,7 @@ class ApiUtilities
      * @throws InvalidApiQueryException     if the query string can not be parsed into an valid array.
      * @throws InvalidApiHeaderException    if a header can not be parsed into an valid array.
      */
-    static function getRequest(array $server, array $headers, string $pathPrefix): ApiRequestInterface
+    static function getRequest(array $server, array $headers, string $pathPrefix, string $bodyJSON = ""): ApiRequestInterface
     {
         $env = $_ENV["ENVIRONMENT"] ?? "PRODUCTION";
         if (!isset($server["REQUEST_URI"]) or !isset($server["REQUEST_METHOD"]) or !isset($server["QUERY_STRING"])) {
@@ -108,9 +109,19 @@ class ApiUtilities
         $method = $server["REQUEST_METHOD"];
 
         $query = $server["QUERY_STRING"];
+        //get the body of the request
+
+        if ($bodyJSON !== "" and ($method === "POST" or $method === "PUT")) {
+            $body = json_decode($bodyJSON, true);
+            if ($body === NULL) {
+                throw new JsonException("The decoding of the body string failed");
+            }
+        } else {
+            $body = null;
+        }
 
         try {
-            return new Request($path, $method, $query, $headers);
+            return new Request($path, $method, $query, $headers, $body);
         } catch (InvalidApiCookieException $e) {
             throw new InvalidApiHeaderException("The Cookie header is invalid.", 0, $e);
         }

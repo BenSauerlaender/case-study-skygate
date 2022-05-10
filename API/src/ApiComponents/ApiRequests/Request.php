@@ -36,6 +36,8 @@ class Request implements ApiRequestInterface
     /** @var array<string,string|int> */
     private array $query;
 
+    private ?array $body;
+
     /**
      * Constructs a request
      *
@@ -50,7 +52,7 @@ class Request implements ApiRequestInterface
      * @throws InvalidApiHeaderException    if a header can not be parsed into an valid array.
      * @throws InvalidApiCookieException    if a cookie can not be parsed into an valid array.
      */
-    public function __construct(string $path, string $method, string $query, array $headers)
+    public function __construct(string $path, string $method, string $query = "", array $headers = [], ?array $body = null)
     {
 
         $this->path = new ApiPath($path);
@@ -63,6 +65,8 @@ class Request implements ApiRequestInterface
 
         $this->headers = $cookieAndHeader["headers"];
         $this->cookies = $cookieAndHeader["cookies"];
+
+        $this->body = $body;
     }
 
     /**
@@ -192,5 +196,10 @@ class Request implements ApiRequestInterface
     public function getMethod(): ApiMethod
     {
         return $this->method;
+    }
+
+    public function getBody(): ?array
+    {
+        return $this->body;
     }
 }

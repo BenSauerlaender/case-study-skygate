@@ -21,9 +21,9 @@ try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/..");
     $dotenv->load();
 
-    //get the request
     try {
-        $request = ApiUtilities::getRequest($_SERVER, getallheaders(), $_ENV["API_PATH_PREFIX"]);
+        //get the request
+        $request = ApiUtilities::getRequest($_SERVER, getallheaders(), $_ENV["API_PATH_PREFIX"], file_get_contents('php://input'));
 
         //get the constructed apiController
         $apiController = ApiUtilities::getApiController();
@@ -34,8 +34,8 @@ try {
         $response = new NotSecureResponse();
     } catch (InvalidApiPathException $e) {
         $response = new ResourceNotFoundResponse();
-    } catch (InvalidApiMethodException | InvalidApiQueryException | InvalidApiHeaderException $e) {
-        $response = new InternalErrorResponse($e->getMessage());
+    } catch (InvalidApiMethodException | InvalidApiQueryException | InvalidApiHeaderException | JsonException $e) {
+        $response = new InternalErrorResponse("Error while getRequest: " . $e->getMessage());
     }
 
     error_log("Response with " . $response->getData() . $response::class);

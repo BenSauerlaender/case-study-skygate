@@ -21,14 +21,14 @@ use PHPUnit\Framework\TestCase;
 /**
  * Tests for the BaseResponse abstract class
  */
-final class BaseResponseTest extends TestCase
+final class ApiRequestTest extends TestCase
 {
     /**
      * Tests if the Constructor works as expected.
      */
     public function testConstructor(): void
     {
-        $req = new Request("/test/jo", "GET", "t1=123&t2=test2", ["header1" => "h1"]);
+        $req = new Request("/test/jo", "GET", "t1=123&t2=test2", ["header1" => "h1"], ["test" => 12]);
         $this->assertTrue(is_a($req, ApiRequestInterface::class));
     }
 
@@ -39,7 +39,7 @@ final class BaseResponseTest extends TestCase
     {
         $this->expectException(InvalidApiPathException::class);
 
-        new Request("test-jo", "GET", "t1=123&t2=test2", ["header1" => "h1"]);
+        new Request("test-jo", "GET");
     }
 
     /**
@@ -49,7 +49,7 @@ final class BaseResponseTest extends TestCase
     {
         $this->expectException(InvalidApiMethodException::class);
 
-        new Request("test/jo", "Quatsch", "t1=123&t2=test2", ["header1" => "h1"]);
+        new Request("test/jo", "Quatsch");
     }
 
     /**
@@ -59,7 +59,7 @@ final class BaseResponseTest extends TestCase
     {
         $this->expectException(InvalidApiQueryException::class);
 
-        new Request("test/jo", "GET", "quatsch", ["header1" => "h1"]);
+        new Request("test/jo", "GET", "quatsch");
     }
 
     /**
@@ -69,7 +69,7 @@ final class BaseResponseTest extends TestCase
     {
         $this->expectException(InvalidApiHeaderException::class);
 
-        new Request("test/jo", "GET", "t1=123&t2=test2", ["h1"]);
+        new Request("test/jo", "GET", "", ["h1"]);
     }
 
     /**
@@ -79,7 +79,7 @@ final class BaseResponseTest extends TestCase
     {
         $this->expectException(InvalidApiHeaderException::class);
 
-        new Request("test/jo", "GET", "t1=123&t2=test2", ["h1" => 123]);
+        new Request("test/jo", "GET", "", ["h1" => 123]);
     }
 
     /**
@@ -89,7 +89,7 @@ final class BaseResponseTest extends TestCase
     {
         $this->expectException(InvalidApiCookieException::class);
 
-        new Request("test/jo", "GET", "t1=123&t2=test2", ["cookie" => "123"]);
+        new Request("test/jo", "GET", "", ["cookie" => "123"]);
     }
 
     /**
@@ -99,7 +99,7 @@ final class BaseResponseTest extends TestCase
     {
         $this->expectException(InvalidApiCookieException::class);
 
-        new Request("test/jo", "GET", "t1=123&t2=test2", ["cookie" => "123=fds=2"]);
+        new Request("test/jo", "GET", "", ["cookie" => "123=fds=2"]);
     }
 
     /**
@@ -109,7 +109,7 @@ final class BaseResponseTest extends TestCase
      */
     public function testGetQueryValue(string $query, string $param, mixed $value): void
     {
-        $req = new Request("test/jo", "GET", $query, ["header1" => "h1"]);
+        $req = new Request("test/jo", "GET", $query);
 
         $this->assertEquals($value, $req->getQueryValue($param));
     }
@@ -136,7 +136,7 @@ final class BaseResponseTest extends TestCase
      */
     public function testGetHeader(array $headers, string $header, ?string $value): void
     {
-        $req = new Request("test/jo", "GET", "t1=123&t2=test2", $headers);
+        $req = new Request("test/jo", "GET", "", $headers);
 
         $this->assertEquals($value, $req->getHeader($header));
     }
@@ -163,7 +163,7 @@ final class BaseResponseTest extends TestCase
      */
     public function testGetCookie(string $cookies, string $cookie, ?string $value): void
     {
-        $req = new Request("test/jo", "GET",  "t1=123&t2=test2", ["Cookie" => $cookies]);
+        $req = new Request("test/jo", "GET",  "", ["Cookie" => $cookies]);
 
         $this->assertEquals($value, $req->getCookie($cookie));
     }
@@ -188,7 +188,7 @@ final class BaseResponseTest extends TestCase
      */
     public function testGetAccessToken(array $header, mixed $token): void
     {
-        $req = new Request("test/jo", "GET",  "t1=123&t2=test2", $header);
+        $req = new Request("test/jo", "GET",  "", $header);
 
         $this->assertEquals($token, $req->getAccessToken());
     }
@@ -209,7 +209,7 @@ final class BaseResponseTest extends TestCase
      */
     public function testGetPath(): void
     {
-        $req = new Request("test/jo/", "GET",  "t1=123&t2=test2", []);
+        $req = new Request("test/jo/", "GET");
 
         $this->assertEquals("/test/jo", strval($req->getPath()));
     }
@@ -219,8 +219,28 @@ final class BaseResponseTest extends TestCase
      */
     public function testGetMethod(): void
     {
-        $req = new Request("test/jo/", "GET",  "t1=123&t2=test2", []);
+        $req = new Request("test/jo/", "GET");
 
         $this->assertEquals(ApiMethod::GET, $req->getMethod());
+    }
+
+    /**
+     * Tests if request->getMethod responses null if the request has no body.
+     */
+    public function testGetEmptyBody(): void
+    {
+        $req = new Request("test/jo/", "GET");
+
+        $this->assertNull($req->getBody());
+    }
+
+    /**
+     * Tests if request->getMethod responses the correct body.
+     */
+    public function testGetBody(): void
+    {
+        $req = new Request("test/jo/", "GET",  "", [], ["key" => 123]);
+
+        $this->assertEquals(["key" => 123], $req->getBody());
     }
 }
