@@ -90,10 +90,9 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
         }
         //specify the Exceptions    
         catch (UniqueFieldException $e) {
-            $msg = $e->getMessage();
-            if (str_contains($msg, "emailChangeRequest.user_id")) {
+            if (str_contains("$e", "emailChangeRequest.user_id")) {
                 throw new DuplicateUserException("UserID: $userID", 0, $e);
-            } else if (str_contains($msg, "emailChangeRequest.new_email")) {
+            } else if (str_contains("$e", "emailChangeRequest.new_email")) {
                 throw new DuplicateEmailException("Email: $newEmail", 0, $e);
             }
         } catch (FieldNotFoundException $e) {

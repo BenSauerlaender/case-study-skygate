@@ -9,11 +9,12 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions;
 
+use BenSauer\CaseStudySkygateApi\Exceptions\BaseException;
 use Exception;
 
 /**
  * Exception that is thrown if something is not valid
  */
-class ValidationException extends Exception
+class ValidationException extends BaseException
 {
 }

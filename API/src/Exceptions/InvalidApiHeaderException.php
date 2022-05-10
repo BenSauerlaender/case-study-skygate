@@ -12,6 +12,6 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 use Exception;
 
 //Exception, that should be thrown if an header is not valid
-class InvalidApiHeaderException extends Exception
+class InvalidApiHeaderException extends BaseException
 {
 }

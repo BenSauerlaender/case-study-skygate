@@ -14,6 +14,6 @@ use Exception;
 /**
  * Exception that is thrown if something happen that should not be possible
  */
-class ShouldNeverHappenException extends Exception
+class ShouldNeverHappenException extends BaseException
 {
 }

@@ -66,6 +66,6 @@ try {
     ApiUtilities::sendResponse($response, "domain", "api/v1/");
     exit();
 } catch (Exception $e) {
-    error_log($e->getMessage());
+    error_log("$e");
     exit();
 }

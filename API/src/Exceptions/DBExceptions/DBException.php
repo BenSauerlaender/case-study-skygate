@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions;
 
-use Exception;
+use BenSauer\CaseStudySkygateApi\Exceptions\BaseException;
 
 /**
  * Exception that is thrown if something unexpected happened with the database
  */
-class DBException extends Exception
+class DBException extends BaseException
 {
 }

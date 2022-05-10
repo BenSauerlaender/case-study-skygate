@@ -160,7 +160,7 @@ class UserController implements UserControllerInterface
         try {
             $this->userAccessor->update($id, array("verificationCode" => null, "verified" => true));
         } catch (UserNotFoundException | ValidationException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked. " . $e->getMessage(), 0, $e); // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked. $e", 0, $e); // @codeCoverageIgnore
         }
 
         //everything went well

@@ -12,6 +12,6 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 use Exception;
 
 //Exception, that should be thrown if an query string is not valid
-class InvalidApiQueryException extends Exception
+class InvalidApiQueryException extends BaseException
 {
 }

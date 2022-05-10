@@ -14,6 +14,6 @@ use Exception;
 /**
  * Exception that is thrown if something unexpected happened during password hashing
  */
-class PasswordHashException extends Exception
+class PasswordHashException extends BaseException
 {
 }

@@ -96,9 +96,9 @@ class ApiController implements ApiControllerInterface
             //call the routes function in this object
             return $func->call($this, $request, $ids);
         } catch (DBException $e) {
-            return new InternalErrorResponse("There are Database problems:" . $e->getMessage(), 0, $e);
+            return new InternalErrorResponse("There are Database problems. Exception: $e", 0, $e);
         } catch (Exception $e) {
-            return new InternalErrorResponse("Exception class: " . $e->getMessage(), 0, $e);
+            return new InternalErrorResponse("Exception : $e", 0, $e);
         }
     }
 }

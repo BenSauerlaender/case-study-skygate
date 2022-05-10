@@ -12,6 +12,6 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 use Exception;
 
 //Exception, that should be thrown if a function call don't make sense in the current state.
-class FoundMoreThanOneElementException extends Exception
+class FoundMoreThanOneElementException extends BaseException
 {
 }

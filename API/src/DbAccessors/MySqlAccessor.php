@@ -64,7 +64,7 @@ class MySqlAccessor
             $success = $stmt->execute($params);
             if (!$success) throw new PDOException();
         } catch (PDOException $e) {
-            $this->handlePDOException($e, $sql, $params);
+            $this->handlePDOException($e);
         }
 
         return $stmt;
@@ -80,22 +80,20 @@ class MySqlAccessor
      * @throws DBException  always.
      *          (UniqueFieldException | FieldNotFoundException | ...)
      */
-    private function handlePDOException(PDOException $e, string $sql, array $params): void
+    private function handlePDOException(PDOException $e): void
     {
-        $msg = $e->getMessage();
-
         //wrap DBException around PDOException
         try {
-            throw new DBException("Execute PDO-Statement failed. ($msg)", 0, $e);
+            throw new DBException("Execute PDO-Statement failed. ($e)", 0, $e);
         } catch (DBException $dbe) {
 
             // Duplicate field
-            if (str_contains($msg, "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry")) {
-                throw new UniqueFieldException($msg, 0, $dbe);
+            if (str_contains("$e", "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry")) {
+                throw new UniqueFieldException("$e", 0, $dbe);
             }
             //foreign key not found
-            else if (str_contains($msg, "SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails")) {
-                throw new FieldNotFoundException($msg, 0, $dbe);
+            else if (str_contains("$e", "SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails")) {
+                throw new FieldNotFoundException("$e", 0, $dbe);
             }
             //everything else
             else {

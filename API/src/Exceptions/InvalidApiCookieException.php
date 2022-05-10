@@ -12,6 +12,6 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 use Exception;
 
 //Exception, that should be thrown if an cookie is not valid
-class InvalidApiCookieException extends Exception
+class InvalidApiCookieException extends BaseException
 {
 }

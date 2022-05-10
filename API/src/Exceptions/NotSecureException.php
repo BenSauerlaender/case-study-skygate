@@ -12,6 +12,6 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 use Exception;
 
 //Exception, that should be thrown if a connection is not secure
-class NotSecureException extends Exception
+class NotSecureException extends BaseException
 {
 }

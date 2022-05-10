@@ -12,6 +12,6 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 use Exception;
 
 //Exception, that should be thrown if json_encode or json_decode fails
-class JsonException extends Exception
+class JsonException extends BaseException
 {
 }

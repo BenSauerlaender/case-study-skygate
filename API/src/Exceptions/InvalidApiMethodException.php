@@ -14,6 +14,6 @@ use Exception;
 /**
  * Exception that is thrown if a invalid ApiMethod occurs
  */
-class InvalidApiMethodException extends Exception
+class InvalidApiMethodException extends BaseException
 {
 }

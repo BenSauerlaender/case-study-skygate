@@ -35,7 +35,7 @@ try {
     } catch (InvalidApiPathException $e) {
         $response = new ResourceNotFoundResponse();
     } catch (InvalidApiMethodException | InvalidApiQueryException | InvalidApiHeaderException | JsonException $e) {
-        $response = new InternalErrorResponse("Error while getRequest: " . $e->getMessage());
+        $response = new InternalErrorResponse("Error while getRequest: $e");
     }
 
     error_log("Response with " . $response->getData() . $response::class);
@@ -49,7 +49,7 @@ try {
 catch (Exception $e) {
 
     //log them
-    error_log($e->getMessage());
+    error_log("$e");
 
     //send a 500 internal server error
     header_remove();
