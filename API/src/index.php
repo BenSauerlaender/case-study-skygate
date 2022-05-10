@@ -36,7 +36,7 @@ try {
     $apiController = ApiUtilities::getApiController();
 
     //get the response
-    $response = $apiController->handle($request);
+    $response = $apiController->handleRequest($request);
 
     //send the response
     ApiUtilities::sendResponse($response, $_ENV["API_PROD_DOMAIN"], $_ENV["API_PATH_PREFIX"]);

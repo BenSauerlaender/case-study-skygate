@@ -11,18 +11,21 @@ namespace BenSauer\CaseStudySkygateApi;
 
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
 
-function getRoutes(): array
+class Routes
 {
-    return [
-        "/users/{int}" => [
-            "GET" => [
-                "ids" => ["userID"],
-                "requireAuth" => true,
-                "permissions" => ["user:read:these"],
-                "function" => function (ApiRequestInterface $req, array $ids) {
-                    return null;
-                }
+    public static function getRoutes(): array
+    {
+        return [
+            "/users/{id}" => [
+                "GET" => [
+                    "ids" => ["userID"],
+                    "requireAuth" => true,
+                    "permissions" => ["user:read:these"],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+                        return null;
+                    }
+                ]
             ]
-        ]
-    ];
+        ];
+    }
 }

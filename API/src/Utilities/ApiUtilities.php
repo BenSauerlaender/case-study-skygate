@@ -15,12 +15,25 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequest
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Request;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ApiResponseInterface;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\NotSecureResponse;
+use BenSauer\CaseStudySkygateApi\Controller\ApiController;
+use BenSauer\CaseStudySkygateApi\Controller\AuthenticationController;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
+use BenSauer\CaseStudySkygateApi\Controller\RoutingController;
+use BenSauer\CaseStudySkygateApi\Controller\UserController;
+use BenSauer\CaseStudySkygateApi\Controller\ValidationController;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlEcrAccessor;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRefreshTokenAccessor;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRoleAccessor;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserAccessor;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
+use BenSauer\CaseStudySkygateApi\tests\Database\RefreshTokenTableTest;
+use BenSauer\CaseStudySkygateApi\tests\Database\RoleTableTest;
+
+use function BenSauer\CaseStudySkygateApi\getRoutes;
 
 class ApiUtilities
 {
@@ -110,5 +123,24 @@ class ApiUtilities
     }
     static function getApiController(): ApiControllerInterface
     {
+        //Database connection
+        $pdo = MySqlConnector::getConnection();
+
+        //Database Accessors
+        $userAccessor           = new MySqlUserAccessor($pdo);
+        $roleAccessor           = new MySqlRoleAccessor($pdo);
+        $ecrAccessor            = new MySqlEcrAccessor($pdo);
+        $refreshTokenAccessor   = new MySqlRefreshTokenAccessor($pdo);
+
+        //utilities
+        $securityUtil           = new SecurityUtilities();
+        $validationController   = new ValidationController();
+
+        //controller
+        $userController             = new UserController($securityUtil, $validationController, $userAccessor, $roleAccessor, $ecrAccessor);
+        $authenticationController   = new AuthenticationController($userAccessor, $refreshTokenAccessor, $roleAccessor);
+        $routingController          = new RoutingController(getRoutes());
+
+        return new ApiController($routingController, $authenticationController, ["user" => $userController]);
     }
 }
