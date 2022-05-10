@@ -106,6 +106,8 @@ final class AllRoutesValidationTest extends TestCase
     {
         if ($route["requireAuth"]) {
             $this->assertNotEmpty($route["permissions"]);
+        } else {
+            $this->assertEmpty($route["permissions"]);
         }
 
         foreach ($route["permissions"] as $perm) {

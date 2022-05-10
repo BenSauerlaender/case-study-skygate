@@ -18,25 +18,27 @@ try {
     require '../vendor/autoload.php';
 
     //load dotenv variables from '.env'
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/..");
     $dotenv->load();
 
     //get the request
     try {
         $request = ApiUtilities::getRequest($_SERVER, getallheaders(), $_ENV["API_PATH_PREFIX"]);
+
+        //get the constructed apiController
+        $apiController = ApiUtilities::getApiController();
+
+        //get the response
+        $response = $apiController->handleRequest($request);
     } catch (NotSecureException $e) {
         $response = new NotSecureResponse();
     } catch (InvalidApiPathException $e) {
         $response = new ResourceNotFoundResponse();
     } catch (InvalidApiMethodException | InvalidApiQueryException | InvalidApiHeaderException $e) {
-        $response = new InternalErrorResponse();
+        $response = new InternalErrorResponse($e->getMessage());
     }
 
-    //get the constructed apiController
-    $apiController = ApiUtilities::getApiController();
-
-    //get the response
-    $response = $apiController->handleRequest($request);
+    error_log("Response with " . $response->getData() . $response::class);
 
     //send the response
     ApiUtilities::sendResponse($response, $_ENV["API_PROD_DOMAIN"], $_ENV["API_PATH_PREFIX"]);

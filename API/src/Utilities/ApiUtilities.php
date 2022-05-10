@@ -9,12 +9,9 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiMethod;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiPath;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Request;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ApiResponseInterface;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\NotSecureResponse;
 use BenSauer\CaseStudySkygateApi\Controller\ApiController;
 use BenSauer\CaseStudySkygateApi\Controller\AuthenticationController;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
@@ -30,10 +27,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
-use BenSauer\CaseStudySkygateApi\tests\Database\RefreshTokenTableTest;
-use BenSauer\CaseStudySkygateApi\tests\Database\RoleTableTest;
-
-use function BenSauer\CaseStudySkygateApi\getRoutes;
+use BenSauer\CaseStudySkygateApi\Routes;
 
 class ApiUtilities
 {
@@ -139,7 +133,7 @@ class ApiUtilities
         //controller
         $userController             = new UserController($securityUtil, $validationController, $userAccessor, $roleAccessor, $ecrAccessor);
         $authenticationController   = new AuthenticationController($userAccessor, $refreshTokenAccessor, $roleAccessor);
-        $routingController          = new RoutingController(getRoutes());
+        $routingController          = new RoutingController(Routes::getRoutes());
 
         return new ApiController($routingController, $authenticationController, ["user" => $userController]);
     }

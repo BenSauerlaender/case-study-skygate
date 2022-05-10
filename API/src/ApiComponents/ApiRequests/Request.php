@@ -16,6 +16,7 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\Interfaces\ApiPathInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
+use phpDocumentor\Reflection\PseudoTypes\NonEmptyString;
 
 /**
  * Class that represent an Request to the API
@@ -75,20 +76,22 @@ class Request implements ApiRequestInterface
     {
         $ret = [];
 
-        //for each query pair //also lowercase and remove spaces
-        foreach (explode("&", str_replace(" ", "", strtolower($query))) as $p) {
-            //separate parameter name from value
-            $pair = explode("=", $p);
+        if ($query != "") {
+            //for each query pair //also lowercase and remove spaces
+            foreach (explode("&", str_replace(" ", "", strtolower($query))) as $p) {
+                //separate parameter name from value
+                $pair = explode("=", $p);
 
-            if (sizeof($pair) !== 2) throw new InvalidApiQueryException("The query string part: '$p' is not valid");
+                if (sizeof($pair) !== 2) throw new InvalidApiQueryException("The query string part: '$p' is not valid");
 
-            //if value is an int get as int otherwise get the string
-            $val = filter_var($pair[1], FILTER_VALIDATE_INT);
-            if ($val === false) {
-                $val = $pair[1];
+                //if value is an int get as int otherwise get the string
+                $val = filter_var($pair[1], FILTER_VALIDATE_INT);
+                if ($val === false) {
+                    $val = $pair[1];
+                }
+                //save the query pair
+                $ret[$pair[0]] = $val;
             }
-            //save the query pair
-            $ret[$pair[0]] = $val;
         }
         return $ret;
     }
