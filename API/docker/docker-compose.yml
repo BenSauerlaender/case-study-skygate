@@ -8,6 +8,7 @@ services:
             - "3000:80"
         volumes:
             - ../src:/var/www/html/src
+            - ../SQL:/var/www/html/SQL
             - ../vendor:/var/www/html/vendor
             - ../.env:/var/www/html/.env
             - ./apache.conf:/etc/apache2/sites-available/000-default.conf

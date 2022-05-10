@@ -73,6 +73,8 @@ class MySqlConnector
                 $pass,
                 $options
             );
+            //select Database
+            self::$db->exec("use " . $_ENV['MYSQL_DATABASE'] . ";");
 
             date_default_timezone_set($_ENV['TIMEZONE']);
             $offset = date('P');
