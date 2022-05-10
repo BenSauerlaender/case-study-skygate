@@ -3,8 +3,14 @@
 //activate strict mode
 declare(strict_types=1);
 
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\InternalErrorResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\NotSecureResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\ResourceNotFoundResponse;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
+use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
 use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 
 try {
@@ -15,31 +21,25 @@ try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 
-    //check for correct path syntax
-    if (!str_starts_with($_SERVER["Request_URI"], $PATH_PREFIX)) {
-
-        $response = new ResourceNotFoundResponse();
-    }
-    //check for ssl connection
-    else if ($_ENV["ENVIRONMENT"] === "PRODUCTION" and ($_SERVER["HTTPS"] !== "")) {
-
+    //get the request
+    try {
+        $request = ApiUtilities::getRequest($_SERVER, getallheaders(), $_ENV["API_PATH_PREFIX"]);
+    } catch (NotSecureException $e) {
         $response = new NotSecureResponse();
+    } catch (InvalidApiPathException $e) {
+        $response = new ResourceNotFoundResponse();
+    } catch (InvalidApiMethodException | InvalidApiQueryException | InvalidApiHeaderException $e) {
+        $response = new InternalErrorResponse();
     }
-    //normal procedure
-    else {
 
-        //get the constructed apiController
-        $apiController = ApiUtilities::getApiController();
+    //get the constructed apiController
+    $apiController = ApiUtilities::getApiController();
 
-        //get the request
-        $request = ApiUtilities::getRequest($_SERVER, getallheaders(), $PATH_PREFIX);
-
-        //get the response
-        $response = $apiController->handle($request);
-    }
+    //get the response
+    $response = $apiController->handle($request);
 
     //send the response
-    ApiUtilities::sendResponse($response);
+    ApiUtilities::sendResponse($response, $_ENV["API_PROD_DOMAIN"], $_ENV["API_PATH_PREFIX"]);
 
     exit();
 }

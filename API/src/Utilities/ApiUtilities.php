@@ -9,9 +9,18 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiMethod;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiPath;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Request;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ApiResponseInterface;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\NotSecureResponse;
+use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
 
 class ApiUtilities
 {
@@ -61,9 +70,45 @@ class ApiUtilities
      * @param  array               $server      The $_SERVER array.
      * @param  array               $headers     The response array of getallheaders().
      * @param  string              $pathPrefix  The prefix in front of an api path e.g. /api/v1/.
+     *
+     * @throws NotSecureException           if the request comes not from https in prod.
+     * @throws InvalidApiPathException      if the path string can not parsed into an ApiPath.
+     * @throws InvalidApiMethodException    if the method string can not parsed into an ApiMethod.
+     * @throws InvalidApiQueryException     if the query string can not be parsed into an valid array.
+     * @throws InvalidApiHeaderException    if a header can not be parsed into an valid array.
      */
     static function getRequest(array $server, array $headers, string $pathPrefix): ApiRequestInterface
     {
-        return new Request("", "", "", []);
+        $env = $_ENV["ENVIRONMENT"] ?? "PRODUCTION";
+        if (!isset($server["REQUEST_URI"]) or !isset($server["REQUEST_METHOD"]) or !isset($server["QUERY_STRING"])) {
+            throw new ShouldNeverHappenException("The _SERVER variables should be always set from the apache server.");
+        }
+
+        //check if the connection is secure
+        if ($env === "PRODUCTION" && (!isset($server["HTTPS"]) or empty($server['HTTPS']))) {
+            throw new NotSecureException();
+        }
+
+        $path = $server["REQUEST_URI"];
+        //check if the requested path starts with the api path prefix
+        if (!str_starts_with($path, $pathPrefix)) {
+            throw new InvalidApiPathException("The Path: '$path' need to start with: '$pathPrefix'");
+        }
+
+        //cut the prefix
+        $path = substr($path, strlen($pathPrefix));
+
+        $method = $server["REQUEST_METHOD"];
+
+        $query = $server["QUERY_STRING"];
+
+        try {
+            return new Request($path, $method, $query, $headers);
+        } catch (InvalidApiCookieException $e) {
+            throw new InvalidApiHeaderException("The Cookie header is invalid.", 0, $e);
+        }
+    }
+    static function getApiController(): ApiControllerInterface
+    {
     }
 }

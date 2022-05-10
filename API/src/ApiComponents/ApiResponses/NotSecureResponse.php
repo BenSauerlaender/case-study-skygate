@@ -11,4 +11,9 @@ namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses;
 
 class NotSecureResponse extends BaseResponse
 {
+    public function __construct()
+    {
+        $this->setCode(400);
+        $this->setMessage("Request was rejected, because the connection is not secured via SSL (HTTPS). Please send your request again, via HTTPS.");
+    }
 }

@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\ApiComponents;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 use BenSauer\CaseStudySkygateApi\ApiComponents\Interfaces\ApiPathInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 
 /**
  * Class that implements ApiPathInterface

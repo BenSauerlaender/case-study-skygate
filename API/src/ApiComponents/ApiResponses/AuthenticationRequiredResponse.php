@@ -17,6 +17,6 @@ class AuthenticationRequiredResponse extends BaseResponse
     public function __construct()
     {
         $this->setCode(401);
-        $this->setData(["msg" => "The resource with this method require an JWT Access Token as barrier token. Use GET /token to get one"]);
+        $this->setMessage("The resource with this method require an JWT Access Token as barrier token. Use GET /token to get one");
     }
 }

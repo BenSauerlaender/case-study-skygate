@@ -35,6 +35,11 @@ class mockResponse extends BaseResponse
     {
         parent::setData($data);
     }
+
+    public function setMessage(string $msg): void
+    {
+        parent::setMessage($msg);
+    }
 }
 /**
  * Tests for the BaseResponse abstract class
@@ -270,6 +275,23 @@ final class BaseResponseTest extends TestCase
         $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
 
         $this->assertEquals('{"test-string":"Das ein Test!","test-number":42}', $response->getData());
+    }
+
+    /**
+     * Tests if the Response returns the correct fields if a message was set.
+     */
+    public function testSetMessage(): void
+    {
+        $response = new mockResponse();
+
+        $response->setMessage("test 123.");
+        $this->assertEquals(500, $response->getCode());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+
+        $this->assertEquals(1, sizeof($response->getHeaders()));
+        $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
+
+        $this->assertEquals('{"msg":"test 123."}', $response->getData());
     }
 
     /**

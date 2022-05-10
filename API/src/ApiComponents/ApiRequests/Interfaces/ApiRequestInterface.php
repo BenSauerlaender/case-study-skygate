@@ -51,7 +51,7 @@ interface ApiRequestInterface
 
     /**
      * Gets the requested Path
-     * @return ApiPath The requested api path
+     * @return ApiPathInterface The requested api path
      */
     public function getPath(): ApiPathInterface;
 

@@ -20,7 +20,6 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\ResourceNotFoundResp
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\RoutingControllerInterface;
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;

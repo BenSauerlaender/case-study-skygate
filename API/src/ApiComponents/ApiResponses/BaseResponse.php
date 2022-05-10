@@ -101,6 +101,18 @@ abstract class BaseResponse implements ApiResponseInterface
         $this->addHeader("Content-Type", "application/json;charset=UTF-8");
     }
 
+    /**
+     * Stets the data to message (msg).
+     * 
+     * Attention. That overrides the data
+     *
+     * @param  string $msg  The message to set.
+     */
+    protected function setMessage(string $msg)
+    {
+        $this->setData(["msg" => $msg]);
+    }
+
     public function getCode(): int
     {
         return $this->code;
