@@ -27,6 +27,9 @@ final class getRequestTest extends TestCase
         $_ENV["ENVIRONMENT"] = "PRODUCTION";
         $SERVER = [];
         unset($SERVER["HTTPS"]);
+        $SERVER["REQUEST_URI"] = "/path/to/txt";
+        $SERVER["REQUEST_METHOD"] = "GET";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
 
         $this->expectException(NotSecureException::class);
 
@@ -42,6 +45,8 @@ final class getRequestTest extends TestCase
         $SERVER = [];
         $SERVER["HTTPS"] = "test";
         $SERVER["REQUEST_URI"] = "/path/to/x";
+        $SERVER["REQUEST_METHOD"] = "GET";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
 
         $this->expectException(InvalidApiPathException::class);
 
@@ -57,6 +62,8 @@ final class getRequestTest extends TestCase
         $SERVER = [];
         $SERVER["HTTPS"] = 1;
         $SERVER["REQUEST_URI"] = "/path/to/x.txt";
+        $SERVER["REQUEST_METHOD"] = "GET";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
 
         $this->expectException(InvalidApiPathException::class);
 
@@ -73,6 +80,7 @@ final class getRequestTest extends TestCase
         $SERVER["HTTPS"] = 1;
         $SERVER["REQUEST_URI"] = "/path/to/txt";
         $SERVER["REQUEST_METHOD"] = "SEARCH";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
 
         $this->expectException(InvalidApiMethodException::class);
 
