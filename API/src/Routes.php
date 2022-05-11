@@ -10,8 +10,13 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi;
 
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\MissingPropertyResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\BadRequestResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\InvalidPropertyResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\MissingPropertyResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\UnsupportedPropertyResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
 
 class Routes
@@ -35,6 +40,8 @@ class Routes
                             $uc->createUser($fields);
                         } catch (RequiredFieldException $e) {
                             return new MissingPropertyResponse($e->getMissing());
+                        } catch (InvalidFieldException $e) {
+                            return new InvalidPropertyResponse($e->getInvalidField());
                         }
                     }
                 ]

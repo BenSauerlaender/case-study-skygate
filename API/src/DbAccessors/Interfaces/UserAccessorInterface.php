@@ -75,7 +75,7 @@ interface UserAccessorInterface
      * @throws DBexception        if there is a problem with the database.
      *          (UserNotFoundException | RoleNotFoundException | DuplicateEmailException ...)
      * @throws ValidationException      if the fields array is invalid.
-     *          (ArrayIsEmptyException | UnsupportedFieldException | InvalidTypeException)
+     *          (ArrayIsEmptyException  | InvalidFieldException)
      */
     public function update(int $id, array $fields): void;
 

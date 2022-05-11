@@ -9,11 +9,8 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 
 /**
  * Testsuit for UserController->createUser method
@@ -59,33 +56,11 @@ final class UCCreateTest extends BaseUCTest
     }
 
     /**
-     * Tests if the method throw an exception if at least one field is unsupported
-     */
-    public function testCreateUserWithUnsupportedFields(): void
-    {
-        $this->ValidationControllerMock->method("validate")->will($this->throwException(new UnsupportedFieldException()));
-
-        $this->expectException(UnsupportedFieldException::class);
-        $this->userController->createUser(self::$completeAttr);
-    }
-
-    /**
-     * Tests if the method throw an exception if at least one field has the wrong type
-     */
-    public function testCreateUserWithInvalidTypeFields(): void
-    {
-        $this->ValidationControllerMock->method("validate")->will($this->throwException(new InvalidTypeException()));
-
-        $this->expectException(InvalidTypeException::class);
-        $this->userController->createUser(self::$completeAttr);
-    }
-
-    /**
      * Tests if the method throw an exception if at least one field is invalid
      */
     public function testCreateUserWithInvalidFields(): void
     {
-        $this->ValidationControllerMock->method("validate")->willReturn(["email" => "TO_SHORT"]);
+        $this->ValidationControllerMock->method("validate")->willReturn(["email" => ["TO_SHORT"]]);
 
         $this->expectException(InvalidFieldException::class);
         $this->userController->createUser(self::$completeAttr);
@@ -105,7 +80,7 @@ final class UCCreateTest extends BaseUCTest
 
         $this->configEmailAvailability($emailFreeInUser, $emailFreeInEcr);
 
-        $this->expectException(DuplicateEmailException::class);
+        $this->expectException(InvalidFieldException::class);
 
         $this->userController->createUser(self::$completeAttr);
     }

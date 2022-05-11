@@ -24,12 +24,8 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInter
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
-use BenSauer\CaseStudySkygateApi\Utilities\SharedUtilities;
-use PDOException;
 
 use function BenSauer\CaseStudySkygateApi\Utilities\mapped_implode;
 
@@ -65,12 +61,12 @@ class UserController implements UserControllerInterface
 
         if ($valid !== true) {
             $reasons = $valid;
-            throw new InvalidFieldException("Invalid fields with reasons: " . SharedUtilities::mapped_implode(",", $reasons));
+            throw new InvalidFieldException($reasons);
         }
 
         //check if the email is free
         if (!$this->isEmailFree($fields["email"])) {
-            throw new  DuplicateEmailException("Email: " . $fields["email"]);
+            throw new InvalidFieldException(["email" => ["IS_TAKEN"]]);
         }
 
         //get the role id. Default role is "user"
@@ -119,8 +115,8 @@ class UserController implements UserControllerInterface
 
     public function updateUser(int $id, array $fields): void
     {
-        if (array_key_exists("password", $fields)) throw new UnsupportedFieldException("Field: password. To change the password use updateUserPassword", 2);
-        if (array_key_exists("email", $fields)) throw new UnsupportedFieldException("Field: email. To change the email use RequestUsersEmailChange", 2);
+        if (array_key_exists("password", $fields)) throw new InvalidFieldException(["password" => ["UNSUPPORTED"]]);
+        if (array_key_exists("email", $fields)) throw new InvalidFieldException(["email" => ["UNSUPPORTED"]]);
 
         if (sizeof($fields) === 0) throw new ArrayIsEmptyException();
 
@@ -128,7 +124,7 @@ class UserController implements UserControllerInterface
         $valid = $this->ValidationController->validate(\array_diff_key($fields, ["role" => ""]));
         if ($valid !== true) {
             $reasons = $valid;
-            throw new InvalidFieldException("Invalid fields with reasons: " . SharedUtilities::mapped_implode(",", $reasons));
+            throw new InvalidFieldException($reasons);
         }
 
         //replace role name by its id
@@ -180,10 +176,10 @@ class UserController implements UserControllerInterface
             $valid = $this->ValidationController->validate(["password" => $newPassword]);
             if ($valid !== true) {
                 $reasons = $valid;
-                throw new InvalidFieldException("Password is not valid, because: " . $reasons["password"]);
+                throw new InvalidFieldException($reasons);
             }
-        } catch (ArrayIsEmptyException | UnsupportedFieldException | InvalidTypeException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("Array is not empty. And password is a supported field and a string", 0, $e); // @codeCoverageIgnore
+        } catch (ArrayIsEmptyException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("Array is not empty.", 0, $e); // @codeCoverageIgnore
         }
 
         //update the database
@@ -203,10 +199,10 @@ class UserController implements UserControllerInterface
             $valid = $this->ValidationController->validate(["email" => $newEmail]);
             if ($valid !== true) {
                 $reasons = $valid;
-                throw new InvalidFieldException("Email is not valid, because: " . $reasons["email"]);
+                throw new InvalidFieldException($reasons);
             }
-        } catch (ArrayIsEmptyException | UnsupportedFieldException | InvalidTypeException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("Array is not empty. And email is a supported field and a string", 0, $e); // @codeCoverageIgnore
+        } catch (ArrayIsEmptyException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("Array is not empty.", 0, $e); // @codeCoverageIgnore
         }
 
         //check if the email is free

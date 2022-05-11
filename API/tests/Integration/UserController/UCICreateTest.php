@@ -10,9 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
 
 /**
@@ -25,11 +23,10 @@ final class UCICreateTest extends BaseUCITest
      * 
      * @dataProvider invalidFieldArrayProvider
      */
-    public function testCreateUserFailsOnInvalidFieldData(array $fields, string $exception, string $msg): void
+    public function testCreateUserFailsOnInvalidFieldData(array $fields, string $exception): void
     {
         $this->expectException(ValidationException::class);
         $this->expectException($exception);
-        $this->expectExceptionMessage($msg);
 
         $this->userController->createUser($fields);
     }
@@ -58,7 +55,7 @@ final class UCICreateTest extends BaseUCITest
     {
         $this->createUser();
 
-        $this->expectException(DuplicateEmailException::class);
+        $this->expectException(InvalidFieldException::class);
 
         $this->userController->createUser(
             [
@@ -109,7 +106,7 @@ final class UCICreateTest extends BaseUCITest
                     "phone"     => "myPhone",
                     "password"  => "MyPassword",
                     "role"      => "myRole"
-                ], RequiredFieldException::class, "Missing fields: email,name"
+                ], RequiredFieldException::class
             ],
             "unsupported field" => [
                 [
@@ -121,7 +118,7 @@ final class UCICreateTest extends BaseUCITest
                     "phone"     => "myPhone",
                     "password"  => "MyPassword",
                     "role"      => "myRole"
-                ], UnsupportedFieldException::class, "Field: quatsch"
+                ], InvalidFieldException::class
             ],
             "invalid type" => [
                 [
@@ -132,7 +129,7 @@ final class UCICreateTest extends BaseUCITest
                     "phone"     => "123456789",
                     "password"  => "MyPassword1",
                     "role"      => "myRole"
-                ], InvalidTypeException::class, "name"
+                ], InvalidFieldException::class
             ],
             "invalid email and password" => [
                 [
@@ -142,7 +139,7 @@ final class UCICreateTest extends BaseUCITest
                     "city"      => "myCity",
                     "phone"     => "123456789",
                     "password"  => "mypassword",
-                ], InvalidFieldException::class, "Invalid fields with reasons: email=NO_EMAIL,password=NO_UPPER_CASE+NO_NUMBER"
+                ], InvalidFieldException::class
             ]
         ];
     }

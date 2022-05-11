@@ -144,7 +144,7 @@ final class ApiControllerTest extends TestCase
                 "ids" => [1, 2, 3],
                 "function" => function ($req, $ids) {
                     if ($req->getMethod() === ApiMethod::CONNECT && $ids === [1, 2, 3]) {
-                        return new InternalErrorResponse("test");
+                        return new InternalErrorResponse();
                     } else throw new Exception();
                 }
             ]);
@@ -178,28 +178,6 @@ final class ApiControllerTest extends TestCase
     }
 
     /**
-     * Test that the method returns an InternalErrorResponse (with database message) if the routes function throws an DbException
-     */
-    public function testRouteFunctionThrowsDbException(): void
-    {
-        $this->routingMock
-            ->expects($this->once())
-            ->method("route")
-            ->willReturn([
-                "requireAuth" => false,
-                "ids" => [1, 2, 3],
-                "function" => function ($req, $ids) {
-                    throw new DBException();
-                }
-            ]);
-
-        $response = $this->apiController->handleRequest($this->reqMock);
-
-        $this->assertTrue(is_a($response, InternalErrorResponse::class));
-        $this->assertTrue(str_contains(json_decode($response->getData(), true)["msg"], "Database"));
-    }
-
-    /**
      * Test that the method returns an InternalErrorResponse (with default message) if the routes function throws an Exception
      */
     public function testRouteFunctionThrowsException(): void
@@ -218,7 +196,6 @@ final class ApiControllerTest extends TestCase
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, InternalErrorResponse::class));
-        $this->assertTrue(str_contains(json_decode($response->getData(), true)["msg"], "internal"));
     }
 
     /**

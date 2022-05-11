@@ -12,8 +12,6 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 
 /**
  * Integration Tests for the updateUser method of UserController
@@ -63,10 +61,10 @@ final class UciUpdateTest extends BaseUCITest
                 1, [], ArrayIsEmptyException::class
             ],
             "unsupported field" => [
-                1, ["quatsch" => "quatsch"], UnsupportedFieldException::class
+                1, ["quatsch" => "quatsch"], InvalidFieldException::class
             ],
             "invalid type" => [
-                1, ["name" => 123], InvalidTypeException::class
+                1, ["name" => 123], InvalidFieldException::class
             ],
             "invalid field" => [
                 1, ["name" => "1!"], InvalidFieldException::class

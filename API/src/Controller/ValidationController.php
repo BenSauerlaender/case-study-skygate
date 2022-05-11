@@ -9,9 +9,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use TypeError;
 
 class ValidationController implements ValidationControllerInterface
@@ -34,15 +32,16 @@ class ValidationController implements ValidationControllerInterface
 
     public function validate(array $fields): mixed
     {
+        $invalidFields = [];
+
         //checks if all fields are supported
         //throws Exception if not
         foreach ($fields as $key => $value) {
             if (!array_key_exists($key, $this->getValidator)) {
-                throw new UnsupportedFieldException("Field: $key");
+                $invalidFields[$key] = ["UNSUPPORTED"];
+                unset($fields[$key]);
             }
         }
-
-        $invalidFields = [];
 
         //validate each field by the right validation method
         foreach ($fields as $key => $value) {
@@ -53,10 +52,10 @@ class ValidationController implements ValidationControllerInterface
             try {
                 $return = $this->{$Validator}($value);
                 if ($return !== true) {
-                    $invalidFields += [$key => implode("+", $return)];
+                    $invalidFields[$key] = $return;
                 }
             } catch (TypeError $e) {
-                throw new InvalidTypeException("Type of $key is not valid", 0, $e);
+                $invalidFields[$key] = ["INVALID_TYPE"];
             }
         }
 

@@ -45,10 +45,9 @@ final class UCRequestEmailChangeTest extends BaseUCTest
     {
         $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
-            ->willReturn(["email" => "TO_SHORT"]);
+            ->willReturn(["email" => ["TO_SHORT"]]);
 
         $this->expectException(InvalidFieldException::class);
-        $this->expectExceptionMessage("TO_SHORT");
 
         $this->userController->requestUsersEmailChange(1, "email");
     }

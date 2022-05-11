@@ -11,8 +11,6 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 
 /**
  * Testsuit for UserController->update method
@@ -50,37 +48,6 @@ final class UCUpdateTest extends BaseUCTest
     }
 
     /**
-     * Tests if the method throws an Exception if at least one of the arguments is not supposed to update with this method
-     *
-     * @dataProvider invalidArgumentProvider
-     */
-    public function testUpdateUserWithUnsupportedField(string $field): void
-    {
-        //ValidationController will throw InvalidArgumentException every time.
-        //ValidationController will only be called on "quatsch". "password" and "email"will be catched before
-        $this->ValidationControllerMock
-            ->method("validate")
-            ->with($this->equalTo(["quatsch" => ""]))
-            ->will($this->throwException(new UnsupportedFieldException()));
-
-        $this->expectException(UnsupportedFieldException::class);
-
-        $this->userController->updateUser(1, [$field => ""]);
-    }
-
-    /**
-     * Provides Arguments that cant be updated.
-     */
-    public function invalidArgumentProvider(): array
-    {
-        return [
-            ["password"],
-            ["email"],
-            ["quatsch"]
-        ];
-    }
-
-    /**
      * Tests if the method throws an Exception if at least one of the fields is invalid
      *
      * @dataProvider invalidFieldProvider
@@ -88,7 +55,7 @@ final class UCUpdateTest extends BaseUCTest
     public function testUpdateUserWithInvalidField(string $key, string $value): void
     {
         $this->ValidationControllerMock->method("validate")
-            ->willReturn([$key => "INVALID"]);
+            ->willReturn([$key => ["INVALID"]]);
 
         $this->roleAccessorMock->method("findByName")
             ->willReturn(null);
@@ -97,19 +64,6 @@ final class UCUpdateTest extends BaseUCTest
         $this->expectExceptionMessage($key);
 
         $this->userController->updateUser(1, [$key => $value]);
-    }
-
-    /**
-     * Tests if the method throws an Exception if at least one of the fields has a wrong type
-     */
-    public function testUpdateUserWithInvalidFieldType(): void
-    {
-        $this->ValidationControllerMock->method("validate")
-            ->will($this->throwException(new InvalidTypeException()));
-
-        $this->expectException(InvalidTypeException::class);
-
-        $this->userController->updateUser(1, ["name" => 123]);
     }
 
     /**

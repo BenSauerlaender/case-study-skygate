@@ -34,9 +34,8 @@ interface UserControllerInterface
      * @return array{id: int, verificationCode: string} The user's id and the verification code to verify the user 
      * 
      * @throws DBexception            if there is a problem with the database.
-     *          (DuplicateEmailException | ...)
      * @throws ValidationException          if there are invalid fields.
-     *          (RequiredFieldException | UnsupportedFieldsException | InvalidFieldException | InvalidTypeException)
+     *          (RequiredFieldException | InvalidFieldException)
      */
     public function createUser(array $fields): array;
 
@@ -66,7 +65,7 @@ interface UserControllerInterface
      * @throws DBexception    if there is a problem with the database.
      *          (UserNotFoundException | RoleNotFoundException ...)
      * @throws ValidationException  if fields array is invalid.
-     *          (ArrayIsEmptyException | UnsupportedFieldsException | InvalidFieldException | InvalidTypeException)
+     *          (ArrayIsEmptyException | InvalidFieldException )
      */
     public function updateUser(int $id, array $fields): void;
 

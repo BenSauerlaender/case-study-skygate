@@ -16,8 +16,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
 use PDOException;
 
 // class to interact with the user-db-table
@@ -182,7 +181,7 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
      * @param  array $fields
      * 
      * @throws ValidationException  if the array is not valid.
-     *          (ArrayIsEmptyException | UnsupportedFieldException | InvalidTypeException)
+     *          (ArrayIsEmptyException | InvalidFieldException)
      */
     private function validateFieldArray(array $fields)
     {
@@ -206,7 +205,7 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
         foreach ($fields as $key => $value) {
 
             //throws exception if key is not supported
-            if (!in_array($key, $validFields)) throw new UnsupportedFieldException("The field: " . $key . " is not supported.");
+            if (!in_array($key, $validFields)) throw new InvalidFieldException([$key => ["UNSUPPORTED"]]);
 
             //continue with next key if one type matches
             foreach (explode("|", $fieldTypes[$key]) as $possibleType) {
@@ -216,7 +215,7 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
                 if ($possibleType === "bool" and is_bool($value)) continue 2;
             }
             //throws exception if none type matches
-            throw new InvalidTypeException("The value of field $key need to be a $fieldTypes[$key]");
+            throw new InvalidFieldException([$key => ["INVALID_TYPE"]]);
         }
     }
 }

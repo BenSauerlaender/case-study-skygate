@@ -132,4 +132,16 @@ abstract class BaseResponse implements ApiResponseInterface
     {
         return $this->data;
     }
+
+    public function __toString()
+    {
+        $c = implode(",", array_keys($this->cookies));
+        $h = implode(",", array_keys($this->headers));
+
+        $ret = "{$this->code}: ";
+        if ($c !== "") $ret = $ret . "set-cookies: $c, ";
+        if ($h !== "") $ret = $ret . "headers: $h, ";
+        if (!is_null($this->data)) $ret = $ret . "data: {$this->data}";
+        return $ret;
+    }
 }

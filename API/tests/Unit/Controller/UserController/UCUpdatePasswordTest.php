@@ -72,7 +72,7 @@ final class UCUpdatePasswordTest extends BaseUCTest
         $this->ValidationControllerMock->expects($this->once())
             ->method("validate")
             ->with($this->equalTo(["password" => "newPass"]))
-            ->willReturn(["password" => "TO_SHORT"]);
+            ->willReturn(["password" => ["TO_SHORT"]]);
 
         $this->expectException(InvalidFieldException::class);
         $this->userController->updateUsersPassword(1, "newPass", "oldPass");

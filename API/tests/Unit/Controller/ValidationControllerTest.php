@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Controller;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidTypeException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\UnsupportedFieldException;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\ValidationController;
 use PHPUnit\Framework\TestCase;
@@ -47,8 +45,8 @@ final class ValidationControllerTest extends TestCase
      */
     public function testUnsupportedField(): void
     {
-        $this->expectException(UnsupportedFieldException::class);
-        self::$ValidationController->validate(["NotAnField" => ""]);
+        $return = self::$ValidationController->validate(["NotAnField" => ""]);
+        $this->assertEquals(["NotAnField" => ["UNSUPPORTED"]], $return);
     }
 
     /**
@@ -56,8 +54,8 @@ final class ValidationControllerTest extends TestCase
      */
     public function testInvalidType(): void
     {
-        $this->expectException(InvalidTypeException::class);
-        self::$ValidationController->validate(["name" => 123]);
+        $return = self::$ValidationController->validate(["name" => 123]);
+        $this->assertEquals(["name" => ["INVALID_TYPE"]], $return);
     }
 
     /**
@@ -78,7 +76,7 @@ final class ValidationControllerTest extends TestCase
             $this->assertCount(1, $ret);
             $this->assertArrayHasKey($field, $ret);
             //return contains reason
-            $this->assertStringContainsString($reason, $ret[$field]);
+            $this->assertEquals($reason, $ret[$field][0]);
         }
     }
 

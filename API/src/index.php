@@ -38,7 +38,7 @@ try {
         $response = new InternalErrorResponse("Error while getRequest: $e");
     }
 
-    error_log("Response with " . $response->getData() . $response::class);
+    error_log("Response: $response");
 
     //send the response
     ApiUtilities::sendResponse($response, $_ENV["API_PROD_DOMAIN"], $_ENV["API_PATH_PREFIX"]);

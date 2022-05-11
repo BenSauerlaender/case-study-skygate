@@ -84,16 +84,16 @@ class MySqlAccessor
     {
         //wrap DBException around PDOException
         try {
-            throw new DBException("Execute PDO-Statement failed. ($e)", 0, $e);
+            throw new DBException("Execute PDO-Statement failed.", 0, $e);
         } catch (DBException $dbe) {
 
             // Duplicate field
             if (str_contains("$e", "SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry")) {
-                throw new UniqueFieldException("$e", 0, $dbe);
+                throw new UniqueFieldException("Failed to set a duplicate to a unique field", 0, $e);
             }
             //foreign key not found
             else if (str_contains("$e", "SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails")) {
-                throw new FieldNotFoundException("$e", 0, $dbe);
+                throw new FieldNotFoundException("Failed to set bad foreign key", 0, $e);
             }
             //everything else
             else {
