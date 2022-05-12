@@ -35,7 +35,7 @@ try {
     } catch (InvalidApiPathException $e) {
         $response = new ResourceNotFoundResponse();
     } catch (InvalidApiMethodException | InvalidApiQueryException | InvalidApiHeaderException | JsonException $e) {
-        $response = new InternalErrorResponse("Error while getRequest: $e");
+        $response = new InternalErrorResponse($e);
     }
 
     error_log("Response: $response");
@@ -46,7 +46,7 @@ try {
     exit();
 }
 //catch all completely unexpected exceptions
-catch (Exception $e) {
+catch (Throwable $e) {
 
     //log them
     error_log("$e");

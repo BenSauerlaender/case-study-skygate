@@ -1,90 +1,156 @@
 const { request, expect } = require("../config");
-const { clearDB } = require("../helper");
+const { makeSuite } = require("../helper");
+const { getEmail } = require("../emailHelper.js");
 
-describe("/register", () => {
-  beforeEach((done) => {
-    clearDB(done);
-  });
-
-  describe("POST /register", () => {
-    it("returns Bad Request if no data are given", async () => {
-      const response = await request.post("/register");
-
-      expect(response.statusCode).to.eql(400);
-      expect(response.body.data).to.be.undefined;
-    });
-
-    it("returns Bad Request if not all attributes are given", async () => {
-      const response = await request
-        .post("/register")
-        .send({ email: "email@mail.de" });
-
-      expect(response.statusCode).to.eql(400);
-      expect(response.body.data).to.be.undefined;
-    });
-
-    it("returns Bad Request if not all attributes are valid", async () => {
-      const response = await request.post("/register").send({
-        email: "email@mail.de",
-        name: "Name",
-        phone: "123456789",
-        city: "City",
-        postcode: 12345,
-        password: "Password1",
+makeSuite("/register", {
+  POST: {
+    "without a body": () => {
+      it("makes api call", async () => {
+        this.response = await request.post("/register");
       });
 
-      expect(response.statusCode).to.eql(400);
-      expect(response.body.data).to.be.undefined;
-    });
-
-    it("returns Created if everything is correct", async () => {
-      const response = await request.post("/register").send({
-        email: "email@mail.de",
-        name: "Name",
-        phone: "123456789",
-        city: "City",
-        postcode: "12345",
-        password: "Password1",
+      it("returns Bad Request", async () => {
+        expect(this.response.statusCode).to.eql(400);
       });
 
-      expect(response.statusCode).to.eql(201);
-      expect(response.body.data).to.be.undefined;
-    });
-  });
+      it("includes a message", async () => {
+        expect(this.response.body["msg"]).to.include("require");
+      });
 
-  describe("Get /register", () => {
+      it("includes a list of required properties", async () => {
+        expect(this.response.body["missingProperties"]).to.has.keys([
+          "email",
+          "name",
+          "phone",
+          "city",
+          "postcode",
+          "password",
+        ]);
+      });
+    },
+    "without all properties": () => {
+      it("makes api call", async () => {
+        this.response = await request
+          .post("/register")
+          .send({ email: "email@mail.de" });
+      });
+
+      it("returns Bad Request", async () => {
+        expect(this.response.statusCode).to.eql(400);
+      });
+      it("includes a message", async () => {
+        expect(this.response.body["msg"]).to.include("require");
+      });
+
+      it("includes a list of required properties", async () => {
+        expect(this.response.body["missingProperties"]).to.has.keys([
+          "name",
+          "phone",
+          "city",
+          "postcode",
+          "password",
+        ]);
+      });
+    },
+    "with invalid properties": () => {
+      it("makes api call", async () => {
+        this.response = await request.post("/register").send({
+          email: "email@mail.de",
+          name: "Name",
+          phone: "123456789",
+          city: "City",
+          postcode: 12345,
+          password: "Password1",
+        });
+      });
+
+      it("returns Bad Request", async () => {
+        expect(this.response.statusCode).to.eql(400);
+      });
+      it("includes a message", async () => {
+        expect(this.response.body["msg"]).to.include("invalid");
+      });
+
+      it("includes a list of invalid properties", async () => {
+        expect(this.response.body["invalidProperties"]["postcode"][0]).to.eq(
+          "INVALID_TYPE"
+        );
+      });
+    },
+    "with all (and valid) properties": () => {
+      it("makes api call", async () => {
+        this.response = await request.post("/register").send({
+          email: "email@mail.de",
+          name: "Name",
+          phone: "123456789",
+          city: "City",
+          postcode: "12345",
+          password: "Password1",
+        });
+      });
+
+      it("returns Created", async () => {
+        expect(this.response.statusCode).to.eql(201);
+      });
+      it("includes no body", async () => {
+        expect(this.response.body).to.be.empty;
+      });
+    },
+  },
+  GET: () => {
+    it("makes api call", async () => {
+      this.response = await request.get("/register");
+    });
     it("returns Method Not Allowed", async () => {
-      const response = await request.get("/register");
-
-      expect(response.statusCode).to.eql(405);
-      expect(response.body).not.have.property("data");
+      expect(this.response.statusCode).to.eql(405);
     });
-  });
-
-  describe("Put /register", () => {
+    it("includes explanation", async () => {
+      expect(this.response.body["msg"]).to.include("don't allow this method");
+    });
+    it("includes list of available Methods", async () => {
+      expect(this.response.body["availableMethods"][0]).to.eq("POST");
+    });
+  },
+  PUT: () => {
+    it("makes api call", async () => {
+      this.response = await request.put("/register");
+    });
     it("returns Method Not Allowed", async () => {
-      const response = await request.put("/register");
-
-      expect(response.statusCode).to.eql(405);
-      expect(response.body).not.have.property("data");
+      expect(this.response.statusCode).to.eql(405);
     });
-  });
-
-  describe("Delete /register", () => {
+    it("includes explanation", async () => {
+      expect(this.response.body["msg"]).to.include("don't allow this method");
+    });
+    it("includes list of available Methods", async () => {
+      expect(this.response.body["availableMethods"][0]).to.eq("POST");
+    });
+  },
+  DELETE: () => {
+    it("makes api call", async () => {
+      this.response = await request.delete("/register");
+    });
     it("returns Method Not Allowed", async () => {
-      const response = await request.delete("/register");
-
-      expect(response.statusCode).to.eql(405);
-      expect(response.body).not.have.property("data");
+      expect(this.response.statusCode).to.eql(405);
     });
-  });
-
-  describe("Patch /register", () => {
+    it("includes explanation", async () => {
+      expect(this.response.body["msg"]).to.include("don't allow this method");
+    });
+    it("includes list of available Methods", async () => {
+      expect(this.response.body["availableMethods"][0]).to.eq("POST");
+    });
+  },
+  PATCH: () => {
+    it("makes api call", async () => {
+      this.response = await request.patch("/register");
+    });
     it("returns Method Not Allowed", async () => {
-      const response = await request.patch("/register");
-
-      expect(response.statusCode).to.eql(405);
-      expect(response.body).not.have.property("data");
+      expect(this.response.statusCode).to.eql(405);
     });
-  });
+    it("includes explanation", async () => {
+      expect(this.response.body["msg"]).to.include("don't allow this method");
+    });
+    it("includes list of available Methods", async () => {
+      expect(this.response.body["availableMethods"][0]).to.eq("POST");
+    });
+  },
 });

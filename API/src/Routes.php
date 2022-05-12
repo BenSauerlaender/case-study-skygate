@@ -10,14 +10,13 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi;
 
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\BadRequestResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\InvalidPropertyResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\MissingPropertyResponse;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\UnsupportedPropertyResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\CreatedResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
+use BenSauer\CaseStudySkygateApi\Utilities\MailUtilities;
 
 class Routes
 {
@@ -37,7 +36,11 @@ class Routes
                         $fields["role"] = "user";
 
                         try {
-                            $uc->createUser($fields);
+                            $ret = $uc->createUser($fields);
+
+                            MailUtilities::sendConfirmation($fields["email"], $fields["name"], $ret["id"], $ret["verificationCode"]);
+
+                            return new CreatedResponse();
                         } catch (RequiredFieldException $e) {
                             return new MissingPropertyResponse($e->getMissing());
                         } catch (InvalidFieldException $e) {
