@@ -1,3 +1,4 @@
+const { request, expect } = require("./config");
 var connection = null;
 
 exports.mochaHooks = {
@@ -53,14 +54,17 @@ exports.makeSuite = async (routeName, methods) => {
       //if there is only one test scenario: take it
       if (typeof tests === "function") {
         //methodtestsuite is only one scenario
-        methodTestSuite = getTestScenario(tests);
+        methodTestSuite = getTestScenario(tests, routeName, methodName);
       } else {
         //methodTestSuite contains testsuites for each scenario
         methodTestSuite = () => {
           //for each test Scenario
           for (const [testName, assertions] of Object.entries(tests)) {
             //testsuit for one scenario
-            describe(testName, getTestScenario(assertions));
+            describe(
+              testName,
+              getTestScenario(assertions, routeName, methodName)
+            );
           }
         };
       }
@@ -71,12 +75,45 @@ exports.makeSuite = async (routeName, methods) => {
 };
 
 /**
+ *
+ * @returns Assertions that assert this method is not allowed
+ */
+exports.notAllowed = () => {
+  return (path, method) => {
+    it("is not allowed", async () => {
+      switch (method) {
+        case "POST":
+          this.response = await request.post(path);
+          break;
+        case "GET":
+          this.response = await request.get(path);
+          break;
+        case "PUT":
+          this.response = await request.put(path);
+          break;
+        case "DELETE":
+          this.response = await request.delete(path);
+          break;
+        case "PATCH":
+          this.response = await request.patch(path);
+          break;
+        default:
+          throw new Error("The method is not supported");
+      }
+      expect(this.response.statusCode).to.eql(405);
+      expect(this.response.body["msg"]).to.include("don't allow this method");
+      expect(this.response.body["availableMethods"]).to.have.lengthOf.above(0);
+    });
+  };
+};
+
+/**
  * Takes a function with all it-assertions and add before and after statements
  *
  * @param {function} assertions //a bunch of it-assertions
  * @returns A function that represents one test scenario
  */
-const getTestScenario = (assertions) => {
+const getTestScenario = (assertions, path, method) => {
   return () => {
     //run before each test-scenario
     before(async function () {
@@ -84,7 +121,7 @@ const getTestScenario = (assertions) => {
     });
 
     //it-assertions
-    assertions();
+    assertions(path, method);
 
     after(function () {});
   };

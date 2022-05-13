@@ -36,15 +36,21 @@ class MailUtilities
         $mail->SMTPSecure = 'tls'; //PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
+        $domain = $_ENV["API_PROD_DOMAIN"];
+        $prefix = $_ENV["API_PATH_PREFIX"];
+
         //Recipients
-        $mail->setFrom('no-reply@' . $_ENV["API_PROD_DOMAIN"], 'SkyGateCaseStudy');
+        $mail->setFrom("no-reply@{$domain}", "SkyGateCaseStudy");
         $mail->addAddress($email, $name);     //Add a recipient
 
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = 'Confirm your registration!';
-        $mail->Body    = 'Please confirm  <b>in bold!</b>';
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+        $link = "https://{$domain}{$prefix}/users/{$id}/confirm/{$code}";
+
+        $mail->Body    = "Please confirm your registration by following this link: <a href=\"{$link}\">{$link}</a>";
+        $mail->AltBody = "Please confirm your registration by following this link: {$link}";
 
         $mail->send();
     }
