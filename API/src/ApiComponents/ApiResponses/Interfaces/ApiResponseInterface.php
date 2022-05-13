@@ -39,6 +39,7 @@ interface ApiResponseInterface
      * Returns the data in json format to send in the response body
      * 
      * @return string The json encoded data.
+     * @throws JsonException if the encoding fails.
      */
-    public function getData(): string;
+    public function getJsonString(): string;
 }

@@ -127,7 +127,7 @@ final class ApiControllerTest extends TestCase
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, MethodNotAllowedResponse::class));
-        $this->assertEquals(["test"], json_decode($response->getData(), true)["availableMethods"]);
+        $this->assertEquals(["test"], json_decode($response->getJsonString(), true)["availableMethods"]);
     }
 
     /**
@@ -345,7 +345,7 @@ final class ApiControllerTest extends TestCase
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, MissingPermissionsResponse::class));
-        $this->assertEquals(["p"], json_decode($response->getData(), true)["requiredPermissions"]);
+        $this->assertEquals(["p"], json_decode($response->getJsonString(), true)["requiredPermissions"]);
     }
 
     /**

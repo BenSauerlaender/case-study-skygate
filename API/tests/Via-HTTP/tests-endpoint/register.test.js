@@ -21,6 +21,10 @@ makeSuite(["3roles"], "/register", {
         expect(this.response.statusCode).to.eql(400);
       });
 
+      it("includes a code", async () => {
+        expect(this.response.body["code"]).to.eql(101);
+      });
+
       it("includes a message", async () => {
         expect(this.response.body["msg"]).to.include("require");
       });
@@ -46,6 +50,11 @@ makeSuite(["3roles"], "/register", {
       it("returns Bad Request", async () => {
         expect(this.response.statusCode).to.eql(400);
       });
+
+      it("includes a code", async () => {
+        expect(this.response.body["code"]).to.eql(101);
+      });
+
       it("includes a message", async () => {
         expect(this.response.body["msg"]).to.include("require");
       });
@@ -75,6 +84,11 @@ makeSuite(["3roles"], "/register", {
       it("returns Bad Request", async () => {
         expect(this.response.statusCode).to.eql(400);
       });
+
+      it("includes a code", async () => {
+        expect(this.response.body["code"]).to.eql(102);
+      });
+
       it("includes a message", async () => {
         expect(this.response.body["msg"]).to.include("invalid");
       });
@@ -127,19 +141,19 @@ makeSuite(["3roles"], "/register", {
         );
       });
       it("sets 'subject' correctly", async () => {
-        expect(this.email.subject).to.eql(`Confirm your registration!`);
+        expect(this.email.subject).to.eql(`Verify your registration!`);
       });
       it("includes the link in plain text", async () => {
         splitStr = this.email.text.split("link: ");
         expect(splitStr[0]).to.eql(
-          `Please confirm your registration by following this `
+          `Please verify your registration by following this `
         );
         this.plainLink = splitStr[1].trim();
       });
       it("includes the link in html text", async () => {
         splitStr = this.email.textAsHtml.split('"');
         expect(splitStr[0]).to.eql(
-          `<p>Please confirm your registration by following this link: <a href=`
+          `<p>Please verify your registration by following this link: <a href=`
         );
         this.htmlLink = splitStr[1].trim();
       });
@@ -154,8 +168,8 @@ makeSuite(["3roles"], "/register", {
         expect(splitLink[5]).to.eql("users");
         //the user id
         expect(Number.parseInt(splitLink[6])).not.to.be.NaN;
-        expect(splitLink[7]).to.eql("confirm");
-        //the confirmation code
+        expect(splitLink[7]).to.eql("verify");
+        //the verification code
         expect(splitLink[8]).to.match(/^[0-9a-f]{10}$/);
       });
     },

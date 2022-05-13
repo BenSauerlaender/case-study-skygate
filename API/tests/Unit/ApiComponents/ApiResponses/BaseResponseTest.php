@@ -36,9 +36,14 @@ class mockResponse extends BaseResponse
         parent::setData($data);
     }
 
-    public function setMessage(string $msg): void
+    public function addMessage(string $msg): void
     {
-        parent::setMessage($msg);
+        parent::addMessage($msg);
+    }
+
+    public function addErrorCode(int $code): void
+    {
+        parent::addErrorCode($code);
     }
 }
 /**
@@ -56,7 +61,7 @@ final class BaseResponseTest extends TestCase
         $this->assertEquals(500, $response->getCode());
         $this->assertEquals(0, sizeof($response->getCookies()));
         $this->assertEquals(0, sizeof($response->getHeaders()));
-        $this->assertEquals(0, strlen($response->getData()));
+        $this->assertEquals(0, strlen($response->getJsonString()));
     }
 
     /**
@@ -83,7 +88,7 @@ final class BaseResponseTest extends TestCase
         $this->assertEquals($code, $response->getCode());
         $this->assertEquals(0, sizeof($response->getCookies()));
         $this->assertEquals(0, sizeof($response->getHeaders()));
-        $this->assertEquals(0, strlen($response->getData()));
+        $this->assertEquals(0, strlen($response->getJsonString()));
     }
 
     public function supportedCodeProvider(): array
@@ -92,6 +97,7 @@ final class BaseResponseTest extends TestCase
             [200],
             [201],
             [204],
+            [303],
             [400],
             [401],
             [403],
@@ -114,7 +120,7 @@ final class BaseResponseTest extends TestCase
         $this->assertEquals(201, $response->getCode());
         $this->assertEquals(0, sizeof($response->getCookies()));
         $this->assertEquals(0, sizeof($response->getHeaders()));
-        $this->assertEquals(0, strlen($response->getData()));
+        $this->assertEquals(0, strlen($response->getJsonString()));
     }
 
     /**
@@ -130,7 +136,7 @@ final class BaseResponseTest extends TestCase
 
         $this->assertEquals(500, $response->getCode());
         $this->assertEquals(0, sizeof($response->getHeaders()));
-        $this->assertEquals(0, strlen($response->getData()));
+        $this->assertEquals(0, strlen($response->getJsonString()));
 
         $this->assertEquals(1, sizeof($response->getCookies()));
         $this->assertEquals($cookie, $response->getCookies()[0]);
@@ -153,7 +159,7 @@ final class BaseResponseTest extends TestCase
 
         $this->assertEquals(500, $response->getCode());
         $this->assertEquals(0, sizeof($response->getHeaders()));
-        $this->assertEquals(0, strlen($response->getData()));
+        $this->assertEquals(0, strlen($response->getJsonString()));
 
         $this->assertEquals(2, sizeof($response->getCookies()));
         $this->assertEqualsCanonicalizing([$cookie, $cookie2], $response->getCookies());
@@ -178,7 +184,7 @@ final class BaseResponseTest extends TestCase
 
         $this->assertEquals(500, $response->getCode());
         $this->assertEquals(0, sizeof($response->getHeaders()));
-        $this->assertEquals(0, strlen($response->getData()));
+        $this->assertEquals(0, strlen($response->getJsonString()));
 
         $this->assertEquals(1, sizeof($response->getCookies()));
         $this->assertEquals($cookie2, $response->getCookies()[0]);
@@ -208,7 +214,7 @@ final class BaseResponseTest extends TestCase
 
         $this->assertEquals(500, $response->getCode());
         $this->assertEquals(0, sizeof($response->getCookies()));
-        $this->assertEquals(0, strlen($response->getData()));
+        $this->assertEquals(0, strlen($response->getJsonString()));
 
         $this->assertEquals(1, sizeof($response->getHeaders()));
         $this->assertEquals("value", $response->getHeaders()[$headerName]);
@@ -218,7 +224,8 @@ final class BaseResponseTest extends TestCase
     {
         return [
             ["Content-Type"],
-            ["Last-Modified"]
+            ["Last-Modified"],
+            ["Location"]
         ];
     }
 
@@ -234,7 +241,7 @@ final class BaseResponseTest extends TestCase
 
         $this->assertEquals(500, $response->getCode());
         $this->assertEquals(0, sizeof($response->getCookies()));
-        $this->assertEquals(0, strlen($response->getData()));
+        $this->assertEquals(0, strlen($response->getJsonString()));
 
         $this->assertEquals(2, sizeof($response->getHeaders()));
         $this->assertEquals("value1", $response->getHeaders()["Content-Type"]);
@@ -253,7 +260,7 @@ final class BaseResponseTest extends TestCase
 
         $this->assertEquals(500, $response->getCode());
         $this->assertEquals(0, sizeof($response->getCookies()));
-        $this->assertEquals(0, strlen($response->getData()));
+        $this->assertEquals(0, strlen($response->getJsonString()));
 
         $this->assertEquals(1, sizeof($response->getHeaders()));
         $this->assertEquals("value2", $response->getHeaders()["Content-Type"]);
@@ -274,24 +281,77 @@ final class BaseResponseTest extends TestCase
         $this->assertEquals(1, sizeof($response->getHeaders()));
         $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
 
-        $this->assertEquals('{"test-string":"Das ein Test!","test-number":42}', $response->getData());
+        $this->assertEquals('{"test-string":"Das ein Test!","test-number":42}', $response->getJsonString());
     }
 
     /**
-     * Tests if the Response returns the correct fields if a message was set.
+     * Tests if the Response returns the correct fields if a message added set.
      */
-    public function testSetMessage(): void
+    public function testAddMessage(): void
     {
         $response = new mockResponse();
 
-        $response->setMessage("test 123.");
+        $response->addMessage("test 123.");
         $this->assertEquals(500, $response->getCode());
         $this->assertEquals(0, sizeof($response->getCookies()));
 
         $this->assertEquals(1, sizeof($response->getHeaders()));
         $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
 
-        $this->assertEquals('{"msg":"test 123."}', $response->getData());
+        $this->assertEquals('{"msg":"test 123."}', $response->getJsonString());
+    }
+
+    /**
+     * Tests if the Response returns the correct fields if a message was added twice.
+     */
+    public function testAddMessageTwice(): void
+    {
+        $response = new mockResponse();
+
+        $response->addMessage("test 345.");
+        $response->addMessage("test 123.");
+        $this->assertEquals(500, $response->getCode());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+
+        $this->assertEquals(1, sizeof($response->getHeaders()));
+        $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
+
+        $this->assertEquals('{"msg":"test 123."}', $response->getJsonString());
+    }
+
+    /**
+     * Tests if the Response returns the correct fields if a errorCode was added.
+     */
+    public function testAddErrorCode(): void
+    {
+        $response = new mockResponse();
+
+        $response->addErrorCode(1);
+        $this->assertEquals(500, $response->getCode());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+
+        $this->assertEquals(1, sizeof($response->getHeaders()));
+        $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
+
+        $this->assertEquals('{"code":1}', $response->getJsonString());
+    }
+
+    /**
+     * Tests if the Response returns the correct fields if a errorCode was added twice.
+     */
+    public function testAddErrorCodeTwice(): void
+    {
+        $response = new mockResponse();
+
+        $response->addErrorCode(2);
+        $response->addErrorCode(1);
+        $this->assertEquals(500, $response->getCode());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+
+        $this->assertEquals(1, sizeof($response->getHeaders()));
+        $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
+
+        $this->assertEquals('{"code":1}', $response->getJsonString());
     }
 
     /**
@@ -311,6 +371,27 @@ final class BaseResponseTest extends TestCase
         $this->assertEquals(1, sizeof($response->getHeaders()));
         $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
 
-        $this->assertEquals('{"test-string":"Das ein Test!","test-number":42}', $response->getData());
+        $this->assertEquals('{"test-string":"Das ein Test!","test-number":42}', $response->getJsonString());
+    }
+
+    /**
+     * Tests if the Response returns the correct data if it was set + a message + an errorCode.
+     */
+    public function testSetDataAddMessageAddCode(): void
+    {
+        $response = new mockResponse();
+
+
+        $response->setData(["test-string" => "Das ein Test!", "test-number" => 42]);
+        $response->addMessage("test 123.");
+        $response->addErrorCode(1);
+
+        $this->assertEquals(500, $response->getCode());
+        $this->assertEquals(0, sizeof($response->getCookies()));
+
+        $this->assertEquals(1, sizeof($response->getHeaders()));
+        $this->assertEquals("application/json;charset=UTF-8", $response->getHeaders()["Content-Type"]);
+
+        $this->assertEquals('{"test-string":"Das ein Test!","test-number":42,"msg":"test 123.","code":1}', $response->getJsonString());
     }
 }

@@ -17,6 +17,6 @@ class AccessTokenExpiredResponse extends BaseResponse
     public function __construct()
     {
         $this->setCode(401);
-        $this->setMessage("The JWT Access Token is expired. Use GET /token to get a new one one");
+        $this->addMessage("The JWT Access Token is expired. Use GET /token to get a new one one");
     }
 }

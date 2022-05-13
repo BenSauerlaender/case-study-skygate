@@ -66,7 +66,7 @@ class ApiUtilities
         }
 
         //set data if provided
-        $data = $response->getData();
+        $data = $response->getJsonString();
         if ($data !== "") {
             echo $data;
         }

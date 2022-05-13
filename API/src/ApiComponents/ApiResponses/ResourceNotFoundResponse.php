@@ -17,6 +17,6 @@ class ResourceNotFoundResponse extends BaseResponse
     public function __construct()
     {
         $this->setCode(404);
-        $this->setMessage("The resource can't be found.");
+        $this->addMessage("The resource can't be found.");
     }
 }

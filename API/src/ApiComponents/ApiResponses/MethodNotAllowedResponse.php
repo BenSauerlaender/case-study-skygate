@@ -17,6 +17,7 @@ class MethodNotAllowedResponse extends BaseResponse
     public function __construct(array $availableMethods)
     {
         $this->setCode(405);
-        $this->setData(["msg" => "The Resource don't allow this method.", "availableMethods" => $availableMethods]);
+        $this->setData(["availableMethods" => $availableMethods]);
+        $this->addMessage("The Resource don't allow this method.");
     }
 }

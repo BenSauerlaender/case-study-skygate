@@ -33,11 +33,11 @@ abstract class BaseResponse implements ApiResponseInterface
      */
     private array $headers = [];
 
-    private string $data = "";
+    private array $data = [];
 
-    private const SUPPORTED_CODES = [200, 201, 204, 400, 401, 403, 404, 405, 406, 500];
+    private const SUPPORTED_CODES = [200, 201, 204, 303, 400, 401, 403, 404, 405, 406, 500];
 
-    private const SUPPORTED_HEADER = ["Content-Type", "Last-Modified"];
+    private const SUPPORTED_HEADER = ["Content-Type", "Last-Modified", "Location"];
 
     /**
      * Sets the Response Code
@@ -87,30 +87,41 @@ abstract class BaseResponse implements ApiResponseInterface
      * Sets data to be send in body
      * 
      * @param array $data
-     * @throws JsonException if the encoding fails.
      */
     protected function setData(array $data): void
     {
-        if (sizeof($data) == 0) $str = "";
+        if (sizeof($data) == 0) return;
 
-        $str = json_encode($data);
-        if ($str === false) throw new JsonException("The encoding of response data failed");
-
-        $this->data = $str;
-
+        $this->data = $data;
         $this->addHeader("Content-Type", "application/json;charset=UTF-8");
     }
 
     /**
-     * Stets the data to message (msg).
+     * Adds a message (msg) to the data.
      * 
-     * Attention. That overrides the data
-     *
      * @param  string $msg  The message to set.
      */
-    protected function setMessage(string $msg)
+    protected function addMessage(string $msg)
     {
-        $this->setData(["msg" => $msg]);
+        if ($this->data === []) {
+            $this->setData(["msg" => $msg]);
+        } else {
+            $this->data["msg"] = $msg;
+        }
+    }
+
+    /**
+     * Adds a error-code to the data.
+     * 
+     * @param  int $code  The error-code to add.
+     */
+    protected function addErrorCode(int $code)
+    {
+        if ($this->data === []) {
+            $this->setData(["code" => $code]);
+        } else {
+            $this->data["code"] = $code;
+        }
     }
 
     public function getCode(): int
@@ -128,9 +139,12 @@ abstract class BaseResponse implements ApiResponseInterface
         return $this->headers;
     }
 
-    public function getData(): string
+    public function getJsonString(): string
     {
-        return $this->data;
+        if ($this->data === []) return "";
+        $str = json_encode($this->data);
+        if ($str === false) throw new JsonException("The encoding of response data failed");
+        return $str;
     }
 
     public function __toString()

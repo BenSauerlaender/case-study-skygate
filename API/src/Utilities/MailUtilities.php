@@ -15,14 +15,14 @@ use PHPMailer\PHPMailer\SMTP;
 class MailUtilities
 {
     /**
-     * Utility function to send a the confirmation email to a new user
+     * Utility function to send a the verification email to a new user
      *
      * @param  string   $email    The new users email.
      * @param  string   $name     The new users name.
      * @param  int      $id       The new users id.
-     * @param  string   $code     The new users confirmation-code
+     * @param  string   $code     The new users verification-code
      */
-    static public function sendConfirmation(string $email, string $name, int $id, string $code): void
+    static public function sendVerificationRequest(string $email, string $name, int $id, string $code): void
     {
         $mail = new PHPMailer(true);
 
@@ -45,12 +45,12 @@ class MailUtilities
 
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
-        $mail->Subject = 'Confirm your registration!';
+        $mail->Subject = 'Verify your registration!';
 
-        $link = "https://{$domain}{$prefix}/users/{$id}/confirm/{$code}";
+        $link = "https://{$domain}{$prefix}/users/{$id}/verify/{$code}";
 
-        $mail->Body    = "Please confirm your registration by following this link: <a href=\"{$link}\">{$link}</a>";
-        $mail->AltBody = "Please confirm your registration by following this link: {$link}";
+        $mail->Body    = "Please verify your registration by following this link: <a href=\"{$link}\">{$link}</a>";
+        $mail->AltBody = "Please verify your registration by following this link: {$link}";
 
         $mail->send();
     }

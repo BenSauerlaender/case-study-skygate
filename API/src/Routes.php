@@ -38,7 +38,7 @@ class Routes
                         try {
                             $ret = $uc->createUser($fields);
 
-                            MailUtilities::sendConfirmation($fields["email"], $fields["name"], $ret["id"], $ret["verificationCode"]);
+                            MailUtilities::sendVerificationRequest($fields["email"], $fields["name"], $ret["id"], $ret["verificationCode"]);
 
                             return new CreatedResponse();
                         } catch (RequiredFieldException $e) {
