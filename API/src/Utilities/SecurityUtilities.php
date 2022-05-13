@@ -29,11 +29,13 @@ class SecurityUtilities implements SecurityUtilitiesInterface
 
     public function generateCode(int $length): string
     {
-        if ($length === 0) return "";
+        $ret = "";
 
-        $code = bin2hex(random_bytes((int)ceil($length / 2)));
+        for ($i = 0; $i < $length; $i++) {
+            $num = rand(0, 9);
+            $ret = $ret . "{$num}";
+        }
 
-        //cut the last character if length is uneven
-        return substr($code, 0, $length);
+        return $ret;
     }
 }

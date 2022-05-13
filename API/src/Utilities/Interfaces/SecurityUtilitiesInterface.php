@@ -29,10 +29,10 @@ interface SecurityUtilitiesInterface
     public function checkPassword(string $pass, string $hashedPassword): bool;
 
     /**
-     * Generates a semi random hexadecimal string
+     * Generates a semi random number string
      *
      * @param  int    $length   The length of the output string. Valid between 0 and 99.
-     * @return string           returns a string out of hexadecimal digits.
+     * @return string           returns a string out of digits(0-9).
      */
     public function generateCode(int $length): string;
 }

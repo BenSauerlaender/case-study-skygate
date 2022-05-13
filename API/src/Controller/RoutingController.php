@@ -14,6 +14,9 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\RoutingControllerInterfac
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
 
+
+
+//TODO: RENAME THE IDS THING TO PLACEHOLDERS
 class RoutingController implements RoutingControllerInterface
 {
 

@@ -60,7 +60,7 @@ final class SecurityUtilitiesTest extends TestCase
         $this->assertEquals($length, strlen($code));
 
         //contains only Hex-digits
-        $this->assertEquals(1, preg_match("/[0-9ABCDEF]*/", $code));
+        $this->assertEquals(1, preg_match("/[0-9]*/", $code));
     }
 
     public function validCodeLengthProvider(): array
