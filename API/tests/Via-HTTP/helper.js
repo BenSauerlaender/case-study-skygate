@@ -1,4 +1,5 @@
 const { request, expect } = require("./config");
+const fs = require("fs");
 var connection = null;
 
 exports.mochaHooks = {
@@ -46,7 +47,33 @@ exports.mochaHooks = {
  *      Each Method is a either a single test scenario or an object with multiple test scenario as properties.
  *      Each test scenario is a function, that provide it-assertions.
  */
-exports.makeSuite = async (routeName, methods) => {
+exports.makeSuite = async (seeds, routeName, methods) => {
+  /**
+   * Takes a function with all it-assertions and add before and after statements
+   *
+   * @param {function} assertions //a bunch of it-assertions
+   * @returns A function that represents one test scenario
+   */
+  const getTestScenario = (assertions, path, method) => {
+    return () => {
+      //run before each test-scenario
+      before(async function () {
+        await clearDB();
+        for (let i = 0; i < tables.length; i++) {
+          await createTable(tables[i]);
+        }
+        for (let i = 0; i < seeds.length; i++) {
+          await seedDB(seeds[i]);
+        }
+      });
+
+      //it-assertions
+      assertions(path, method);
+
+      after(function () {});
+    };
+  };
+
   //testsuit for one route
   describe(routeName, function () {
     //for each httpMethod
@@ -108,26 +135,6 @@ exports.notAllowed = () => {
 };
 
 /**
- * Takes a function with all it-assertions and add before and after statements
- *
- * @param {function} assertions //a bunch of it-assertions
- * @returns A function that represents one test scenario
- */
-const getTestScenario = (assertions, path, method) => {
-  return () => {
-    //run before each test-scenario
-    before(async function () {
-      await clearDB();
-    });
-
-    //it-assertions
-    assertions(path, method);
-
-    after(function () {});
-  };
-};
-
-/**
  * Clears/Resets the database
  *
  * TODO: The nesting is terrible
@@ -146,7 +153,7 @@ const clearDB = async () => {
               `USE ${process.env.MYSQL_DATABASE}; `,
               function (err) {
                 if (err) throw err;
-                //console.log("resetDatabase");
+                //console.log("db was reset");
                 resolve();
               }
             );
@@ -154,5 +161,33 @@ const clearDB = async () => {
         );
       }
     );
+  });
+};
+
+const tables = ["role", "user", "refreshToken", "emailChangeRequest"];
+
+const createTable = async (table) => {
+  return await new Promise((resolve, reject) => {
+    fs.readFile(`../../SQL/tables/${table}.sql`, "utf8", (err, data) => {
+      if (err) throw err;
+      connection.query(data, function (err) {
+        if (err) throw err;
+        //console.log(`table ${table} was created`);
+        resolve();
+      });
+    });
+  });
+};
+
+const seedDB = async (seed) => {
+  return await new Promise((resolve, reject) => {
+    fs.readFile(`../../SQL/seeds/${seed}.sql`, "utf8", (err, data) => {
+      if (err) throw err;
+      connection.query(data, function (err) {
+        if (err) throw err;
+        console.log(`db was seeded with ${seed}`);
+        resolve();
+      });
+    });
   });
 };

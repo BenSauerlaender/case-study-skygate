@@ -5,7 +5,7 @@ const { getEmail } = require("../emailHelper.js");
 /**
  * Tests for the /register route
  */
-makeSuite("/register", {
+makeSuite(["3roles"], "/register", {
   GET: notAllowed(),
   PUT: notAllowed(),
   DELETE: notAllowed(),

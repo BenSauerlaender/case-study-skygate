@@ -11,7 +11,6 @@ namespace BenSauer\CaseStudySkygateApi\Utilities;
 
 use PDO;
 
-use function PHPUnit\Framework\isNan;
 use function PHPUnit\Framework\isNull;
 
 /**
@@ -44,7 +43,7 @@ class MySqlTableCreator
     /**
      * relative Path to the sql-files
      */
-    private const PATH_TO_SQL = __DIR__ . "/../../SQL/";
+    private const PATH_TO_SQL = __DIR__ . "/../../SQL/tables/";
 
     /**
      * SQL-files with CREATE Table - Statements for each table

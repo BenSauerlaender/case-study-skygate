@@ -33,12 +33,6 @@
             "Composer\\Config::disableProcessTimeout",
             "cd docker && docker-compose logs --follow"
         ],
-        "resetDB": [
-            "cd docker && docker-compose exec -w /var/www/html/src/Scripts php-apache php resetDB.php && cd -"
-        ],
-        "seedDB-roles": [
-            "cd docker && docker-compose exec -w /var/www/html/src/Scripts php-apache php seedDB.php 3roles && cd -"
-        ],
         "run-unit-test-code-coverage": [
             "./vendor/bin/phpunit --testsuit Unit --coverage-html ./coverage-report --configuration phpunit.xml"
         ],
@@ -55,8 +49,6 @@
             "./vendor/bin/phpunit --testsuit Integration --configuration phpunit.xml --testdox"
         ],
         "run-endpoint-tests": [
-            "@resetDB",
-            "@seedDB-roles",
             "cd tests/Via-HTTP && npm run endpoint-test && cd -"
         ],
         "run-sendResponse-tests": [
