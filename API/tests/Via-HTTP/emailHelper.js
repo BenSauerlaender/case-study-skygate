@@ -29,7 +29,7 @@ exports.getEmail = async () => {
                   const { uid } = attrs;
                   imap.addFlags(uid, ["\\Seen"], () => {
                     // Mark the email as read after reading it
-                    console.log("Marked as read!");
+                    //console.log("Marked as read!");
                   });
                 });
               });
@@ -37,7 +37,7 @@ exports.getEmail = async () => {
                 return Promise.reject(ex);
               });
               f.once("end", () => {
-                console.log("Done fetching all messages!");
+                //console.log("Done fetching all messages!");
                 imap.end();
               });
             } else {

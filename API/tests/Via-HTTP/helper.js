@@ -185,7 +185,7 @@ const seedDB = async (seed) => {
       if (err) throw err;
       connection.query(data, function (err) {
         if (err) throw err;
-        console.log(`db was seeded with ${seed}`);
+        //console.log(`db was seeded with ${seed}`);
         resolve();
       });
     });

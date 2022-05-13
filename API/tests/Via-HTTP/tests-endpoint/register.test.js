@@ -159,5 +159,38 @@ makeSuite(["3roles"], "/register", {
         expect(splitLink[8]).to.match(/^[0-9a-f]{10}$/);
       });
     },
+    "a duplicate email": (path) => {
+      it("makes api call", async () => {
+        await request.post(path).send({
+          email: "duplicate@mail.de",
+          name: "Test Name",
+          phone: "123456789",
+          city: "City",
+          postcode: "12345",
+          password: "Password1",
+        });
+        this.response = await request.post(path).send({
+          email: "duplicate@mail.de",
+          name: "Test Name",
+          phone: "123456789",
+          city: "City",
+          postcode: "12345",
+          password: "Password1",
+        });
+      }).timeout(10000);
+
+      it("returns Bad Request", async () => {
+        expect(this.response.statusCode).to.eql(400);
+      });
+      it("includes a message", async () => {
+        expect(this.response.body["msg"]).to.include("invalid");
+      });
+
+      it("includes a list of invalid properties", async () => {
+        expect(this.response.body["invalidProperties"]["email"][0]).to.eq(
+          "IS_TAKEN"
+        );
+      });
+    },
   },
 });
