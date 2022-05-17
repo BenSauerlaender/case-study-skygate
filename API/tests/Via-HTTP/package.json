@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "endpoint-test": "mocha tests-endpoint/*.test.js --require helper.js",
+    "endpoint-test-all": "mocha --require helper.js tests-endpoint/*.test.js",
+    "endpoint-test-only": "mocha --require helper.js",
     "sendResponse-test": "mv ../../src/index.php test-sendResponse/org.index.php ; mv test-sendResponse/replace.index.php ../../src/index.php ; cp test-sendResponse/helper.php  ../../src/ ; mocha test-sendResponse/*.test.js --require helper.js ;rm ../../src/helper.php ; mv ../../src/index.php test-sendResponse/replace.index.php ; mv test-sendResponse/org.index.php ../../src/index.php"
   },
   "author": "",

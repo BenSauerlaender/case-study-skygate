@@ -48,57 +48,59 @@ exports.mochaHooks = {
  *      Each test scenario is a function, that provide it-assertions.
  */
 exports.makeSuite = async (seeds, routeName, methods) => {
-  /**
-   * Takes a function with all it-assertions and add before and after statements
-   *
-   * @param {function} assertions //a bunch of it-assertions
-   * @returns A function that represents one test scenario
-   */
-  const getTestScenario = (assertions, path, method) => {
-    return () => {
-      //run before each test-scenario
-      before(async function () {
-        await clearDB();
-        for (let i = 0; i < tables.length; i++) {
-          await createTable(tables[i]);
-        }
-        for (let i = 0; i < seeds.length; i++) {
-          await seedDB(seeds[i]);
-        }
-      });
-
-      //it-assertions
-      assertions(path, method);
-
-      after(function () {});
-    };
-  };
-
   //testsuit for one route
   describe(routeName, function () {
     //for each httpMethod
     for (const [methodName, tests] of Object.entries(methods)) {
-      //if there is only one test scenario: take it
-      if (typeof tests === "function") {
-        //methodtestsuite is only one scenario
-        methodTestSuite = getTestScenario(tests, routeName, methodName);
-      } else {
-        //methodTestSuite contains testsuites for each scenario
-        methodTestSuite = () => {
-          //for each test Scenario
-          for (const [testName, assertions] of Object.entries(tests)) {
-            //testsuit for one scenario
-            describe(
-              testName,
-              getTestScenario(assertions, routeName, methodName)
-            );
-          }
-        };
-      }
-      //testsuite for one httpMethod
-      describe(`${methodName} ${routeName}`, methodTestSuite);
+      methodTests = getMethodTests(tests, routeName, methodName, seeds);
+      describe(`${methodName} ${routeName}`, methodTests);
     }
   });
+};
+
+const getMethodTests = (tests, routeName, methodName, seeds) => {
+  //if there is only one test scenario: take it
+  if (typeof tests === "function") {
+    return getTestScenario(tests, routeName, methodName, seeds);
+  } else {
+    //methodTestSuite contains testsuites for each scenario
+    return () => {
+      //for each test Scenario
+      for (const [testName, assertions] of Object.entries(tests)) {
+        //testsuit for one scenario
+        describe(
+          testName,
+          getTestScenario(assertions, routeName, methodName, seeds)
+        );
+      }
+    };
+  }
+};
+
+/**
+ * Takes a function with all it-assertions and add before and after statements
+ *
+ * @param {function} assertions //a bunch of it-assertions
+ * @returns A function that represents one test scenario
+ */
+const getTestScenario = (assertions, path, method, seeds) => {
+  return () => {
+    //run before each test-scenario
+    before(async function () {
+      await clearDB();
+      for (let i = 0; i < tables.length; i++) {
+        await createTable(tables[i]);
+      }
+      for (let i = 0; i < seeds.length; i++) {
+        await seedDB(seeds[i]);
+      }
+    });
+
+    //it-assertions
+    assertions(path, method);
+
+    after(function () {});
+  };
 };
 
 /**
@@ -107,22 +109,23 @@ exports.makeSuite = async (seeds, routeName, methods) => {
  */
 exports.notAllowed = () => {
   return (path, method) => {
+    cleanedPath = path.replace(/{.*}/, "0");
     it("is not allowed", async () => {
       switch (method) {
         case "POST":
-          this.response = await request.post(path);
+          this.response = await request.post(cleanedPath);
           break;
         case "GET":
-          this.response = await request.get(path);
+          this.response = await request.get(cleanedPath);
           break;
         case "PUT":
-          this.response = await request.put(path);
+          this.response = await request.put(cleanedPath);
           break;
         case "DELETE":
-          this.response = await request.delete(path);
+          this.response = await request.delete(cleanedPath);
           break;
         case "PATCH":
-          this.response = await request.patch(path);
+          this.response = await request.patch(cleanedPath);
           break;
         default:
           throw new Error("The method is not supported");

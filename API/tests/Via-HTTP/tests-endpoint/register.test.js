@@ -200,6 +200,10 @@ makeSuite(["3roles"], "/register", {
         expect(this.response.body["msg"]).to.include("invalid");
       });
 
+      it("includes a code", async () => {
+        expect(this.response.body["code"]).to.eql(102);
+      });
+
       it("includes a list of invalid properties", async () => {
         expect(this.response.body["invalidProperties"]["email"][0]).to.eq(
           "IS_TAKEN"

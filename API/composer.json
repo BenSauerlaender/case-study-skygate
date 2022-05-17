@@ -49,7 +49,7 @@
             "./vendor/bin/phpunit --testsuit Integration --configuration phpunit.xml --testdox"
         ],
         "run-endpoint-tests": [
-            "cd tests/Via-HTTP && npm run endpoint-test && cd -"
+            "cd tests/Via-HTTP && npm run endpoint-test-all && cd -"
         ],
         "run-sendResponse-tests": [
             "cd tests/Via-HTTP && npm run sendResponse-test && cd -"

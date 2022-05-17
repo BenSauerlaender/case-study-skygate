@@ -155,7 +155,7 @@ abstract class BaseResponse implements ApiResponseInterface
         $ret = "{$this->code}: ";
         if ($c !== "") $ret = $ret . "set-cookies: $c, ";
         if ($h !== "") $ret = $ret . "headers: $h, ";
-        if (!is_null($this->data)) $ret = $ret . "data: {$this->data}";
+        if (!empty($this->data)) $ret = $ret . "data: {$this->getJsonString()}";
         return $ret;
     }
 }

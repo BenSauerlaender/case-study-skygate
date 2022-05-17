@@ -1,6 +1,5 @@
 const { request, expect } = require("../config");
 const { makeSuite, notAllowed } = require("../helper");
-const { getEmail } = require("../emailHelper.js");
 
 /**
  * Tests for the /users/{id}/verify/{code} route

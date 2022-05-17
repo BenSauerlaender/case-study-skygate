@@ -394,4 +394,32 @@ final class BaseResponseTest extends TestCase
 
         $this->assertEquals('{"test-string":"Das ein Test!","test-number":42,"msg":"test 123.","code":1}', $response->getJsonString());
     }
+
+    /**
+     * Tests if the Responses toString method works correct
+     */
+    public function testToStringSimple(): void
+    {
+        $response = new mockResponse();
+
+        $this->assertEquals('500: ', "$response");
+    }
+
+    /**
+     * Tests if the Responses toString method works correct
+     */
+    public function testToStringComplex(): void
+    {
+        $response = new mockResponse();
+
+        $cookie = $this->createMock(ResponseCookieInterface::class);
+        $cookie->expects($this->once())->method("getName")->willReturn("cookie1");
+        $response->addCookie($cookie);
+
+        $response->setData(["test-string" => "Das ein Test!", "test-number" => 42]);
+        $response->addMessage("test 123.");
+        $response->addErrorCode(1);
+
+        $this->assertEquals('500: set-cookies: cookie1, headers: Content-Type, data: {"test-string":"Das ein Test!","test-number":42,"msg":"test 123.","code":1}', "$response");
+    }
 }
