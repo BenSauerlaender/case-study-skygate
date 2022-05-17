@@ -16,6 +16,6 @@ class MissingPropertyResponse extends BadRequestResponse
 {
     public function __construct(array $missing)
     {
-        parent::__construct("There are required request-body-properties that are missing.", ["missingProperties" => $missing]);
+        parent::__construct("There are required request-body-properties that are missing.", 101, ["missingProperties" => $missing]);
     }
 }

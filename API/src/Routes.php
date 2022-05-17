@@ -9,11 +9,15 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi;
 
+use BadMethodCallException;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\BadRequestResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\InvalidPropertyResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\MissingPropertyResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\UserNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\CreatedResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
 use BenSauer\CaseStudySkygateApi\Utilities\MailUtilities;
@@ -45,6 +49,30 @@ class Routes
                             return new MissingPropertyResponse($e->getMissing());
                         } catch (InvalidFieldException $e) {
                             return new InvalidPropertyResponse($e->getInvalidField());
+                        }
+                    }
+                ]
+            ],
+            "/users/{id}/verify/{id}" => [
+                "GET" => [
+                    "ids" => ["userID", "verificationCode"],
+                    "requireAuth" => false,
+                    "permissions" => [],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+                        /** @var UserControllerInterface */
+                        $uc = $this->controller["user"];
+
+                        try {
+                            if ($uc->verifyUser($ids["userID"], "{$ids["verificationCode"]}")){
+                                return new 
+                            }
+                        }else{
+                                return new BadRequestResponse("The verification code is invalid.", 211);
+                            }
+                        } catch (BadMethodCallException $e) {
+                            return new BadRequestResponse("The user is already verified.", 210);
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse();
                         }
                     }
                 ]

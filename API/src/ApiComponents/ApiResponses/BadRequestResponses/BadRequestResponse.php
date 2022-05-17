@@ -16,18 +16,13 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BaseResponse;
  */
 class BadRequestResponse extends BaseResponse
 {
-    public function __construct(string $msg = "", array $info = [])
+    public function __construct(string $msg, int $errorCode, array $info = [])
     {
         $this->setCode(400);
-        $data = [];
-        if ($msg !== "") $data["msg"] = $msg;
         if (!empty($info)) {
-            foreach ($info as $key => $value) {
-                if (is_string($key)) {
-                    $data[$key] = $value;
-                }
-            }
+            $this->setData($info);
         }
-        if (!empty($data)) $this->setData($data);
+        $this->addErrorCode($errorCode);
+        $this->addMessage($msg);
     }
 }

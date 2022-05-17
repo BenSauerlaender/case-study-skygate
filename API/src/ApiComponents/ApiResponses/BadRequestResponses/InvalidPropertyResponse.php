@@ -16,6 +16,6 @@ class InvalidPropertyResponse extends BadRequestResponse
 {
     public function __construct(array $invalidProp)
     {
-        parent::__construct("There are request-body-properties that are invalid.", ["invalidProperties" => $invalidProp]);
+        parent::__construct("There are request-body-properties that are invalid.", 102, ["invalidProperties" => $invalidProp]);
     }
 }
