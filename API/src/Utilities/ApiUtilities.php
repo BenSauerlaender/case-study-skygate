@@ -139,9 +139,9 @@ class ApiUtilities
 
         //utilities
         $securityUtil           = new SecurityUtilities();
-        $validationController   = new ValidationController();
 
         //controller
+        $validationController       = new ValidationController();
         $userController             = new UserController($securityUtil, $validationController, $userAccessor, $roleAccessor, $ecrAccessor);
         $authenticationController   = new AuthenticationController($userAccessor, $refreshTokenAccessor, $roleAccessor);
         $routingController          = new RoutingController(Routes::getRoutes());

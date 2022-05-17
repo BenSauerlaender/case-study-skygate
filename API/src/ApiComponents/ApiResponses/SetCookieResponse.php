@@ -12,8 +12,13 @@ namespace BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ResponseCookieInterface;
 
 /**
- * Class to represent an Cookie that can be send to the client
+ * Response that should be used if the request processed successful and a cookie should be set
  */
-class ResponseCookie implements ResponseCookieInterface
+class SetCookieResponse extends BaseResponse
 {
+    public function __construct(ResponseCookieInterface $cookie)
+    {
+        $this->setCode(204);
+        $this->addCookie($cookie);
+    }
 }

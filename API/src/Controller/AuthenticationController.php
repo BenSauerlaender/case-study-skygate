@@ -12,6 +12,7 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerI
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
 use InvalidArgumentException;
@@ -51,8 +52,11 @@ class AuthenticationController implements AuthenticationControllerInterface
     }
 
 
-    public function getNewRefreshToken(int $userID): string
+    public function getNewRefreshToken(string $email): string
     {
+        $userID = $this->userAccessor->findByEmail($email);
+        if (is_null($userID)) throw new UserNotFoundException();
+
         //increase the refreshTokenCount by 1, so no other refreshToken is valid anymore
         $this->refreshTokenAccessor->increaseCount($userID);
 

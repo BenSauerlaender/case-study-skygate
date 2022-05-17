@@ -31,13 +31,13 @@ interface AuthenticationControllerInterface
     /**
      * Generate and Return a new refresh token for the user. Only the new token is valid then.
      * 
-     * @param int $userID The User's ID
+     * @param string $email The User's email
      * 
      * @return string The new refresh token.
      * 
      * @throws UserNotFoundException if the user do not exist
      */
-    public function getNewRefreshToken(int $userID): string;
+    public function getNewRefreshToken(string $email): string;
 
     /**
      * Generate a new access token.

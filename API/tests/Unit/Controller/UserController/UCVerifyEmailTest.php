@@ -9,8 +9,6 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
-use InvalidArgumentException;
-use OutOfRangeException;
 
 /**
  * Testsuit for UserController->verifyUsersEmailChange method

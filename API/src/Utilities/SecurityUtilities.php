@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\PasswordHashException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
 use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
 
 class SecurityUtilities implements SecurityUtilitiesInterface

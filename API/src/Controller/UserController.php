@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
 use BadMethodCallException;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\UserNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
@@ -161,6 +162,22 @@ class UserController implements UserControllerInterface
 
         //everything went well
         return true;
+    }
+
+    public function checkEmailPassword(string $email, string $password): bool
+    {
+        $id = $this->userAccessor->findByEmail($email);
+        if (is_null($id)) {
+            throw new UserNotFoundException();
+        }
+
+        try {
+            $user = $this->userAccessor->get($id);
+        } catch (UserNotFoundException $e) {
+            throw new ShouldNeverHappenException("The user was just found by email", 0, $e);
+        }
+
+        return $this->securityUtil->checkPassword($password, $user["hashedPass"]);
     }
 
     public function updateUsersPassword(int $id, string $newPassword, string $oldPassword): bool

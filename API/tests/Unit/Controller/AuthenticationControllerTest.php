@@ -56,19 +56,19 @@ final class AuthenticationControllerTest extends TestCase
     }
 
     /**
-     * Tests if the method throws the correct exception if the user with the specified userID is not there
+     * Tests if the method throws the correct exception if the user with the specified email is not there
      */
-    public function testGetNewRefreshTokenOnInvalidUserID(): void
+    public function testGetNewRefreshTokenOnInvalidUserEmail(): void
     {
         $this->expectException(UserNotFoundException::class);
 
-        $this->rtAccessorMock
+        $this->userAccessorMock
             ->expects($this->once())
-            ->method("increaseCount")
-            ->with($this->equalTo(0))
-            ->will($this->throwException(new UserNotFoundException()));
+            ->method("findByEmail")
+            ->with("testmail")
+            ->willReturn(null);
 
-        $this->authController->getNewRefreshToken(0);
+        $this->authController->getNewRefreshToken("testmail");
     }
 
     /**
@@ -76,6 +76,11 @@ final class AuthenticationControllerTest extends TestCase
      */
     public function testGetNewRefreshTokenSuccessful(): void
     {
+        $this->userAccessorMock
+            ->expects($this->once())
+            ->method("findByEmail")
+            ->with("testmail")
+            ->willReturn(0);
 
         $this->rtAccessorMock
             ->expects($this->once())
@@ -88,7 +93,7 @@ final class AuthenticationControllerTest extends TestCase
             ->with($this->equalTo(0))
             ->willReturn(11);
 
-        $ret = $this->authController->getNewRefreshToken(0);
+        $ret = $this->authController->getNewRefreshToken("testmail");
 
         //expect token is valid
         Token::validate($ret, $_ENV["REFRESH_TOKEN_SECRET"]);

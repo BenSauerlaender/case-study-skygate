@@ -86,6 +86,18 @@ interface UserControllerInterface
     public function verifyUser(int $id, string $verificationCode): bool;
 
     /**
+     * Checks if the user with the specified email has also the specified password
+     *
+     * @param  string $email    The users email.
+     * @param  string $password The users password.
+     * @return bool             returns true if the combination is correct, false otherwise
+     * 
+     * @throws DBexception        if there is a problem with the database.
+     *          (UserNotFoundException | ...)
+     */
+    public function checkEmailPassword(string $email, string $password): bool;
+
+    /**
      * Changes the users password if the old is correct
      * 
      * Checks if the old password matches.
