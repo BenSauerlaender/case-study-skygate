@@ -37,6 +37,7 @@ class ApiController implements ApiControllerInterface
 
     //Attention: This is used inside the route functions
     private array $controller;
+    private array $accessors;
 
     /**
      * Construct the ApiController
@@ -44,12 +45,14 @@ class ApiController implements ApiControllerInterface
      * @param  RoutingControllerInterface        $routing               A RoutingController to choose a route.
      * @param  AuthenticationControllerInterface $auth                  A authenticationController authenticate the request.
      * @param  array<string,mixed>               $additionalController  An Array of additional Controllers (with there names as keys), that can be used from the routes functions.
+     * @param  array<string,mixed>               $additionalAccessors   An Array of additional Accessors (with there names as keys), that can be used from the routes functions.
      */
-    public function __construct(RoutingControllerInterface $routing, AuthenticationControllerInterface $auth,  array $additionalController)
+    public function __construct(RoutingControllerInterface $routing, AuthenticationControllerInterface $auth,  array $additionalController, array $additionalAccessors)
     {
         $this->routing = $routing;
         $this->auth = $auth;
         $this->controller = $additionalController;
+        $this->accessors = $additionalAccessors;
     }
 
     public function handleRequest(ApiRequestInterface $request): ApiResponseInterface

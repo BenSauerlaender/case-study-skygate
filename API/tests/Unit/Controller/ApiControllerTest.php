@@ -14,6 +14,7 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequest
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\AccessTokenExpiredResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\AccessTokenNotValidResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\AuthenticationRequiredResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\CreatedResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\InternalErrorResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\MethodNotAllowedResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\MissingPermissionsResponse;
@@ -24,7 +25,7 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\RoutingControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
+use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
@@ -52,24 +53,23 @@ final class ApiControllerTest extends TestCase
         $dotenv->load();
 
         $this->ucMock = $this->createMock(UserControllerInterface::class);
+        $this->uaMock = $this->createMock(UserAccessorInterface::class);
         $this->authMock = $this->createMock(AuthenticationControllerInterface::class);
         $this->routingMock = $this->createMock(RoutingControllerInterface::class);
         $this->reqMock = $this->createMock(ApiRequestInterface::class);
-        $this->apiController = new ApiController($this->routingMock, $this->authMock, ["user" => $this->ucMock]);
+        $this->apiController = new ApiController($this->routingMock, $this->authMock, ["user" => $this->ucMock], ["user" => $this->uaMock]);
 
-        $this->path = new ApiPath("abc");
+        $this->path = new ApiPath("abc/1");
 
         $this->reqMock
+            ->expects($this->once())
             ->method("getPath")
             ->willReturn($this->path);
 
         $this->reqMock
+            ->expects($this->once())
             ->method("getMethod")
             ->willReturn(ApiMethod::CONNECT);
-
-        $this->ucMock
-            ->method("deleteUser")
-            ->with(0);
     }
 
     public function tearDown(): void
@@ -135,23 +135,28 @@ final class ApiControllerTest extends TestCase
      */
     public function testRouteFunctionCalledCorrectly(): void
     {
+        $this->reqMock
+            ->method("getBody")
+            ->willReturn(["test"]);
+
         //expects that routingController->route will be called with the correct request
         $this->routingMock
             ->expects($this->once())
             ->method("route")
             ->willReturn([
                 "requireAuth" => false,
-                "ids" => [1, 2, 3],
-                "function" => function ($req, $ids) {
-                    if ($req->getMethod() === ApiMethod::CONNECT && $ids === [1, 2, 3]) {
-                        return new InternalErrorResponse();
+                "ids" => ["testID" => 1],
+                "function" => function (ApiRequestInterface $req, array $ids) {
+
+                    if ($req->getBody() === ["test"] && $ids === ["testID" => 1]) {
+                        return new CreatedResponse();
                     } else throw new Exception();
                 }
             ]);
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
-        $this->assertTrue(is_a($response, InternalErrorResponse::class));
+        $this->assertTrue(is_a($response, CreatedResponse::class));
     }
 
     /**
@@ -159,22 +164,55 @@ final class ApiControllerTest extends TestCase
      */
     public function testRouteFunctionCanAccessAdditionalControllers(): void
     {
+        $this->ucMock
+            ->expects($this->once())
+            ->method("deleteUser")
+            ->with(0);
+
         $this->routingMock
             ->expects($this->once())
             ->method("route")
             ->willReturn([
                 "requireAuth" => false,
-                "ids" => [1, 2, 3],
+                "ids" => ["testID"],
                 "function" => function ($req, $ids) {
-                    if ($this->controller["user"]->deleteUser(0) === ["test"]) {
-                        return new InternalErrorResponse("test");
+                    $this->controller["user"]->deleteUser(0);
+                    return new CreatedResponse();
+                }
+            ]);
+
+        $response = $this->apiController->handleRequest($this->reqMock);
+
+        $this->assertTrue(is_a($response, CreatedResponse::class));
+    }
+
+    /**
+     * Test if the routes function can access the accessor array
+     */
+    public function testRouteFunctionCanAccessAdditionalAccessors(): void
+    {
+        $this->uaMock
+            ->expects($this->once())
+            ->method("findByEmail")
+            ->with("test")
+            ->willReturn(1);
+
+        $this->routingMock
+            ->expects($this->once())
+            ->method("route")
+            ->willReturn([
+                "requireAuth" => false,
+                "ids" => ["testID"],
+                "function" => function ($req, $ids) {
+                    if ($this->accessors["user"]->findByEmail("test") === 1) {
+                        return new CreatedResponse();
                     } else throw new Exception();
                 }
             ]);
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
-        $this->assertTrue(is_a($response, InternalErrorResponse::class));
+        $this->assertTrue(is_a($response, CreatedResponse::class));
     }
 
     /**
@@ -187,7 +225,7 @@ final class ApiControllerTest extends TestCase
             ->method("route")
             ->willReturn([
                 "requireAuth" => false,
-                "ids" => [1, 2, 3],
+                "ids" => ["testID"],
                 "function" => function ($req, $ids) {
                     throw new Exception();
                 }
@@ -208,7 +246,7 @@ final class ApiControllerTest extends TestCase
             ->method("route")
             ->willReturn([
                 "requireAuth" => false,
-                "ids" => [1, 2, 3],
+                "ids" => ["testID"],
                 "function" => function ($req, $ids) {
                     return new NotSecureResponse();
                 }

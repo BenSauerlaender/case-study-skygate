@@ -16,7 +16,7 @@ use Exception;
  */
 class CreatedResponse extends BaseResponse
 {
-    public function __construct(?Exception $e = null)
+    public function __construct()
     {
         $this->setCode(201);
     }
