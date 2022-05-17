@@ -32,7 +32,7 @@ class SecurityUtilities implements SecurityUtilitiesInterface
         $ret = "";
 
         for ($i = 0; $i < $length; $i++) {
-            $num = rand(0, 9);
+            $num = rand(1, 9);
             $ret = $ret . "{$num}";
         }
 

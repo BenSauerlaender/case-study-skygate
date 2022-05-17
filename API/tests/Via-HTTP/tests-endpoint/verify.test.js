@@ -70,20 +70,15 @@ makeSuite(
       },
       "with valid code": () => {
         it("makes api call", async () => {
-          this.response = await request.get("/users/2/verify/0123456789");
+          this.response = await request.get("/users/2/verify/1234567899");
         });
 
         it("returns redirection ", async () => {
           expect(this.response.statusCode).to.eql(303);
         });
-
-        it("includes a Location", async () => {
-          expect(this.response.headers).to.contain("Location");
-        });
-
         it("includes the correct Location", async () => {
-          expect(this.response.headers["Location"]).eql(
-            `${process.env.PROD_DOMAIN}/login`
+          expect(this.response.headers.location).eql(
+            `${process.env.API_PROD_DOMAIN}/login`
           );
         });
       },

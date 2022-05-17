@@ -16,6 +16,7 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\MissingPropertyResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\UserNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\CreatedResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\RedirectionResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
@@ -63,10 +64,9 @@ class Routes
                         $uc = $this->controller["user"];
 
                         try {
-                            if ($uc->verifyUser($ids["userID"], "{$ids["verificationCode"]}")){
-                                return new 
-                            }
-                        }else{
+                            if ($uc->verifyUser($ids["userID"], "{$ids["verificationCode"]}")) {
+                                return new RedirectionResponse("{$_ENV['API_PROD_DOMAIN']}/login");
+                            } else {
                                 return new BadRequestResponse("The verification code is invalid.", 211);
                             }
                         } catch (BadMethodCallException $e) {
