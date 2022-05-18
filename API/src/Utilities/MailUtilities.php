@@ -22,7 +22,54 @@ class MailUtilities
      * @param  int      $id       The new users id.
      * @param  string   $code     The new users verification-code
      */
+    static public function sendEmailChangeVerificationRequest(string $email, string $name, int $id, string $code): void
+    {
+        $domain = $_ENV["API_PROD_DOMAIN"];
+        $prefix = $_ENV["API_PATH_PREFIX"];
+
+        $subject = 'Verify your new Email!';
+
+        $link = "https://{$domain}{$prefix}/users/{$id}/emailChange/{$code}";
+
+        $htmlMsg    = "Please verify your new email by following this link: <a href=\"{$link}\">{$link}</a>";
+        $plainMsg = "Please verify your new email by following this link: {$link}";
+
+        self::sendEmail($email, $name, $subject, $plainMsg, $htmlMsg);
+    }
+    /**
+     * Utility function to send a the verification email to a new user
+     *
+     * @param  string   $email    The new users email.
+     * @param  string   $name     The new users name.
+     * @param  int      $id       The new users id.
+     * @param  string   $code     The new users verification-code
+     */
     static public function sendVerificationRequest(string $email, string $name, int $id, string $code): void
+    {
+
+        $domain = $_ENV["API_PROD_DOMAIN"];
+        $prefix = $_ENV["API_PATH_PREFIX"];
+
+        $subject = 'Verify your registration!';
+
+        $link = "https://{$domain}{$prefix}/users/{$id}/verify/{$code}";
+
+        $htmlMsg    = "Please verify your registration by following this link: <a href=\"{$link}\">{$link}</a>";
+        $plainMsg = "Please verify your registration by following this link: {$link}";
+
+        self::sendEmail($email, $name, $subject, $plainMsg, $htmlMsg);
+    }
+    /**
+     * Utility function to send an email to a user
+     *
+     * @param  string   $email      The new users email.
+     * @param  string   $name       The new users name.
+     * @param  string   $subject    The new users id.
+     * @param  string   $plainMsg   The new users id.
+     * @param  string   $htmlMsg    The new users id.
+
+     */
+    static private function sendEmail(string $email, string $name, string $subject, string $plainMsg, string $htmlMsg): void
     {
         $mail = new PHPMailer(true);
 
@@ -37,7 +84,6 @@ class MailUtilities
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         $domain = $_ENV["API_PROD_DOMAIN"];
-        $prefix = $_ENV["API_PATH_PREFIX"];
 
         //Recipients
         $mail->setFrom("no-reply@{$domain}", "SkyGateCaseStudy");
@@ -45,12 +91,10 @@ class MailUtilities
 
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
-        $mail->Subject = 'Verify your registration!';
+        $mail->Subject = $subject;
 
-        $link = "https://{$domain}{$prefix}/users/{$id}/verify/{$code}";
-
-        $mail->Body    = "Please verify your registration by following this link: <a href=\"{$link}\">{$link}</a>";
-        $mail->AltBody = "Please verify your registration by following this link: {$link}";
+        $mail->Body    = $htmlMsg;
+        $mail->AltBody = $plainMsg;
 
         $mail->send();
     }

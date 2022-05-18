@@ -1,11 +1,12 @@
 const { request, expect } = require("../config");
 const { makeSuite, notAllowed } = require("../helper");
 let jwt = require("jsonwebtoken");
+const { getEmail } = require("../emailHelper.js");
 
 /**
  * Tests for the /users/{id}/emailChange route
  */
-makeSuite(["3roles", "2Users"], "/users/{userID}/password", {
+makeSuite(["3roles", "2Users"], "/users/{id}/emailChange", {
   PUT: notAllowed(),
   DELETE: notAllowed(),
   PATCH: notAllowed(),
@@ -87,7 +88,7 @@ makeSuite(["3roles", "2Users"], "/users/{userID}/password", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/1/emailChange")
+          .post("/users/1/emailChange")
           .set("Authorization", "Bearer " + token)
           .send({ email: "Password111" });
       });
@@ -120,7 +121,7 @@ makeSuite(["3roles", "2Users"], "/users/{userID}/password", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/1/emailChange")
+          .post("/users/1/emailChange")
           .set("Authorization", "Bearer " + token)
           .send({ email: "user2@mail.de" });
       });
@@ -153,7 +154,7 @@ makeSuite(["3roles", "2Users"], "/users/{userID}/password", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/1/emailChange")
+          .post("/users/1/emailChange")
           .set("Authorization", "Bearer " + token)
           .send({ email: process.env.TEST_MAIL_RECEIVER });
       });
@@ -182,7 +183,7 @@ makeSuite(["3roles", "2Users"], "/users/{userID}/password", {
 
       it("sets 'to:' correctly", async () => {
         expect(this.email.to.text).to.eql(
-          `Test Name <${process.env.TEST_MAIL_RECEIVER}>`
+          `user1 <${process.env.TEST_MAIL_RECEIVER}>`
         );
       });
       it("sets 'from:' correctly", async () => {
@@ -218,7 +219,7 @@ makeSuite(["3roles", "2Users"], "/users/{userID}/password", {
         expect(splitLink[3]).to.eql("api");
         expect(splitLink[4]).to.eql("v1");
         expect(splitLink[5]).to.eql("users");
-        expect(splitLink[6]).to.eql(1);
+        expect(splitLink[6]).to.eql("1");
         expect(splitLink[7]).to.eql("emailChange");
         //the verification code
         expect(splitLink[8]).to.match(/^[0-9a-f]{10}$/);

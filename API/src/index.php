@@ -33,7 +33,7 @@ try {
     } catch (NotSecureException $e) {
         $response = new NotSecureResponse();
     } catch (InvalidApiPathException $e) {
-        $response = new ResourceNotFoundResponse();
+        $response = new ResourceNotFoundResponse($e);
     } catch (InvalidApiMethodException | InvalidApiQueryException | InvalidApiHeaderException | JsonException $e) {
         $response = new InternalErrorResponse($e);
     }

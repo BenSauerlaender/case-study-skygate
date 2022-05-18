@@ -46,7 +46,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password", {
         ]);
       });
     },
-    "withouta body": () => {
+    "without a body": () => {
       it("makes api call", async () => {
         let token = jwt.sign(
           {
@@ -73,7 +73,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password", {
       });
 
       it("includes a list of required properties", async () => {
-        expect(this.response.body["missingProperties"]).to.has.keys([
+        expect(this.response.body["missingProperties"]).to.contains.members([
           "oldPassword",
           "newPassword",
         ]);
@@ -107,7 +107,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password", {
       });
 
       it("includes a list of required properties", async () => {
-        expect(this.response.body["missingProperties"]).to.has.keys([
+        expect(this.response.body["missingProperties"]).to.contains.members([
           "oldPassword",
         ]);
       });

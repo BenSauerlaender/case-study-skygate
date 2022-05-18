@@ -230,7 +230,7 @@ class UserController implements UserControllerInterface
         return true;
     }
 
-    public function RequestUsersEmailChange(int $id, string $newEmail): string
+    public function requestUsersEmailChange(int $id, string $newEmail): string
     {
         //validate new email
         try {

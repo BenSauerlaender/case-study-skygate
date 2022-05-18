@@ -61,7 +61,7 @@ class ApiController implements ApiControllerInterface
         try {
             $route = $this->routing->route($request->getPath(), $request->getMethod());
         } catch (ApiPathNotFoundException $e) {
-            return new ResourceNotFoundResponse();
+            return new ResourceNotFoundResponse($e);
         } catch (ApiMethodNotFoundException $e) {
             return new MethodNotAllowedResponse($e->getAvailableMethods());
         }

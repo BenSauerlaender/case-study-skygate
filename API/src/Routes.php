@@ -95,13 +95,13 @@ class Routes
 
                         $fields = $req->getBody();
 
-                        $missingFields = array_diff_key(["email" => "email", "password" => "password"], $fields ?? []);
+                        $missingFields = array_diff_key(["email" => null, "password" => null], $fields ?? []);
 
                         $email = strtolower($fields["email"] ?? "");
                         $pass = $fields["password"] ?? "";
 
                         if (sizeOf($missingFields) !== 0) {
-                            return new MissingPropertyResponse($missingFields);
+                            return new MissingPropertyResponse(array_keys($missingFields));
                         }
 
                         /** @var UserControllerInterface */
@@ -224,9 +224,8 @@ class Routes
                         $missingFields = array_diff_key(["oldPassword" => null, "newPassword" => null], $fields ?? []);
 
                         if (sizeOf($missingFields) !== 0) {
-                            return new MissingPropertyResponse($missingFields);
+                            return new MissingPropertyResponse(array_keys($missingFields));
                         }
-
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
@@ -236,6 +235,38 @@ class Routes
                             } else {
                                 return new BadRequestResponse("The password is incorrect", 215);
                             }
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse();
+                        } catch (InvalidFieldException $e) {
+                            return new InvalidPropertyResponse($e->getInvalidField());
+                        }
+                    }
+                ]
+            ],
+            "/users/{id}/emailchange" => [
+                "POST" => [
+                    "ids" => ["userID"],
+                    "requireAuth" => true,
+                    "permissions" => ["user:update:{userID}"],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+
+                        $fields = $req->getBody();
+
+                        $missingFields = array_diff_key(["email" => null], $fields ?? []);
+
+                        if (sizeOf($missingFields) !== 0) {
+                            return new MissingPropertyResponse($missingFields);
+                        }
+                        /** @var UserControllerInterface */
+                        $uc = $this->controller["user"];
+
+                        try {
+                            $code = $uc->requestUsersEmailChange($ids["userID"], $fields["email"]);
+
+                            $user = $uc->getUser($ids["userID"]);
+
+                            MailUtilities::sendEmailChangeVerificationRequest($fields["email"], $user["name"], $ids["userID"], $code);
+                            return new CreatedResponse();
                         } catch (UserNotFoundException $e) {
                             return new UserNotFoundResponse();
                         } catch (InvalidFieldException $e) {

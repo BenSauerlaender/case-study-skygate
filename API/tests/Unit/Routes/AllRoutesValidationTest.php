@@ -13,6 +13,7 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiPath;
 use BenSauer\CaseStudySkygateApi\ApiComponents\Interfaces\ApiPathInterface;
 use BenSauer\CaseStudySkygateApi\Routes;
 use Closure;
+use phpDocumentor\Reflection\PseudoTypes\LowercaseString;
 use PHPUnit\Framework\TestCase;
 
 
@@ -44,6 +45,8 @@ final class AllRoutesValidationTest extends TestCase
         $this->assertStringStartsWith("/", $path);
         $this->assertStringEndsNotWith("/", $path);
         $apiPath = new ApiPath(str_replace("{id}", "1", $path));
+        //only lowercase
+        $this->assertEquals(1, preg_match("/^[a-z\/{}]+$/", $path));
         $this->assertInstanceOf(ApiPathInterface::class, $apiPath, "Path can be parsed to ApiPath");
     }
 
