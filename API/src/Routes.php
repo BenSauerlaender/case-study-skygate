@@ -179,10 +179,7 @@ class Routes
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
-                        $body = $req->getBody();
-                        if (is_null($body)) return new BadRequestResponse("No body provided.", 101, ["availableProperties" => array_keys($availableFields)]);
-
-                        $fields = array_intersect_key($body, $availableFields);
+                        $fields = array_intersect_key($req->getBody() ?? [], $availableFields);
 
                         if (sizeOf($fields) === 0) return new BadRequestResponse("No available properties provided.", 101, ["availableProperties" => array_keys($availableFields)]);
 
@@ -214,7 +211,39 @@ class Routes
                         }
                     }
                 ]
-            ]
+            ],
+            "/users/{id}/password" => [
+                "PUT" => [
+                    "ids" => ["userID"],
+                    "requireAuth" => true,
+                    "permissions" => ["user:update:{userID}"],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+
+                        $fields = $req->getBody();
+
+                        $missingFields = array_diff_key(["oldPassword" => null, "newPassword" => null], $fields ?? []);
+
+                        if (sizeOf($missingFields) !== 0) {
+                            return new MissingPropertyResponse($missingFields);
+                        }
+
+                        /** @var UserControllerInterface */
+                        $uc = $this->controller["user"];
+
+                        try {
+                            if ($uc->updateUsersPassword($ids["userID"], $fields["newPassword"], $fields["oldPassword"])) {
+                                return new NoContentResponse();
+                            } else {
+                                return new BadRequestResponse("The password is incorrect", 215);
+                            }
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse();
+                        } catch (InvalidFieldException $e) {
+                            return new InvalidPropertyResponse($e->getInvalidField());
+                        }
+                    }
+                ]
+            ],
         ];
     }
 }
