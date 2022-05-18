@@ -23,6 +23,7 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\RefreshTokenCookie;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\SetCookieResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
@@ -271,6 +272,27 @@ class Routes
                             return new UserNotFoundResponse();
                         } catch (InvalidFieldException $e) {
                             return new InvalidPropertyResponse($e->getInvalidField());
+                        }
+                    }
+                ]
+            ],
+            "/users/{id}/emailchange/{id}" => [
+                "GET" => [
+                    "ids" => ["userID", "verificationCode"],
+                    "requireAuth" => false,
+                    "permissions" => [],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+                        /** @var UserControllerInterface */
+                        $uc = $this->controller["user"];
+
+                        try {
+                            if ($uc->verifyUsersEmailChange($ids["userID"], "{$ids["verificationCode"]}")) {
+                                return new RedirectionResponse("{$_ENV['API_PROD_DOMAIN']}/email-changed");
+                            } else {
+                                return new BadRequestResponse("The verification code is invalid.", 211);
+                            }
+                        } catch (EcrNotFoundException $e) {
+                            return new BadRequestResponse("The user has no open email change request.", 212);
                         }
                     }
                 ]

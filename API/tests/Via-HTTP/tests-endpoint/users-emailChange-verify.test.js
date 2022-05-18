@@ -6,31 +6,14 @@ const { makeSuite, notAllowed } = require("../helper");
  */
 makeSuite(
   ["3roles", "2Users", "1EmailChangeRequest"],
-  "/users/{userID}/verify/{code}",
+  "/users/{userID}/emailChange/{code}",
   {
     PUT: notAllowed(),
     DELETE: notAllowed(),
     PATCH: notAllowed(),
     POST: notAllowed(),
     GET: {
-      "user not exists": () => {
-        it("makes api call", async () => {
-          this.response = await request.get("/users/5/emailChange/123");
-        });
-
-        it("returns Bad Request", async () => {
-          expect(this.response.statusCode).to.eql(400);
-        });
-
-        it("includes a code", async () => {
-          expect(this.response.body["code"]).to.eql(201);
-        });
-
-        it("includes a message", async () => {
-          expect(this.response.body["msg"]).to.include("The user not exists");
-        });
-      },
-      "No open change request": () => {
+      "No open change request for this user": () => {
         it("makes api call", async () => {
           this.response = await request.get("/users/2/emailChange/123");
         });
@@ -40,7 +23,7 @@ makeSuite(
         });
 
         it("includes a code", async () => {
-          expect(this.response.body["code"]).to.eql(210);
+          expect(this.response.body["code"]).to.eql(212);
         });
 
         it("includes a message", async () => {
