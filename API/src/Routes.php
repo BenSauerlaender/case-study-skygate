@@ -22,7 +22,7 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\RefreshTokenCookie;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\SetCookieResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
@@ -165,6 +165,35 @@ class Routes
                             return new DataResponse($user);
                         } catch (UserNotFoundException $e) {
                             return new UserNotFoundResponse();
+                        }
+                    }
+                ],
+                "PUT" => [
+                    "ids" => ["userID"],
+                    "requireAuth" => true,
+                    "permissions" => ["user:update:{userID}"],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+                        $availableFields = ["name" => null, "postcode" => null, "city" => null, "phone" => null, "role" => null];
+
+                        /** @var UserControllerInterface */
+                        $uc = $this->controller["user"];
+
+                        $body = $req->getBody();
+                        if (is_null($body)) return new BadRequestResponse("No body provided.", 101, ["availableProperties" => array_keys($availableFields)]);
+
+                        $fields = array_intersect_key($body, $availableFields);
+
+                        if (sizeOf($fields) === 0) return new BadRequestResponse("No available properties provided.", 101, ["availableProperties" => array_keys($availableFields)]);
+
+                        try {
+                            $uc->updateUser($ids["userID"], $fields);
+                            return new DataResponse(["updated" => $fields]);
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse();
+                        } catch (RoleNotFoundException $e) {
+                            return new InvalidPropertyResponse(["role" => ["INVALID"]]);
+                        } catch (InvalidFieldException $e) {
+                            return new InvalidPropertyResponse($e->getInvalidField());
                         }
                     }
                 ]

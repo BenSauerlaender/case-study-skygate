@@ -37,7 +37,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
 
       it("includes requiredPermissions", async () => {
         expect(this.response.body.requiredPermissions).to.eql([
-          "user:write:{userID}",
+          "user:update:{userID}",
         ]);
       });
     },
@@ -53,7 +53,8 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
         );
         this.response = await request
           .put("/users/3")
-          .set("Authorization", "Bearer " + token);
+          .set("Authorization", "Bearer " + token)
+          .send({ name: "name", email: "tet" });
       });
 
       it("returns Bad Request", async () => {
@@ -93,12 +94,13 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
       });
 
       it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include("require");
+        expect(this.response.body["msg"]).to.include(
+          "No available properties provided"
+        );
       });
 
       it("includes a list of available properties", async () => {
-        expect(this.response.body["availableProperties"]).to.has.keys([
-          "name",
+        expect(this.response.body["availableProperties"]).to.include.members([
           "name",
           "phone",
           "city",
@@ -107,7 +109,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
         ]);
       });
     },
-    "with invalid data": () => {
+    "with invalid role": () => {
       it("makes api call", async () => {
         let token = jwt.sign(
           {
@@ -120,7 +122,41 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
         this.response = await request
           .put("/users/1")
           .set("Authorization", "Bearer " + token)
-          .send({ postcode: "newEmailmail.de", name: 123 });
+          .send({ role: "newEmailmail.de" });
+      });
+
+      it("returns Bad Request", async () => {
+        expect(this.response.statusCode).to.eql(400);
+      });
+
+      it("includes a code", async () => {
+        expect(this.response.body["code"]).to.eql(102);
+      });
+
+      it("includes a message", async () => {
+        expect(this.response.body["msg"]).to.include("invalid");
+      });
+
+      it("includes a list of invalid properties", async () => {
+        expect(this.response.body["invalidProperties"]["role"][0]).to.eq(
+          "INVALID"
+        );
+      });
+    },
+    "with invalid name": () => {
+      it("makes api call", async () => {
+        let token = jwt.sign(
+          {
+            id: 1,
+            perm: "user:{all}:{userID}",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        this.response = await request
+          .put("/users/1")
+          .set("Authorization", "Bearer " + token)
+          .send({ name: 123 });
       });
 
       it("returns Bad Request", async () => {
@@ -138,9 +174,6 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
       it("includes a list of invalid properties", async () => {
         expect(this.response.body["invalidProperties"]["name"][0]).to.eq(
           "INVALID_TYPE"
-        );
-        expect(this.response.body["invalidProperties"]["postcode"][0]).to.eq(
-          "NO_EMAIL"
         );
       });
     },
