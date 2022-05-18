@@ -120,7 +120,7 @@ abstract class BaseUCITest extends TestCase
      * 
      * @return string The code to verify the ecr 
      */
-    protected function createUserWithEcr(): int
+    protected function createUserWithEcr(): string
     {
         $this->createUser();
 

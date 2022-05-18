@@ -115,7 +115,7 @@ final class AllRoutesValidationTest extends TestCase
             $exp = explode(":", $perm);
             $this->assertEquals(3, sizeof($exp));
             foreach ($exp as $s) {
-                $this->assertEquals(1, preg_match("/^[a-z]+$/", $s));
+                $this->assertEquals(1, preg_match("/^[a-zA-Z{}]+$/", $s));
             }
         }
     }
