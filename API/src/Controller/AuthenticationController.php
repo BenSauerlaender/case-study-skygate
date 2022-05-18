@@ -33,7 +33,7 @@ class AuthenticationController implements AuthenticationControllerInterface
 
     public function authenticateAccessToken(string $accessToken): array
     {
-        //check if the string is a JWT
+        //check if the string is a valid JWT
         if (!Token::validate($accessToken, $_ENV["ACCESS_TOKEN_SECRET"])) {
             throw new InvalidArgumentException();
         }
