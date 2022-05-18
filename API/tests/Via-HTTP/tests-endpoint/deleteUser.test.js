@@ -37,7 +37,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
 
       it("includes requiredPermissions", async () => {
         expect(this.response.body.requiredPermissions).to.eql([
-          "user:update:{userID}",
+          "user:delete:{userID}",
         ]);
       });
     },
@@ -79,7 +79,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/1")
+          .delete("/users/1")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -88,7 +88,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
       });
 
       it("includes no body", async () => {
-        expect(this.response.body).to.eql(null);
+        expect(this.response.body).to.eql({});
       });
     },
   },

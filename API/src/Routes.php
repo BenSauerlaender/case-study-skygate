@@ -17,6 +17,7 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\UserNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\CreatedResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\DataResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\NoContentResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\RedirectionResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\RefreshTokenCookie;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\SetCookieResponse;
@@ -194,6 +195,22 @@ class Routes
                             return new InvalidPropertyResponse(["role" => ["INVALID"]]);
                         } catch (InvalidFieldException $e) {
                             return new InvalidPropertyResponse($e->getInvalidField());
+                        }
+                    }
+                ],
+                "DELETE" => [
+                    "ids" => ["userID"],
+                    "requireAuth" => true,
+                    "permissions" => ["user:delete:{userID}"],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+                        /** @var UserControllerInterface */
+                        $uc = $this->controller["user"];
+
+                        try {
+                            $uc->deleteUser($ids["userID"]);
+                            return new NoContentResponse();
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse();
                         }
                     }
                 ]
