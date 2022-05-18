@@ -91,6 +91,8 @@ class AuthenticationController implements AuthenticationControllerInterface
         //get the users current refresh token count
         $rtCount = $this->refreshTokenAccessor->getCountByUserID($payload["id"]);
 
+        if (is_null($rtCount)) throw new UserNotFoundException();
+
         //check if the token is valid
         if ($rtCount !== $payload["cnt"]) {
             throw new InvalidTokenException("The Token is no longer valid");
@@ -107,7 +109,7 @@ class AuthenticationController implements AuthenticationControllerInterface
         ];
 
         //create and return the JWT 
-        $token = Token::customPayload($payload, $_ENV["REFRESH_TOKEN_SECRET"]);
+        $token = Token::customPayload($payload, $_ENV["ACCESS_TOKEN_SECRET"]);
         return $token;
     }
 

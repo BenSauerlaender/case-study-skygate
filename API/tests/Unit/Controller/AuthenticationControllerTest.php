@@ -179,7 +179,7 @@ final class AuthenticationControllerTest extends TestCase
             ->expects($this->once())
             ->method("getCountByUserID")
             ->with($this->equalTo(1))
-            ->will($this->throwException(new UserNotFoundException()));
+            ->willReturn(null);
 
         $token = Token::customPayload($payload, $_ENV["REFRESH_TOKEN_SECRET"]);
 

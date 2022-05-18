@@ -24,9 +24,12 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerI
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
+use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
 use BenSauer\CaseStudySkygateApi\Utilities\MailUtilities;
+use InvalidArgumentException;
 
 class Routes
 {
@@ -106,12 +109,42 @@ class Routes
                         try {
                             if ($uc->checkEmailPassword($email, $pass)) {
                                 /** @var AuthenticationControllerInterface */
-                                $auth = $this->auth;
+                                $auth = $this->controller["auth"];
                                 $token = $auth->getNewRefreshToken($email);
                                 return new SetCookieResponse(new RefreshTokenCookie($token));
                             } else {
                                 return new BadRequestResponse("The password is incorrect", 215);
                             }
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse();
+                        }
+                    }
+                ]
+            ],
+            "/token" => [
+                "GET" => [
+                    "ids" => [],
+                    "requireAuth" => false,
+                    "permissions" => [],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+
+                        $refreshJWT = $req->getCookie("skygatecasestudy.refreshtoken");
+                        if (is_null($refreshJWT)) {
+                            return new BadRequestResponse("No refreshToken provided! POST /login to get one.", 301);
+                        }
+
+                        /** @var AuthenticationControllerInterface */
+                        $auth = $this->controller["auth"];
+
+                        try {
+                            $accessToken = $auth->getNewAccessToken($refreshJWT);
+                            return new DataResponse(["accessToken" => $accessToken]);
+                        } catch (InvalidArgumentException $e) {
+                            return new BadRequestResponse("The refreshToken is invalid!", 302, ["reason" => "NOT_VERIFIABLE"]);
+                        } catch (ExpiredTokenException $e) {
+                            return new BadRequestResponse("The refreshToken is invalid!", 302, ["reason" => "EXPIRED"]);
+                        } catch (InvalidTokenException $e) {
+                            return new BadRequestResponse("The refreshToken is invalid!", 302, ["reason" => "OLD_TOKEN"]);
                         } catch (UserNotFoundException $e) {
                             return new UserNotFoundResponse();
                         }
