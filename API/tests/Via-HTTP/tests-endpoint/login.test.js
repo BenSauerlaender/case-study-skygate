@@ -131,7 +131,7 @@ makeSuite(["3roles", "1User"], "/login", {
         expect(cookieSplit[5]).to.eql(" secure");
         expect(cookieSplit[6]).to.eql(" HttpOnly");
 
-        var token = jwt_decode(cookieSplit[0].split("=")[1]);
+        let token = jwt_decode(cookieSplit[0].split("=")[1]);
         expect(token.id).to.eql(1);
         expect(token.cnt).to.eql(0);
       });

@@ -29,6 +29,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldEx
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
 
 use function BenSauer\CaseStudySkygateApi\Utilities\mapped_implode;
+use function PHPUnit\Framework\isNull;
 
 class UserController implements UserControllerInterface
 {
@@ -101,6 +102,26 @@ class UserController implements UserControllerInterface
         $id = $this->userAccessor->findByEmail($fields["email"]);
         if (is_null($id)) throw new ShouldNeverHappenException("The just created user(email: " . $fields["email"] . ") can't be found in the database."); // @codeCoverageIgnore
         return array("id" => $id, "verificationCode" => $verificationCode);
+    }
+
+    public function getUser(int $id): array
+    {
+        try {
+            $user = $this->userAccessor->get($id);
+
+            $role = $this->roleAccessor->get($user["roleID"]);
+
+            return [
+                "email" => $user["email"],
+                "name" => $user["name"],
+                "postcode" => $user["postcode"],
+                "city" => $user["city"],
+                "phone" => $user["phone"],
+                "role" => $role["name"],
+            ];
+        } catch (RoleNotFoundException $e) {
+            throw new ShouldNeverHappenException("Because of the db relations.", 0, $e);
+        }
     }
 
     public function deleteUser(int $id): void

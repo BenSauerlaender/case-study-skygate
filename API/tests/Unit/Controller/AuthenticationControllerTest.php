@@ -15,6 +15,7 @@ use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInte
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidPermissionsException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
 use InvalidArgumentException;
@@ -277,7 +278,7 @@ final class AuthenticationControllerTest extends TestCase
         $token = Token::customPayload($payload, $_ENV["ACCESS_TOKEN_SECRET"]);
 
         $ret = $this->authController->authenticateAccessToken($token);
-        $this->assertEquals(["ids" => ["userID" => 1], "permissions" => "perm123"], $ret);
+        $this->assertEquals(["ids" => ["userID" => 1], "permissions" => ["perm123"]], $ret);
     }
 
     /**
@@ -287,8 +288,8 @@ final class AuthenticationControllerTest extends TestCase
      */
     public function testHasPermissionsWithInvalidReqPermissionString(array $perm): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->authController->hasPermission(["permissions" => $perm], ["permissions" => ["user:{all}:{all}"], "ids" => []]);
+        $this->expectException(InvalidPermissionsException::class);
+        $this->authController->hasPermission(["permissions" => $perm, "ids" => []], ["permissions" => ["user:{all}:{all}"], "ids" => []]);
     }
 
     /**
@@ -298,8 +299,8 @@ final class AuthenticationControllerTest extends TestCase
      */
     public function testHasPermissionsWithInvalidUserPermissionString(array $perm): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->authController->hasPermission(["permissions" => ["user:{all}:{all}"], "ids" => []], ["permissions" => $perm]);
+        $this->expectException(InvalidPermissionsException::class);
+        $this->authController->hasPermission(["permissions" => ["user:{all}:{all}"], "ids" => []], ["permissions" => $perm, "ids" => []]);
     }
 
     public function invalidPermissionProvider(): array
@@ -322,7 +323,7 @@ final class AuthenticationControllerTest extends TestCase
      */
     public function testHasPermissionsWithInvalidAuth(array $auth): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidPermissionsException::class);
         $this->authController->hasPermission(["permissions" => ["user:{all}:{all}"], "ids" => []], $auth);
     }
 
@@ -333,7 +334,7 @@ final class AuthenticationControllerTest extends TestCase
      */
     public function testHasPermissionsWithInvalidRoute(array $route): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidPermissionsException::class);
         $this->authController->hasPermission($route, ["permissions" => ["user:{all}:{all}"], "ids" => []]);
     }
 

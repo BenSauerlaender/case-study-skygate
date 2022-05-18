@@ -40,6 +40,25 @@ interface UserControllerInterface
     public function createUser(array $fields): array;
 
     /**
+     * Gets a user
+     *
+     * @param int $id   The users id.
+     * @return  array<string,string> $user   The User array
+     *  $fields = [
+     *      "email"     => (string)   The users e-mail.
+     *      "name"      => (string)   The users first and last name.
+     *      "postcode"  => (string)   The users postcode.
+     *      "city"      => (string)   The users city.
+     *      "phone"     => (string)   The users phone number.
+     *      "role"      => (string)   The users role.
+     *  ]
+     * 
+     * @throws DBexception  if there is a problem with the database.
+     *          (UserNotFoundException | ...)
+     */
+    public function getUser(int $id): array;
+
+    /**
      * Deletes a user
      *
      * @param  int  $id the user's id 

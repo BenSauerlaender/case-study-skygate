@@ -58,6 +58,7 @@ interface AuthenticationControllerInterface
      *
      * @param  array<string,mixed> $route  The route to use.
      * @param  array<string,mixed> $auth   The requesters auth.
+     * @throws InvalidPermissionsException if one of the permissions are not valid
      */
     public function hasPermission(array $route, array $auth): bool;
 }

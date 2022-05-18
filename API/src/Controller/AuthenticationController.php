@@ -13,6 +13,7 @@ use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInte
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidPermissionsException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
 use InvalidArgumentException;
@@ -47,7 +48,7 @@ class AuthenticationController implements AuthenticationControllerInterface
         $payload = Token::getPayLoad($accessToken);
         return [
             "ids" => ["userID" => $payload["id"]],
-            "permissions" => $payload["perm"]
+            "permissions" => explode(";", $payload["perm"]),
         ];
     }
 
@@ -124,9 +125,13 @@ class AuthenticationController implements AuthenticationControllerInterface
 
     public function hasPermission(array $route, array $auth): bool
     {
-        //parse the permission arrays into convenient nested objects
-        $reqPerm = $this->parsePermissionArray($route);
-        $userPerm = $this->parsePermissionArray($auth);
+        try {
+            //parse the permission arrays into convenient nested objects
+            $reqPerm = $this->parsePermissionArray($route);
+            $userPerm = $this->parsePermissionArray($auth);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidPermissionsException("One of the permissions is is not valid", 0, $e);
+        }
 
         //for each required resource
         foreach ($reqPerm as $res => $methods) {
@@ -166,6 +171,7 @@ class AuthenticationController implements AuthenticationControllerInterface
      *       (string) method => (string|int) The scope.
      *    ]
      *  ]
+     * @throws InvalidArgumentException if the $obj array don't have all necessary values or the permission string is invalid
      */
     private function parsePermissionArray(array $obj): array
     {
@@ -222,7 +228,7 @@ class AuthenticationController implements AuthenticationControllerInterface
                     $scope = $permStringExplode[2];
                     //replace the id-name with the id itself
                     if ($scope !== "{all}") {
-                        if (!substr($scope, 1, 1) === "{" or !substr($scope, -1, 1) === "}") throw new InvalidArgumentException("$scope is not a valid scope");
+                        if (substr($scope, 0, 1) !== "{" or substr($scope, -1, 1) !== "}") throw new InvalidArgumentException("$scope is not a valid scope");
 
                         $id = substr($scope, 1, -1);
                         if (!isset($obj["ids"][$id]) or !is_int($obj["ids"][$id])) throw new InvalidArgumentException("$id cant be found in one of the id-arrays");

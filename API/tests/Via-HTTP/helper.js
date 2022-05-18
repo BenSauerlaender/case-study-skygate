@@ -1,6 +1,6 @@
 const { request, expect } = require("./config");
 const fs = require("fs");
-var connection = null;
+let connection = null;
 
 exports.mochaHooks = {
   /**
@@ -9,7 +9,7 @@ exports.mochaHooks = {
    * Executes before all endpoint Tests
    */
   beforeAll(done) {
-    var mysql = require("mysql");
+    let mysql = require("mysql");
 
     //read env variables
     require("dotenv").config({ path: "./../test.env" });

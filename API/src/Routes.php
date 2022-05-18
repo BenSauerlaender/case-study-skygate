@@ -155,9 +155,17 @@ class Routes
                 "GET" => [
                     "ids" => ["userID"],
                     "requireAuth" => true,
-                    "permissions" => ["user:read:these"],
+                    "permissions" => ["user:read:{userID}"],
                     "function" => function (ApiRequestInterface $req, array $ids) {
-                        return null;
+                        /** @var UserControllerInterface */
+                        $uc = $this->controller["user"];
+
+                        try {
+                            $user = $uc->getUser($ids["userID"]);
+                            return new DataResponse($user);
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse();
+                        }
                     }
                 ]
             ]

@@ -1,6 +1,6 @@
 const { request, expect } = require("../config");
 const { makeSuite, notAllowed } = require("../helper");
-var jwt = require("jsonwebtoken");
+let jwt = require("jsonwebtoken");
 
 /**
  * Tests for the /token route
@@ -32,7 +32,7 @@ makeSuite(["3roles", "1User", "1RefreshToken"], "/token", {
     },
     "with a unverifiable jwt": (path) => {
       it("makes api call", async () => {
-        var token = jwt.sign({ foo: "bar" }, "shhhhh");
+        let token = jwt.sign({ foo: "bar" }, "shhhhh");
         this.response = await request
           .get(path)
           .set("Cookie", ["skygatecasestudy.refreshtoken=" + token]);
@@ -57,7 +57,7 @@ makeSuite(["3roles", "1User", "1RefreshToken"], "/token", {
     },
     "with an expired jwt": (path) => {
       it("makes api call", async () => {
-        var token = jwt.sign(
+        let token = jwt.sign(
           { foo: "bar", iat: Math.floor(Date.now() / 1000) - 30 },
           process.env.REFRESH_TOKEN_SECRET
         );
@@ -85,7 +85,7 @@ makeSuite(["3roles", "1User", "1RefreshToken"], "/token", {
     },
     "with an invalid jwt": (path) => {
       it("makes api call", async () => {
-        var token = jwt.sign(
+        let token = jwt.sign(
           { cnt: 10, id: 1, exp: Math.floor(Date.now() / 1000) + 30 },
           process.env.REFRESH_TOKEN_SECRET
         );
@@ -113,7 +113,7 @@ makeSuite(["3roles", "1User", "1RefreshToken"], "/token", {
     },
     "if the user can not found": (path) => {
       it("makes api call", async () => {
-        var token = jwt.sign(
+        let token = jwt.sign(
           { cnt: 10, id: 3, exp: Math.floor(Date.now() / 1000) + 30 },
           process.env.REFRESH_TOKEN_SECRET
         );
@@ -135,7 +135,7 @@ makeSuite(["3roles", "1User", "1RefreshToken"], "/token", {
     },
     "with completely valid jwt": (path) => {
       it("makes api call", async () => {
-        var token = jwt.sign(
+        let token = jwt.sign(
           { cnt: 0, id: 1, exp: Math.floor(Date.now() / 1000) + 30 },
           process.env.REFRESH_TOKEN_SECRET
         );
