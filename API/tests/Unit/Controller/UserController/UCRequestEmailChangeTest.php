@@ -10,8 +10,8 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use Dotenv\Exception\InvalidFileException;
 
 /**
  * Testsuit for UserController->requestUsersEmailChange method
@@ -68,8 +68,8 @@ final class UCRequestEmailChangeTest extends BaseUCTest
         $this->configEmailAvailability($emailFreeInUser, $emailFreeInEcr);
 
 
-        $this->expectException(DuplicateEmailException::class);
-        $this->expectExceptionMessage("someEmail");
+        $this->expectException(InvalidFieldException::class);
+        $this->expectExceptionMessage("Invalid fields with Reasons: email: IS_TAKEN");
 
         $this->userController->requestUsersEmailChange(1, "someEmail");
     }

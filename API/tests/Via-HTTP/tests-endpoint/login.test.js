@@ -29,7 +29,7 @@ makeSuite(["3roles", "1User"], "/login", {
       });
 
       it("includes a list of required properties", async () => {
-        expect(this.response.body["missingProperties"]).to.has.keys([
+        expect(this.response.body["missingProperties"]).to.contains.members([
           "email",
           "password",
         ]);
@@ -55,7 +55,7 @@ makeSuite(["3roles", "1User"], "/login", {
       });
 
       it("includes a list of required properties", async () => {
-        expect(this.response.body["missingProperties"]).to.has.keys([
+        expect(this.response.body["missingProperties"]).to.contains.members([
           "password",
         ]);
       });

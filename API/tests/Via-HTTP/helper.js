@@ -109,7 +109,7 @@ const getTestScenario = (assertions, path, method, seeds) => {
  */
 exports.notAllowed = () => {
   return (path, method) => {
-    cleanedPath = path.replaceAll(/{[a-zA-Z]*}/g, "0");
+    let cleanedPath = path.replaceAll(/{[a-zA-Z]*}/g, "0");
     it("is not allowed", async () => {
       switch (method) {
         case "POST":

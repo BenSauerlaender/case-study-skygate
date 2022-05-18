@@ -6,6 +6,8 @@ let jwt = require("jsonwebtoken");
  * Tests for the GET /users/{id} route
  */
 makeSuite(["3roles", "1User"], "/users/{userID}", {
+  PATCH: notAllowed(),
+  POST: notAllowed(),
   GET: {
     "without accessToken": () => {
       it("makes api call", async () => {

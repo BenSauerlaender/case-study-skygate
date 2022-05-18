@@ -33,7 +33,7 @@ final class UciRequestEcrTest extends BaseUCITest
     {
         $this->create2Users();
 
-        $this->expectException(DuplicateEmailException::class);
+        $this->expectException(InvalidFieldException::class);
         $this->userController->requestUsersEmailChange(1, "yourEmail@mail.de");
     }
 
