@@ -245,7 +245,7 @@ class UserController implements UserControllerInterface
 
         //check if the email is free
         if (!$this->isEmailFree($newEmail)) {
-            throw new DuplicateEmailException("Email: $newEmail");
+            throw new InvalidFieldException(["email" => ["IS_TAKEN"]]);
         }
 
         //delete old Request if there is one
