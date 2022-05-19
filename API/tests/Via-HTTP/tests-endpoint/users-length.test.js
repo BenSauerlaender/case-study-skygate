@@ -1,5 +1,6 @@
 const { request, expect } = require("../config");
 const { makeSuite, notAllowed } = require("../helper");
+let jwt = require("jsonwebtoken");
 
 /**
  * Tests for the /users/length route
@@ -10,9 +11,53 @@ makeSuite(["3roles", "100Users"], "/users/length", {
   PATCH: notAllowed(),
   POST: notAllowed(),
   GET: {
+    "without accessToken": () => {
+      it("makes api call", async () => {
+        this.response = await request.get("/users");
+      });
+
+      it("returns Unauthorized", async () => {
+        expect(this.response.statusCode).to.eql(401);
+      });
+    },
+    "without permission": () => {
+      it("makes api call", async () => {
+        let token = jwt.sign(
+          {
+            id: 2,
+            perm: "",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        this.response = await request
+          .get("/users")
+          .set("Authorization", "Bearer " + token);
+      });
+
+      it("returns Forbidden", async () => {
+        expect(this.response.statusCode).to.eql(403);
+      });
+
+      it("includes requiredPermissions", async () => {
+        expect(this.response.body.requiredPermissions).to.eql([
+          "user:read:{all}",
+        ]);
+      });
+    },
     "Without a query string": () => {
       it("makes api call", async () => {
-        this.response = await request.get("/users/length");
+        let token = jwt.sign(
+          {
+            id: 2,
+            perm: "user:{all}:{all}",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        this.response = await request
+          .get("/users/length")
+          .set("Authorization", "Bearer " + token);
       });
 
       it("returns OK", async () => {
@@ -25,7 +70,17 @@ makeSuite(["3roles", "100Users"], "/users/length", {
     },
     "With invalid query string": () => {
       it("makes api call", async () => {
-        this.response = await request.get("/users/length?quatsch");
+        let token = jwt.sign(
+          {
+            id: 2,
+            perm: "user:{all}:{all}",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        this.response = await request
+          .get("/users/length?quatsch")
+          .set("Authorization", "Bearer " + token);
       });
 
       it("returns Bad Request", async () => {
@@ -46,7 +101,17 @@ makeSuite(["3roles", "100Users"], "/users/length", {
     },
     "With invalid search string": () => {
       it("makes api call", async () => {
-        this.response = await request.get("/users/length?name=abs%");
+        let token = jwt.sign(
+          {
+            id: 2,
+            perm: "user:{all}:{all}",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        this.response = await request
+          .get("/users/length?name=abs%")
+          .set("Authorization", "Bearer " + token);
       });
 
       it("returns Bad Request", async () => {
@@ -65,7 +130,17 @@ makeSuite(["3roles", "100Users"], "/users/length", {
     },
     "With filter": () => {
       it("makes api call", async () => {
-        this.response = await request.get("/users/length?name=w&city=se");
+        let token = jwt.sign(
+          {
+            id: 2,
+            perm: "user:{all}:{all}",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        this.response = await request
+          .get("/users/length?name=w&city=se")
+          .set("Authorization", "Bearer " + token);
       });
 
       it("returns OK", async () => {
@@ -78,9 +153,19 @@ makeSuite(["3roles", "100Users"], "/users/length", {
     },
     "With all": () => {
       it("makes api call", async () => {
-        this.response = await request.get(
-          "/users/length?name=w&city=se&sortby=phone&desc&page=13&index=5&sensitive"
+        let token = jwt.sign(
+          {
+            id: 2,
+            perm: "user:{all}:{all}",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
         );
+        this.response = await request
+          .get(
+            "/users/length?name=w&city=se&sortby=phone&desc&page=13&index=5&sensitive"
+          )
+          .set("Authorization", "Bearer " + token);
       });
 
       it("returns OK", async () => {

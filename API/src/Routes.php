@@ -297,6 +297,26 @@ class Routes
                     }
                 ]
             ],
+            "/users" => [
+                "GET" => [
+                    "ids" => [],
+                    "requireAuth" => true,
+                    "permissions" => ["user:read:{all}"],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+                        return new BadRequestResponse("The user has no open email change request.", 212);
+                    }
+                ]
+            ],
+            "/users/length" => [
+                "GET" => [
+                    "ids" => [],
+                    "requireAuth" => true,
+                    "permissions" => ["user:read:{all}"],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+                        return new BadRequestResponse("The user has no open email change request.", 212);
+                    }
+                ]
+            ],
         ];
     }
 }

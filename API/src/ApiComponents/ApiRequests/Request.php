@@ -87,6 +87,9 @@ class Request implements ApiRequestInterface
                 $pair = explode("=", $p);
 
                 $pair[0] = strtolower($pair[0]);
+
+                if (preg_match("/^[a-z]+$/", $pair[0]) !== 1) throw new InvalidApiQueryException("The query string part: '$p' is not valid");
+
                 //no value: set key also as value
                 if (sizeof($pair) === 1) {
                     $pair[1] = $pair[0];

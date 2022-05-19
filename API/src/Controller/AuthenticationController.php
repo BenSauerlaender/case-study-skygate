@@ -46,9 +46,14 @@ class AuthenticationController implements AuthenticationControllerInterface
 
         //get the payload - return it
         $payload = Token::getPayLoad($accessToken);
+        if ($payload["perm"] === "") {
+            $permissionArray = [];
+        } else {
+            $permissionArray = explode(";", $payload["perm"]);
+        }
         return [
             "ids" => ["userID" => $payload["id"]],
-            "permissions" => explode(";", $payload["perm"]),
+            "permissions" => $permissionArray,
         ];
     }
 

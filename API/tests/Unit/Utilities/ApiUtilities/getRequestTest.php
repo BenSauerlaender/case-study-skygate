@@ -99,7 +99,7 @@ final class getRequestTest extends TestCase
         $SERVER["HTTPS"] = 1;
         $SERVER["REQUEST_URI"] = "/path/to/txt";
         $SERVER["REQUEST_METHOD"] = "GET";
-        $SERVER["QUERY_STRING"] = "SEARCH";
+        $SERVER["QUERY_STRING"] = "123";
 
         $this->expectException(InvalidApiQueryException::class);
 
@@ -197,7 +197,7 @@ final class getRequestTest extends TestCase
         $_ENV["ENVIRONMENT"] = "PRODUCTION";
         $SERVER = [];
         $SERVER["HTTPS"] = 1;
-        $SERVER["REQUEST_URI"] = "/path/to/txt";
+        $SERVER["REQUEST_URI"] = "/path/to/txt?123";
         $SERVER["REQUEST_METHOD"] = "POST";
         $SERVER["QUERY_STRING"] = "search=3&p=test";
 

@@ -97,7 +97,7 @@ class ApiUtilities
             throw new NotSecureException();
         }
 
-        $path = $server["REQUEST_URI"];
+        $path = explode("?", $server["REQUEST_URI"])[0];
         //check if the requested path starts with the api path prefix
         if (!str_starts_with($path, $pathPrefix)) {
             throw new InvalidApiPathException("The Path: '$path' need to start with: '$pathPrefix'");
