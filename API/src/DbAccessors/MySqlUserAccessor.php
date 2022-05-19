@@ -39,7 +39,7 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
                     (:email, :name, :postcode, :city, :phone, :hashed_pass, :verified, :verification_code, :role_id);';
 
         try {
-            $stmt = $this->prepareAndExecute($sql, [
+            $this->prepareAndExecute($sql, [
                 "email" => $email,
                 "name" => $name,
                 "postcode" => $postcode,
