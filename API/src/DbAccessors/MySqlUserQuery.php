@@ -26,10 +26,10 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
     private ?string $sortBy = null;
     private bool $sortDir = true;
 
-    public function setSort(string $field, bool $direction): void
+    public function setSort(string $field, bool $direction = true): void
     {
         $lowField = strtolower($field);
-        if (!in_array($lowField, self::FIELDS)) throw new BadMethodCallException("The field is not supported", 1);
+        if (!in_array($lowField, self::FIELDS)) throw new BadMethodCallException("The field is not supported");
 
         $this->sortBy = $lowField;
         $this->sortDir = $direction;
@@ -42,7 +42,7 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
 
         if (str_contains($match, "%") or str_contains($match, "_")) throw new BadMethodCallException("The match-string contains invalid symbols", 2);
 
-        array_push($filters, [
+        array_push($this->filters, [
             "case" => $caseSensitive,
             "field" => $lowField,
             "match" => $match
@@ -80,7 +80,7 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
 
     private function getPaginatedSql(int $pageSize, int $index): string
     {
-        $sql = $this->getFilteredSql();
+        $sql = $this->getSortedSql();
         $skip = $pageSize * $index;
         $sql = "$sql LIMIT $skip,$pageSize";
         return $sql;
@@ -135,7 +135,7 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
         $sql = $this->getFilteredSql();
 
         //wrap into a count
-        $sql = "SELECT count(*) FROM ( $sql ) x";
+        $sql = "SELECT count(*) as count FROM ( $sql ) x";
 
         //execute the statement
         $stmt = $this->prepareAndExecute($sql, $this->sqlParams);
