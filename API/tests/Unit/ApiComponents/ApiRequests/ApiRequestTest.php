@@ -28,7 +28,7 @@ final class ApiRequestTest extends TestCase
      */
     public function testConstructor(): void
     {
-        $req = new Request("/test/jo", "GET", "t1=123&t2=test2", ["header1" => "h1"], ["test" => 12]);
+        $req = new Request("/test/jo", "GET", "t1=123&t2=Test2&abc", ["header1" => "h1"], ["test" => 12]);
         $this->assertTrue(is_a($req, ApiRequestInterface::class));
     }
 
@@ -50,16 +50,6 @@ final class ApiRequestTest extends TestCase
         $this->expectException(InvalidApiMethodException::class);
 
         new Request("test/jo", "Quatsch");
-    }
-
-    /**
-     * Tests if the Constructor throws InvalidApiQueryException if the query is not valid.
-     */
-    public function testConstructorWithInvalidApiQuery(): void
-    {
-        $this->expectException(InvalidApiQueryException::class);
-
-        new Request("test/jo", "GET", "quatsch");
     }
 
     /**
@@ -121,10 +111,12 @@ final class ApiRequestTest extends TestCase
             ["t1=test1&t2=123", "t1", "test1"],
             ["t2=123&t1=test1", "t1", "test1"],
             ["t2=123&T1=test1", "t1", "test1"],
-            ["t2=123&T1=test1", "T1", "test1"],
+            ["t2=123&T1=teSt1", "T1", "teSt1"],
             ["t2=123&t1=test1", "T1", "test1"],
-            ["t2=123&t1=TEST1", "T1", "test1"],
+            ["t2=123&t1=TEST1", "T1", "TEST1"],
             ["t2=123&t1=test1", "t2", 123],
+            ["t2&t1=test1", "t2", "t2"],
+            ["t2=eins+zwei+drei&t1=test1", "t2", "eins zwei drei"],
             ["t2=123&t1=test1", "t3", null]
         ];
     }

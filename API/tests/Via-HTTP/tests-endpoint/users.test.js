@@ -113,6 +113,19 @@ makeSuite(["3roles", "100Users"], "/users", {
         expect(this.response.body.length).to.eql(3);
       });
     },
+    "With filters with space": () => {
+      it("makes api call", async () => {
+        this.response = await request.get("/users/length?name=sophia+wick");
+      });
+
+      it("returns OK", async () => {
+        expect(this.response.statusCode).to.eql(200);
+      });
+
+      it("returns the correct user", async () => {
+        expect(this.response.body[0].id).to.eql(33);
+      });
+    },
     "With sort ASC 1": () => {
       it("makes api call", async () => {
         this.response = await request.get("/users/length?sortby=postcode");
