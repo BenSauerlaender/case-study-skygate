@@ -88,4 +88,27 @@ final class MySqlRoleAccessorTest extends BaseMySqlAccessorTest
 
         $this->assertChangedRowsEquals(0);
     }
+
+    public function testGetList(): void
+    {
+        $response = $this->accessor->getList();
+        $this->assertEquals(["test"], $response);
+        $this->assertChangedRowsEquals(0);
+
+        self::$pdo->exec('
+            INSERT INTO role
+                (name)
+            VALUES 
+                ("admin"),
+                ("user");
+        ');
+
+        $response = $this->accessor->getList();
+        $this->assertEquals(["admin", "test", "user"], $response);
+
+        self::resetDB();
+
+        $response = $this->accessor->getList();
+        $this->assertEquals([], $response);
+    }
 }

@@ -56,4 +56,22 @@ class MySqlRoleAccessor extends MySqlAccessor implements RoleAccessorInterface
             "updatedAt" => $response["updated_at"]
         ];
     }
+
+    public function getList(): array
+    {
+        $sql = 'SELECT name
+                FROM role;';
+
+        $stmt = $this->prepareAndExecute($sql, []);
+
+        $ret = [];
+
+        $element = $stmt->fetchColumn();
+        while ($element != FALSE) {
+            array_push($ret, $element);
+            $element = $stmt->fetchColumn();
+        }
+
+        return $ret;
+    }
 }

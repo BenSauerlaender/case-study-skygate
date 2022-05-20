@@ -44,4 +44,11 @@ interface RoleAccessorInterface
      *          (RoleNotFoundException | ...)
      */
     public function get(int $id): array;
+    /**
+     * Gets a list of all roles
+     * 
+     * @return array<string> An array containing all role names.
+     * @throws DBException if there is a problem with the database.
+     */
+    public function getList(): array;
 }
