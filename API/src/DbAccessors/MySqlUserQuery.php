@@ -8,98 +8,147 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\DbAccessors;
 
-use BadMethodCallException;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserQueryInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 use PDO;
 
+/**
+ * Implementation of UserQueryInterface
+ */
 final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
 {
+    /** The Base SQL statement for all searches*/
     private const BASE_SQL = 'SELECT user_id, email, name, postcode, city, phone FROM user WHERE verified = 1';
-    public const FIELDS = ["email", "name", "postcode", "city", "phone"];
+
+    /** Supported properties to filter or sort*/
+    public const SUPPORTED_PROPERTIES = ["email", "name", "postcode", "city", "phone"];
 
 
-    /** @param array<array<string,bool|string>> */
+    /** 
+     * A key value pair list. With the property to filter as key. And the case sensitivity as value
+     * 
+     * @param array<string,bool> 
+     */
     private array $filters = [];
 
-    private array $sqlParams = [];
+    /** 
+     * A key value pair list. With the property to filter as key. And the search string as value
+     * 
+     * @param array<string,string> 
+     */
+    private array $sqlPlaceholders = [];
 
+    /** The property to sort by */
     private ?string $sortBy = null;
-    private bool $sortDir = true;
 
-    public function setSort(string $field, bool $direction = true): void
+    /** The sort direction */
+    private bool $sortASC = true;
+
+
+    public function setSort(string $property, bool $ascending = true): void
     {
-        $lowField = strtolower($field);
-        if (!in_array($lowField, self::FIELDS)) throw new InvalidFieldException(["sortby" => ["NOT_SUPPORTED"]]);
+        //lowercase the property so its not case sensitive
+        $property = strtolower($property);
 
-        $this->sortBy = $lowField;
-        $this->sortDir = $direction;
+        //throw exception if the property is not supported
+        if (!in_array($property, self::SUPPORTED_PROPERTIES)) throw new InvalidPropertyException([$property => ["NOT_SUPPORTED"]]);
+
+        $this->sortBy = $property;
+        $this->sortASC = $ascending;
     }
 
-    public function addFilter(string $field, string $match, bool $caseSensitive = true): void
+    public function addFilter(string $property, string $search, bool $caseSensitive = true): void
     {
-        $lowField = strtolower($field);
-        if (!in_array($lowField, self::FIELDS)) throw new InvalidFieldException(["filter" => ["NOT_SUPPORTED"]]);
+        //lowercase the property so its not case sensitive
+        $property = strtolower($property);
 
-        if (str_contains($match, "%") or str_contains($match, "_")) throw new InvalidFieldException(["filterMatch" => ["INVALID_SYMBOL"]]);
+        //throw exception if the property is not supported
+        if (!in_array($property, self::SUPPORTED_PROPERTIES)) throw new InvalidPropertyException([$property => ["NOT_SUPPORTED"]]);
 
-        array_push($this->filters, [
-            "case" => $caseSensitive,
-            "field" => $lowField,
-            "match" => $match
-        ]);
+        // '%' and '_' are not allowed because they are mysql placeholders
+        if (str_contains($search, "%") or str_contains($search, "_")) throw new InvalidPropertyException([$property => ["INVALID_SYMBOL_IN_SEARCH"]]);
+
+        //add the property to filter and the case sensitivity to the filter array
+        $this->filters[$property] = $caseSensitive;
+
+        //add the search-string to the placeholder array
+        $this->sqlPlaceholders[$property] = "%$search%";
     }
 
+    /**
+     * Append the filters to the base sql-statement
+     */
     private function getFilteredSql(): string
     {
-        $this->sqlParams = [];
-
+        //start with the base sql statement
         $sql = self::BASE_SQL;
 
-        foreach ($this->filters as $filter) {
-            $caseSensitive = $filter["case"] ? "BINARY" : "";
-            $field = $filter["field"];
-            $match = $filter["match"];
+        //for each filter
+        foreach ($this->filters as $property => $caseSensitive) {
 
-            $sql = "$sql AND $field LIKE $caseSensitive :$field";
+            //if case sensitive do a LIKE BINARY comparison
+            $binary = $caseSensitive ? "BINARY" : "";
 
-            $this->sqlParams[$field] = "%$match%";
+            //append to the sql sql statement
+            $sql = "$sql AND $property LIKE $binary :$property"; //use the property name as sql-placeholder so it can later be replaced by the search-string
         }
-        return $sql;
-    }
 
-    private function getSortedSql(): string
-    {
-        $sql = $this->getFilteredSql();
-        $sortBy = $this->sortBy;
-        if (!is_null($sortBy)) {
-            $dir = $this->sortDir ? "ASC" : "DESC";
-            $sql = "$sql ORDER BY $sortBy $dir";
-        }
-        return $sql;
-    }
-
-    private function getPaginatedSql(int $pageSize, int $index): string
-    {
-        $sql = $this->getSortedSql();
-        $skip = $pageSize * $index;
-        $sql = "$sql LIMIT $skip,$pageSize";
         return $sql;
     }
 
     /**
-     * Takes an SQL-string, execute it, returns resulted user-array in continent format.
+     * Append the sorting to the filtered sql-statement
+     */
+    private function getSortedSql(): string
+    {
+        //start with the filtered sql statement
+        $sql = $this->getFilteredSql();
+
+        $sortBy = $this->sortBy;
+
+        //if a sortBy is set
+        if (!is_null($sortBy)) {
+            //get the sort direction
+            $dir = $this->sortASC ? "ASC" : "DESC";
+
+            //append order by to the sql statement
+            $sql = "$sql ORDER BY $sortBy $dir";
+        }
+
+        return $sql;
+    }
+
+    /**
+     * Append the paginating to the sorted sql-statement
+     */
+    private function getPaginatedSql(int $pageSize, int $index): string
+    {
+        //start with the filtered sql statement
+        $sql = $this->getSortedSql();
+
+        //number of entries to skip
+        $skip = $pageSize * $index;
+
+        //append the limit statement to the existing sql statement
+        $sql = "$sql LIMIT $skip,$pageSize";
+
+        return $sql;
+    }
+
+    /**
+     * Takes an SQL-string, execute it, returns resulted user-array in convenient format.
+     * 
      * @throws DBexception    if there is a problem with the database.
      */
     private function sqlToResults(string $sql): array
     {
-        //execute the statement with the parameters in the sqlParam array
-        $stmt = $this->prepareAndExecute($sql, $this->sqlParams);
+        //execute the statement with the placeholders in the sqlPlaceholders array
+        $stmt = $this->prepareAndExecute($sql, $this->sqlPlaceholders);
 
         //convert results in convenient formatted array
         $results = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            //for each row/user push an key-value array to the result array
+            //for each row/user push an key-value list to the result array
             array_push($results, [
                 "id" => $row["user_id"],
                 "email" => $row["email"],
@@ -109,6 +158,7 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
                 "phone" => $row["phone"],
             ]);
         }
+
         return $results;
     }
 
@@ -118,7 +168,7 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
         $sql = $this->getSortedSql();
 
         //return the results
-        return $this->sqlToResults($sql . ";");
+        return $this->sqlToResults($sql . ";"); //also add the ";" to the sql statement
     }
 
     public function getResultsPaginated(int $pageSize, int $index): array
@@ -127,7 +177,7 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
         $sql = $this->getPaginatedSql($pageSize, $index);
 
         //return the results
-        return $this->sqlToResults($sql . ";");
+        return $this->sqlToResults($sql . ";"); //also add the ";" to the sql statement
     }
 
     public function getLength(): int
@@ -135,7 +185,7 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
         //get the constructed sql-statement
         $sql = $this->getFilteredSql();
 
-        //wrap into a count
+        //wrap into a count to only get the number of theoretical rows
         $sql = "SELECT count(*) as count FROM ( $sql ) x";
 
         //execute the statement
@@ -151,6 +201,6 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
         $this->filters = [];
         $this->sqlParams = [];
         $this->sortBy = null;
-        $this->sortDir = true;
+        $this->sortASC = true;
     }
 }

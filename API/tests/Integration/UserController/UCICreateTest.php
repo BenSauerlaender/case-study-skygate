@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
 
@@ -55,7 +55,7 @@ final class UCICreateTest extends BaseUCITest
     {
         $this->createUser();
 
-        $this->expectException(InvalidFieldException::class);
+        $this->expectException(InvalidPropertyException::class);
 
         $this->userController->createUser(
             [
@@ -118,7 +118,7 @@ final class UCICreateTest extends BaseUCITest
                     "phone"     => "myPhone",
                     "password"  => "MyPassword",
                     "role"      => "myRole"
-                ], InvalidFieldException::class
+                ], InvalidPropertyException::class
             ],
             "invalid type" => [
                 [
@@ -129,7 +129,7 @@ final class UCICreateTest extends BaseUCITest
                     "phone"     => "123456789",
                     "password"  => "MyPassword1",
                     "role"      => "myRole"
-                ], InvalidFieldException::class
+                ], InvalidPropertyException::class
             ],
             "invalid email and password" => [
                 [
@@ -139,7 +139,7 @@ final class UCICreateTest extends BaseUCITest
                     "city"      => "myCity",
                     "phone"     => "123456789",
                     "password"  => "mypassword",
-                ], InvalidFieldException::class
+                ], InvalidPropertyException::class
             ]
         ];
     }

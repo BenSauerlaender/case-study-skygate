@@ -35,7 +35,7 @@ interface UserControllerInterface
      * 
      * @throws DBexception            if there is a problem with the database.
      * @throws ValidationException          if there are invalid fields.
-     *          (RequiredFieldException | InvalidFieldException)
+     *          (RequiredFieldException | InvalidPropertyException)
      */
     public function createUser(array $fields): array;
 
@@ -84,7 +84,7 @@ interface UserControllerInterface
      * @throws DBexception    if there is a problem with the database.
      *          (UserNotFoundException | RoleNotFoundException ...)
      * @throws ValidationException  if fields array is invalid.
-     *          (ArrayIsEmptyException | InvalidFieldException )
+     *          (ArrayIsEmptyException | InvalidPropertyException )
      */
     public function updateUser(int $id, array $fields): void;
 
@@ -129,7 +129,7 @@ interface UserControllerInterface
      * @param  string $old_password     The users new password.
      * @return bool                     returns false if old password is incorrect, true otherwise.
      * 
-     * @throws InvalidFieldException    if the new password is not valid.
+     * @throws InvalidPropertyException    if the new password is not valid.
      * @throws DBexception        if there is a problem with the database.
      *          (UserNotFoundException | ...)
      */
@@ -146,7 +146,7 @@ interface UserControllerInterface
      * @param  string $newEmail The users new email.
      * @return string           The verification code to verify the Request.   
      *  
-     * @throws InvalidFieldException    if the new email is not valid.
+     * @throws InvalidPropertyException    if the new email is not valid.
      * @throws DBexception        if there is a problem with the database.
      *          (UserNotFoundException | ...)
      */

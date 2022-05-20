@@ -20,24 +20,24 @@ interface UserQueryInterface
     /**
      * Defines a way of sorting the results
      *
-     * @param  string $field        The field to sort after.
-     * @param  bool   $direction    True -> ascending. False -> decreasing
-     * @throws InvalidFieldException   if the field is not supported.
+     * @param  string $property        The property to sort after.
+     * @param  bool   $ascending    True -> ascending. False -> decreasing
+     * @throws InvalidPropertyException   if the property is not supported.
      */
-    public function setSort(string $field, bool $direction = true): void;
+    public function setSort(string $property, bool $ascending = true): void;
 
     /**
      * Adds the query a filter.
-     * Filters out all elements, there specified field don't contain the specified match.
+     * Filters out all elements, there specified property don't contain the specified search string.
      *
-     * @param  string $field            The field to filter.
-     * @param  string $match            The string, that the field need to contain.
+     * @param  string $property         The property to filter.
+     * @param  string $search            The string, that the property need to contain.
      * @param  bool   $caseSensitive    True if the filter should be case sensitive, else otherwise.
      * 
-     * @throws InvalidFieldException   if the field is not supported or the match contains invalid characters.
+     * @throws InvalidPropertyException   if the property is not supported or the search contains invalid characters.
      * 
      */
-    public function addFilter(string $field, string $match, bool $caseSensitive = true): void;
+    public function addFilter(string $property, string $search, bool $caseSensitive = true): void;
 
     /** 
      * Runs the SQL and returns the resulted user list

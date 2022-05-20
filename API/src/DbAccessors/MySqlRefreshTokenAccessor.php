@@ -11,11 +11,12 @@ namespace BenSauer\CaseStudySkygateApi\DbAccessors;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
 
+/**
+ * Implementation of refreshTokenAccessorInterface
+ */
 class MySqlRefreshTokenAccessor extends MySqlAccessor implements RefreshTokenAccessorInterface
 {
-
     public function getCountByUserID(int $userID): ?int
     {
         $sql = 'SELECT count
@@ -45,12 +46,9 @@ class MySqlRefreshTokenAccessor extends MySqlAccessor implements RefreshTokenAcc
                     count = count + 1;';
 
         try {
-            $stmt = $this->prepareAndExecute($sql, ["userID" => $userID]);
+            $this->prepareAndExecute($sql, ["userID" => $userID]);
         } catch (FieldNotFoundException $e) {
             throw new UserNotFoundException("user with id $userID not exists.", 0, $e);
         }
-
-        //if no user updated
-        if ($stmt->rowCount() === 0) throw new ShouldNeverHappenException("Either a new entry was made or an existing was updated.");
     }
 }

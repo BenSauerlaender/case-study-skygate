@@ -12,7 +12,9 @@ namespace BenSauer\CaseStudySkygateApi\DbAccessors;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 
-// class to interact with the role-db-table
+/**
+ * Implementation of RoleAccessorInterface
+ */
 class MySqlRoleAccessor extends MySqlAccessor implements RoleAccessorInterface
 {
     public function findByName(string $name): ?int
@@ -66,12 +68,15 @@ class MySqlRoleAccessor extends MySqlAccessor implements RoleAccessorInterface
 
         $ret = [];
 
+        //go through each row and add the name to the $ret array
         $element = $stmt->fetchColumn();
-        while ($element != FALSE) {
+        while ($element != FALSE) { //while there is another row
             array_push($ret, $element);
-            $element = $stmt->fetchColumn();
+
+            $element = $stmt->fetchColumn(); //get the next row
         }
 
+        //return the list
         return $ret;
     }
 }

@@ -8,12 +8,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces;
 
-use BenSauer\CaseStudySkygateApi\Models\Interfaces\RoleInterface;
-
 /**
  * Accessor for the role database table
- * 
- * Abstracts all SQL statements
  */
 interface RoleAccessorInterface
 {
@@ -47,8 +43,9 @@ interface RoleAccessorInterface
     /**
      * Gets a list of all roles
      * 
-     * @return array<string> An array containing all role names.
-     * @throws DBException if there is a problem with the database.
+     * @return array<string>    An array containing all role names.
+     * 
+     * @throws DBException      if there is a problem with the database.
      */
     public function getList(): array;
 }

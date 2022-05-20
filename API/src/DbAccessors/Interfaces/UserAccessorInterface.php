@@ -8,11 +8,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces;
 
-
 /**
  * Accessor for the user database table
- * 
- * Abstracts all SQL statements
  */
 interface UserAccessorInterface
 {
@@ -47,19 +44,19 @@ interface UserAccessorInterface
     /**
      * Deletes an user from the database
      *
-     * @param  int  $id     The users id.
+     * @param  int  $id             The users id.
      * 
-     * @throws DBexception         if there is a problem with the database.
+     * @throws DBexception          if there is a problem with the database.
      *          (UserNotFoundException | ...)
      */
     public function delete(int $id): void;
 
     /**
-     * Updates users specified fields on the database
+     * Updates users specified properties on the database
      *
-     * @param  int   $id    The users id.
-     * @param  array<string,mixed> $fields   The users fields to update
-     *  $fields = [
+     * @param  int   $id                        The users id.
+     * @param  array<string,mixed> $properties  The users properties and new values to update.
+     *  $properties = [
      *      "email"             => (string)     The users e-mail.
      *      "name"              => (string)     The users first and last name.
      *      "postcode"          => (string)     The users postcode.
@@ -68,29 +65,29 @@ interface UserAccessorInterface
      *      "password"          => (string)     The users password.
      *      "roleID"            => (int)        The users role_id. 
      *      "hashedPass"        => (string)     The users hashed password. 
-     *      "verified "         => (bool)       Is the user verified.
+     *      "verified "         => (bool)       The users verification status.
      *      "verificationCode"  => (string)     Verification code to verify the user.
      *  ]
      * 
-     * @throws DBexception        if there is a problem with the database.
+     * @throws DBexception                      if there is a problem with the database.
      *          (UserNotFoundException | RoleNotFoundException | DuplicateEmailException ...)
-     * @throws ValidationException      if the fields array is invalid.
-     *          (ArrayIsEmptyException  | InvalidFieldException)
+     * @throws ValidationException              if the property array is invalid.
+     *          (ArrayIsEmptyException  | InvalidPropertyException)
      */
-    public function update(int $id, array $fields): void;
+    public function update(int $id, array $properties): void;
 
     /**
-     * Finds a user by his email
+     * Finds a users id by his email
      *
      * @param  string   $email  The users email.
-     * @return null|int the users id (or null if the user cant be found).
+     * @return null|int         The users id (or null if the user cant be found).
      * 
-     * @throws DBException if there is a problem with the database.
+     * @throws DBException      if there is a problem with the database.
      */
     public function findByEmail(string $email): ?int;
 
     /**
-     * Gets the users fields from the database
+     * Gets the users properties from the database
      *
      * @param  int  $id                     The users id.
      * @return array<string,mixed>          Returns the $user array.
@@ -103,8 +100,8 @@ interface UserAccessorInterface
      *      "phone"             => (string)     The users phone number.
      *      "roleID"            => (string)     The users roleID.
      *      "hashedPass"        => (string)     The users hashed password. 
-     *      "verified "         => (bool)       Is the user verified.
-     *      "verificationCode"  => (string)     Verification code to verify the user.
+     *      "verified "         => (bool)       The users verification status.
+     *      "verificationCode"  => (string)     The verification code to verify the user.
      *      "createdAt"         => (string)     The DateTime the user was created.
      *      "updatedAt"         => (string)     The last DateTime the user was updated.
      *  ]

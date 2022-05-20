@@ -32,7 +32,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
 use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 use BenSauer\CaseStudySkygateApi\Utilities\MailUtilities;
@@ -63,7 +63,7 @@ class Routes
                             return new CreatedResponse();
                         } catch (RequiredFieldException $e) {
                             return new MissingPropertyResponse($e->getMissing());
-                        } catch (InvalidFieldException $e) {
+                        } catch (InvalidPropertyException $e) {
                             return new InvalidPropertyResponse($e->getInvalidField());
                         }
                     }
@@ -196,7 +196,7 @@ class Routes
                             return new UserNotFoundResponse();
                         } catch (RoleNotFoundException $e) {
                             return new InvalidPropertyResponse(["role" => ["INVALID"]]);
-                        } catch (InvalidFieldException $e) {
+                        } catch (InvalidPropertyException $e) {
                             return new InvalidPropertyResponse($e->getInvalidField());
                         }
                     }
@@ -246,7 +246,7 @@ class Routes
                             }
                         } catch (UserNotFoundException $e) {
                             return new UserNotFoundResponse();
-                        } catch (InvalidFieldException $e) {
+                        } catch (InvalidPropertyException $e) {
                             return new InvalidPropertyResponse($e->getInvalidField());
                         }
                     }
@@ -278,7 +278,7 @@ class Routes
                             return new CreatedResponse();
                         } catch (UserNotFoundException $e) {
                             return new UserNotFoundResponse();
-                        } catch (InvalidFieldException $e) {
+                        } catch (InvalidPropertyException $e) {
                             return new InvalidPropertyResponse($e->getInvalidField());
                         }
                     }
@@ -337,7 +337,7 @@ class Routes
                         $uq->reset();
                         try {
                             ApiUtilities::setUpQueryFromArray($uq, $queryConfig, ["page", "index"]);
-                        } catch (InvalidFieldException $e) {
+                        } catch (InvalidPropertyException $e) {
                             return new BadRequestResponse("There are parts of the query string that are invalid.", 111);
                         }
 
@@ -367,7 +367,7 @@ class Routes
                         $uq->reset();
                         try {
                             ApiUtilities::setUpQueryFromArray($uq, $queryConfig, ["page", "index"]);
-                        } catch (InvalidFieldException $e) {
+                        } catch (InvalidPropertyException $e) {
                             return new BadRequestResponse("There are parts of the query string that are invalid.", 111);
                         }
                         return new DataResponse(["length" => $uq->getLength()]);

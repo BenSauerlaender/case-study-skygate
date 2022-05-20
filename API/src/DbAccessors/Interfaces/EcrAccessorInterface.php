@@ -11,12 +11,11 @@ namespace BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces;
 /**
  * Accessor for the "email change Request" database table
  * 
- * Abstracts all SQL statements
  */
 interface EcrAccessorInterface
 {
     /**
-     * Finds an email change Request by the users id
+     * Finds an email-change-requests id by the users id
      *
      * @param  int   $userID        The users id.
      * @return null|int             The Request id (or null if the Request cant be found).
@@ -26,7 +25,7 @@ interface EcrAccessorInterface
     public function findByUserID(int $userID): ?int;
 
     /**
-     * Finds an email change Request by the users Requested email
+     * Finds an email-change-requests id by the users Requested email
      *
      * @param  string   $email      The email, the user Requested.
      * @return null|int             The Request id (or null if the Request cant be found).

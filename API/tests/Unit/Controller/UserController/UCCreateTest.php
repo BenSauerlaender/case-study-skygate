@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
 
 /**
@@ -62,7 +62,7 @@ final class UCCreateTest extends BaseUCTest
     {
         $this->ValidationControllerMock->method("validate")->willReturn(["email" => ["TO_SHORT"]]);
 
-        $this->expectException(InvalidFieldException::class);
+        $this->expectException(InvalidPropertyException::class);
         $this->userController->createUser(self::$completeAttr);
     }
 
@@ -80,7 +80,7 @@ final class UCCreateTest extends BaseUCTest
 
         $this->configEmailAvailability($emailFreeInUser, $emailFreeInEcr);
 
-        $this->expectException(InvalidFieldException::class);
+        $this->expectException(InvalidPropertyException::class);
 
         $this->userController->createUser(self::$completeAttr);
     }

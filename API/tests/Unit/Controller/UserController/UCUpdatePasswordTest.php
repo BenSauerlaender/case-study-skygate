@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 use BenSauer\CaseStudySkygateApi\tests\Unit\Utilities\MySqlTableCreator\UserTableTest;
 
 /**
@@ -74,7 +74,7 @@ final class UCUpdatePasswordTest extends BaseUCTest
             ->with($this->equalTo(["password" => "newPass"]))
             ->willReturn(["password" => ["TO_SHORT"]]);
 
-        $this->expectException(InvalidFieldException::class);
+        $this->expectException(InvalidPropertyException::class);
         $this->userController->updateUsersPassword(1, "newPass", "oldPass");
     }
 

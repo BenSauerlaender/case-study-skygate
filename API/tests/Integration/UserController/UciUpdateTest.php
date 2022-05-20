@@ -11,7 +11,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 
 /**
  * Integration Tests for the updateUser method of UserController
@@ -61,13 +61,13 @@ final class UciUpdateTest extends BaseUCITest
                 1, [], ArrayIsEmptyException::class
             ],
             "unsupported field" => [
-                1, ["quatsch" => "quatsch"], InvalidFieldException::class
+                1, ["quatsch" => "quatsch"], InvalidPropertyException::class
             ],
             "invalid type" => [
-                1, ["name" => 123], InvalidFieldException::class
+                1, ["name" => 123], InvalidPropertyException::class
             ],
             "invalid field" => [
-                1, ["name" => "1!"], InvalidFieldException::class
+                1, ["name" => "1!"], InvalidPropertyException::class
             ],
             "invalid role" => [
                 1, ["role" => "quatsch"], RoleNotFoundException::class

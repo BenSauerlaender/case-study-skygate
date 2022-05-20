@@ -16,10 +16,11 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
-use PDOException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 
-// class to interact with the user-db-table
+/**
+ * Implementation of UserAccessorInterface
+ */
 class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
 {
     public function insert(
@@ -33,6 +34,7 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
         ?string $verificationCode,
         int $roleID
     ): void {
+
         $sql = 'INSERT INTO user 
                     (email, name, postcode, city, phone, hashed_pass, verified, verification_code, role_id)
                 VALUES
@@ -71,24 +73,24 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
         if ($stmt->rowCount() === 0) throw new UserNotFoundException("UserID: $id");
     }
 
-    public function update(int $id, array $fields): void
+    public function update(int $id, array $properties): void
     {
         //throws ValidationExceptions if array is not valid
-        $this->validateFieldArray($fields);
+        $this->checkPropertyTypes($properties);
 
         $sql = 'UPDATE user ' .
-            $this->getSetStatements($fields) . '
+            $this->getSetStatements($properties) . '
                 WHERE user_id=:id;';
 
         try {
-            $stmt = $this->prepareAndExecute($sql, $fields + ["id" => $id]);
+            $stmt = $this->prepareAndExecute($sql, $properties + ["id" => $id]);
         }
         //specify exceptions
         catch (UniqueFieldException $e) {
-            $email = $fields["email"];
+            $email = $properties["email"];
             throw new DuplicateEmailException("Email: $email", 0, $e);
         } catch (FieldNotFoundException $e) {
-            $roleID = $fields["roleID"];
+            $roleID = $properties["roleID"];
             throw new RoleNotFoundException("RoleID: $roleID", 0, $e);
         }
 
@@ -146,13 +148,14 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
     }
 
     /**
-     * Constructs the SQL SET statements
+     * Constructs the SQL SET statements for the update method
      *
-     * @param  array  $fields   The fields array
-     * @return string           returns the SET statements
+     * @param  array  $properties   A list of key-value/property-newValue pairs.
+     * @return string               returns the SQL SET statements as string.
      */
-    private function getSetStatements(array $fields): string
+    private function getSetStatements(array $properties): string
     {
+        //dictionary that maps a property to an set statement
         $getSetClause = [
             "email" => "email = :email",
             "name" => "name = :name",
@@ -167,7 +170,8 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
 
         //construct the set Statements
         $setStmts = "SET ";
-        foreach ($fields as $key => $value) {
+        foreach ($properties as $key => $value) {
+            //chain the statements
             $setStmts .= $getSetClause[$key] . ", ";
         }
 
@@ -176,17 +180,17 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
     }
 
     /**
-     * Checks if the fields array is valid
+     * Checks if the properties have the correct type for the update method
      *
-     * @param  array $fields
+     * @param  array $properties    A list of key-value/property-newValue pairs.
      * 
      * @throws ValidationException  if the array is not valid.
-     *          (ArrayIsEmptyException | InvalidFieldException)
+     *          (ArrayIsEmptyException | InvalidPropertyException)
      */
-    private function validateFieldArray(array $fields)
+    private function checkPropertyTypes(array $properties)
     {
-        $validFields = ["email", "name", "postcode", "city", "phone", "roleID", "hashedPass", "verified", "verificationCode"];
-        $fieldTypes = [
+        $validProperties = ["email", "name", "postcode", "city", "phone", "roleID", "hashedPass", "verified", "verificationCode"];
+        $propertyTypes = [
             "email" => "string",
             "name" => "string",
             "postcode" => "string",
@@ -199,23 +203,24 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
         ];
 
         //throws exception if array is empty
-        if (sizeof($fields) === 0) throw new ArrayIsEmptyException("The fields array is empty.");
+        if (sizeof($properties) === 0) throw new ArrayIsEmptyException("The property array is empty.");
 
         //check each key-value pair
-        foreach ($fields as $key => $value) {
+        foreach ($properties as $key => $value) {
 
             //throws exception if key is not supported
-            if (!in_array($key, $validFields)) throw new InvalidFieldException([$key => ["UNSUPPORTED"]]);
+            if (!in_array($key, $validProperties)) throw new InvalidPropertyException([$key => ["UNSUPPORTED"]]);
 
-            //continue with next key if one type matches
-            foreach (explode("|", $fieldTypes[$key]) as $possibleType) {
+            //continue with next key if at least one type matches
+            foreach (explode("|", $propertyTypes[$key]) as $possibleType) {
                 if ($possibleType === "null" and is_null($value)) continue 2;
                 if ($possibleType === "string" and is_string($value)) continue 2;
                 if ($possibleType === "int" and is_int($value)) continue 2;
                 if ($possibleType === "bool" and is_bool($value)) continue 2;
             }
-            //throws exception if none type matches
-            throw new InvalidFieldException([$key => ["INVALID_TYPE"]]);
+
+            //throws exception if none of the types matches
+            throw new InvalidPropertyException([$key => ["INVALID_TYPE"]]);
         }
     }
 }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 
 /**
  * Integration Tests for the requestUsersEmailChange method of UserController
@@ -32,7 +32,7 @@ final class UciRequestEcrTest extends BaseUCITest
     {
         $this->create2Users();
 
-        $this->expectException(InvalidFieldException::class);
+        $this->expectException(InvalidPropertyException::class);
         $this->userController->requestUsersEmailChange(1, "yourEmail@mail.de");
     }
 
@@ -43,7 +43,7 @@ final class UciRequestEcrTest extends BaseUCITest
     {
         $this->createUser();
 
-        $this->expectException(InvalidFieldException::class);
+        $this->expectException(InvalidPropertyException::class);
         $this->userController->requestUsersEmailChange(1, "invalidEmail");
     }
 

@@ -10,7 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 
 /**
  * Testsuit for UserController->update method
@@ -60,7 +60,7 @@ final class UCUpdateTest extends BaseUCTest
         $this->roleAccessorMock->method("findByName")
             ->willReturn(null);
 
-        $this->expectException(InvalidFieldException::class);
+        $this->expectException(InvalidPropertyException::class);
         $this->expectExceptionMessage($key);
 
         $this->userController->updateUser(1, [$key => $value]);

@@ -16,6 +16,9 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\D
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
 
+/**
+ * Implementation of EcrAccessorInterface
+ */
 class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
 {
     public function findByUserID(int $userID): ?int
@@ -26,7 +29,7 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
 
         $stmt = $this->prepareAndExecute($sql, ["userID" => $userID]);
 
-        $response =  $stmt->fetchAll();
+        $response = $stmt->fetchAll();
 
         //if no Request was found: return null
         if (sizeof($response) === 0) return null;
@@ -61,7 +64,7 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
 
         $stmt = $this->prepareAndExecute($sql, ["id" => $id]);
 
-        //if no line was deleted:
+        //if no line was deleted throw exception
         if ($stmt->rowCount() === 0) throw new EcrNotFoundException("No Request with id: " . $id . " found.");
     }
 
@@ -70,7 +73,6 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
         $sql = 'DELETE
                 FROM emailChangeRequest
                 WHERE user_id=:id;';
-
 
         $stmt = $this->prepareAndExecute($sql, ["id" => $userID]);
 
@@ -88,6 +90,7 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
         try {
             $this->prepareAndExecute($sql, ["id" => $userID, "mail" => $newEmail, "code" => $verification_code]);
         }
+
         //specify the Exceptions    
         catch (UniqueFieldException $e) {
             if (str_contains("$e", "emailChangeRequest.user_id")) {

@@ -9,9 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces;
 
 /**
- * Accessor for the "refreshToken" database table
- * 
- * Abstracts all SQL statements
+ * Accessor for the refreshToken database table
  */
 interface RefreshTokenAccessorInterface
 {

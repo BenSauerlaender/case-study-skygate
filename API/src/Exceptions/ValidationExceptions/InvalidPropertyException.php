@@ -15,7 +15,7 @@ use Throwable;
 /**
  * Exception that is thrown if a field is invalid
  */
-class InvalidFieldException extends ValidationException
+class InvalidPropertyException extends ValidationException
 {
     private array $invalidFields;
 

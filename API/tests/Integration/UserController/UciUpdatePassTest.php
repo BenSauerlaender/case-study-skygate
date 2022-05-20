@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 
 /**
  * Integration Tests for the updatePassword method of UserController
@@ -32,7 +32,7 @@ final class UciUpdatePassTest extends BaseUCITest
     {
         $this->createUser();
 
-        $this->expectException(InvalidFieldException::class);
+        $this->expectException(InvalidPropertyException::class);
         $this->userController->updateUsersPassword(1, "incorrect", "MyPassword1");
     }
 

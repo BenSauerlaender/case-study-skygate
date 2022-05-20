@@ -14,7 +14,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 use PDO;
 
 /**
@@ -162,7 +162,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testUpdateFailsOnInvalidKey(): void
     {
-        $this->expectException(InvalidFieldException::class);
+        $this->expectException(InvalidPropertyException::class);
         $this->expectExceptionMessage("quatsch");
 
         $this->accessor->update(1, ["name" => "Klaus", "quatsch" => "q"]);
@@ -175,7 +175,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
      */
     public function testUpdateFailsOnInvalidType(): void
     {
-        $this->expectException(InvalidFieldException::class);
+        $this->expectException(InvalidPropertyException::class);
         $this->expectExceptionMessage("email");
 
         $this->accessor->update(1, ["name" => "Klaus", "email" => 123]);

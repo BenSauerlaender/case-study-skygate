@@ -13,16 +13,16 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
-use BenSauer\CaseStudySkygateApi\Utilities\SharedUtilities;
 use PDOException;
 use PDOStatement;
 
 /**
- * Super class for all MySql accessors
+ * Base class for all MySql accessors
  * 
  * Provides a PDO object to interact with the database.
+ * Accessors are abstracting all SQL stuff.
  */
-class MySqlAccessor
+abstract class MySqlAccessor
 {
     /**
      * PDO object for database interaction
@@ -39,9 +39,8 @@ class MySqlAccessor
         $this->pdo = $pdo;
     }
 
-    //TODO Test this
     /**
-     * Wrapper function for PDO Statement preparing and executing in one
+     * Wrapper function for PDO Statement preparing and executing all in one
      * 
      * @param  string       $sql        The SQL Statement with placeholders to execute.
      * @param  array        $params     The parameters to be inserted into the placeholders.
@@ -82,8 +81,8 @@ class MySqlAccessor
      */
     private function handlePDOException(PDOException $e): void
     {
-        //wrap DBException around PDOException
         try {
+            //wrap DBException around PDOException
             throw new DBException("Execute PDO-Statement failed.", 0, $e);
         } catch (DBException $dbe) {
 

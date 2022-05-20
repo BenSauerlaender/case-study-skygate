@@ -24,7 +24,7 @@ use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
 
@@ -63,12 +63,12 @@ class UserController implements UserControllerInterface
 
         if ($valid !== true) {
             $reasons = $valid;
-            throw new InvalidFieldException($reasons);
+            throw new InvalidPropertyException($reasons);
         }
 
         //check if the email is free
         if (!$this->isEmailFree($fields["email"])) {
-            throw new InvalidFieldException(["email" => ["IS_TAKEN"]]);
+            throw new InvalidPropertyException(["email" => ["IS_TAKEN"]]);
         }
 
         //get the role id. Default role is "user"
@@ -137,8 +137,8 @@ class UserController implements UserControllerInterface
 
     public function updateUser(int $id, array $fields): void
     {
-        if (array_key_exists("password", $fields)) throw new InvalidFieldException(["password" => ["UNSUPPORTED"]]);
-        if (array_key_exists("email", $fields)) throw new InvalidFieldException(["email" => ["UNSUPPORTED"]]);
+        if (array_key_exists("password", $fields)) throw new InvalidPropertyException(["password" => ["UNSUPPORTED"]]);
+        if (array_key_exists("email", $fields)) throw new InvalidPropertyException(["email" => ["UNSUPPORTED"]]);
 
         if (sizeof($fields) === 0) throw new ArrayIsEmptyException();
 
@@ -146,7 +146,7 @@ class UserController implements UserControllerInterface
         $valid = $this->ValidationController->validate(\array_diff_key($fields, ["role" => ""]));
         if ($valid !== true) {
             $reasons = $valid;
-            throw new InvalidFieldException($reasons);
+            throw new InvalidPropertyException($reasons);
         }
 
         //replace role name by its id
@@ -214,7 +214,7 @@ class UserController implements UserControllerInterface
             $valid = $this->ValidationController->validate(["password" => $newPassword]);
             if ($valid !== true) {
                 $reasons = $valid;
-                throw new InvalidFieldException($reasons);
+                throw new InvalidPropertyException($reasons);
             }
         } catch (ArrayIsEmptyException $e) { // @codeCoverageIgnore
             throw new ShouldNeverHappenException("Array is not empty.", 0, $e); // @codeCoverageIgnore
@@ -237,7 +237,7 @@ class UserController implements UserControllerInterface
             $valid = $this->ValidationController->validate(["email" => $newEmail]);
             if ($valid !== true) {
                 $reasons = $valid;
-                throw new InvalidFieldException($reasons);
+                throw new InvalidPropertyException($reasons);
             }
         } catch (ArrayIsEmptyException $e) { // @codeCoverageIgnore
             throw new ShouldNeverHappenException("Array is not empty.", 0, $e); // @codeCoverageIgnore
@@ -245,7 +245,7 @@ class UserController implements UserControllerInterface
 
         //check if the email is free
         if (!$this->isEmailFree($newEmail)) {
-            throw new InvalidFieldException(["email" => ["IS_TAKEN"]]);
+            throw new InvalidPropertyException(["email" => ["IS_TAKEN"]]);
         }
 
         //delete old Request if there is one
