@@ -176,6 +176,11 @@ class ApiUtilities
         $authenticationController   = new AuthenticationController($userAccessor, $refreshTokenAccessor, $roleAccessor);
         $routingController          = new RoutingController(Routes::getRoutes());
 
-        return new ApiController($routingController, $authenticationController, ["user" => $userController, "auth" => $authenticationController], ["user" => $userAccessor, "userQuery" => $userQuery]);
+        return new ApiController(
+            $routingController,
+            $authenticationController,
+            ["user" => $userController, "auth" => $authenticationController],
+            ["user" => $userAccessor, "userQuery" => $userQuery, "refreshToken" => $refreshTokenAccessor, "role" => $roleAccessor]
+        );
     }
 }

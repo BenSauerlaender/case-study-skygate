@@ -24,6 +24,8 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\RefreshTokenCookie;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\SetCookieResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
+use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInterface;
+use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserQueryInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
@@ -279,6 +281,23 @@ class Routes
                     }
                 ]
             ],
+            "/users/{id}/logout" => [
+                "POST" => [
+                    "ids" => ["userID"],
+                    "requireAuth" => true,
+                    "permissions" => ["user:delete:{userID}"],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+                        /** @var RefreshTokenAccessorInterface*/
+                        $acc = $this->accessors["refreshToken"];
+                        try {
+                            $acc->increaseCount($ids["userID"]);
+                            return new NoContentResponse();
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse();
+                        }
+                    }
+                ]
+            ],
             "/users/{id}/emailchange/{id}" => [
                 "GET" => [
                     "ids" => ["userID", "verificationCode"],
@@ -349,6 +368,19 @@ class Routes
                             return new BadRequestResponse("There are parts of the query string that are invalid.", 111);
                         }
                         return new DataResponse(["length" => $uq->getLength()]);
+                    }
+                ]
+            ],
+            "/roles" => [
+                "GET" => [
+                    "ids" => [],
+                    "requireAuth" => false,
+                    "permissions" => [],
+                    "function" => function (ApiRequestInterface $req, array $ids) {
+                        /** @var RoleAccessorInterface*/
+                        $acc = $this->accessors["role"];
+
+                        return new DataResponse($acc->getList());
                     }
                 ]
             ],
