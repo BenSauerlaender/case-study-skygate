@@ -237,6 +237,9 @@ class Routes
 
                         try {
                             if ($uc->updateUsersPassword($ids["userID"], $fields["newPassword"], $fields["oldPassword"])) {
+                                /** @var RefreshTokenAccessorInterface*/
+                                $acc = $this->accessors["refreshToken"];
+                                $acc->increaseCount($ids["userID"]);
                                 return new NoContentResponse();
                             } else {
                                 return new BadRequestResponse("The password is incorrect", 215);

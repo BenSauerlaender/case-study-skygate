@@ -15,7 +15,7 @@ describe("complex Test", () => {
       }
     });
     it("seeds the DB", async () => {
-      await seedDB("1role");
+      await seedDB("3roles");
     });
     it("Contains no users", async () => {
       let response = await request
@@ -40,14 +40,14 @@ describe("complex Test", () => {
       //sleep a minute
       await new Promise((r) => setTimeout(r, 20000));
       //get the newest unread email
-      this.email = await getEmail();
+      email = await getEmail();
 
       //expect mail not older than 60 secs
-      expect(new Date(this.email.date).getTime()).to.be.closeTo(
+      expect(new Date(email.date).getTime()).to.be.closeTo(
         new Date().getTime(),
         60000
       );
-      const splitLink = this.email.text.split("link: ")[1].trim().split("/");
+      const splitLink = email.text.split("link: ")[1].trim().split("/");
       this.userID = splitLink[6];
       this.code = splitLink[8];
     }).timeout(30000);
@@ -99,8 +99,203 @@ describe("complex Test", () => {
       expect(response.body["role"]).to.eql("user");
     });
   });
-  describe("Update first user", () => {});
-  describe("Logout/in first user", () => {});
-  describe("Try to create second user", () => {});
-  describe("Delete second user", () => {});
+  describe("Update first user", () => {
+    it("updates name, postcode, city, phone, role", async () => {
+      const response = await request
+        .put("/users/1")
+        .set("Authorization", "Bearer " + this.accessToken)
+        .send({
+          postcode: "00000",
+          name: "New Name",
+          city: "new city",
+          phone: "0000000000",
+          role: "admin",
+        });
+      expect(response.body["updated"]).to.has.keys([
+        "postcode",
+        "name",
+        "city",
+        "phone",
+        "role",
+      ]);
+    });
+
+    it("updates password", async () => {
+      await request
+        .put("/users/1/password")
+        .set("Authorization", "Bearer " + this.accessToken)
+        .send({ oldPassword: "Password1", newPassword: "Password2" });
+    });
+
+    it("cant get new accessToken", async () => {
+      const response = await request
+        .get("/token")
+        .set("Cookie", ["skygatecasestudy.refreshtoken=" + this.refreshToken]);
+      expect(response.statusCode).to.eql(400);
+    });
+
+    it("logs in again", async () => {
+      let response = await request.post("/login").send({
+        email: process.env.TEST_MAIL_RECEIVER,
+        password: "Password2",
+      });
+      this.refreshToken = response.headers["set-cookie"][0]
+        .split(";")[0]
+        .split("=")[1];
+
+      response = await request
+        .get("/token")
+        .set("Cookie", ["skygatecasestudy.refreshtoken=" + this.refreshToken]);
+      this.accessToken = response.body.accessToken;
+      this.userID = jwt.decode(this.accessToken).id;
+    });
+
+    it("gets user new data", async () => {
+      const response = await request
+        .get(`/users/${this.userID}`)
+        .set("Authorization", "Bearer " + this.accessToken);
+      expect(response.body["email"]).to.eql(process.env.TEST_MAIL_RECEIVER);
+      expect(response.body["name"]).to.eql("New Name");
+      expect(response.body["postcode"]).to.eql("00000");
+      expect(response.body["city"]).to.eql("new city");
+      expect(response.body["phone"]).to.eql("0000000000");
+      expect(response.body["role"]).to.eql("admin");
+    });
+  });
+  describe("Try to create second user", () => {
+    it("cant register second user with same email", async () => {
+      const response = await request.post("/register").send({
+        email: process.env.TEST_MAIL_RECEIVER,
+        name: "Second User",
+        phone: "123456789",
+        city: "City",
+        postcode: "12345",
+        password: "Password1",
+      });
+      expect(response.statusCode).to.eql(400);
+    });
+    it("change first users email", async () => {
+      await request
+        .post("/users/1/emailChange")
+        .set("Authorization", "Bearer " + this.accessToken)
+        .send({ email: process.env.TEST_MAIL_RECEIVER2 });
+      //sleep a minute
+      await new Promise((r) => setTimeout(r, 20000));
+      //get the newest unread email
+      email = await getEmail("email2");
+      //expect mail not older than 60 secs
+      expect(new Date(email.date).getTime()).to.be.closeTo(
+        new Date().getTime(),
+        60000
+      );
+      this.emailCode = email.text.split("link: ")[1].trim().split("/")[8];
+    }).timeout(30000);
+    it("cant register second user with one of the 2 emails", async () => {
+      let response = await request.post("/register").send({
+        email: process.env.TEST_MAIL_RECEIVER,
+        name: "Second User",
+        phone: "123456789",
+        city: "City",
+        postcode: "12345",
+        password: "Password1",
+      });
+      expect(response.statusCode).to.eql(400);
+      response = await request.post("/register").send({
+        email: process.env.TEST_MAIL_RECEIVER2,
+        name: "Second User",
+        phone: "123456789",
+        city: "City",
+        postcode: "12345",
+        password: "Password1",
+      });
+      expect(response.statusCode).to.eql(400);
+    });
+
+    it("verifies first users email change", async () => {
+      await request.get(`/users/1/emailChange/${this.emailCode}`);
+    });
+    it("still can get accessToken", async () => {
+      const response = await request
+        .get("/token")
+        .set("Cookie", ["skygatecasestudy.refreshtoken=" + this.refreshToken]);
+      this.accessToken = response.body.accessToken;
+    });
+    it("logs out", async () => {
+      await request
+        .post("/users/1/logout")
+        .set("Authorization", "Bearer " + this.accessToken);
+    });
+    it("cant get accessToken", async () => {
+      const response = await request
+        .get("/token")
+        .set("Cookie", ["skygatecasestudy.refreshtoken=" + this.refreshToken]);
+      expect(response.statusCode).to.eql(400);
+    });
+    it("logs in with new email", async () => {
+      let response = await request.post("/login").send({
+        email: process.env.TEST_MAIL_RECEIVER2,
+        password: "Password2",
+      });
+      this.refreshToken = response.headers["set-cookie"][0]
+        .split(";")[0]
+        .split("=")[1];
+
+      response = await request
+        .get("/token")
+        .set("Cookie", ["skygatecasestudy.refreshtoken=" + this.refreshToken]);
+      this.accessToken = response.body.accessToken;
+      this.userID = jwt.decode(this.accessToken).id;
+    });
+    it("can now register and verify second user", async () => {
+      const response = await request.post("/register").send({
+        email: process.env.TEST_MAIL_RECEIVER,
+        name: "Second User",
+        phone: "123456789",
+        city: "City",
+        postcode: "12345",
+        password: "Password1",
+      });
+      expect(response.statusCode).to.eql(201); //sleep a minute
+      await new Promise((r) => setTimeout(r, 20000));
+      //get the newest unread email
+      let email = await getEmail();
+
+      //expect mail not older than 60 secs
+      expect(new Date(email.date).getTime()).to.be.closeTo(
+        new Date().getTime(),
+        60000
+      );
+      const splitLink = email.text.split("link: ")[1].trim().split("/");
+      this.userID2 = splitLink[6];
+      this.code2 = splitLink[8];
+      await request.get(`/users/${this.userID2}/verify/${this.code2}`);
+    }).timeout(30000);
+
+    it("founds 2 user", async () => {
+      const response = await request
+        .get("/users/length")
+        .set("Authorization", "Bearer " + godToken);
+      expect(response.body["length"]).to.eql(2);
+    });
+  }),
+    describe("Delete second user", () => {
+      it("deletes second user", async () => {
+        await request
+          .delete("/users/2")
+          .set("Authorization", "Bearer " + godToken);
+      });
+      it("founds 1 user", async () => {
+        const response = await request
+          .get("/users/length")
+          .set("Authorization", "Bearer " + godToken);
+        expect(response.body["length"]).to.eql(1);
+      });
+      it("second user cant log in", async () => {
+        let response = await request.post("/login").send({
+          email: process.env.TEST_MAIL_RECEIVER,
+          password: "Password1",
+        });
+        expect(response.statusCode).to.eql(400);
+      });
+    });
 });

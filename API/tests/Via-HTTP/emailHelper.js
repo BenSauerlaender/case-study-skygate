@@ -1,16 +1,28 @@
 const Imap = require("imap");
 const { simpleParser } = require("mailparser");
+
+require("dotenv").config({ path: "./../test.env" });
+const emails = {
+  email1: {
+    user: process.env.TEST_MAIL_RECEIVER,
+    password: process.env.TEST_MAIL_RECEIVER_PASS,
+  },
+  email2: {
+    user: process.env.TEST_MAIL_RECEIVER2,
+    password: process.env.TEST_MAIL_RECEIVER2_PASS,
+  },
+};
 const imapConfig = {
-  user: "trash-receiver@emailn.de",
-  password: "gfcX5?nQ3Q#rrnHj",
   host: "imap.emailn.de",
   port: 993,
   tls: true,
 };
 
-exports.getEmail = async () => {
+exports.getEmail = async (email = "email1") => {
   return await new Promise((resolve, reject) => {
     try {
+      imapConfig.user = emails[email].user;
+      imapConfig.password = emails[email].password;
       const imap = new Imap(imapConfig);
       imap.once("ready", () => {
         imap.openBox("INBOX", false, () => {
@@ -58,7 +70,7 @@ exports.getEmail = async () => {
 
       imap.connect();
     } catch (ex) {
-      console.log("an error occurred");
+      console.log("an error occurred " + ex);
     }
   });
 };

@@ -1,6 +1,6 @@
 INSERT INTO role
-    (name)
+    (name, permissions)
 VALUES 
-    ("user"),
-    ("admin"),
-    ("test");
+    ("user","user:{all}:{userID}"),
+    ("admin","user:{all}:{all}"),
+    ("test","");
