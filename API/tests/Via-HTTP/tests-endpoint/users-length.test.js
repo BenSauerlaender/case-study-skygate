@@ -92,11 +92,9 @@ makeSuite(["3roles", "100Users"], "/users/length", {
       });
 
       it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include("invalid query key");
-      });
-
-      it("includes a list of invalid keys", async () => {
-        expect(this.response.body["invalidKeys"]).to.eq(["quatsch"]);
+        expect(this.response.body["msg"]).to.include(
+          "There are parts of the query string that are invalid"
+        );
       });
     },
     "With invalid search string": () => {
@@ -121,10 +119,9 @@ makeSuite(["3roles", "100Users"], "/users/length", {
       it("includes a code", async () => {
         expect(this.response.body["code"]).to.eql(111);
       });
-
       it("includes a message", async () => {
         expect(this.response.body["msg"]).to.include(
-          "There is an invalid search string."
+          "There are parts of the query string that are invalid"
         );
       });
     },
@@ -162,9 +159,7 @@ makeSuite(["3roles", "100Users"], "/users/length", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get(
-            "/users/length?name=w&city=se&sortby=phone&desc&page=13&index=5&sensitive"
-          )
+          .get("/users/length?name=w&city=se&sortby=phone&desc&page=13&index=5")
           .set("Authorization", "Bearer " + token);
       });
 

@@ -13,6 +13,7 @@ use BadMethodCallException;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\BadRequestResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\InvalidPropertyResponse;
+use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\InvalidQueryResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\MissingPropertyResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\UserNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\CreatedResponse;
@@ -23,6 +24,7 @@ use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\RefreshTokenCookie;
 use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\SetCookieResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
+use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserQueryInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
@@ -30,6 +32,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenExceptio
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
+use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 use BenSauer\CaseStudySkygateApi\Utilities\MailUtilities;
 use InvalidArgumentException;
 
@@ -303,7 +306,28 @@ class Routes
                     "requireAuth" => true,
                     "permissions" => ["user:read:{all}"],
                     "function" => function (ApiRequestInterface $req, array $ids) {
-                        return new BadRequestResponse("The user has no open email change request.", 212);
+
+                        $queryConfig = $req->getQuery();
+
+                        /** @var UserQueryInterface */
+                        $uq = $this->accessors["userQuery"];
+
+                        $uq->reset();
+                        try {
+                            ApiUtilities::setUpQueryFromArray($uq, $queryConfig, ["page", "index"]);
+                        } catch (InvalidFieldException $e) {
+                            return new BadRequestResponse("There are parts of the query string that are invalid.", 111);
+                        }
+
+                        $pagesize = $queryConfig["page"] ?? null;
+                        if (!is_null($pagesize)) {
+                            $index = $queryConfig["index"] ?? 0;
+                            $ret = $uq->getResultsPaginated($pagesize, $index);
+                        } else {
+                            $ret = $uq->getResults();
+                        }
+
+                        return new DataResponse($ret);
                     }
                 ]
             ],
@@ -313,7 +337,18 @@ class Routes
                     "requireAuth" => true,
                     "permissions" => ["user:read:{all}"],
                     "function" => function (ApiRequestInterface $req, array $ids) {
-                        return new BadRequestResponse("The user has no open email change request.", 212);
+                        $queryConfig = $req->getQuery();
+
+                        /** @var UserQueryInterface */
+                        $uq = $this->accessors["userQuery"];
+
+                        $uq->reset();
+                        try {
+                            ApiUtilities::setUpQueryFromArray($uq, $queryConfig, ["page", "index"]);
+                        } catch (InvalidFieldException $e) {
+                            return new BadRequestResponse("There are parts of the query string that are invalid.", 111);
+                        }
+                        return new DataResponse(["length" => $uq->getLength()]);
                     }
                 ]
             ],

@@ -10,12 +10,13 @@ namespace BenSauer\CaseStudySkygateApi\DbAccessors;
 
 use BadMethodCallException;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserQueryInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidFieldException;
 use PDO;
 
 final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
 {
     private const BASE_SQL = 'SELECT user_id, email, name, postcode, city, phone FROM user WHERE verified = 1';
-    private const FIELDS = ["email", "name", "postcode", "city", "phone"];
+    public const FIELDS = ["email", "name", "postcode", "city", "phone"];
 
 
     /** @param array<array<string,bool|string>> */
@@ -29,7 +30,7 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
     public function setSort(string $field, bool $direction = true): void
     {
         $lowField = strtolower($field);
-        if (!in_array($lowField, self::FIELDS)) throw new BadMethodCallException("The field is not supported");
+        if (!in_array($lowField, self::FIELDS)) throw new InvalidFieldException(["sortby" => ["NOT_SUPPORTED"]]);
 
         $this->sortBy = $lowField;
         $this->sortDir = $direction;
@@ -38,9 +39,9 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
     public function addFilter(string $field, string $match, bool $caseSensitive = true): void
     {
         $lowField = strtolower($field);
-        if (!in_array($lowField, self::FIELDS)) throw new BadMethodCallException("The field is not supported", 1);
+        if (!in_array($lowField, self::FIELDS)) throw new InvalidFieldException(["filter" => ["NOT_SUPPORTED"]]);
 
-        if (str_contains($match, "%") or str_contains($match, "_")) throw new BadMethodCallException("The match-string contains invalid symbols", 2);
+        if (str_contains($match, "%") or str_contains($match, "_")) throw new InvalidFieldException(["filterMatch" => ["INVALID_SYMBOL"]]);
 
         array_push($this->filters, [
             "case" => $caseSensitive,
@@ -143,5 +144,13 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
 
         //return the count
         return $response[0]["count"];
+    }
+
+    public function reset(): void
+    {
+        $this->filters = [];
+        $this->sqlParams = [];
+        $this->sortBy = null;
+        $this->sortDir = true;
     }
 }

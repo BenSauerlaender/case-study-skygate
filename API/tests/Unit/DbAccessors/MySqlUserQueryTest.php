@@ -49,8 +49,7 @@ final class MySqlUserQueryTest extends BaseMySqlAccessorTest
      */
     public function testAddFilterFailsOnWrongField(): void
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionCode(1);
+        $this->expectException(InvalidFieldException::class);
 
         $this->query->addFilter("quatsch", "jo");
 
@@ -62,8 +61,7 @@ final class MySqlUserQueryTest extends BaseMySqlAccessorTest
      */
     public function testAddFilterFailsOnWrongMatch1(): void
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionCode(2);
+        $this->expectException(InvalidFieldException::class);
 
         $this->query->addFilter("name", "%jo");
 
@@ -75,8 +73,7 @@ final class MySqlUserQueryTest extends BaseMySqlAccessorTest
      */
     public function testAddFilterFailsOnWrongMatch2(): void
     {
-        $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionCode(2);
+        $this->expectException(InvalidFieldException::class);
 
         $this->query->addFilter("name", "jo_");
 
@@ -88,7 +85,7 @@ final class MySqlUserQueryTest extends BaseMySqlAccessorTest
      */
     public function testSetSortFailsOnWrongField(): void
     {
-        $this->expectException(BadMethodCallException::class);
+        $this->expectException(InvalidFieldException::class);
 
         $this->query->setSort("quatsch");
 

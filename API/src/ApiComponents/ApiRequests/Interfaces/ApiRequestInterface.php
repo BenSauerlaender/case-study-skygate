@@ -25,6 +25,12 @@ interface ApiRequestInterface
     public function getQueryValue(string $parameter): mixed;
 
     /**
+     * Returns the query array
+     * @return array
+     */
+    public function getQuery(): array;
+
+    /**
      * Gets the value of the specified header
      *
      * @param  string $key  The header's key.

@@ -69,7 +69,7 @@ makeSuite(["3roles", "100Users"], "/users", {
       });
 
       it("users in correct format", async () => {
-        expect(this.response.body[0]).to.contains.members([
+        expect(this.response.body[0]).to.has.keys([
           "id",
           "name",
           "phone",
@@ -90,38 +90,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?quatsch")
-          .set("Authorization", "Bearer " + token);
-      });
-
-      it("returns Bad Request", async () => {
-        expect(this.response.statusCode).to.eql(400);
-      });
-
-      it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(111);
-      });
-
-      it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include("invalid query key");
-      });
-
-      it("includes a list of invalid keys", async () => {
-        expect(this.response.body["invalidKeys"]).to.eq(["quatsch"]);
-      });
-    },
-    "With invalid search string": () => {
-      it("makes api call", async () => {
-        let token = jwt.sign(
-          {
-            id: 2,
-            perm: "user:{all}:{all}",
-            exp: Math.floor(Date.now() / 1000) + 30,
-          },
-          process.env.ACCESS_TOKEN_SECRET
-        );
-        this.response = await request
-          .get("/users/length?name=abs%")
+          .get("/users?quatsch")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -135,7 +104,36 @@ makeSuite(["3roles", "100Users"], "/users", {
 
       it("includes a message", async () => {
         expect(this.response.body["msg"]).to.include(
-          "There is an invalid search string."
+          "There are parts of the query string that are invalid"
+        );
+      });
+    },
+    "With invalid search string": () => {
+      it("makes api call", async () => {
+        let token = jwt.sign(
+          {
+            id: 2,
+            perm: "user:{all}:{all}",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        this.response = await request
+          .get("/users?name=abs%")
+          .set("Authorization", "Bearer " + token);
+      });
+
+      it("returns Bad Request", async () => {
+        expect(this.response.statusCode).to.eql(400);
+      });
+
+      it("includes a code", async () => {
+        expect(this.response.body["code"]).to.eql(111);
+      });
+
+      it("includes a message", async () => {
+        expect(this.response.body["msg"]).to.include(
+          "There are parts of the query string that are invalid"
         );
       });
     },
@@ -150,7 +148,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?city=se&sensitive")
+          .get("/users?city=se&sensitive")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -173,7 +171,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?city=se")
+          .get("/users?city=se")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -196,7 +194,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?city=se&name=w")
+          .get("/users?city=se&name=w")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -219,7 +217,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?name=sophia+wick")
+          .get("/users?name=sophia+wick")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -242,7 +240,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?sortby=postcode")
+          .get("/users?sortby=postcode")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -265,7 +263,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?sortby=postcode&ASC")
+          .get("/users?sortby=postcode&ASC")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -288,7 +286,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?sortby=email&DESC")
+          .get("/users?sortby=email&DESC")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -311,7 +309,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?page=10")
+          .get("/users?page=10")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -334,7 +332,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?page=60&index=1")
+          .get("/users?page=60&index=1")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -357,7 +355,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?page=10&index=11")
+          .get("/users?page=10&index=11")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -380,7 +378,7 @@ makeSuite(["3roles", "100Users"], "/users", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/length?city=se&sortBy=phone&page=3&index=2")
+          .get("/users?city=se&sortBy=phone&page=3&index=2&desc")
           .set("Authorization", "Bearer " + token);
       });
 

@@ -18,10 +18,13 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\RoutingController;
 use BenSauer\CaseStudySkygateApi\Controller\UserController;
 use BenSauer\CaseStudySkygateApi\Controller\ValidationController;
+use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserQueryInterface;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlEcrAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRefreshTokenAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRoleAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserAccessor;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserQuery;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
@@ -32,6 +35,32 @@ use JsonException;
 
 class ApiUtilities
 {
+
+    /**
+     * Configures an UserQuery according to an config array
+     *
+     * @param  UserQueryInterface $query        The userQuery
+     * @param  array              $config       The config array, can be the parsed url-query-string
+     * @param  array              $keysToIgnore Array-keys that should not be considered as filter
+     */
+    static public function setUpQueryFromArray(UserQueryInterface &$query, array $config, array $keysToIgnore = []): void
+    {
+        $sortBy = $config["sortby"] ?? null;
+        $sortASC = is_null($config["desc"] ?? null) ? true : false;
+        if (!is_null($sortBy)) {
+            $query->setSort($sortBy, $sortASC);
+        }
+
+        $caseSensitive = is_null($config["sensitive"] ?? null) ? false : true;
+
+        //remove keys that are already computed
+        array_push($keysToIgnore, "sortby", "desc", "asc", "sensitive");
+        $config = array_diff_key($config, array_flip($keysToIgnore));
+
+        foreach ($config as $key => $value) {
+            $query->addFilter($key, $value, $caseSensitive);
+        }
+    }
     /**
      * Utility function to send a response to the user
      *
@@ -136,6 +165,7 @@ class ApiUtilities
         $roleAccessor           = new MySqlRoleAccessor($pdo);
         $ecrAccessor            = new MySqlEcrAccessor($pdo);
         $refreshTokenAccessor   = new MySqlRefreshTokenAccessor($pdo);
+        $userQuery              = new MySqlUserQuery($pdo);
 
         //utilities
         $securityUtil           = new SecurityUtilities();
@@ -146,6 +176,6 @@ class ApiUtilities
         $authenticationController   = new AuthenticationController($userAccessor, $refreshTokenAccessor, $roleAccessor);
         $routingController          = new RoutingController(Routes::getRoutes());
 
-        return new ApiController($routingController, $authenticationController, ["user" => $userController, "auth" => $authenticationController], ["user" => $userAccessor]);
+        return new ApiController($routingController, $authenticationController, ["user" => $userController, "auth" => $authenticationController], ["user" => $userAccessor, "userQuery" => $userQuery]);
     }
 }

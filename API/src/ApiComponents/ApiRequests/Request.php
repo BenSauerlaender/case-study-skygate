@@ -158,6 +158,11 @@ class Request implements ApiRequestInterface
         }
     }
 
+    public function getQuery(): array
+    {
+        return $this->query;
+    }
+
     public function getHeader(string $key): ?string
     {
         $key = strtolower($key);
