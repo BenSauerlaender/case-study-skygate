@@ -53,7 +53,7 @@ exports.getEmail = async () => {
       });
 
       imap.once("end", () => {
-        console.log("Connection ended");
+        //console.log("Connection ended");
       });
 
       imap.connect();

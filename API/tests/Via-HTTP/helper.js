@@ -1,7 +1,18 @@
 const { request, expect } = require("./config");
 const fs = require("fs");
+let jwt = require("jsonwebtoken");
 let connection = null;
 
+require("dotenv").config({ path: "./../test.env" });
+
+exports.godToken = jwt.sign(
+  {
+    id: 999,
+    perm: "user:{all}:{all}",
+    exp: Math.floor(Date.now() / 1000) + 30000000,
+  },
+  process.env.ACCESS_TOKEN_SECRET
+);
 exports.mochaHooks = {
   /**
    * Makes connection to the database
@@ -194,3 +205,8 @@ const seedDB = async (seed) => {
     });
   });
 };
+
+exports.createTable = createTable;
+exports.clearDB = clearDB;
+exports.tables = tables;
+exports.seedDB = seedDB;
