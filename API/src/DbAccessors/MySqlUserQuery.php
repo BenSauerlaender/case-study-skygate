@@ -189,7 +189,7 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
         $sql = "SELECT count(*) as count FROM ( $sql ) x";
 
         //execute the statement
-        $stmt = $this->prepareAndExecute($sql, $this->sqlParams);
+        $stmt = $this->prepareAndExecute($sql, $this->sqlPlaceholders);
         $response = $stmt->fetchAll();
 
         //return the count
