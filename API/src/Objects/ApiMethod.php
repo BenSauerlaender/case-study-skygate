@@ -12,7 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\Objects;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
 
 /**
- * An enum to represent valid methods for an Request Request
+ * An enum to represent valid methods for an Request
  */
 enum ApiMethod
 {
@@ -46,9 +46,9 @@ enum ApiMethod
      * 
      * Case insensitive
      *
-     * @param  string $s The string to evaluate
+     * @param  string $s                    The string to evaluate.
      * 
-     * @throws InvalidApiMethodException if the string cant be evaluated
+     * @throws InvalidApiMethodException    if the string cant be evaluated.
      */
     static function fromString(string $s): self
     {

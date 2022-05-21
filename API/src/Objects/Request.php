@@ -18,23 +18,26 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
 
 /**
- * Class that represent an Request to the API
+ * Class that implements the RequestInterface
  */
 class Request implements RequestInterface
 {
+    /** The Path to the requested Resource */
     private ApiPathInterface $path;
 
+    /** The Http Method provided by the request */
     private ApiMethod $method;
 
-    /** @var array<string,string> */
+    /** The headers provided by the request @var array<string,string> */
     private array $headers;
 
-    /** @var array<string,string> */
+    /** The cookies provided by the request @var array<string,string> */
     private array $cookies;
 
-    /** @var array<string,string|int> */
+    /** The query provided by the request @var array<string,string|int> */
     private array $query;
 
+    /** The Body provided by the request */
     private ?array $body;
 
     /**
@@ -53,51 +56,65 @@ class Request implements RequestInterface
      */
     public function __construct(string $path, string $method, string $query = "", array $headers = [], ?array $body = null)
     {
-
+        //validate/parse the path-string to apiPath
         $this->path = new ApiPath($path);
 
+        //validate/parse the method-string to apiMethod
         $this->method = ApiMethod::fromString($method);
 
+        //validate/parse the query-string to query-array
         $this->query = $this->parseQuery($query);
 
+        //validate/parse the header-array
         $cookieAndHeader = $this->parseHeaders($headers);
 
+        //save the cookies and headers as separated arrays
         $this->headers = $cookieAndHeader["headers"];
         $this->cookies = $cookieAndHeader["cookies"];
 
+        //save the body
         $this->body = $body;
     }
 
     /**
      * Parses a query string in a query array
      *
-     * @param  string $query    The Raw query string.
+     * @param  string $query                The Raw query string.
      * 
-     * @throws InvalidApiQueryException if the query string can not be parsed into an valid array.
+     * @throws InvalidApiQueryException     if the query string can not be parsed into an valid array.
      */
     private function parseQuery(string $query): array
     {
         $ret = [];
 
+        //remove unwanted spaces
+        $query = str_replace(" ", "", $query);
+
+        //if not empty
         if ($query != "") {
-            //for each query pair //also lowercase and remove spaces
-            foreach (explode("&", str_replace(" ", "", $query)) as $p) {
+            //for each query pair
+            foreach (explode("&", $query) as $p) {
                 //separate parameter name from value
                 $pair = explode("=", $p);
 
+                //lowercase the parameter name
                 $pair[0] = strtolower($pair[0]);
 
+                //allow only letters for the parameter name
                 if (preg_match("/^[a-z]+$/", $pair[0]) !== 1) throw new InvalidApiQueryException("The query string part: '$p' is not valid");
 
-                //no value: set key also as value
+                //no value: set parameter-name also as value
                 if (sizeof($pair) === 1) {
                     $pair[1] = $pair[0];
                 }
+
+                //pair has exact one key and one value
                 if (sizeof($pair) !== 2) throw new InvalidApiQueryException("The query string part: '$p' is not valid");
 
-                //if value is an int get as int otherwise get the string
+                //if value is an int: save as int otherwise get the string
                 $val = filter_var($pair[1], FILTER_VALIDATE_INT);
                 if ($val === false) {
+                    //fix url encoding
                     $val = str_replace("+", " ", $pair[1]);
                 }
                 //save the query pair
@@ -108,12 +125,12 @@ class Request implements RequestInterface
     }
 
     /**
-     * Parses a headers array in the private headers- and cookies- arrays
+     * Validates and parses a headers array in to separated headers- and cookies- arrays
      *
      * @param  array<string,string> $headers    The Raw query string.
      * 
-     * @throws InvalidApiHeaderException if a header can not be parsed into an valid array.
-     * @throws InvalidApiCookieException if a cookie can not be parsed into an valid array.
+     * @throws InvalidApiHeaderException        if a header can not be parsed into an valid array.
+     * @throws InvalidApiCookieException        if a cookie can not be parsed into an valid array.
      */
     private function parseHeaders(array $headers): array
     {
@@ -149,7 +166,10 @@ class Request implements RequestInterface
 
     public function getQueryValue(string $parameter): mixed
     {
+        //get the parameter in lowercase, so its not case sensitive
         $parameter = strtolower($parameter);
+
+        //return the value or null if its not there
         if (array_key_exists($parameter, $this->query)) {
             return $this->query[$parameter];
         } else {
@@ -164,7 +184,10 @@ class Request implements RequestInterface
 
     public function getHeader(string $key): ?string
     {
+        //get the key in lowercase, so its not case sensitive
         $key = strtolower($key);
+
+        //return the value or null if its not there
         if (array_key_exists($key, $this->headers)) {
             return $this->headers[$key];
         } else {
@@ -174,7 +197,10 @@ class Request implements RequestInterface
 
     public function getCookie(string $key): ?string
     {
+        //get the key in lowercase, so its not case sensitive
         $key = strtolower($key);
+
+        //return the value or null if its not there
         if (array_key_exists($key, $this->cookies)) {
             return $this->cookies[$key];
         } else {
@@ -197,6 +223,7 @@ class Request implements RequestInterface
             }
         }
 
+        //return null if there is no bearer token in the correct format
         return null;
     }
 

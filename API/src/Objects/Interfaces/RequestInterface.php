@@ -13,29 +13,34 @@ use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
 
 /**
- * Interface for Request
+ * Object to represent an user request, that comes to the api
  */
 interface RequestInterface
 {
     /**
-     * Gets the value of the specified parameter.
+     * Gets the value of the specified query-parameter.
      * 
-     * @return null|string|int
+     * If the query parameter is set but has no value, the parameter itself will be returned.
+     * 
+     * @param string $parameter     The query-parameter.
+     * @return null|string|int      The query-parameters value.
      */
     public function getQueryValue(string $parameter): mixed;
 
     /**
-     * Returns the query array
-     * @return array
+     * Returns the all query parameter-value pairs
+     *
+     * For query parameter, that are set but have no values, the parameter itself will be also the value.
+     * 
+     * @return array<string,string> A list of parameter-value pairs
      */
     public function getQuery(): array;
 
     /**
      * Gets the value of the specified header
      *
-     * @param  string $key  The header's key.
-     * 
-     * @return string The value of the header
+     * @param string $key   The header's key.
+     * @return string       The header's value.
      */
     public function getHeader(string $key): ?string;
 
@@ -43,13 +48,12 @@ interface RequestInterface
      * Gets the value of the specified cookie
      *
      * @param  string $key  The cookies's key.
-     * 
-     * @return string The value of the cookie
+     * @return string       The value of the cookie.
      */
     public function getCookie(string $key): ?string;
 
     /**
-     * Gets the refresh token provided by the request
+     * Gets the refresh token if there is one.
      * 
      * @return null|string The refresh token without any prefix or null if no token provided
      */
@@ -70,9 +74,9 @@ interface RequestInterface
     public function getMethod(): ApiMethod;
 
     /**
-     * Gets the http body of the request
+     * Gets the http body of the request if there is one
      * 
-     * @return array The Body of the request
+     * @return array The Body of the request or null if there is no body.
      */
     public function getBody(): ?array;
 }

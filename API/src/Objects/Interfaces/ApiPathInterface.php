@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Objects\Interfaces;
 
 /**
- * Object that represent an api path
+ * Object that represent an api path (path to a resource)
  * 
  * An Api Path is a list of subpath's (lowercase strings only letters) and parameters (ints).
  * Parameters are at positions where the route has a placeholder.
