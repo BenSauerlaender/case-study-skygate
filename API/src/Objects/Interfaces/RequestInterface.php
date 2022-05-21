@@ -32,7 +32,7 @@ interface RequestInterface
      *
      * For query parameter, that are set but have no values, the parameter itself will be also the value.
      * 
-     * @return array<string,string> A list of parameter-value pairs
+     * @return array<string,string|int> A list of parameter-value pairs
      */
     public function getQuery(): array;
 

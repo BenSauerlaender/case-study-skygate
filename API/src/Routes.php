@@ -29,7 +29,7 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadReque
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\InvalidQueryResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\MissingPropertyResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\UserNotFoundResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\RedirectionResponse\RedirectionResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\RedirectionResponses\RedirectionResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\CreatedResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\DataResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\NoContentResponse;

@@ -142,7 +142,9 @@ exports.notAllowed = () => {
           throw new Error("The method is not supported");
       }
       expect(this.response.statusCode).to.eql(405);
-      expect(this.response.body["msg"]).to.include("don't allow this method");
+      expect(this.response.body["msg"]).to.include(
+        "don't allow the requested method"
+      );
       expect(this.response.body["availableMethods"]).to.have.lengthOf.above(0);
     });
   };

@@ -99,7 +99,7 @@ makeSuite(["3roles", "100Users"], "/users", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(111);
+        expect(this.response.body["errorCode"]).to.eql(111);
       });
 
       it("includes a message", async () => {
@@ -128,7 +128,7 @@ makeSuite(["3roles", "100Users"], "/users", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(111);
+        expect(this.response.body["errorCode"]).to.eql(111);
       });
 
       it("includes a message", async () => {

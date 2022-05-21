@@ -56,7 +56,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/logout", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(201);
+        expect(this.response.body["errorCode"]).to.eql(201);
       });
 
       it("includes a message", async () => {

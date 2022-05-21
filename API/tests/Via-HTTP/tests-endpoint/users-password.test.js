@@ -65,7 +65,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(101);
+        expect(this.response.body["errorCode"]).to.eql(101);
       });
 
       it("includes a message", async () => {
@@ -99,7 +99,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(101);
+        expect(this.response.body["errorCode"]).to.eql(101);
       });
 
       it("includes a message", async () => {
@@ -132,7 +132,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(102);
+        expect(this.response.body["errorCode"]).to.eql(102);
       });
 
       it("includes a message", async () => {
@@ -166,7 +166,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(215);
+        expect(this.response.body["errorCode"]).to.eql(215);
       });
 
       it("includes a message", async () => {
@@ -196,7 +196,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(201);
+        expect(this.response.body["errorCode"]).to.eql(201);
       });
 
       it("includes a message", async () => {

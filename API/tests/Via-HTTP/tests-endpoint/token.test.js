@@ -21,7 +21,7 @@ makeSuite(["3roles", "1User", "1RefreshToken"], "/token", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(301);
+        expect(this.response.body["errorCode"]).to.eql(301);
       });
 
       it("includes a message", async () => {
@@ -43,7 +43,7 @@ makeSuite(["3roles", "1User", "1RefreshToken"], "/token", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(302);
+        expect(this.response.body["errorCode"]).to.eql(302);
       });
 
       it("includes a message", async () => {
@@ -71,7 +71,7 @@ makeSuite(["3roles", "1User", "1RefreshToken"], "/token", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(302);
+        expect(this.response.body["errorCode"]).to.eql(302);
       });
 
       it("includes a message", async () => {
@@ -99,7 +99,7 @@ makeSuite(["3roles", "1User", "1RefreshToken"], "/token", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(302);
+        expect(this.response.body["errorCode"]).to.eql(302);
       });
 
       it("includes a message", async () => {
@@ -127,7 +127,7 @@ makeSuite(["3roles", "1User", "1RefreshToken"], "/token", {
       });
 
       it("includes a code", async () => {
-        expect(this.response.body["code"]).to.eql(201);
+        expect(this.response.body["errorCode"]).to.eql(201);
       });
       it("includes a message", async () => {
         expect(this.response.body["msg"]).to.include("The user not exists");

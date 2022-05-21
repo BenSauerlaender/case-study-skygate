@@ -23,7 +23,7 @@ makeSuite(
         });
 
         it("includes a code", async () => {
-          expect(this.response.body["code"]).to.eql(212);
+          expect(this.response.body["errorCode"]).to.eql(212);
         });
 
         it("includes a message", async () => {
@@ -42,7 +42,7 @@ makeSuite(
         });
 
         it("includes a code", async () => {
-          expect(this.response.body["code"]).to.eql(211);
+          expect(this.response.body["errorCode"]).to.eql(211);
         });
 
         it("includes a message", async () => {
