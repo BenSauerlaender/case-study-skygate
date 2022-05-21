@@ -7,12 +7,12 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Responses;
+namespace BenSauer\CaseStudySkygateApi\Objects\Cookies;
 
 /**
  * Class to represent a Cookie that holds a refreshToken
  */
-final class RefreshTokenCookie extends BaseResponseCookie
+final class RefreshTokenCookie extends BaseCookie
 {
     public function __construct(string $token)
     {

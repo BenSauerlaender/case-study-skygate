@@ -12,7 +12,8 @@ namespace BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces;
 /**
  * Interface for Response
  */
-interface ApiResponseInterface
+interface ResponseInterface
+
 {
     /**
      * Returns the response code
@@ -24,7 +25,8 @@ interface ApiResponseInterface
     /**
      * Returns an array of cookies to be set.
      * 
-     * @return array<ResponseCookieInterface> The array of Cookies.
+     * @return array<CookieInterface
+> The array of Cookies.
      */
     public function getCookies(): array;
 

@@ -3,9 +3,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-use BenSauer\CaseStudySkygateApi\Objects\Responses\InternalErrorResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\NotSecureResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\ResourceNotFoundResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ServerErrorResponses\InternalErrorResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\NotSecureResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\ResourceNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;

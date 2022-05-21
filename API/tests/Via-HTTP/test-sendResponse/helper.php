@@ -8,10 +8,10 @@
 declare(strict_types=1);
 
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseCookieInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces\CookieInterface;
 
-//Simple Helper Class to create a dummy ResponseCookie
-final class SimpleResponseCookie implements ResponseCookieInterface
+//Simple Helper Class to create a dummy Cookie
+final class SimpleResponseCookie implements CookieInterface
 {
     private $name;
     private $value;
@@ -55,7 +55,8 @@ final class SimpleResponse extends BaseResponse
         parent::setCode($code);
     }
 
-    public function addCookie(ResponseCookieInterface $cookie): void
+    public function addCookie(CookieInterface
+    $cookie): void
     {
         parent::addCookie($cookie);
     }

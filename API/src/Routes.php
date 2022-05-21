@@ -16,7 +16,7 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\InvalidPr
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\InvalidQueryResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\MissingPropertyResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\UserNotFoundResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\CreatedResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\CreatedResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\DataResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\NoContentResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\RedirectionResponse;

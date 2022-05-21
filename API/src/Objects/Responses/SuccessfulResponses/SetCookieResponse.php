@@ -7,16 +7,17 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Responses;
+namespace BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses;
 
-use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseCookieInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces\CookieInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 
 /**
  * Response that should be used if the request processed successful and a cookie should be set
  */
 class SetCookieResponse extends BaseResponse
 {
-    public function __construct(ResponseCookieInterface $cookie)
+    public function __construct(CookieInterface $cookie)
     {
         $this->setCode(204);
         $this->addCookie($cookie);

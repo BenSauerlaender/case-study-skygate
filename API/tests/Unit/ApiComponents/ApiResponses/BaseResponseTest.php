@@ -10,8 +10,8 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects\Responses;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
+use BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces\CookieInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseCookieInterface;
 use PHPUnit\Framework\TestCase;
 
 class mockResponse extends BaseResponse
@@ -21,7 +21,8 @@ class mockResponse extends BaseResponse
         parent::setCode($code);
     }
 
-    public function addCookie(ResponseCookieInterface $cookie): void
+    public function addCookie(CookieInterface
+    $cookie): void
     {
         parent::addCookie($cookie);
     }
@@ -130,7 +131,7 @@ final class BaseResponseTest extends TestCase
     {
         $response = new mockResponse();
 
-        $cookie = $this->createMock(ResponseCookieInterface::class);
+        $cookie = $this->createMock(CookieInterface::class);
         $cookie->expects($this->once())->method("getName")->willReturn("cookie1");
         $response->addCookie($cookie);
 
@@ -149,11 +150,11 @@ final class BaseResponseTest extends TestCase
     {
         $response = new mockResponse();
 
-        $cookie = $this->createMock(ResponseCookieInterface::class);
+        $cookie = $this->createMock(CookieInterface::class);
         $cookie->expects($this->once())->method("getName")->willReturn("cookie1");
         $response->addCookie($cookie);
 
-        $cookie2 = $this->createMock(ResponseCookieInterface::class);
+        $cookie2 = $this->createMock(CookieInterface::class);
         $cookie2->expects($this->once())->method("getName")->willReturn("cookie2");
         $response->addCookie($cookie2);
 
@@ -174,11 +175,11 @@ final class BaseResponseTest extends TestCase
     {
         $response = new mockResponse();
 
-        $cookie = $this->createMock(ResponseCookieInterface::class);
+        $cookie = $this->createMock(CookieInterface::class);
         $cookie->expects($this->once())->method("getName")->willReturn("cookie1");
         $response->addCookie($cookie);
 
-        $cookie2 = $this->createMock(ResponseCookieInterface::class);
+        $cookie2 = $this->createMock(CookieInterface::class);
         $cookie2->expects($this->once())->method("getName")->willReturn("cOOkie1");
         $response->addCookie($cookie2);
 
@@ -412,7 +413,7 @@ final class BaseResponseTest extends TestCase
     {
         $response = new mockResponse();
 
-        $cookie = $this->createMock(ResponseCookieInterface::class);
+        $cookie = $this->createMock(CookieInterface::class);
         $cookie->expects($this->once())->method("getName")->willReturn("cookie1");
         $response->addCookie($cookie);
 

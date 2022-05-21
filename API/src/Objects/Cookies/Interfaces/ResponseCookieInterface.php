@@ -7,13 +7,12 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces;
-
+namespace BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces;
 
 /**
- * Interface for ResponseCookie
+ * Interface for Cookie
  */
-interface ResponseCookieInterface
+interface CookieInterface
 {
     /**
      * Returns all the information needed to send the cookie

@@ -8,15 +8,15 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AccessTokenExpiredResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AccessTokenNotValidResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\AccessTokenExpiredResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\AccessTokenNotValidResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\AuthenticationRequiredResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ApiResponseInterface;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\InternalErrorResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\MethodNotAllowedResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\MissingPermissionsResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\ResourceNotFoundResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AuthenticationRequiredResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ServerErrorResponses\InternalErrorResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\MethodNotAllowedResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\MissingPermissionsResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\ResourceNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\RoutingControllerInterface;
@@ -55,7 +55,8 @@ class ApiController implements ApiControllerInterface
         $this->accessors = $additionalAccessors;
     }
 
-    public function handleRequest(RequestInterface $request): ApiResponseInterface
+    public function handleRequest(RequestInterface $request): ResponseInterface
+
     {
         //search for the right route
         try {

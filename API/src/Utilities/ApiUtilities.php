@@ -11,7 +11,7 @@ namespace BenSauer\CaseStudySkygateApi\Utilities;
 
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Request;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ApiResponseInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseInterface;
 use BenSauer\CaseStudySkygateApi\Controller\ApiController;
 use BenSauer\CaseStudySkygateApi\Controller\AuthenticationController;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
@@ -64,10 +64,12 @@ class ApiUtilities
     /**
      * Utility function to send a response to the user
      *
-     * @param  ApiResponseInterface $response The response to be send
+     * @param  ResponseInterface
+ $response The response to be send
      * @param  string $domain The Servers Domain.
      */
-    static public function sendResponse(ApiResponseInterface $response, string $domain, string $basePath): void
+    static public function sendResponse(ResponseInterface
+    $response, string $domain, string $basePath): void
     {
         //clear all headers
         header_remove();

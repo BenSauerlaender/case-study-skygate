@@ -7,9 +7,10 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Responses;
+namespace BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses;
 
 use Exception;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 
 /**
  * Response that should be used if a route processed successful and not data need to returned

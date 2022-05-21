@@ -12,19 +12,20 @@ namespace BenSauer\CaseStudySkygateApi\Objects\Responses;
 use BenSauer\CaseStudySkygateApi\Exceptions\JsonException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseCookieInterface;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ApiResponseInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces\CookieInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseInterface;
 
 /**
  * Base Class for API Responses
  */
-abstract class BaseResponse implements ApiResponseInterface
+abstract class BaseResponse implements ResponseInterface
+
 {
 
     private int $code = 500;
 
     /**
-     * @var array<string,ResponseCookieInterface>
+     * @var array<string,CookieInterface>
      */
     private array $cookies = [];
 
@@ -54,9 +55,9 @@ abstract class BaseResponse implements ApiResponseInterface
     /**
      * Adds a cookie to be send.
      *
-     * @param  ResponseCookieInterface $cookie
+     * @param  CookieInterface $cookie
      */
-    protected function addCookie(ResponseCookieInterface $cookie): void
+    protected function addCookie(CookieInterface $cookie): void
     {
         $this->cookies[strtolower($cookie->getName())] = $cookie;
     }
