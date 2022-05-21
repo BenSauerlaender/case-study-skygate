@@ -25,8 +25,7 @@ interface ResponseInterface
     /**
      * Returns an array of cookies to be set.
      * 
-     * @return array<CookieInterface
-> The array of Cookies.
+     * @return array<CookieInterface> The array of Cookies.
      */
     public function getCookies(): array;
 

@@ -63,13 +63,13 @@ final class ApiPathTest extends TestCase
     }
 
     /**
-     * Tests if the getIDs method returns the correct array
+     * Tests if the getParameters method returns the correct array
      * 
      * @dataProvider ApiPathWithIDsProvider
      */
-    public function testApiPathGetIDs(string $in, array $exp): void
+    public function testApiPathgetParameters(string $in, array $exp): void
     {
-        $return = (new ApiPath($in))->getIDs();
+        $return = (new ApiPath($in))->getParameters();
         $this->assertEquals($return, $exp);
     }
 

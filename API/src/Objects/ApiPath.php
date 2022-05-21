@@ -18,31 +18,31 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 class ApiPath implements ApiPathInterface
 {
     /**
-     * The Path stored as an array of strings or ints.
+     * The Path stored as an array of strings (subpaths) or ints (parameters).
      *
      * @var array<string|int> the path.
      */
     private array $path;
 
     /**
-     * Only the ids (int's) from the path.
+     * Only the parameters (int's) from the path.
      *
-     * @var array<int> the ids.
+     * @var array<int> the parameters.
      */
-    private array $ids;
+    private array $parameters;
 
     /**
-     * Constructs the path from an string.
+     * Constructs the api path from an string.
      * 
      * Validates and stores the path.
      *
      * @param  string $s    The "/" separated path.
      * 
-     * @throws InvalidApiPathException
+     * @throws InvalidApiPathException if the string can not be validated as api path
      */
-    function __construct(string $s)
+    public function __construct(string $s)
     {
-        //remove leading or trailing "/"
+        //remove leading and trailing "/"
         if (str_starts_with($s, "/")) $s = substr($s, 1);
         if (str_ends_with($s, "/")) $s = substr($s, 0, -1);
 
@@ -53,7 +53,7 @@ class ApiPath implements ApiPathInterface
         if (sizeof($array) === 0) throw new InvalidApiPathException("Path $s need to contain at least one sub-part");
 
         $path = [];
-        $ids = [];
+        $parameters = [];
 
         //go through each subpath
         foreach ($array as $e) {
@@ -61,9 +61,9 @@ class ApiPath implements ApiPathInterface
                 //if only letters:
                 array_push($path, $e);
             } else if (preg_match("/^[0-9]+$/", $e) === 1) {
-                //if only numbers its an id: save as int
+                //if only numbers its an parameter: save as int
                 array_push($path, (int)$e);
-                array_push($ids, (int)$e);
+                array_push($parameters, (int)$e);
             } else {
                 //the subpath and so the whole path is invalid
                 throw new InvalidApiPathException("The path-sub-part: '$e' contains invalid characters");
@@ -71,7 +71,7 @@ class ApiPath implements ApiPathInterface
         }
 
         $this->path = $path;
-        $this->ids = $ids;
+        $this->parameters = $parameters;
     }
 
     public function getArray(): array
@@ -88,7 +88,7 @@ class ApiPath implements ApiPathInterface
             //append a /
             $ret = $ret . "/";
 
-            //append {id} if its an id otherwise the subpath itself
+            //append {x} (the placeholder symbol) if its an parameter, otherwise the subpath itself
             if (is_int($sub)) {
                 $ret = $ret . "{id}";
             } else {
@@ -104,9 +104,9 @@ class ApiPath implements ApiPathInterface
         return sizeof($this->path);
     }
 
-    public function getIDs(): array
+    public function getParameters(): array
     {
-        return $this->ids;
+        return $this->parameters;
     }
 
     public function __toString(): string

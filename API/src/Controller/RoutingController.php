@@ -76,7 +76,7 @@ class RoutingController implements RoutingControllerInterface
         $route = $path[$methodString];
 
         //get the requested ids
-        $reqIds = $reqPath->getIDs();
+        $reqIds = $reqPath->getParameters();
 
         //save the ids with there names as keys
         $idsWithNames = [];
