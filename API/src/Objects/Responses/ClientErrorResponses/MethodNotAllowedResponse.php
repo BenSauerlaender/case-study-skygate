@@ -20,6 +20,6 @@ class MethodNotAllowedResponse extends BaseResponse
     {
         $this->setCode(405);
         $this->setData(["availableMethods" => $availableMethods]);
-        $this->addMessage("The Resource don't allow this method.");
+        $this->addMessage("The requested route don't allow the requested method.");
     }
 }

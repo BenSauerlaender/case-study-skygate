@@ -15,11 +15,11 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 /**
  * Response that should be used if the request processed successful and a cookie should be set
  */
-class SetCookieResponse extends BaseResponse
+class SetCookieResponse extends NoContentResponse
 {
     public function __construct(CookieInterface $cookie)
     {
-        $this->setCode(204);
         $this->addCookie($cookie);
+        parent::__construct();
     }
 }

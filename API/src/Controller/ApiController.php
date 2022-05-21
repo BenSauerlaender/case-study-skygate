@@ -8,10 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
-use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AccessTokenExpiredResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AccessTokenNotValidResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AuthenticationRequiredResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ServerErrorResponses\InternalErrorResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\MethodNotAllowedResponse;
@@ -25,6 +22,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundE
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AuthorizationErrorResponses\AuthorizationErrorResponse;
 use Closure;
 use Exception;
 use InvalidArgumentException;
@@ -62,7 +60,7 @@ class ApiController implements ApiControllerInterface
         try {
             $route = $this->routing->route($request->getPath(), $request->getMethod());
         } catch (ApiPathNotFoundException $e) {
-            return new ResourceNotFoundResponse($e);
+            return new ResourceNotFoundResponse();
         } catch (ApiMethodNotFoundException $e) {
             return new MethodNotAllowedResponse($e->getAvailableMethods());
         }
@@ -72,16 +70,16 @@ class ApiController implements ApiControllerInterface
 
             $accessToken = $request->getAccessToken();
             if (is_null($accessToken)) {
-                return new AuthenticationRequiredResponse();
+                return new AuthorizationErrorResponse("The resource with this method require an JWT Access Token as barrier token. Use GET /token to get one", 101);
             }
 
             //authenticate the requester
             try {
                 $auth = $this->auth->authenticateAccessToken($accessToken);
             } catch (ExpiredTokenException $e) {
-                return new AccessTokenExpiredResponse();
+                return new AuthorizationErrorResponse("The JWT Access Token is expired. Use GET /token to get a new one one", 103);
             } catch (InvalidTokenException | InvalidArgumentException $e) {
-                return new AccessTokenNotValidResponse();
+                return new AuthorizationErrorResponse("The JWT Access Token is not valid. Use GET /token to get a new one one", 102);
             }
 
             //check if the requester has all required permissions for this route

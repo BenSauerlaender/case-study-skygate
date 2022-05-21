@@ -13,7 +13,7 @@ use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AccessTokenExpiredResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AccessTokenNotValidResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AuthenticationRequiredResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AuthorizationErrorResponses\AuthorizationRequiredResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\CreatedResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ServerErrorResponses\InternalErrorResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\MethodNotAllowedResponse;
@@ -258,7 +258,7 @@ final class ApiControllerTest extends TestCase
     }
 
     /**
-     * Test that the method return a AuthenticationRequiredResponse if the authentication is required but no accessToken delivered
+     * Test that the method return a AuthorizationRequiredResponse if the authentication is required but no accessToken delivered
      */
     public function testAuthRequiredButNotThere(): void
     {
@@ -275,7 +275,7 @@ final class ApiControllerTest extends TestCase
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
-        $this->assertTrue(is_a($response, AuthenticationRequiredResponse::class));
+        $this->assertTrue(is_a($response, AuthorizationRequiredResponse::class));
     }
 
     /**
