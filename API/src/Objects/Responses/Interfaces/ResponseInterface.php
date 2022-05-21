@@ -10,13 +10,13 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces;
 
 /**
- * Interface for Response
+ * Object to represent an response from the api, that will be send to the client.
  */
 interface ResponseInterface
 
 {
     /**
-     * Returns the response code
+     * Returns the http response code
      * 
      * @return int The response code
      */
@@ -39,8 +39,8 @@ interface ResponseInterface
     /**
      * Returns the data in json format to send in the response body
      * 
-     * @return string The json encoded data.
-     * @throws JsonException if the encoding fails.
+     * @return string           The json encoded data.
+     * @throws JsonException    if the encoding fails.
      */
-    public function getJsonString(): string;
+    public function getJsonBody(): string;
 }

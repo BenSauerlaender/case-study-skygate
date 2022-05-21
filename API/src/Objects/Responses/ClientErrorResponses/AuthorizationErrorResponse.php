@@ -16,6 +16,10 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
  */
 class AuthorizationErrorResponse extends BaseResponse
 {
+    /**
+     * @param  string $msg          The message to send.
+     * @param  int    $errorCode    The Error-code specify what error accrued.
+     */
     public function __construct(string $msg, int $errorCode)
     {
         $this->setCode(401);

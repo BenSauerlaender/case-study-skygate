@@ -13,7 +13,7 @@ use Exception;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 
 /**
- * Response that should be used if a route processed successful and not data need to returned
+ * Response that should be used if a route processed successful and no body need to returned
  */
 class NoContentResponse extends BaseResponse
 {

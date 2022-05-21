@@ -12,13 +12,14 @@ namespace BenSauer\CaseStudySkygateApi\Objects\Cookies;
 use BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces\CookieInterface;
 
 /**
- * Base Class to represent an Cookie that can be send to the client
+ * Base class for all Cookies.
  */
 abstract class BaseCookie implements CookieInterface
 {
-
     private string $name;
     private string $value;
+
+    /** Time in seconds */
     private int $expiresIn;
 
     private bool $secure;
@@ -27,7 +28,6 @@ abstract class BaseCookie implements CookieInterface
 
     public function __construct(string $name, string $value, int $expiresIn, string $path, bool $secure, bool $httpOnly)
     {
-
         $this->name = $name;
         $this->value = $value;
         $this->expiresIn = $expiresIn;

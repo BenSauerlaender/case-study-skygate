@@ -13,7 +13,7 @@ use Exception;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 
 /**
- * Response that should be used if a new entry was created and not data need to returned
+ * Response that should be used if a new entry was created and no body need to returned
  */
 class CreatedResponse extends BaseResponse
 {

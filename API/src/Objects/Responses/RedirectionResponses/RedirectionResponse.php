@@ -16,6 +16,9 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
  */
 final class RedirectionResponse extends BaseResponse
 {
+    /**
+     * @param  string $url The URL to redirect the user to.
+     */
     public function __construct(string $url)
     {
         $this->setCode(303);

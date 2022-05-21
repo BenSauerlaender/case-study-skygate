@@ -130,7 +130,7 @@ final class ApiControllerTest extends TestCase
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, MethodNotAllowedResponse::class));
-        $this->assertEquals(["test"], json_decode($response->getJsonString(), true)["availableMethods"]);
+        $this->assertEquals(["test"], json_decode($response->getJsonBody(), true)["availableMethods"]);
     }
 
     /**
@@ -279,7 +279,7 @@ final class ApiControllerTest extends TestCase
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, AuthorizationErrorResponse::class));
-        $this->assertStringContainsString('"errorCode":101', $response->getJsonString());
+        $this->assertStringContainsString('"errorCode":101', $response->getJsonBody());
     }
 
     /**
@@ -305,7 +305,7 @@ final class ApiControllerTest extends TestCase
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, AuthorizationErrorResponse::class));
-        $this->assertStringContainsString('"errorCode":103', $response->getJsonString());
+        $this->assertStringContainsString('"errorCode":103', $response->getJsonBody());
     }
 
     /**
@@ -331,7 +331,7 @@ final class ApiControllerTest extends TestCase
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, AuthorizationErrorResponse::class));
-        $this->assertStringContainsString('"errorCode":102', $response->getJsonString());
+        $this->assertStringContainsString('"errorCode":102', $response->getJsonBody());
     }
 
     /**
@@ -357,7 +357,7 @@ final class ApiControllerTest extends TestCase
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, AuthorizationErrorResponse::class));
-        $this->assertStringContainsString('"errorCode":102', $response->getJsonString());
+        $this->assertStringContainsString('"errorCode":102', $response->getJsonBody());
     }
 
     /**
@@ -390,7 +390,7 @@ final class ApiControllerTest extends TestCase
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, MissingPermissionsResponse::class));
-        $this->assertEquals(["p"], json_decode($response->getJsonString(), true)["requiredPermissions"]);
+        $this->assertEquals(["p"], json_decode($response->getJsonBody(), true)["requiredPermissions"]);
     }
 
     /**

@@ -19,7 +19,7 @@ class MissingPermissionsResponse extends BaseResponse
     public function __construct(array $requiredPermissions)
     {
         $this->setCode(403);
-        $this->setData(["requiredPermissions" => $requiredPermissions]);
+        $this->setBody(["requiredPermissions" => $requiredPermissions]);
         $this->addMessage("The Route requires permissions you don't have.");
     }
 }

@@ -19,7 +19,7 @@ class MethodNotAllowedResponse extends BaseResponse
     public function __construct(array $availableMethods)
     {
         $this->setCode(405);
-        $this->setData(["availableMethods" => $availableMethods]);
+        $this->setBody(["availableMethods" => $availableMethods]);
         $this->addMessage("The requested route don't allow the requested method.");
     }
 }

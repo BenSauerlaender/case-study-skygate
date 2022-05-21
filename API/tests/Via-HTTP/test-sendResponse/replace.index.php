@@ -50,7 +50,7 @@ try {
             $response->addCookie($cookie);
             break;
         case "testData":
-            $response->setData(["testData" => "test", "testObj" => ["num1" => 1, "num2" => 2]]);
+            $response->setBody(["testData" => "test", "testObj" => ["num1" => 1, "num2" => 2]]);
             break;
         case "testAll":
             $response->setCode(200);
@@ -58,7 +58,7 @@ try {
             $response->addHeader("last-modified", "test-value2");
             $cookie = new SimpleResponseCookie("cookie", "value", 60, "path", true, false);
             $response->addCookie($cookie);
-            $response->setData(["testData" => "test", "testObj" => ["num1" => 1, "num2" => 2]]);
+            $response->setBody(["testData" => "test", "testObj" => ["num1" => 1, "num2" => 2]]);
             break;
     }
 

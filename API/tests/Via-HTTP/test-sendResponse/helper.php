@@ -66,8 +66,8 @@ final class SimpleResponse extends BaseResponse
         parent::addHeader($name, $value);
     }
 
-    public function setData(array $data): void
+    public function setBody(array $data): void
     {
-        parent::setData($data);
+        parent::setBody($data);
     }
 }

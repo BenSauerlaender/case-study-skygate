@@ -16,39 +16,47 @@ use BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces\CookieInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseInterface;
 
 /**
- * Base Class for API Responses
+ * abstract base Class for API Responses
  */
 abstract class BaseResponse implements ResponseInterface
-
 {
-
+    /** The http response code */
     private int $code = 500;
 
     /**
+     * Cookies to set in name-cookie pair list
+     * 
      * @var array<string,CookieInterface>
      */
     private array $cookies = [];
 
     /**
-     * @var array<string,string> in a key-value format
+     * Headers in a key-value format
+     * 
+     * @var array<string,string> 
      */
     private array $headers = [];
 
-    private array $data = [];
+    /** response body array that will send as json */
+    private array $body = [];
 
+    /** Http response codes, that are supported by the api */
     private const SUPPORTED_CODES = [200, 201, 204, 303, 400, 401, 403, 404, 405, 406, 500];
 
-    private const SUPPORTED_HEADER = ["Content-Type", "Last-Modified", "Location"];
+    /** Http response headers, that are supported by the api */
+    private const SUPPORTED_HEADERS = ["content-type", "last-modified", "location"];
 
     /**
-     * Sets the Response Code
+     * Sets the Http response code
      *
-     * @param  int  $code
-     * @throws UnsupportedResponseCodeException if the code is not supported.
+     * @param  int  $code                           The code to set.
+     * @throws UnsupportedResponseCodeException     if the code is not supported.
      */
     protected function setCode(int $code): void
     {
+        //check if its supported
         if (!in_array($code, self::SUPPORTED_CODES)) throw new UnsupportedResponseCodeException("The Response code: $code is not supported");
+
         $this->code = $code;
     }
 
@@ -59,6 +67,7 @@ abstract class BaseResponse implements ResponseInterface
      */
     protected function addCookie(CookieInterface $cookie): void
     {
+        //adds the cookie with lowercase name as key.
         $this->cookies[strtolower($cookie->getName())] = $cookie;
     }
 
@@ -72,56 +81,61 @@ abstract class BaseResponse implements ResponseInterface
      */
     protected function addHeader(string $name, string $value): void
     {
-        //search case insensitive for one of the supported headers
-        $saveName = array_values(array_filter(self::SUPPORTED_HEADER, function ($v) use ($name) {
-            return !strcasecmp($v, $name);
-        }));
+        //convert the name to lower case, so its not case sensitive
+        $name = strtolower($name);
 
-        //check if supported header was found
-        if (sizeof($saveName) !== 1) throw new UnsupportedResponseHeaderException("The Response Header $name is not supported");
+        //check if header is supported
+        if (!in_array($name, self::SUPPORTED_HEADERS)) throw new UnsupportedResponseHeaderException("The Response Header $name is not supported");
 
         //save the new header
-        $this->headers[$saveName[0]] = $value;
+        $this->headers[$name] = $value;
     }
 
     /**
-     * Sets data to be send in body
+     * Sets the response body
      * 
-     * @param array $data
+     * ATTENTION: This will override the previous set Body (inclusive msg and errorCode).
+     * 
+     * @param array $body   The body, that will be send as json.
      */
-    protected function setData(array $data): void
+    protected function setBody(array $body): void
     {
-        if (sizeof($data) == 0) return;
+        //if empty: do nothing
+        if (sizeof($body) == 0) return;
 
-        $this->data = $data;
-        $this->addHeader("Content-Type", "application/json;charset=UTF-8");
+        $this->body = $body;
+
+        //add the content-type header
+        $this->addHeader("content-type", "application/json;charset=UTF-8");
     }
 
     /**
-     * Adds a message (msg) to the data.
+     * Adds a message (msg) to the body.
      * 
      * @param  string $msg  The message to set.
      */
     protected function addMessage(string $msg)
     {
-        if ($this->data === []) {
-            $this->setData(["msg" => $msg]);
-        } else {
-            $this->data["msg"] = $msg;
+        //if there is no body jet: create one
+        if ($this->body === []) {
+            $this->setBody(["msg" => $msg]);
+        } else { //else: just add the msg key
+            $this->body["msg"] = $msg;
         }
     }
 
     /**
-     * Adds a error-code to the data.
+     * Adds an error-code to the body.
      * 
      * @param  int $code  The error-code to add.
      */
     protected function addErrorCode(int $code)
     {
-        if ($this->data === []) {
-            $this->setData(["errorCode" => $code]);
-        } else {
-            $this->data["errorCode"] = $code;
+        //if there is no body jet: create one
+        if ($this->body === []) {
+            $this->setBody(["errorCode" => $code]);
+        } else { //else: just add the errorCode key
+            $this->body["errorCode"] = $code;
         }
     }
 
@@ -140,23 +154,41 @@ abstract class BaseResponse implements ResponseInterface
         return $this->headers;
     }
 
-    public function getJsonString(): string
+    public function getJsonBody(): string
     {
-        if ($this->data === []) return "";
-        $str = json_encode($this->data);
-        if ($str === false) throw new JsonException("The encoding of response data failed");
-        return $str;
+        //if there is no body
+        if ($this->body === []) return "";
+
+        //encode the body
+        $json = json_encode($this->body);
+
+        //if encoding fails
+        if ($json === false) throw new JsonException("The encoding of response body failed");
+
+        return $json;
     }
 
     public function __toString()
     {
+        //implode the cookies and headers to comma separated strings
         $c = implode(",", array_keys($this->cookies));
         $h = implode(",", array_keys($this->headers));
 
-        $ret = "{$this->code}: ";
+        //construct the string
+        $ret = "";
+
+        //add the response code
+        $ret = $ret . "{$this->code}: ";
+
+        //add the cookies if there is at least one 
         if ($c !== "") $ret = $ret . "set-cookies: $c, ";
+
+        //add the headers if there is at least one 
         if ($h !== "") $ret = $ret . "headers: $h, ";
-        if (!empty($this->data)) $ret = $ret . "data: {$this->getJsonString()}";
+
+        //add the body if there is one
+        if (!empty($this->body)) $ret = $ret . "body: {$this->getJsonBody()}";
+
         return $ret;
     }
 }

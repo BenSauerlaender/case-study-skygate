@@ -20,6 +20,6 @@ class DataResponse extends BaseResponse
     public function __construct(array $data)
     {
         $this->setCode(200);
-        $this->setData($data);
+        $this->setBody($data);
     }
 }

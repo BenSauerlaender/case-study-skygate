@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses;
 
 /**
- * Response that should be used if the request provide body-properties that are not supported.
+ * Response that should be used if the request provide a query that can not be parsed / validated
  */
 class InvalidQueryResponse extends BadRequestResponse
 {

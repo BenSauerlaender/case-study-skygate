@@ -10,12 +10,12 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces;
 
 /**
- * Interface for Cookie
+ * Object, that represents a Cookie that can be set by the api
  */
 interface CookieInterface
 {
     /**
-     * Returns all the information needed to send the cookie
+     * Returns all the information needed to set the cookie
      * 
      * @return array<string,mixed> 
      *      $ret = [

@@ -20,10 +20,13 @@ class InternalErrorResponse extends BaseResponse
     public function __construct(?Exception $e = null)
     {
         $this->setCode(500);
+
+        //add the exception stack to the response if there is one
         if (!is_null($e)) {
             $data["Exception"] = "$e";
-            $this->setData($data);
+            $this->setBody($data);
         }
+
         $this->addMessage("There are internal problems. Try again later or contact the support.");
     }
 }
