@@ -21,8 +21,7 @@ class mockResponse extends BaseResponse
         parent::setCode($code);
     }
 
-    public function addCookie(CookieInterface
-    $cookie): void
+    public function addCookie(CookieInterface $cookie): void
     {
         parent::addCookie($cookie);
     }
