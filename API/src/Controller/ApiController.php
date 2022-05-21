@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
-use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Interfaces\ApiRequestInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\AccessTokenExpiredResponse;
 use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\AccessTokenNotValidResponse;
 use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\AuthenticationRequiredResponse;
@@ -55,7 +55,7 @@ class ApiController implements ApiControllerInterface
         $this->accessors = $additionalAccessors;
     }
 
-    public function handleRequest(ApiRequestInterface $request): ApiResponseInterface
+    public function handleRequest(RequestInterface $request): ApiResponseInterface
     {
         //search for the right route
         try {

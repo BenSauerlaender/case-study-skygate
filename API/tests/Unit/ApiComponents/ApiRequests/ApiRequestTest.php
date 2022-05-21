@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects\ApiRequests;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects;
 
 use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
-use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Interfaces\ApiRequestInterface;
-use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Request;
+use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Request;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
@@ -29,7 +29,7 @@ final class ApiRequestTest extends TestCase
     public function testConstructor(): void
     {
         $req = new Request("/test/jo", "GET", "test=123&alpha=Test2&abc", ["header1" => "h1"], ["test" => 12]);
-        $this->assertTrue(is_a($req, ApiRequestInterface::class));
+        $this->assertTrue(is_a($req, RequestInterface::class));
     }
 
     /**

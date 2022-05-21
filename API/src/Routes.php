@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi;
 
 use BadMethodCallException;
-use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Interfaces\ApiRequestInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\BadRequestResponses\BadRequestResponse;
 use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\BadRequestResponses\InvalidPropertyResponse;
 use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\BadRequestResponses\InvalidQueryResponse;
@@ -48,7 +48,7 @@ class Routes
                     "ids" => [],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
@@ -74,7 +74,7 @@ class Routes
                     "ids" => ["userID", "verificationCode"],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
@@ -97,7 +97,7 @@ class Routes
                     "ids" => [],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
 
                         $fields = $req->getBody();
 
@@ -133,7 +133,7 @@ class Routes
                     "ids" => [],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
 
                         $refreshJWT = $req->getCookie("skygatecasestudy.refreshtoken");
                         if (is_null($refreshJWT)) {
@@ -163,7 +163,7 @@ class Routes
                     "ids" => ["userID"],
                     "requireAuth" => true,
                     "permissions" => ["user:read:{userID}"],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
@@ -179,7 +179,7 @@ class Routes
                     "ids" => ["userID"],
                     "requireAuth" => true,
                     "permissions" => ["user:update:{userID}"],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
                         $availableFields = ["name" => null, "postcode" => null, "city" => null, "phone" => null, "role" => null];
 
                         /** @var UserControllerInterface */
@@ -205,7 +205,7 @@ class Routes
                     "ids" => ["userID"],
                     "requireAuth" => true,
                     "permissions" => ["user:delete:{userID}"],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
@@ -223,7 +223,7 @@ class Routes
                     "ids" => ["userID"],
                     "requireAuth" => true,
                     "permissions" => ["user:update:{userID}"],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
 
                         $fields = $req->getBody();
 
@@ -257,7 +257,7 @@ class Routes
                     "ids" => ["userID"],
                     "requireAuth" => true,
                     "permissions" => ["user:update:{userID}"],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
 
                         $fields = $req->getBody();
 
@@ -289,7 +289,7 @@ class Routes
                     "ids" => ["userID"],
                     "requireAuth" => true,
                     "permissions" => ["user:delete:{userID}"],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
                         /** @var RefreshTokenAccessorInterface*/
                         $acc = $this->accessors["refreshToken"];
                         try {
@@ -306,7 +306,7 @@ class Routes
                     "ids" => ["userID", "verificationCode"],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
@@ -327,7 +327,7 @@ class Routes
                     "ids" => [],
                     "requireAuth" => true,
                     "permissions" => ["user:read:{all}"],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
 
                         $queryConfig = $req->getQuery();
 
@@ -358,7 +358,7 @@ class Routes
                     "ids" => [],
                     "requireAuth" => true,
                     "permissions" => ["user:read:{all}"],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
                         $queryConfig = $req->getQuery();
 
                         /** @var UserQueryInterface */
@@ -379,7 +379,7 @@ class Routes
                     "ids" => [],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (ApiRequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $ids) {
                         /** @var RoleAccessorInterface*/
                         $acc = $this->accessors["role"];
 

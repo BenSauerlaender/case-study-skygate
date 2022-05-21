@@ -7,21 +7,20 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\ApiRequests;
+namespace BenSauer\CaseStudySkygateApi\Objects;
 
 use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
-use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Interfaces\ApiRequestInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
-use phpDocumentor\Reflection\PseudoTypes\NonEmptyString;
 
 /**
  * Class that represent an Request to the API
  */
-class Request implements ApiRequestInterface
+class Request implements RequestInterface
 {
     private ApiPathInterface $path;
 

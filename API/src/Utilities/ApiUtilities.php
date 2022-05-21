@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
-use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Interfaces\ApiRequestInterface;
-use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Request;
+use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Request;
 use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\Interfaces\ApiResponseInterface;
 use BenSauer\CaseStudySkygateApi\Controller\ApiController;
 use BenSauer\CaseStudySkygateApi\Controller\AuthenticationController;
@@ -114,7 +114,7 @@ class ApiUtilities
      * @throws InvalidApiQueryException     if the query string can not be parsed into an valid array.
      * @throws InvalidApiHeaderException    if a header can not be parsed into an valid array.
      */
-    static function getRequest(array $server, array $headers, string $pathPrefix, string $bodyJSON = ""): ApiRequestInterface
+    static function getRequest(array $server, array $headers, string $pathPrefix, string $bodyJSON = ""): RequestInterface
     {
         $env = $_ENV["ENVIRONMENT"] ?? "PRODUCTION";
         if (!isset($server["REQUEST_URI"]) or !isset($server["REQUEST_METHOD"]) or !isset($server["QUERY_STRING"])) {

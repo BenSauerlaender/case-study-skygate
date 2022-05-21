@@ -10,7 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
 
 use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
-use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Interfaces\ApiRequestInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\AccessTokenExpiredResponse;
 use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\AccessTokenNotValidResponse;
 use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\AuthenticationRequiredResponse;
@@ -42,7 +42,7 @@ final class ApiControllerTest extends TestCase
     private ?UserControllerInterface $ucMock;
     private ?AuthenticationControllerInterface $authMock;
     private ?RoutingControllerInterface $routingMock;
-    private ?ApiRequestInterface $reqMock;
+    private ?RequestInterface $reqMock;
     private ?ApiControllerInterface $apiController;
     private ?ApiPath $path;
 
@@ -56,7 +56,7 @@ final class ApiControllerTest extends TestCase
         $this->uaMock = $this->createMock(UserAccessorInterface::class);
         $this->authMock = $this->createMock(AuthenticationControllerInterface::class);
         $this->routingMock = $this->createMock(RoutingControllerInterface::class);
-        $this->reqMock = $this->createMock(ApiRequestInterface::class);
+        $this->reqMock = $this->createMock(RequestInterface::class);
         $this->apiController = new ApiController($this->routingMock, $this->authMock, ["user" => $this->ucMock], ["user" => $this->uaMock]);
 
         $this->path = new ApiPath("abc/1");
@@ -146,7 +146,7 @@ final class ApiControllerTest extends TestCase
             ->willReturn([
                 "requireAuth" => false,
                 "ids" => ["testID" => 1],
-                "function" => function (ApiRequestInterface $req, array $ids) {
+                "function" => function (RequestInterface $req, array $ids) {
 
                     if ($req->getBody() === ["test"] && $ids === ["testID" => 1]) {
                         return new CreatedResponse();

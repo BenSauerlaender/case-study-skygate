@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Interfaces;
+namespace BenSauer\CaseStudySkygateApi\Objects\Interfaces;
 
 use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
@@ -15,7 +15,7 @@ use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
 /**
  * Interface for Request
  */
-interface ApiRequestInterface
+interface RequestInterface
 {
     /**
      * Gets the value of the specified parameter.

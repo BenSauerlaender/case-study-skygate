@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller\Interfaces;
 
-use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Interfaces\ApiRequestInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\Interfaces\ApiResponseInterface;
 
 /**
@@ -19,8 +19,8 @@ interface ApiControllerInterface
     /**
      * Takes an request, process it and returns a response.
      *
-     * @param  ApiRequestInterface  $request
+     * @param  RequestInterface  $request
      * @return ApiResponseInterface
      */
-    public function handleRequest(ApiRequestInterface $request): ApiResponseInterface;
+    public function handleRequest(RequestInterface $request): ApiResponseInterface;
 }

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects\ApiRequests;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
 use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
