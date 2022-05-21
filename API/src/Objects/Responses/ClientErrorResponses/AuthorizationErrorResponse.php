@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AuthorizationErrorResponses;
+namespace BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses;
 
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 
@@ -16,9 +16,10 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
  */
 class AuthorizationErrorResponse extends BaseResponse
 {
-    public function __construct(string $msg)
+    public function __construct(string $msg, int $errorCode)
     {
         $this->setCode(401);
+        $this->addErrorCode($errorCode);
         $this->addMessage($msg);
     }
 }

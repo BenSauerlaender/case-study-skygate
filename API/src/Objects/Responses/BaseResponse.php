@@ -119,9 +119,9 @@ abstract class BaseResponse implements ResponseInterface
     protected function addErrorCode(int $code)
     {
         if ($this->data === []) {
-            $this->setData(["code" => $code]);
+            $this->setData(["errorCode" => $code]);
         } else {
-            $this->data["code"] = $code;
+            $this->data["errorCode"] = $code;
         }
     }
 

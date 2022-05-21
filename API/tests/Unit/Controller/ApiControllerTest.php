@@ -18,7 +18,7 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\CreatedRe
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ServerErrorResponses\InternalErrorResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\MethodNotAllowedResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\MissingPermissionsResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\NotSecureResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\NotSecureResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\ResourceNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\Controller\ApiController;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
@@ -30,6 +30,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundE
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AuthorizationErrorResponse;
 use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -275,7 +276,8 @@ final class ApiControllerTest extends TestCase
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
-        $this->assertTrue(is_a($response, AuthorizationRequiredResponse::class));
+        $this->assertTrue(is_a($response, AuthorizationErrorResponse::class));
+        $this->assertStringContainsString('"errorCode":101', $response->getJsonString());
     }
 
     /**
@@ -300,7 +302,8 @@ final class ApiControllerTest extends TestCase
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
-        $this->assertTrue(is_a($response, AccessTokenExpiredResponse::class));
+        $this->assertTrue(is_a($response, AuthorizationErrorResponse::class));
+        $this->assertStringContainsString('"errorCode":103', $response->getJsonString());
     }
 
     /**
@@ -325,7 +328,8 @@ final class ApiControllerTest extends TestCase
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
-        $this->assertTrue(is_a($response, AccessTokenNotValidResponse::class));
+        $this->assertTrue(is_a($response, AuthorizationErrorResponse::class));
+        $this->assertStringContainsString('"errorCode":102', $response->getJsonString());
     }
 
     /**
@@ -350,7 +354,8 @@ final class ApiControllerTest extends TestCase
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
-        $this->assertTrue(is_a($response, AccessTokenNotValidResponse::class));
+        $this->assertTrue(is_a($response, AuthorizationErrorResponse::class));
+        $this->assertStringContainsString('"errorCode":102', $response->getJsonString());
     }
 
     /**
