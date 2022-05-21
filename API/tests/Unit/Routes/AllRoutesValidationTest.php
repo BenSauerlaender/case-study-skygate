@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Routes;
 
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiMethod;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiPath;
-use BenSauer\CaseStudySkygateApi\ApiComponents\Interfaces\ApiPathInterface;
+use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
+use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
+use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
 use BenSauer\CaseStudySkygateApi\Routes;
 use Closure;
 use phpDocumentor\Reflection\PseudoTypes\LowercaseString;

@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\ApiComponents\ApiRequests;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects\ApiRequests;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiPath;
+use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
 use PHPUnit\Framework\TestCase;
 
 /**

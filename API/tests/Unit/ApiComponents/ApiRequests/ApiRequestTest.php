@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\ApiComponents\ApiRequests;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects\ApiRequests;
 
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiMethod;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Request;
+use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
+use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Interfaces\ApiRequestInterface;
+use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Request;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;

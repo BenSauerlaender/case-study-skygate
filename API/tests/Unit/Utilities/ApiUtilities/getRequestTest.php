@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Utilities\ApiUtilities;
 
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiMethod;
+use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;

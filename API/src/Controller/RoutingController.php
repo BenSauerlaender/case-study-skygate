@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiMethod;
-use BenSauer\CaseStudySkygateApi\ApiComponents\Interfaces\ApiPathInterface;
+use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
+use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\RoutingControllerInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;

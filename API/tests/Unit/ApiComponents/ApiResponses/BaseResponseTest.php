@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\ApiComponents\ApiResponses;
+namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects\ApiResponses;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BaseResponse;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ResponseCookieInterface;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\BaseResponse;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\Interfaces\ResponseCookieInterface;
 use PHPUnit\Framework\TestCase;
 
 class mockResponse extends BaseResponse

@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
 
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiMethod;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiPath;
+use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
+use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
 use BenSauer\CaseStudySkygateApi\Controller\RoutingController;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
 use PHPUnit\Framework\TestCase;

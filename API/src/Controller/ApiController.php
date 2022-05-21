@@ -8,15 +8,15 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\AccessTokenExpiredResponse;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\AccessTokenNotValidResponse;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\AuthenticationRequiredResponse;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ApiResponseInterface;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\InternalErrorResponse;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\MethodNotAllowedResponse;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\MissingPermissionsResponse;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\ResourceNotFoundResponse;
+use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Interfaces\ApiRequestInterface;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\AccessTokenExpiredResponse;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\AccessTokenNotValidResponse;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\AuthenticationRequiredResponse;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\Interfaces\ApiResponseInterface;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\InternalErrorResponse;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\MethodNotAllowedResponse;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\MissingPermissionsResponse;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\ResourceNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\RoutingControllerInterface;

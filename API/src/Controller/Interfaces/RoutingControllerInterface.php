@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller\Interfaces;
 
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiMethod;
-use BenSauer\CaseStudySkygateApi\ApiComponents\Interfaces\ApiPathInterface;
+use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
+use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
 
 /**
  * Controller that handles all the routes and finds the right.

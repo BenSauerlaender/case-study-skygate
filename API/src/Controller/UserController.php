@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
 use BadMethodCallException;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\BadRequestResponses\UserNotFoundResponse;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\BadRequestResponses\UserNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;

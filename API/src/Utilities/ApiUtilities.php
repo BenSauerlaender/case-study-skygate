@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Utilities;
 
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Interfaces\ApiRequestInterface;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiRequests\Request;
-use BenSauer\CaseStudySkygateApi\ApiComponents\ApiResponses\Interfaces\ApiResponseInterface;
+use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Interfaces\ApiRequestInterface;
+use BenSauer\CaseStudySkygateApi\Objects\ApiRequests\Request;
+use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\Interfaces\ApiResponseInterface;
 use BenSauer\CaseStudySkygateApi\Controller\ApiController;
 use BenSauer\CaseStudySkygateApi\Controller\AuthenticationController;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
