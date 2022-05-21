@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\ApiResponses;
+namespace BenSauer\CaseStudySkygateApi\Objects\Responses;
 
 class NotSecureResponse extends BaseResponse
 {

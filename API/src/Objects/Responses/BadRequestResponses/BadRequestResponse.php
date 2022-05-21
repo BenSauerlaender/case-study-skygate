@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\ApiResponses\BadRequestResponses;
+namespace BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses;
 
-use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\BaseResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 
 /**
  * Response that should be used if the request was bad.

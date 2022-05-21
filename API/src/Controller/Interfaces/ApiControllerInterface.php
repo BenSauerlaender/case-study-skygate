@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Controller\Interfaces;
 
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
-use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\Interfaces\ApiResponseInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ApiResponseInterface;
 
 /**
  * Main Controller for the whole api

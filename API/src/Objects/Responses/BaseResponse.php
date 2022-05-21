@@ -7,13 +7,13 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\ApiResponses;
+namespace BenSauer\CaseStudySkygateApi\Objects\Responses;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\JsonException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
-use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\Interfaces\ResponseCookieInterface;
-use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\Interfaces\ApiResponseInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseCookieInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ApiResponseInterface;
 
 /**
  * Base Class for API Responses

@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\ApiResponses\BadRequestResponses;
+namespace BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses;
 
 /**
  * Response that should be used if the route require properties in the request body that are missing.

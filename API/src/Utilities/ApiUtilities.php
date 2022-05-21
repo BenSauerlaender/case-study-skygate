@@ -11,7 +11,7 @@ namespace BenSauer\CaseStudySkygateApi\Utilities;
 
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Request;
-use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\Interfaces\ApiResponseInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ApiResponseInterface;
 use BenSauer\CaseStudySkygateApi\Controller\ApiController;
 use BenSauer\CaseStudySkygateApi\Controller\AuthenticationController;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;

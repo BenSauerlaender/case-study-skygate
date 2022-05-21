@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\ApiResponses;
+namespace BenSauer\CaseStudySkygateApi\Objects\Responses;
 
-use BenSauer\CaseStudySkygateApi\Objects\ApiResponses\Interfaces\ResponseCookieInterface;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseCookieInterface;
 
 /**
  * Base Class to represent an Cookie that can be send to the client
