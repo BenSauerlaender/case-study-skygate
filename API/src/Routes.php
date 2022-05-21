@@ -11,17 +11,6 @@ namespace BenSauer\CaseStudySkygateApi;
 
 use BadMethodCallException;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\BadRequestResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\InvalidPropertyResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\InvalidQueryResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\MissingPropertyResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\UserNotFoundResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\CreatedResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\DataResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\NoContentResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\RedirectionResponse;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\RefreshTokenCookie;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\SetCookieResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInterface;
@@ -34,6 +23,17 @@ use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenExceptio
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
+use BenSauer\CaseStudySkygateApi\Objects\Cookies\RefreshTokenCookie;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\InvalidPropertyResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\InvalidQueryResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\MissingPropertyResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\UserNotFoundResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\RedirectionResponse\RedirectionResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\CreatedResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\DataResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\NoContentResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\SetCookieResponse;
 use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 use BenSauer\CaseStudySkygateApi\Utilities\MailUtilities;
 use InvalidArgumentException;
@@ -338,7 +338,7 @@ class Routes
                         try {
                             ApiUtilities::setUpQueryFromArray($uq, $queryConfig, ["page", "index"]);
                         } catch (InvalidPropertyException $e) {
-                            return new BadRequestResponse("There are parts of the query string that are invalid.", 111);
+                            return new InvalidQueryResponse();
                         }
 
                         $pagesize = $queryConfig["page"] ?? null;
@@ -368,7 +368,7 @@ class Routes
                         try {
                             ApiUtilities::setUpQueryFromArray($uq, $queryConfig, ["page", "index"]);
                         } catch (InvalidPropertyException $e) {
-                            return new BadRequestResponse("There are parts of the query string that are invalid.", 111);
+                            return new InvalidQueryResponse();
                         }
                         return new DataResponse(["length" => $uq->getLength()]);
                     }

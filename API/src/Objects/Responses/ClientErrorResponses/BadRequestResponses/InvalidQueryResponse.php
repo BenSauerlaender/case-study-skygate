@@ -14,8 +14,8 @@ namespace BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\Ba
  */
 class InvalidQueryResponse extends BadRequestResponse
 {
-    public function __construct(array $invalidQuery)
+    public function __construct()
     {
-        parent::__construct("There are parts of the query string that are invalid.", 111, ["invalidQuery" => $invalidQuery]);
+        parent::__construct("There are parts of the query string that are invalid.", 111);
     }
 }

@@ -31,6 +31,8 @@ use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundExc
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AuthorizationErrorResponse;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
+use BenSauer\CaseStudySkygateApi\tests\Unit\Objects\Responses\BaseResponseTest;
 use Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -249,13 +251,13 @@ final class ApiControllerTest extends TestCase
                 "requireAuth" => false,
                 "ids" => ["testID"],
                 "function" => function ($req, $ids) {
-                    return new NotSecureResponse();
+                    return new BadRequestResponse("", 0);
                 }
             ]);
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
-        $this->assertTrue(is_a($response, NotSecureResponse::class));
+        $this->assertTrue(is_a($response, BadRequestResponse::class));
     }
 
     /**
@@ -404,7 +406,7 @@ final class ApiControllerTest extends TestCase
                 "permissions" => ["p"],
                 "ids" => [1, 2, 3],
                 "function" => function ($req, $ids) {
-                    return new NotSecureResponse();
+                    return new BadRequestResponse("", 0);
                 }
             ]);
 
@@ -422,6 +424,6 @@ final class ApiControllerTest extends TestCase
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
-        $this->assertTrue(is_a($response, NotSecureResponse::class));
+        $this->assertTrue(is_a($response, BadRequestResponse::class));
     }
 }
