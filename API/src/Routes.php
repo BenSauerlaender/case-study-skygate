@@ -22,7 +22,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\MissingPropertiesException;
 use BenSauer\CaseStudySkygateApi\Objects\Cookies\RefreshTokenCookie;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\InvalidPropertyResponse;
@@ -61,7 +61,7 @@ class Routes
                             MailSender::sendVerificationRequest($fields["email"], $fields["name"], $ret["id"], $ret["verificationCode"]);
 
                             return new CreatedResponse();
-                        } catch (RequiredFieldException $e) {
+                        } catch (MissingPropertiesException $e) {
                             return new MissingPropertyResponse($e->getMissing());
                         } catch (InvalidPropertyException $e) {
                             return new InvalidPropertyResponse($e->getInvalidField());
@@ -101,14 +101,14 @@ class Routes
 
                         $fields = $req->getBody();
 
-                        $missingFields = array_diff_key(["email" => null, "password" => null], $fields ?? []);
-
-                        $email = strtolower($fields["email"] ?? "");
-                        $pass = $fields["password"] ?? "";
+                        $missingFields = array_diff_key(array_flip(["email", "password"]), $fields ?? []);
 
                         if (sizeOf($missingFields) !== 0) {
                             return new MissingPropertyResponse(array_keys($missingFields));
                         }
+
+                        $email = strtolower($fields["email"] ?? "");
+                        $pass = $fields["password"] ?? "";
 
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
@@ -227,7 +227,7 @@ class Routes
 
                         $fields = $req->getBody();
 
-                        $missingFields = array_diff_key(["oldPassword" => null, "newPassword" => null], $fields ?? []);
+                        $missingFields = array_diff_key(array_flip(["oldPassword", "newPassword"]), $fields ?? []);
 
                         if (sizeOf($missingFields) !== 0) {
                             return new MissingPropertyResponse(array_keys($missingFields));
@@ -261,7 +261,7 @@ class Routes
 
                         $fields = $req->getBody();
 
-                        $missingFields = array_diff_key(["email" => null], $fields ?? []);
+                        $missingFields = array_diff_key(array_flip(["email"]), $fields ?? []);
 
                         if (sizeOf($missingFields) !== 0) {
                             return new MissingPropertyResponse($missingFields);

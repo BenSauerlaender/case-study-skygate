@@ -12,6 +12,9 @@ namespace BenSauer\CaseStudySkygateApi\Controller;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\SecurityControllerInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\PasswordHashException;
 
+/**
+ * Implementation of SecurityControllerInterface
+ */
 class SecurityController implements SecurityControllerInterface
 {
     public function hashPassword(string $pass): string
@@ -31,6 +34,7 @@ class SecurityController implements SecurityControllerInterface
     {
         $ret = "";
 
+        //add "length" times one digit between 1 and 9 to ret
         for ($i = 0; $i < $length; $i++) {
             $num = rand(1, 9);
             $ret = $ret . "{$num}";

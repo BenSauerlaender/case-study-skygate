@@ -12,7 +12,7 @@ use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
 
 /**
- * Controller that handles all the routes and finds the right.
+ * Controller that handles all the routes and finds the correct one.
  */
 interface RoutingControllerInterface
 {
@@ -23,7 +23,7 @@ interface RoutingControllerInterface
      * @param  ApiMethod            $method     Requested Method.
      * @return array<string,mixed>  $route      The found route.
      *   $route = [
-     *     "ids"            => (array<string,mixed>)    Key-Value pair for each path replacement.
+     *     "params"         => (array<string,mixed>)    Key-Value pair for each route paramters.
      *     "requireAuth"    => (bool)                   True if authentication is required.
      *     "permissions"    => (array<string>)          List of required permissions.
      *     "function"       => (Closure)                Anonymous function that process the route.

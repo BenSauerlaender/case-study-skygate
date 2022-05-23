@@ -12,14 +12,17 @@ namespace BenSauer\CaseStudySkygateApi\Controller;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
 use TypeError;
 
+/**
+ * Implementation of ValidationControllerInterface
+ */
 class ValidationController implements ValidationControllerInterface
 {
     /** 
-     * Dictionary: field => validation method
+     * Dictionary: property => validation method
      * 
-     * its for choosing the right Validator for each field.
+     * its for choosing the right Validator for each property.
      *
-     * @var  array<string,string> $getValidator = [fieldName => validationFunction]
+     * @var  array<string,string> $getValidator = [propertyName => validationMethod]
      */
     private array $getValidator = [
         "email"     => "isEmail",
@@ -30,21 +33,22 @@ class ValidationController implements ValidationControllerInterface
         "password"  => "isPassword"
     ];
 
-    public function validate(array $fields): mixed
+    public function validate(array $properties): mixed
     {
-        $invalidFields = [];
+        /** A list of invalid Properties, and there reasons */
+        $invalidProperties = [];
 
-        //checks if all fields are supported
-        //throws Exception if not
-        foreach ($fields as $key => $value) {
+        //checks if all properties are supported
+        //Add to invalidProperties list. incl. the reason
+        foreach ($properties as $key => $value) {
             if (!array_key_exists($key, $this->getValidator)) {
-                $invalidFields[$key] = ["UNSUPPORTED"];
-                unset($fields[$key]);
+                $invalidProperties[$key] = ["UNSUPPORTED"];
+                unset($properties[$key]);
             }
         }
 
-        //validate each field by the right validation method
-        foreach ($fields as $key => $value) {
+        //validate each property by the right validation method
+        foreach ($properties as $key => $value) {
             //get validation method and errorCode
             $Validator = $this->getValidator[$key];
 
@@ -52,18 +56,18 @@ class ValidationController implements ValidationControllerInterface
             try {
                 $return = $this->{$Validator}($value);
                 if ($return !== true) {
-                    $invalidFields[$key] = $return;
+                    $invalidProperties[$key] = $return;
                 }
             } catch (TypeError $e) {
-                $invalidFields[$key] = ["INVALID_TYPE"];
+                $invalidProperties[$key] = ["INVALID_TYPE"];
             }
         }
 
-        //return true if every field is valid
-        if (sizeof($invalidFields) === 0) return true;
+        //return true if every property is valid
+        if (sizeof($invalidProperties) === 0) return true;
 
         //otherwise return the reasons
-        return $invalidFields;
+        return $invalidProperties;
     }
 
     /**
@@ -85,7 +89,6 @@ class ValidationController implements ValidationControllerInterface
         else return $reasons;
     }
 
-    //TODO add a config 
     /**
      * Validates if a string is a valid password
      *
@@ -97,22 +100,22 @@ class ValidationController implements ValidationControllerInterface
         $reasons = [];
 
         //password is at least 8 characters long
-        if (strlen($pass) < 8) array_push($reasons, "TO_SHORT");
+        if (strlen($pass) < 8) $reasons += ["TO_SHORT"];
 
         //password is not longer than 50 characters
-        if (strlen($pass) > 50) array_push($reasons, "TO_LONG");
+        if (strlen($pass) > 50) $reasons += ["TO_LONG"];
 
         //password only contains letters(also umlaute), numbers and these special characters: # ? ! @ $ % ^ & . * - +
-        if (preg_match("/^[a-zA-ZÄÖÜäöüß0-9#?!@$%^&.*\-+]*$/", $pass) !== 1) array_push($reasons, "INVALID_CHAR");
+        if (preg_match("/^[a-zA-ZÄÖÜäöüß0-9#?!@$%^&.*\-+]*$/", $pass) !== 1) $reasons += ["INVALID_CHAR"];
 
         //password contains at least one lower case letter
-        if (preg_match("/[a-zäöüß]+/", $pass) !== 1) array_push($reasons, "NO_LOWER_CASE");
+        if (preg_match("/[a-zäöüß]+/", $pass) !== 1) $reasons += ["NO_LOWER_CASE"];
 
         //password contains at least one upper case letter
-        if (preg_match("/[A-ZÄÖÜ}]+/", $pass) !== 1) array_push($reasons, "NO_UPPER_CASE");
+        if (preg_match("/[A-ZÄÖÜ}]+/", $pass) !== 1) $reasons += ["NO_UPPER_CASE"];
 
         //password contains at least one number
-        if (preg_match("/[0-9]+/", $pass) !== 1) array_push($reasons, "NO_NUMBER");
+        if (preg_match("/[0-9]+/", $pass) !== 1) $reasons += ["NO_NUMBER"];
 
         if (sizeof($reasons) === 0) return true;
         else return $reasons;

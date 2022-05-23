@@ -12,7 +12,7 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\UserNotFo
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\MissingPropertiesException;
 
 use function PHPSTORM_META\map;
 

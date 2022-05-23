@@ -10,7 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\MissingPropertiesException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
 
 /**
@@ -106,7 +106,7 @@ final class UCICreateTest extends BaseUCITest
                     "phone"     => "myPhone",
                     "password"  => "MyPassword",
                     "role"      => "myRole"
-                ], RequiredFieldException::class
+                ], MissingPropertiesException::class
             ],
             "unsupported field" => [
                 [

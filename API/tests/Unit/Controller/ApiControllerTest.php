@@ -294,7 +294,7 @@ final class ApiControllerTest extends TestCase
             ->willReturn("token");
 
         $this->authMock->expects($this->once())
-            ->method("authenticateAccessToken")
+            ->method("validateAccessToken")
             ->will($this->throwException(new ExpiredTokenException()));
 
         $response = $this->apiController->handleRequest($this->reqMock);
@@ -320,7 +320,7 @@ final class ApiControllerTest extends TestCase
             ->willReturn("token");
 
         $this->authMock->expects($this->once())
-            ->method("authenticateAccessToken")
+            ->method("validateAccessToken")
             ->will($this->throwException(new InvalidTokenException()));
 
         $response = $this->apiController->handleRequest($this->reqMock);
@@ -346,7 +346,7 @@ final class ApiControllerTest extends TestCase
             ->willReturn("token");
 
         $this->authMock->expects($this->once())
-            ->method("authenticateAccessToken")
+            ->method("validateAccessToken")
             ->will($this->throwException(new InvalidArgumentException()));
 
         $response = $this->apiController->handleRequest($this->reqMock);
@@ -373,7 +373,7 @@ final class ApiControllerTest extends TestCase
             ->willReturn("token");
 
         $this->authMock->expects($this->once())
-            ->method("authenticateAccessToken")
+            ->method("validateAccessToken")
             ->with("token")
             ->willReturn(["auth"]);
 
@@ -410,7 +410,7 @@ final class ApiControllerTest extends TestCase
             ->willReturn("token");
 
         $this->authMock->expects($this->once())
-            ->method("authenticateAccessToken")
+            ->method("validateAccessToken")
             ->willReturn(["auth"]);
 
         $this->authMock->expects($this->once())

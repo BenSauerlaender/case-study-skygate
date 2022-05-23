@@ -296,7 +296,7 @@ final class MySqlUserAccessorTest extends BaseMySqlAccessorTest
         //check if created and updated are there. than remove them.
         $this->assertArrayHasKey("createdAt", $response);
         $this->assertArrayHasKey("updatedAt", $response);
-        $response = array_diff_key($response, ["updatedAt" => "", "createdAt" => ""]);
+        $response = array_diff_key($response, array_flip(["updatedAt", "createdAt"]));
 
         $this->assertEquals([
             "id"                => 1,

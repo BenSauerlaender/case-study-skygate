@@ -238,17 +238,17 @@ final class AuthenticationControllerTest extends TestCase
     /**
      * Tests if the method throws the correct exception if the string is no jwt
      */
-    public function testAuthenticateAccessTokenWithInvalidString(): void
+    public function testvalidateAccessTokenWithInvalidString(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->authController->authenticateAccessToken("");
+        $this->authController->validateAccessToken("");
     }
 
     /**
      * Tests if the method throws the correct exception if the accessToken is expired
      */
-    public function testAuthenticateAccessTokenWithExpiredToken(): void
+    public function testvalidateAccessTokenWithExpiredToken(): void
     {
         $this->expectException(ExpiredTokenException::class);
 
@@ -261,13 +261,13 @@ final class AuthenticationControllerTest extends TestCase
 
         sleep(2);
 
-        $this->authController->authenticateAccessToken($token);
+        $this->authController->validateAccessToken($token);
     }
 
     /**
      * Tests if the method returns the correct array 
      */
-    public function testAuthenticateAccessTokenSuccessful(): void
+    public function testvalidateAccessTokenSuccessful(): void
     {
         $payload = [
             'exp' => time() + 100,
@@ -277,7 +277,7 @@ final class AuthenticationControllerTest extends TestCase
 
         $token = Token::customPayload($payload, $_ENV["ACCESS_TOKEN_SECRET"]);
 
-        $ret = $this->authController->authenticateAccessToken($token);
+        $ret = $this->authController->validateAccessToken($token);
         $this->assertEquals(["ids" => ["userID" => 1], "permissions" => ["perm123"]], $ret);
     }
 
@@ -286,7 +286,7 @@ final class AuthenticationControllerTest extends TestCase
      * 
      * @dataProvider invalidPermissionProvider
      */
-    public function testHasPermissionsWithInvalidReqPermissionString(array $perm): void
+    public function testhasPermissionssWithInvalidReqPermissionString(array $perm): void
     {
         $this->expectException(InvalidPermissionsException::class);
         $this->authController->hasPermission(["permissions" => $perm, "ids" => []], ["permissions" => ["user:{all}:{all}"], "ids" => []]);
@@ -297,7 +297,7 @@ final class AuthenticationControllerTest extends TestCase
      * 
      * @dataProvider invalidPermissionProvider
      */
-    public function testHasPermissionsWithInvalidUserPermissionString(array $perm): void
+    public function testhasPermissionssWithInvalidUserPermissionString(array $perm): void
     {
         $this->expectException(InvalidPermissionsException::class);
         $this->authController->hasPermission(["permissions" => ["user:{all}:{all}"], "ids" => []], ["permissions" => $perm, "ids" => []]);
@@ -321,7 +321,7 @@ final class AuthenticationControllerTest extends TestCase
      * 
      * @dataProvider invalidObjProvider
      */
-    public function testHasPermissionsWithInvalidAuth(array $auth): void
+    public function testhasPermissionssWithInvalidAuth(array $auth): void
     {
         $this->expectException(InvalidPermissionsException::class);
         $this->authController->hasPermission(["permissions" => ["user:{all}:{all}"], "ids" => []], $auth);
@@ -332,7 +332,7 @@ final class AuthenticationControllerTest extends TestCase
      * 
      * @dataProvider invalidObjProvider
      */
-    public function testHasPermissionsWithInvalidRoute(array $route): void
+    public function testhasPermissionssWithInvalidRoute(array $route): void
     {
         $this->expectException(InvalidPermissionsException::class);
         $this->authController->hasPermission($route, ["permissions" => ["user:{all}:{all}"], "ids" => []]);
@@ -355,7 +355,7 @@ final class AuthenticationControllerTest extends TestCase
      * 
      * @dataProvider permissionProvider
      */
-    public function testHasPermissions(array $req, array $user, $hasPerm): void
+    public function testhasPermissionss(array $req, array $user, $hasPerm): void
     {
         $ret = $this->authController->hasPermission($req, $user);
         $this->assertEquals($hasPerm, $ret);

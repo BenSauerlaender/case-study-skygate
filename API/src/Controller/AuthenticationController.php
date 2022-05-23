@@ -19,6 +19,9 @@ use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenExceptio
 use InvalidArgumentException;
 use ReallySimpleJWT\Token;
 
+/**
+ * Implementation of AuthenticationControllerInterface
+ */
 class AuthenticationController implements AuthenticationControllerInterface
 {
     private UserAccessorInterface $userAccessor;
@@ -32,34 +35,9 @@ class AuthenticationController implements AuthenticationControllerInterface
         $this->roleAccessor = $roleAccessor;
     }
 
-    public function authenticateAccessToken(string $accessToken): array
-    {
-        //check if the string is a valid JWT
-        if (!Token::validate($accessToken, $_ENV["ACCESS_TOKEN_SECRET"])) {
-            throw new InvalidArgumentException();
-        }
-
-        //check if the JWT is not expired
-        if (!Token::validateExpiration($accessToken)) {
-            throw new ExpiredTokenException();
-        }
-
-        //get the payload - return it
-        $payload = Token::getPayLoad($accessToken);
-        if ($payload["perm"] === "") {
-            $permissionArray = [];
-        } else {
-            $permissionArray = explode(";", $payload["perm"]);
-        }
-        return [
-            "ids" => ["userID" => $payload["id"]],
-            "permissions" => $permissionArray,
-        ];
-    }
-
-
     public function getNewRefreshToken(string $email): string
     {
+        //get the userID from the database
         $userID = $this->userAccessor->findByEmail($email);
         if (is_null($userID)) throw new UserNotFoundException();
 
@@ -93,10 +71,10 @@ class AuthenticationController implements AuthenticationControllerInterface
         }
 
         $payload = Token::getPayLoad($refreshToken);
+        $userID = $payload["id"];
 
         //get the users current refresh token count
-        $rtCount = $this->refreshTokenAccessor->getCountByUserID($payload["id"]);
-
+        $rtCount = $this->refreshTokenAccessor->getCountByUserID($userID);
         if (is_null($rtCount)) throw new UserNotFoundException();
 
         //check if the token is valid
@@ -104,13 +82,16 @@ class AuthenticationController implements AuthenticationControllerInterface
             throw new InvalidTokenException("The Token is no longer valid");
         }
 
-        //get the users permissions
-        $roleID = $this->userAccessor->get($payload["id"])["roleID"];
+        //get the users permissions from the database
+        $roleID = $this->userAccessor->get($userID)["roleID"];
         $permissions = $this->roleAccessor->get($roleID)["permissions"];
+
+        //replace the "{userID}" placeholder by the users id
+        $permissions = str_replace("{userID}", "$userID", $permissions);
 
         $payload = [
             'exp' => time() + 60 * 15, //valid for 15 minutes
-            'id'  => $payload["id"],
+            'id'  => $userID,
             'perm' => $permissions
         ];
 
@@ -119,45 +100,71 @@ class AuthenticationController implements AuthenticationControllerInterface
         return $token;
     }
 
+    public function validateAccessToken(string $accessToken): array
+    {
+        //check if the string is a valid JWT
+        if (!Token::validate($accessToken, $_ENV["ACCESS_TOKEN_SECRET"])) {
+            throw new InvalidArgumentException();
+        }
+
+        //check if the JWT is not expired
+        if (!Token::validateExpiration($accessToken)) {
+            throw new ExpiredTokenException();
+        }
+
+        //get the payload 
+        $payload = Token::getPayLoad($accessToken);
+
+        if ($payload["perm"] === "") {
+            $permissionArray = [];
+        } else {
+            //permissions string to array
+            $permissionArray = explode(";", $payload["perm"]);
+        }
+
+        //return the requester-object
+        return [
+            "userID" => $payload["id"],
+            "permissions" => $permissionArray,
+        ];
+    }
+
     /**
      * A list of resources, for those permissions can be defined
      */
     private const RECOURSES = ["user"];
+
     /**
      * A list of methods, for those permissions can be defined
      */
     private const METHODS = ["create", "read", "update", "delete"];
 
-    public function hasPermission(array $route, array $auth): bool
+    public function hasPermissions(array $givenPermissions, array $requiredPermissions): bool
     {
-        try {
-            //parse the permission arrays into convenient nested objects
-            $reqPerm = $this->parsePermissionArray($route);
-            $userPerm = $this->parsePermissionArray($auth);
-        } catch (InvalidArgumentException $e) {
-            throw new InvalidPermissionsException("One of the permissions is is not valid", 0, $e);
-        }
+        //parse the permission arrays into convenient nested objects
+        $givenPermissions = $this->parsePermissions($givenPermissions);
+        $requiredPermissions = $this->parsePermissions($requiredPermissions);
 
         //for each required resource
-        foreach ($reqPerm as $res => $methods) {
+        foreach ($requiredPermissions as $resource => $methods) {
 
-            //check if user have any permissions for that resource
-            if (!isset($userPerm[$res])) return false;
+            //check if the user has any permissions for that resource
+            if (!isset($userPerm[$resource])) return false;
 
             //for each required method
             foreach ($methods as $method => $scope) {
 
                 //check if user have any permissions for that method
-                if (!isset($userPerm[$res][$method])) return false;
+                if (!isset($userPerm[$resource][$method])) return false;
 
                 //if the user has not permissions for the whole scope
-                if ($userPerm[$res][$method] !== "{all}") {
+                if ($userPerm[$resource][$method] !== "{all}") {
 
                     //if permission for the whole scope is required
                     if ($scope === "{all}") return false;
 
-                    //if not has the user the rights for the required scope
-                    if ($scope !== $userPerm[$res][$method]) return false;
+                    //if not: check if the user has the rights for the required scope
+                    if ($scope !== $userPerm[$resource][$method]) return false;
                 }
             }
         }
@@ -165,32 +172,27 @@ class AuthenticationController implements AuthenticationControllerInterface
         return true;
     }
 
-
     /**
-     * Converts an object with "permissions" and "ids" in an nested object
+     * Converts a list of permission-strings in an nested permission-object
      *
-     * @param  array<string,array<string>|array<int>> $obj
+     * @param  array<string> $permissions
      * @return array<string,array<string,string|int>  $nestedPermissions
      *  $nestedPermissions = [
      *    (string) resource => [
      *       (string) method => (string|int) The scope.
      *    ]
      *  ]
-     * @throws InvalidArgumentException if the $obj array don't have all necessary values or the permission string is invalid
+     * @throws InvalidArgumentException if one of the permission strings is invalid
      */
-    private function parsePermissionArray(array $obj): array
+    private function parsePermissions(array $permissions): array
     {
-        //check if all keys are present
-        if (!isset($obj["permissions"]) or !isset($obj["ids"])) throw new InvalidArgumentException("One of the Arguments has not all necessary fields");
-        if (!is_array($obj["permissions"]) or !is_array($obj["ids"])) throw new InvalidArgumentException("One of the Arguments has fields with invalid types");
-
         //the object to return
-        $permissions = [];
+        $ret = [];
 
         //go through each permission string
-        foreach ($obj["permissions"] as $permString) {
+        foreach ($permissions as $permString) {
 
-            //explode the string.
+            //explode the permission string in its parts.
             //expect the string to have the following format: "<resource>:<method>:<scope>"
             $permStringExplode = explode(":", $permString);
             if (sizeof($permStringExplode) !== 3) throw new InvalidArgumentException("$permString is not a valid permission string");
@@ -198,7 +200,7 @@ class AuthenticationController implements AuthenticationControllerInterface
             //a list of resources that this string applies permissions to 
             $resources = [];
 
-            //if all -> add all resources, otherwise only the specified (when it is available)
+            //if all-permission: add all resources, otherwise only the specified (when it is available)
             $res = $permStringExplode[0];
             if ($res === "{all}") {
                 $resources = self::RECOURSES;
@@ -209,13 +211,11 @@ class AuthenticationController implements AuthenticationControllerInterface
 
             //for each of the resources
             foreach ($resources as $resource) {
-
                 //add the resource as key to the return array (if not already there)
-                if (!isset($permissions[$resource])) $permissions[$resource] = [];
+                if (!isset($ret[$resource])) $ret[$resource] = [];
 
                 //a list of methods that this string applies permissions to 
                 $methods = [];
-
 
                 //if all -> add all methods, otherwise only the specified (when it is available)
                 $method = $permStringExplode[1];
@@ -229,21 +229,19 @@ class AuthenticationController implements AuthenticationControllerInterface
                 //for each method
                 foreach ($methods as $meth) {
 
-                    //get the scope (either its {all} or a specified id from the ids array or invalid)
+                    //get the scope (either its {all} or a specified id (int))
                     $scope = $permStringExplode[2];
-                    //replace the id-name with the id itself
-                    if ($scope !== "{all}") {
-                        if (substr($scope, 0, 1) !== "{" or substr($scope, -1, 1) !== "}") throw new InvalidArgumentException("$scope is not a valid scope");
 
-                        $id = substr($scope, 1, -1);
-                        if (!isset($obj["ids"][$id]) or !is_int($obj["ids"][$id])) throw new InvalidArgumentException("$id cant be found in one of the id-arrays");
-                        $scope = $obj["ids"][$id];
+                    //save as int if it is one
+                    if (ctype_digit($scope)) {
+                        $scope = (int) $scope;
                     }
-                    //safe the method together with the scope to the nested array
-                    $permissions[$resource][$meth] = $scope;
+
+                    //add scope and method to the return array
+                    $ret[$resource][$meth] = $scope;
                 }
             }
         }
-        return $permissions;
+        return $ret;
     }
 }

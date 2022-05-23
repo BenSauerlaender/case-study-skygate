@@ -117,8 +117,9 @@ class Request implements RequestInterface
                 if (sizeof($pair) !== 2) throw new InvalidApiQueryException("The query string part: '$p' is not valid");
 
                 //if value is an int: save as int otherwise get the string
-                $val = filter_var($pair[1], FILTER_VALIDATE_INT);
-                if ($val === false) {
+                if (ctype_digit($pair[1])) {
+                    $val = (int) $pair[1];
+                } else {
                     //fix url encoding
                     $val = str_replace("+", " ", $pair[1]);
                 }

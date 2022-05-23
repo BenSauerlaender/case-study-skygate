@@ -44,9 +44,8 @@ use PDO;
  */
 class ApiController implements ApiControllerInterface
 {
-
-    private RoutingControllerInterface $routing;
-    private AuthenticationControllerInterface $auth;
+    private RoutingControllerInterface $routingController;
+    private AuthenticationControllerInterface $authenticationController;
 
     //Attention: This is used inside the route functions
     private array $controller;
@@ -55,15 +54,15 @@ class ApiController implements ApiControllerInterface
     /**
      * Construct the ApiController
      *
-     * @param  RoutingControllerInterface        $routing               A RoutingController to choose a route.
-     * @param  AuthenticationControllerInterface $auth                  A authenticationController authenticate the request.
-     * @param  array<string,mixed>               $additionalController  An Array of additional Controllers (with there names as keys), that can be used from the routes functions.
-     * @param  array<string,mixed>               $additionalAccessors   An Array of additional Accessors (with there names as keys), that can be used from the routes functions.
+     * @param  RoutingControllerInterface        $routingController         A RoutingController to choose a route.
+     * @param  AuthenticationControllerInterface $authenticationController  A authenticationController authenticate the request.
+     * @param  array<string,mixed>               $additionalController      An Array of additional Controllers (with there names as keys), that can be used from the routes functions.
+     * @param  array<string,mixed>               $additionalAccessors       An Array of additional Accessors (with there names as keys), that can be used from the routes functions.
      */
-    public function __construct(RoutingControllerInterface $routing, AuthenticationControllerInterface $auth,  array $additionalController, array $additionalAccessors)
+    public function __construct(RoutingControllerInterface $routingController, AuthenticationControllerInterface $authenticationController,  array $additionalController, array $additionalAccessors)
     {
-        $this->routing = $routing;
-        $this->auth = $auth;
+        $this->routingController = $routingController;
+        $this->authenticationController = $authenticationController;
         $this->controller = $additionalController;
         $this->accessors = $additionalAccessors;
     }
@@ -118,7 +117,7 @@ class ApiController implements ApiControllerInterface
     {
         //search for the correct route
         try {
-            $route = $this->routing->route($request->getPath(), $request->getMethod());
+            $route = $this->routingController->route($request->getPath(), $request->getMethod());
         } catch (ApiPathNotFoundException $e) {
             //no matching route found
             return new ResourceNotFoundResponse();
@@ -138,7 +137,7 @@ class ApiController implements ApiControllerInterface
 
             //authenticate the requester via the access token
             try {
-                $auth = $this->auth->authenticateAccessToken($accessToken);
+                $requester = $this->authenticationController->validateAccessToken($accessToken);
             } catch (ExpiredTokenException $e) {
                 return new AuthorizationErrorResponse("The JWT Access Token is expired. Use GET /token to get a new one one", 103);
             } catch (InvalidTokenException | InvalidArgumentException $e) {
@@ -146,7 +145,7 @@ class ApiController implements ApiControllerInterface
             }
 
             //check if the requester has all required permissions for this route
-            if (!$this->auth->hasPermission($route, $auth)) {
+            if (!$this->authenticationController->hasPermissions($requester["permissions"], $route["permissions"])) {
                 return new MissingPermissionsResponse($route["permissions"]);
             }
         }

@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Controller\Interfaces;
 
+/**
+ * Controller for generating and checking passwords and codes
+ */
 interface SecurityControllerInterface
 {
     /**

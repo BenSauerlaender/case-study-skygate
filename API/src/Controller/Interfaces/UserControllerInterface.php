@@ -16,13 +16,13 @@ interface UserControllerInterface
     /**
      * Creates a new user
      * 
-     * Validates all fields.
+     * Validates all properties.
      * Hashes the password.
      * Generates verification code.
      * Writes the new user to the database.
      *
-     * @param  array<string,string> $fields   The fields to give the new user
-     *  $fields = [
+     * @param  array<string,string> $properties   The properties to give the new user
+     *  $properties = [
      *      "email"     => (string)   The users e-mail. Required.
      *      "name"      => (string)   The users first and last name. Required.
      *      "postcode"  => (string)   The users postcode. Required.
@@ -31,20 +31,20 @@ interface UserControllerInterface
      *      "password"  => (string)   The users password. Required.
      *      "role"      => (string)   The users role. Default: "user"
      *  ]
-     * @return array{id: int, verificationCode: string} The user's id and the verification code to verify the user 
+     * @return array[id => (int), verificationCode => (string)] The user's id and the verification code to verify the user 
      * 
-     * @throws DBexception            if there is a problem with the database.
-     * @throws ValidationException          if there are invalid fields.
-     *          (RequiredFieldException | InvalidPropertyException)
+     * @throws DBexception                  if there is a problem with the database.
+     * @throws ValidationException          if there are missing or invalid properties.
+     *          (MissingPropertiesException | InvalidPropertyException)
      */
-    public function createUser(array $fields): array;
+    public function createUser(array $properties): array;
 
     /**
      * Gets a user
      *
      * @param int $id   The users id.
-     * @return  array<string,string> $user   The User array
-     *  $fields = [
+     * @return  array<string,string> $properties   The User properties
+     *  $properties = [
      *      "email"     => (string)   The users e-mail.
      *      "name"      => (string)   The users first and last name.
      *      "postcode"  => (string)   The users postcode.
@@ -69,11 +69,11 @@ interface UserControllerInterface
     public function deleteUser(int $id): void;
 
     /**
-     * Updates the user's fields
+     * Updates the user's properties
      *
      * @param  int   $id the users id
-     * @param  array<string,string> $fields   The fields to update.
-     *  $fields = [
+     * @param  array<string,string> $properties   The properties to update.
+     *  $properties = [
      *      "name"      => (string)   The users first and last name.
      *      "postcode"  => (string)   The users postcode.
      *      "city"      => (string)   The users city.
@@ -81,12 +81,12 @@ interface UserControllerInterface
      *      "role"      => (string)   The users role. Options: "user", "admin".
      *  ]
      * 
-     * @throws DBexception    if there is a problem with the database.
+     * @throws DBexception                  if there is a problem with the database.
      *          (UserNotFoundException | RoleNotFoundException ...)
-     * @throws ValidationException  if fields array is invalid.
+     * @throws ValidationException          if properties array is invalid.
      *          (ArrayIsEmptyException | InvalidPropertyException )
      */
-    public function updateUser(int $id, array $fields): void;
+    public function updateUser(int $id, array $properties): void;
 
     /**
      * Verifies the user if the code is correct
@@ -99,7 +99,7 @@ interface UserControllerInterface
      * @return bool                         returns false if code is incorrect, true otherwise.
      * 
      * @throws BadMethodCallException   if the user is already verified.
-     * @throws DBexception        if there is a problem with the database.
+     * @throws DBexception              if there is a problem with the database.
      *          (UserNotFoundException | ...)
      */
     public function verifyUser(int $id, string $verificationCode): bool;
@@ -117,7 +117,7 @@ interface UserControllerInterface
     public function checkEmailPassword(string $email, string $password): bool;
 
     /**
-     * Changes the users password if the old is correct
+     * Changes the users password if the old one is correct
      * 
      * Checks if the old password matches.
      * Validates the new password.
@@ -129,8 +129,8 @@ interface UserControllerInterface
      * @param  string $old_password     The users new password.
      * @return bool                     returns false if old password is incorrect, true otherwise.
      * 
-     * @throws InvalidPropertyException    if the new password is not valid.
-     * @throws DBexception        if there is a problem with the database.
+     * @throws InvalidPropertyException     if the new password is not valid.
+     * @throws DBexception                  if there is a problem with the database.
      *          (UserNotFoundException | ...)
      */
     public function updateUsersPassword(int $id, string $new_password, string $old_password): bool;
@@ -146,8 +146,8 @@ interface UserControllerInterface
      * @param  string $newEmail The users new email.
      * @return string           The verification code to verify the Request.   
      *  
-     * @throws InvalidPropertyException    if the new email is not valid.
-     * @throws DBexception        if there is a problem with the database.
+     * @throws InvalidPropertyException     if the new email is not valid.
+     * @throws DBexception                  if there is a problem with the database.
      *          (UserNotFoundException | ...)
      */
     public function requestUsersEmailChange(int $id, string $newEmail): string;

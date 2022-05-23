@@ -25,24 +25,23 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInter
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\MissingPropertiesException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
 
-use function BenSauer\CaseStudySkygateApi\Utilities\mapped_implode;
-use function PHPUnit\Framework\isNull;
-
+/**
+ * Implementation of UserControllerInterface
+ */
 class UserController implements UserControllerInterface
 {
-    private SecurityControllerInterface $securityUtil;
+    private SecurityControllerInterface $securityController;
     private ValidationControllerInterface $ValidationController;
     private UserAccessorInterface $userAccessor;
     private RoleAccessorInterface $roleAccessor;
     private EcrAccessorInterface $ecrAccessor;
 
-    //simple constructor to set all properties //should only be used by UserInterface
-    public function __construct(SecurityControllerInterface $securityUtil, ValidationControllerInterface $ValidationController, UserAccessorInterface $userAccessor, RoleAccessorInterface $roleAccessor, EcrAccessorInterface $ecrAccessor)
+    public function __construct(SecurityControllerInterface $securityController, ValidationControllerInterface $ValidationController, UserAccessorInterface $userAccessor, RoleAccessorInterface $roleAccessor, EcrAccessorInterface $ecrAccessor)
     {
-        $this->securityUtil = $securityUtil;
+        $this->securityController = $securityController;
         $this->ValidationController = $ValidationController;
         $this->userAccessor = $userAccessor;
         $this->roleAccessor = $roleAccessor;
@@ -50,45 +49,46 @@ class UserController implements UserControllerInterface
     }
 
 
-    public function createUser(array $fields): array
+    public function createUser(array $properties): array
     {
-        //checks if all required fields exists
-        $missingFields = array_diff_key(["email" => "email", "name" => "name", "postcode" => "postcode", "city" => "city", "phone" => "phone", "password" => "password"], $fields);
-        if (sizeOf($missingFields) !== 0) {
-            throw new RequiredFieldException($missingFields);
+        //checks if all required properties exists
+        $missingProperties =  array_diff_key(array_flip(["email", "name", "postcode", "city", "phone", "password"]), $properties);
+        if (sizeOf($missingProperties) !== 0) {
+            throw new MissingPropertiesException($missingProperties);
         }
 
-        //validate all fields (except "role").
-        $valid = $this->ValidationController->validate(\array_diff_key($fields, ["role" => ""]));
+        //validate all properties (except "role").
+        $valid = $this->ValidationController->validate(\array_diff_key($properties, ["role" => ""]));
 
+        //if validation fails
         if ($valid !== true) {
             $reasons = $valid;
             throw new InvalidPropertyException($reasons);
         }
 
         //check if the email is free
-        if (!$this->isEmailFree($fields["email"])) {
+        if (!$this->isEmailFree($properties["email"])) {
             throw new InvalidPropertyException(["email" => ["IS_TAKEN"]]);
         }
 
         //get the role id. Default role is "user"
-        $roleName = $fields["role"] ?? "user";
+        $roleName = $properties["role"] ?? "user";
         $roleID = $this->getRoleID($roleName);
 
         //hash the password
-        $hashedPassword = $this->securityUtil->hashPassword($fields["password"]);
+        $hashedPassword = $this->securityController->hashPassword($properties["password"]);
 
         //generate a 10-char verification code
-        $verificationCode = $this->securityUtil->generateCode(10);
+        $verificationCode = $this->securityController->generateCode(10);
 
         //insert the new user into the database
         try {
             $this->userAccessor->insert(
-                $fields["email"],
-                $fields["name"],
-                $fields["postcode"],
-                $fields["city"],
-                $fields["phone"],
+                $properties["email"],
+                $properties["name"],
+                $properties["postcode"],
+                $properties["city"],
+                $properties["phone"],
                 $hashedPassword,
                 false,
                 $verificationCode,
@@ -99,8 +99,9 @@ class UserController implements UserControllerInterface
         }
 
         //find the just created user in the database and return his id.
-        $id = $this->userAccessor->findByEmail($fields["email"]);
-        if (is_null($id)) throw new ShouldNeverHappenException("The just created user(email: " . $fields["email"] . ") can't be found in the database."); // @codeCoverageIgnore
+        $id = $this->userAccessor->findByEmail($properties["email"]);
+        if (is_null($id)) throw new ShouldNeverHappenException("The just created user(email: " . $properties["email"] . ") can't be found in the database."); // @codeCoverageIgnore
+
         return array("id" => $id, "verificationCode" => $verificationCode);
     }
 
@@ -135,29 +136,30 @@ class UserController implements UserControllerInterface
         $this->userAccessor->delete($id);
     }
 
-    public function updateUser(int $id, array $fields): void
+    public function updateUser(int $id, array $properties): void
     {
-        if (array_key_exists("password", $fields)) throw new InvalidPropertyException(["password" => ["UNSUPPORTED"]]);
-        if (array_key_exists("email", $fields)) throw new InvalidPropertyException(["email" => ["UNSUPPORTED"]]);
+        if (array_key_exists("password", $properties)) throw new InvalidPropertyException(["password" => ["UNSUPPORTED"]]);
+        if (array_key_exists("email", $properties)) throw new InvalidPropertyException(["email" => ["UNSUPPORTED"]]);
 
-        if (sizeof($fields) === 0) throw new ArrayIsEmptyException();
+        if (sizeof($properties) === 0) throw new ArrayIsEmptyException();
 
-        //validate all fields (except "role").
-        $valid = $this->ValidationController->validate(\array_diff_key($fields, ["role" => ""]));
+        //validate all properties (except "role").
+        $valid = $this->ValidationController->validate(\array_diff_key($properties, ["role" => ""]));
+        //if validation fails
         if ($valid !== true) {
             $reasons = $valid;
             throw new InvalidPropertyException($reasons);
         }
 
         //replace role name by its id
-        if (array_key_exists("role", $fields)) {
-            $fields["roleID"] = $this->getRoleID($fields["role"]);
-            unset($fields["role"]);
+        if (array_key_exists("role", $properties)) {
+            $properties["roleID"] = $this->getRoleID($properties["role"]);
+            unset($properties["role"]);
         }
 
         //update the database
         try {
-            $this->userAccessor->update($id, $fields);
+            $this->userAccessor->update($id, $properties);
         } catch (ValidationException $e) { // @codeCoverageIgnore
             throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e); // @codeCoverageIgnore
         }
@@ -165,7 +167,7 @@ class UserController implements UserControllerInterface
 
     public function verifyUser(int $id, string $verificationCode): bool
     {
-        //get the users fields
+        //get the users properties
         $user = $this->userAccessor->get($id);
 
         //check if the user is verified already
@@ -187,31 +189,34 @@ class UserController implements UserControllerInterface
 
     public function checkEmailPassword(string $email, string $password): bool
     {
+        //get userID
         $id = $this->userAccessor->findByEmail($email);
         if (is_null($id)) {
             throw new UserNotFoundException();
         }
 
+        //get the users hashed Pass
         try {
-            $user = $this->userAccessor->get($id);
+            $hashedPass = $this->userAccessor->get($id)["hashedPass"];
         } catch (UserNotFoundException $e) {
-            throw new ShouldNeverHappenException("The user was just found by email", 0, $e);
+            throw new ShouldNeverHappenException("The userID was just found by email", 0, $e);
         }
 
-        return $this->securityUtil->checkPassword($password, $user["hashedPass"]);
+        return $this->securityController->checkPassword($password, $hashedPass);
     }
 
     public function updateUsersPassword(int $id, string $newPassword, string $oldPassword): bool
     {
-        //get the users fields
-        $user = $this->userAccessor->get($id);
+        //get the users hashed Pass
+        $hashedPass = $this->userAccessor->get($id)["hashedPass"];
 
         //check if old password is correct
-        if (!$this->securityUtil->checkPassword($oldPassword, $user["hashedPass"])) return false;
+        if (!$this->securityController->checkPassword($oldPassword, $hashedPass)) return false;
 
         //validate new password
         try {
             $valid = $this->ValidationController->validate(["password" => $newPassword]);
+            //if validation fails
             if ($valid !== true) {
                 $reasons = $valid;
                 throw new InvalidPropertyException($reasons);
@@ -222,7 +227,7 @@ class UserController implements UserControllerInterface
 
         //update the database
         try {
-            $this->userAccessor->update($id, array("hashedPass" => $this->securityUtil->hashPassword($newPassword)));
+            $this->userAccessor->update($id, array("hashedPass" => $this->securityController->hashPassword($newPassword)));
         } catch (UserNotFoundException | ValidationException $e) { // @codeCoverageIgnore
             throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e); // @codeCoverageIgnore
         }
@@ -235,6 +240,7 @@ class UserController implements UserControllerInterface
         //validate new email
         try {
             $valid = $this->ValidationController->validate(["email" => $newEmail]);
+            //if validation fails
             if ($valid !== true) {
                 $reasons = $valid;
                 throw new InvalidPropertyException($reasons);
@@ -252,10 +258,10 @@ class UserController implements UserControllerInterface
         try {
             $this->ecrAccessor->deleteByUserID($id);
         } catch (EcrNotFoundException $e) {
-        } //no need to do something. its fine
+        } //no need to do anything. its fine
 
         //generate a 10-char verification code
-        $verificationCode = $this->securityUtil->generateCode(10);
+        $verificationCode = $this->securityController->generateCode(10);
 
         //insert the Request to the database
         try {
@@ -277,7 +283,6 @@ class UserController implements UserControllerInterface
         try {
             $Request = $this->ecrAccessor->get($RequestID);
 
-
             //check if the verification code is correct
             if ($Request["verificationCode"] !== $code) return false;
 
@@ -285,7 +290,7 @@ class UserController implements UserControllerInterface
             try {
                 $this->userAccessor->update($id, ["email" => $Request["newEmail"]]);
             } catch (ValidationException $e) { // @codeCoverageIgnore
-                throw new ShouldNeverHappenException("field array is valid", 0, $e); // @codeCoverageIgnore
+                throw new ShouldNeverHappenException("Property array is valid", 0, $e); // @codeCoverageIgnore
             }
 
             //remove the Request

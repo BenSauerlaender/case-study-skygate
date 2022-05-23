@@ -10,7 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\RequiredFieldException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\MissingPropertiesException;
 
 /**
  * Testsuit for UserController->createUser method
@@ -26,7 +26,7 @@ final class UCCreateTest extends BaseUCTest
     public function testCreateUserWithMissingAttributes(array $fields): void
     {
 
-        $this->expectException(RequiredFieldException::class);
+        $this->expectException(MissingPropertiesException::class);
 
         $this->userController->createUser($fields);
     }
