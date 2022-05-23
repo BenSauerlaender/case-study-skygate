@@ -20,7 +20,7 @@ use PDOException;
  * 
  * @codeCoverageIgnore
  */
-class MySqlConnector
+class DbConnector
 {
     static private ?PDO $db = null;
 

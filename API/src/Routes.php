@@ -35,7 +35,7 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\DataRespo
 use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\NoContentResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\SetCookieResponse;
 use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
-use BenSauer\CaseStudySkygateApi\Utilities\MailUtilities;
+use BenSauer\CaseStudySkygateApi\Utilities\MailSender;
 use InvalidArgumentException;
 
 class Routes
@@ -58,7 +58,7 @@ class Routes
                         try {
                             $ret = $uc->createUser($fields);
 
-                            MailUtilities::sendVerificationRequest($fields["email"], $fields["name"], $ret["id"], $ret["verificationCode"]);
+                            MailSender::sendVerificationRequest($fields["email"], $fields["name"], $ret["id"], $ret["verificationCode"]);
 
                             return new CreatedResponse();
                         } catch (RequiredFieldException $e) {
@@ -274,7 +274,7 @@ class Routes
 
                             $user = $uc->getUser($ids["userID"]);
 
-                            MailUtilities::sendEmailChangeVerificationRequest($fields["email"], $user["name"], $ids["userID"], $code);
+                            MailSender::sendEmailChangeVerificationRequest($fields["email"], $user["name"], $ids["userID"], $code);
                             return new CreatedResponse();
                         } catch (UserNotFoundException $e) {
                             return new UserNotFoundResponse();

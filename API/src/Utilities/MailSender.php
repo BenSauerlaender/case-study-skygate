@@ -12,7 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\Utilities;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
-class MailUtilities
+class MailSender
 {
     /**
      * Utility function to send a the verification email to a new user

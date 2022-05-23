@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Database;
 
-use BenSauer\CaseStudySkygateApi\Utilities\MySqlConnector;
+use BenSauer\CaseStudySkygateApi\Utilities\DbConnector;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -37,7 +37,7 @@ abstract class BaseDatabaseTest extends TestCase
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__, "../test.env");
         $dotenv->load();
 
-        self::$pdo = MySqlConnector::getConnection();
+        self::$pdo = DbConnector::getConnection();
 
         self::$pdo->exec("DROP DATABASE IF EXISTS " . $_ENV['MYSQL_DATABASE'] . ";");
         self::$pdo->exec("CREATE DATABASE " . $_ENV['MYSQL_DATABASE'] . ";");
@@ -51,6 +51,6 @@ abstract class BaseDatabaseTest extends TestCase
     {
         //close connection
         self::$pdo = null;
-        MySqlConnector::closeConnection();
+        DbConnector::closeConnection();
     }
 }

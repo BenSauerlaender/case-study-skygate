@@ -159,7 +159,7 @@ class ApiUtilities
     static function getApiController(): ApiControllerInterface
     {
         //Database connection
-        $pdo = MySqlConnector::getConnection();
+        $pdo = DbConnector::getConnection();
 
         //Database Accessors
         $userAccessor           = new MySqlUserAccessor($pdo);

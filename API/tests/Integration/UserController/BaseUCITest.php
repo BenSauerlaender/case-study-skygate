@@ -14,7 +14,7 @@ use BenSauer\CaseStudySkygateApi\Controller\UserController;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlEcrAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRoleAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserAccessor;
-use BenSauer\CaseStudySkygateApi\Utilities\MySqlConnector;
+use BenSauer\CaseStudySkygateApi\Utilities\DbConnector;
 use BenSauer\CaseStudySkygateApi\Utilities\MySqlTableCreator;
 use BenSauer\CaseStudySkygateApi\Controller\ValidationController;
 use PHPUnit\Framework\TestCase;
@@ -38,7 +38,7 @@ abstract class BaseUCITest extends TestCase
         $dotenv->load();
 
         //get the pdo connection
-        $pdo = MySqlConnector::getConnection();
+        $pdo = DbConnector::getConnection();
 
         //reset the DB
         $pdo->exec("DROP DATABASE " . $_ENV['MYSQL_DATABASE'] . ";");
@@ -71,7 +71,7 @@ abstract class BaseUCITest extends TestCase
     public function tearDown(): void
     {
         $this->userController = null;
-        MySqlConnector::closeConnection();
+        DbConnector::closeConnection();
     }
 
     /**
