@@ -10,6 +10,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
 use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
+use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
 use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 
@@ -41,7 +42,7 @@ try {
     error_log("Response: $response");
 
     //send the response
-    ApiUtilities::sendResponse($response, $_ENV["API_PROD_DOMAIN"], $_ENV["API_PATH_PREFIX"]);
+    BaseResponse::send($response, $_ENV["API_PROD_DOMAIN"], $_ENV["API_PATH_PREFIX"]);
 
     exit();
 }

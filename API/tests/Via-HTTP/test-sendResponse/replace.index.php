@@ -7,6 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
+use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 
 try {
@@ -63,7 +64,7 @@ try {
     }
 
     //call the function to test
-    ApiUtilities::sendResponse($response, "domain", "api/v1/");
+    BaseResponse::send($response, "domain", "api/v1/");
     exit();
 } catch (Exception $e) {
     error_log("$e");
