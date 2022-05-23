@@ -44,6 +44,34 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
     /** The sort direction */
     private bool $sortASC = true;
 
+    /**
+     * Configures an UserQuery according to an config array
+     *
+     * @param  UserQueryInterface $query        The userQuery
+     * @param  array              $config       The config array, can be the parsed url-query-string
+     * @param  array              $keysToIgnore Array-keys that should not be considered as filter
+     */
+    public function configureByArray(array $config, array $keysToIgnore = []): void
+    {
+        $this->reset();
+
+        $sortBy = $config["sortby"] ?? null;
+        $sortASC = is_null($config["desc"] ?? null) ? true : false;
+        if (!is_null($sortBy)) {
+            $this->setSort($sortBy, $sortASC);
+        }
+
+        $caseSensitive = is_null($config["sensitive"] ?? null) ? false : true;
+
+        //remove keys that are already computed
+        array_push($keysToIgnore, "sortby", "desc", "asc", "sensitive");
+        $config = array_diff_key($config, array_flip($keysToIgnore));
+
+        foreach ($config as $key => $value) {
+            $this->addFilter($key, $value, $caseSensitive);
+        }
+    }
+
 
     public function setSort(string $property, bool $ascending = true): void
     {

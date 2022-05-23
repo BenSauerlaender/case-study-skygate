@@ -334,9 +334,8 @@ class Routes
                         /** @var UserQueryInterface */
                         $uq = $this->accessors["userQuery"];
 
-                        $uq->reset();
                         try {
-                            ApiUtilities::setUpQueryFromArray($uq, $queryConfig, ["page", "index"]);
+                            $uq->configureByArray($queryConfig, ["page", "index"]);
                         } catch (InvalidPropertyException $e) {
                             return new InvalidQueryResponse();
                         }
@@ -364,9 +363,8 @@ class Routes
                         /** @var UserQueryInterface */
                         $uq = $this->accessors["userQuery"];
 
-                        $uq->reset();
                         try {
-                            ApiUtilities::setUpQueryFromArray($uq, $queryConfig, ["page", "index"]);
+                            $uq->configureByArray($queryConfig, ["page", "index"]);
                         } catch (InvalidPropertyException $e) {
                             return new InvalidQueryResponse();
                         }

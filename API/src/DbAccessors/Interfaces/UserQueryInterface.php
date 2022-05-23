@@ -18,6 +18,15 @@ interface UserQueryInterface
 {
 
     /**
+     * Configures an UserQuery according to an config array
+     *
+     * @param  UserQueryInterface $query        The userQuery
+     * @param  array              $config       The config array, can be the parsed url-query-string
+     * @param  array              $keysToIgnore Array-keys that should not be considered as filter
+     */
+    public function configureByArray(array $config, array $keysToIgnore = []): void;
+
+    /**
      * Defines a way of sorting the results
      *
      * @param  string $property        The property to sort after.
