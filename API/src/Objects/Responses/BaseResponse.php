@@ -168,47 +168,6 @@ abstract class BaseResponse implements ResponseInterface
         return $json;
     }
 
-    /**
-     * Send a response to the client
-     *
-     * @param  ResponseInterface    $response       The response to be send
-     * @param  string               $domain         The Servers Domain.
-     * @param  string               $pathPrefix     The APIs path prefix.
-     */
-    static public function send(ResponseInterface $response, string $domain, string $pathPrefix): void
-    {
-        //clear all headers
-        header_remove();
-
-        //set response code
-        http_response_code($response->getCode());
-
-        //set all custom headers
-        foreach ($response->getHeaders() as $key => $value) {
-            header("$key: $value");
-        }
-
-        //set all cookies
-        foreach ($response->getCookies() as $cookie) {
-            $cookieInfo = $cookie->get();
-            setcookie(
-                $cookieInfo["name"],
-                $cookieInfo["value"],
-                ($cookieInfo["expiresIn"] <= 0) ? 0 : ($cookieInfo["expiresIn"] + time()),
-                $pathPrefix . $cookieInfo["path"],
-                $domain,
-                $cookieInfo["secure"],
-                $cookieInfo["httpOnly"]
-            );
-        }
-
-        //set body if provided
-        $body = $response->getJsonBody();
-        if ($body !== "") {
-            echo $body;
-        }
-    }
-
     public function __toString()
     {
         //implode the cookies and headers to comma separated strings

@@ -23,16 +23,25 @@ use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRoleAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserQuery;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
+use BenSauer\CaseStudySkygateApi\Objects\Request;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\AuthorizationErrorResponse;
 use Closure;
 use Exception;
 use InvalidArgumentException;
+use JsonException;
 use PDO;
 
+/**
+ * Implementation of ApiControllerInterface
+ */
 class ApiController implements ApiControllerInterface
 {
 
@@ -59,27 +68,75 @@ class ApiController implements ApiControllerInterface
         $this->accessors = $additionalAccessors;
     }
 
-    public function handleRequest(RequestInterface $request): ResponseInterface
-
+    public function fetchRequest(array $server, array $headers, string $pathPrefix, string $bodyJSON = ""): RequestInterface
     {
-        //search for the right route
+        //check if all necessary $_SERVER variables are set
+        if (!isset($server["REQUEST_URI"]) or !isset($server["REQUEST_METHOD"]) or !isset($server["QUERY_STRING"])) {
+            throw new InvalidArgumentException("The server array has not all necessary properties.");
+        }
+
+        //if in production: check if the connection is secure
+        $env = $_ENV["ENVIRONMENT"] ?? "PRODUCTION";
+        if ($env === "PRODUCTION" && (!isset($server["HTTPS"]) or empty($server['HTTPS']))) {
+            throw new NotSecureException();
+        }
+
+        //get path without query
+        $path = explode("?", $server["REQUEST_URI"])[0];
+
+        //check if the requested path starts with the api path prefix
+        if (!str_starts_with($path, $pathPrefix)) {
+            throw new InvalidApiPathException("The Path: '$path' need to start with: '$pathPrefix'");
+        }
+
+        //cut the prefix
+        $path = substr($path, strlen($pathPrefix));
+
+        $method = $server["REQUEST_METHOD"];
+
+        $query = $server["QUERY_STRING"];
+
+        //get the body of the request
+        if ($bodyJSON !== "" and ($method === "POST" or $method === "PUT")) {
+            $body = json_decode($bodyJSON, true);
+            if ($body === NULL) {
+                throw new JsonException("The decoding of the body string failed");
+            }
+        } else {
+            $body = null;
+        }
+
+        try {
+            //return the request
+            return new Request($path, $method, $query, $headers, $body);
+        } catch (InvalidApiCookieException $e) {
+            throw new InvalidApiHeaderException("The Cookie header is invalid.", 0, $e);
+        }
+    }
+
+    public function handleRequest(RequestInterface $request): ResponseInterface
+    {
+        //search for the correct route
         try {
             $route = $this->routing->route($request->getPath(), $request->getMethod());
         } catch (ApiPathNotFoundException $e) {
+            //no matching route found
             return new ResourceNotFoundResponse();
         } catch (ApiMethodNotFoundException $e) {
+            //found route don't support the requested method
             return new MethodNotAllowedResponse($e->getAvailableMethods());
         }
 
         //if the route require authentication
         if ($route["requireAuth"]) {
 
+            //get the bearer jwt
             $accessToken = $request->getAccessToken();
             if (is_null($accessToken)) {
                 return new AuthorizationErrorResponse("The resource with this method require an JWT Access Token as barrier token. Use GET /token to get one", 101);
             }
 
-            //authenticate the requester
+            //authenticate the requester via the access token
             try {
                 $auth = $this->auth->authenticateAccessToken($accessToken);
             } catch (ExpiredTokenException $e) {
@@ -94,19 +151,54 @@ class ApiController implements ApiControllerInterface
             }
         }
 
+        //the route's function to process the request
         /** @var Closure */
         $func = $route["function"];
 
-        //get the ids given in the requested route
-        $ids = $route["ids"];
+        //get parameter names, that are used in the requested route
+        $parameters = $route["params"];
 
         try {
-            //call the routes function in this object
-            return $func->call($this, $request, $ids);
+            //call the routes function in this objects scope, so that the controller and accessors arrays are available for the function
+            return $func->call($this, $request, $parameters);
         } catch (DBException $e) {
-            return new InternalErrorResponse($e);
+            return new InternalErrorResponse($parameters);
         } catch (Exception $e) {
             return new InternalErrorResponse($e);
+        }
+    }
+
+    public function sendResponse(ResponseInterface $response, string $domain, string $pathPrefix): void
+    {
+        //clear all headers
+        header_remove();
+
+        //set response code
+        http_response_code($response->getCode());
+
+        //set all custom headers
+        foreach ($response->getHeaders() as $key => $value) {
+            header("$key: $value");
+        }
+
+        //set all cookies
+        foreach ($response->getCookies() as $cookie) {
+            $cookieInfo = $cookie->get();
+            setcookie(
+                $cookieInfo["name"],
+                $cookieInfo["value"],
+                ($cookieInfo["expiresIn"] <= 0) ? 0 : ($cookieInfo["expiresIn"] + time()),
+                $pathPrefix . $cookieInfo["path"],
+                $domain,
+                $cookieInfo["secure"],
+                $cookieInfo["httpOnly"]
+            );
+        }
+
+        //set body if provided
+        $body = $response->getJsonBody();
+        if ($body !== "") {
+            echo $body;
         }
     }
 
@@ -119,19 +211,19 @@ class ApiController implements ApiControllerInterface
         $ecrAccessor            = new MySqlEcrAccessor($pdo);
         $refreshTokenAccessor   = new MySqlRefreshTokenAccessor($pdo);
         $userQuery              = new MySqlUserQuery($pdo);
-        $securityUtil           = new SecurityController();
 
         //controller
+        $securityController         = new SecurityController();
         $validationController       = new ValidationController();
-        $userController             = new UserController($securityUtil, $validationController, $userAccessor, $roleAccessor, $ecrAccessor);
+        $userController             = new UserController($securityController, $validationController, $userAccessor, $roleAccessor, $ecrAccessor);
         $authenticationController   = new AuthenticationController($userAccessor, $refreshTokenAccessor, $roleAccessor);
         $routingController          = new RoutingController($routes);
 
         return new self(
             $routingController,
             $authenticationController,
-            ["user" => $userController, "auth" => $authenticationController],
-            ["user" => $userAccessor, "userQuery" => $userQuery, "refreshToken" => $refreshTokenAccessor, "role" => $roleAccessor]
+            ["user" => $userController, "auth" => $authenticationController], //Controller
+            ["user" => $userAccessor, "userQuery" => $userQuery, "refreshToken" => $refreshTokenAccessor, "role" => $roleAccessor] //Accessors
         );
     }
 }

@@ -27,22 +27,20 @@ try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/..");
     $dotenv->load();
 
+    //get the database connection
+    $pdo = DbConnector::getConnection();
+
+    //get the fully constructed apiController
+    $apiController = ApiController::get($pdo, Routes::getRoutes());
+
     try {
-        try {
-            //get the request
-            $request = Request::fetch($_SERVER, getallheaders(), $_ENV["API_PATH_PREFIX"], file_get_contents('php://input'));
-        } catch (InvalidArgumentException $e) {
-            throw new ShouldNeverHappenException("The _SERVER variables should be always set from the apache server.", 0, $e);
-        }
-
-        //Database connection
-        $pdo = DbConnector::getConnection();
-
-        //get the constructed apiController
-        $apiController = ApiController::get($pdo, Routes::getRoutes());
+        //get the request
+        $request = $apiController->fetchRequest($_SERVER, getallheaders(), $_ENV["API_PATH_PREFIX"], file_get_contents('php://input'));
 
         //get the response
         $response = $apiController->handleRequest($request);
+    } catch (InvalidArgumentException $e) {
+        throw new ShouldNeverHappenException("The _SERVER variables should be always set from the apache server.", 0, $e);
     } catch (NotSecureException $e) {
         $response = new BadRequestResponse("Request was rejected, because the connection is not secured via SSL (HTTPS). Please send your request again, via HTTPS.", 311);
     } catch (InvalidApiPathException $e) {
@@ -54,7 +52,12 @@ try {
     error_log("Response: $response");
 
     //send the response
-    BaseResponse::send($response, $_ENV["API_PROD_DOMAIN"], $_ENV["API_PATH_PREFIX"]);
+    $apiController->sendResponse($response, $_ENV["API_PROD_DOMAIN"], $_ENV["API_PATH_PREFIX"]);
+
+    //close the database connection
+    $apiController = null;
+    $pdo = null;
+    DbConnector::closeConnection();
 
     exit();
 }
