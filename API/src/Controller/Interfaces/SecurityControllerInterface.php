@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Utilities\Interfaces;
+namespace BenSauer\CaseStudySkygateApi\Controller\Interfaces;
 
-interface SecurityUtilitiesInterface
+interface SecurityControllerInterface
 {
     /**
      * Hashes the given password.

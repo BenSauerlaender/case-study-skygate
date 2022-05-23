@@ -46,7 +46,7 @@ final class UCCheckEmailPasswordTest extends BaseUCTest
             ->with(0)
             ->willReturn(["hashedPass" => "123"]);
 
-        $this->securityUtilitiesMock->expects($this->once())
+        $this->SecurityControllerMock->expects($this->once())
             ->method("checkPassword")
             ->with("pass", "123")
             ->willReturn(false);
@@ -70,7 +70,7 @@ final class UCCheckEmailPasswordTest extends BaseUCTest
             ->with(0)
             ->willReturn(["hashedPass" => "123"]);
 
-        $this->securityUtilitiesMock->expects($this->once())
+        $this->SecurityControllerMock->expects($this->once())
             ->method("checkPassword")
             ->with("pass", "123")
             ->willReturn(true);

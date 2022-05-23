@@ -20,7 +20,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
-use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
+use BenSauer\CaseStudySkygateApi\Controller\Interfaces\SecurityControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
@@ -33,14 +33,14 @@ use function PHPUnit\Framework\isNull;
 
 class UserController implements UserControllerInterface
 {
-    private SecurityUtilitiesInterface $securityUtil;
+    private SecurityControllerInterface $securityUtil;
     private ValidationControllerInterface $ValidationController;
     private UserAccessorInterface $userAccessor;
     private RoleAccessorInterface $roleAccessor;
     private EcrAccessorInterface $ecrAccessor;
 
     //simple constructor to set all properties //should only be used by UserInterface
-    public function __construct(SecurityUtilitiesInterface $securityUtil, ValidationControllerInterface $ValidationController, UserAccessorInterface $userAccessor, RoleAccessorInterface $roleAccessor, EcrAccessorInterface $ecrAccessor)
+    public function __construct(SecurityControllerInterface $securityUtil, ValidationControllerInterface $ValidationController, UserAccessorInterface $userAccessor, RoleAccessorInterface $roleAccessor, EcrAccessorInterface $ecrAccessor)
     {
         $this->securityUtil = $securityUtil;
         $this->ValidationController = $ValidationController;

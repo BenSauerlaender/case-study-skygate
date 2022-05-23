@@ -7,13 +7,12 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Utilities;
+namespace BenSauer\CaseStudySkygateApi\Controller;
 
+use BenSauer\CaseStudySkygateApi\Controller\Interfaces\SecurityControllerInterface;
 use BenSauer\CaseStudySkygateApi\Exceptions\PasswordHashException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
-use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
 
-class SecurityUtilities implements SecurityUtilitiesInterface
+class SecurityController implements SecurityControllerInterface
 {
     public function hashPassword(string $pass): string
     {

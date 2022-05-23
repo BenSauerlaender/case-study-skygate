@@ -13,9 +13,9 @@ use BenSauer\CaseStudySkygateApi\Controller\UserController;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\EcrAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
+use BenSauer\CaseStudySkygateApi\Controller\Interfaces\SecurityControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
-use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
+use BenSauer\CaseStudySkygateApi\Controller\SecurityController;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
 abstract class BaseUCTest extends TestCase
 {
 
-    protected ?SecurityUtilitiesInterface $securityUtilitiesMock;
+    protected ?SecurityControllerInterface $SecurityControllerMock;
     protected ?ValidationControllerInterface $ValidationControllerMock;
     protected ?UserAccessorInterface $userAccessorMock;
     protected ?RoleAccessorInterface $roleAccessorMock;
@@ -41,7 +41,7 @@ abstract class BaseUCTest extends TestCase
     {
 
         //create all mocks
-        $this->securityUtilitiesMock = $this->createMock(SecurityUtilities::class);
+        $this->SecurityControllerMock = $this->createMock(SecurityController::class);
         $this->ValidationControllerMock = $this->createMock(ValidationControllerInterface::class);
         $this->userAccessorMock = $this->createMock(UserAccessorInterface::class);
         $this->roleAccessorMock = $this->createMock(RoleAccessorInterface::class);
@@ -49,7 +49,7 @@ abstract class BaseUCTest extends TestCase
 
         //setUp the userController
         $this->userController = new UserController(
-            $this->securityUtilitiesMock,
+            $this->SecurityControllerMock,
             $this->ValidationControllerMock,
             $this->userAccessorMock,
             $this->roleAccessorMock,
@@ -60,7 +60,7 @@ abstract class BaseUCTest extends TestCase
     public function tearDown(): void
     {
 
-        $this->securityUtilitiesMock = null;
+        $this->SecurityControllerMock = null;
         $this->ValidationControllerMock = null;
         $this->userAccessorMock = null;
         $this->roleAccessorMock = null;

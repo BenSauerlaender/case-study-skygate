@@ -80,7 +80,7 @@ class MailUtilities
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
         $mail->Username   = $_ENV["SMTP_USER"];                     //SMTP username
         $mail->Password   = $_ENV["SMTP_PASS"];                     //SMTP password
-        $mail->SMTPSecure = 'tls'; //PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+        $mail->SMTPSecure = 'tls'; //PHPMailer::ENCRYPTION_SMTPS;   //Enable implicit TLS encryption
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         $domain = $_ENV["API_PROD_DOMAIN"];

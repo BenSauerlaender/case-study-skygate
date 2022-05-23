@@ -8,17 +8,17 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Utilities;
 
-use BenSauer\CaseStudySkygateApi\Utilities\Interfaces\SecurityUtilitiesInterface;
-use BenSauer\CaseStudySkygateApi\Utilities\SecurityUtilities;
+use BenSauer\CaseStudySkygateApi\Controller\Interfaces\SecurityControllerInterface;
+use BenSauer\CaseStudySkygateApi\Controller\SecurityController;
 use PHPUnit\Framework\TestCase;
 
-final class SecurityUtilitiesTest extends TestCase
+final class SecurityControllerTest extends TestCase
 {
-    private static ?SecurityUtilitiesInterface $passUtils = null;
+    private static ?SecurityControllerInterface $passUtils = null;
 
     public static function setUpBeforeClass(): void
     {
-        self::$passUtils = new SecurityUtilities;
+        self::$passUtils = new SecurityController;
     }
 
     public static function tearDownAfterClass(): void

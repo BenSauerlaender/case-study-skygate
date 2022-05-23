@@ -143,13 +143,13 @@ final class UCCreateTest extends BaseUCTest
             ->willReturn(0);
 
         // return the hash "hash"
-        $this->securityUtilitiesMock->expects($this->once())
+        $this->SecurityControllerMock->expects($this->once())
             ->method("hashPassword")
             ->with($this->equalTo($inputFields["password"]))
             ->willReturn("hash");
 
         //generate code "ABC"
-        $this->securityUtilitiesMock->expects($this->once())
+        $this->SecurityControllerMock->expects($this->once())
             ->method("generateCode")
             ->with($this->equalTo(10))
             ->willReturn("ABC");

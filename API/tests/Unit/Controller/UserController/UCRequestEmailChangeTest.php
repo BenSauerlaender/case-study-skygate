@@ -91,7 +91,7 @@ final class UCRequestEmailChangeTest extends BaseUCTest
             ->with($this->equalTo(1))
             ->will($this->throwException(new EcrNotFoundException()));
 
-        $this->securityUtilitiesMock->expects($this->once())
+        $this->SecurityControllerMock->expects($this->once())
             ->method("generateCode")
             ->with($this->equalTo(10))
             ->willReturn("code");

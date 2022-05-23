@@ -64,8 +64,7 @@ class ApiUtilities
     /**
      * Utility function to send a response to the user
      *
-     * @param  ResponseInterface
- $response The response to be send
+     * @param  ResponseInterface $response The response to be send
      * @param  string $domain The Servers Domain.
      */
     static public function sendResponse(ResponseInterface
@@ -170,7 +169,7 @@ class ApiUtilities
         $userQuery              = new MySqlUserQuery($pdo);
 
         //utilities
-        $securityUtil           = new SecurityUtilities();
+        $securityUtil           = new SecurityController();
 
         //controller
         $validationController       = new ValidationController();

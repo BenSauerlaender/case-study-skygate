@@ -44,7 +44,7 @@ final class UCUpdatePasswordTest extends BaseUCTest
             ->willReturn(["hashedPass" => "hash"]);
 
         //all passwords will be incorrect
-        $this->securityUtilitiesMock->expects($this->once())
+        $this->SecurityControllerMock->expects($this->once())
             ->method("checkPassword")
             ->willReturn(false);
 
@@ -64,7 +64,7 @@ final class UCUpdatePasswordTest extends BaseUCTest
             ->willReturn(["hashedPass" => "hash"]);
 
         //all passwords will be correct
-        $this->securityUtilitiesMock->expects($this->once())
+        $this->SecurityControllerMock->expects($this->once())
             ->method("checkPassword")
             ->willReturn(true);
 
@@ -90,7 +90,7 @@ final class UCUpdatePasswordTest extends BaseUCTest
             ->willReturn(["hashedPass" => "hash"]);
 
         //all passwords will be correct
-        $this->securityUtilitiesMock->expects($this->once())
+        $this->SecurityControllerMock->expects($this->once())
             ->method("checkPassword")
             ->with($this->equalTo("oldPass", "hash"))
             ->willReturn(true);
@@ -100,7 +100,7 @@ final class UCUpdatePasswordTest extends BaseUCTest
             ->with($this->equalTo(["password" => "newPass"]))
             ->willReturn(true);
 
-        $this->securityUtilitiesMock->expects($this->once())
+        $this->SecurityControllerMock->expects($this->once())
             ->method("hashPassword")
             ->with($this->equalTo("newPass"))
             ->willReturn("newHash");
