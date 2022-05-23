@@ -3,6 +3,7 @@
 //activate strict mode
 declare(strict_types=1);
 
+use BenSauer\CaseStudySkygateApi\Controller\ApiController;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ServerErrorResponses\InternalErrorResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\ResourceNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
@@ -13,7 +14,9 @@ use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
 use BenSauer\CaseStudySkygateApi\Objects\Request;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
+use BenSauer\CaseStudySkygateApi\Routes;
 use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
+use BenSauer\CaseStudySkygateApi\Utilities\DbConnector;
 
 try {
     //load composer dependencies
@@ -27,8 +30,11 @@ try {
         //get the request
         $request = Request::fetch($_SERVER, getallheaders(), $_ENV["API_PATH_PREFIX"], file_get_contents('php://input'));
 
+        //Database connection
+        $pdo = DbConnector::getConnection();
+
         //get the constructed apiController
-        $apiController = ApiUtilities::getApiController();
+        $apiController = ApiController::get($pdo, Routes::getRoutes());
 
         //get the response
         $response = $apiController->handleRequest($request);

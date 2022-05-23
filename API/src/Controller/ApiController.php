@@ -17,6 +17,11 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\Resource
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ApiControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\RoutingControllerInterface;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlEcrAccessor;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRefreshTokenAccessor;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRoleAccessor;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserAccessor;
+use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserQuery;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
@@ -26,6 +31,7 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\Authoriz
 use Closure;
 use Exception;
 use InvalidArgumentException;
+use PDO;
 
 class ApiController implements ApiControllerInterface
 {
@@ -102,5 +108,30 @@ class ApiController implements ApiControllerInterface
         } catch (Exception $e) {
             return new InternalErrorResponse($e);
         }
+    }
+
+
+    static function get(PDO $pdo, array $routes): ApiControllerInterface
+    {
+        //Database Accessors
+        $userAccessor           = new MySqlUserAccessor($pdo);
+        $roleAccessor           = new MySqlRoleAccessor($pdo);
+        $ecrAccessor            = new MySqlEcrAccessor($pdo);
+        $refreshTokenAccessor   = new MySqlRefreshTokenAccessor($pdo);
+        $userQuery              = new MySqlUserQuery($pdo);
+        $securityUtil           = new SecurityController();
+
+        //controller
+        $validationController       = new ValidationController();
+        $userController             = new UserController($securityUtil, $validationController, $userAccessor, $roleAccessor, $ecrAccessor);
+        $authenticationController   = new AuthenticationController($userAccessor, $refreshTokenAccessor, $roleAccessor);
+        $routingController          = new RoutingController($routes);
+
+        return new self(
+            $routingController,
+            $authenticationController,
+            ["user" => $userController, "auth" => $authenticationController],
+            ["user" => $userAccessor, "userQuery" => $userQuery, "refreshToken" => $refreshTokenAccessor, "role" => $roleAccessor]
+        );
     }
 }
