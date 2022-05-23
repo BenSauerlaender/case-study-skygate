@@ -65,7 +65,7 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
         $stmt = $this->prepareAndExecute($sql, ["id" => $id]);
 
         //if no line was deleted throw exception
-        if ($stmt->rowCount() === 0) throw new EcrNotFoundException("No Request with id: " . $id . " found.");
+        if ($stmt->rowCount() === 0) throw new EcrNotFoundException($id);
     }
 
     public function deleteByUserID(int $userID): void
@@ -77,7 +77,7 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
         $stmt = $this->prepareAndExecute($sql, ["id" => $userID]);
 
         //if no line was deleted:
-        if ($stmt->rowCount() === 0) throw new EcrNotFoundException("No Request with userID: " . $userID . " found.");
+        if ($stmt->rowCount() === 0) throw new EcrNotFoundException($userID, "userID");
     }
 
     public function insert(int $userID, string $newEmail, string $verification_code): void
@@ -94,12 +94,12 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
         //specify the Exceptions    
         catch (UniqueFieldException $e) {
             if (str_contains("$e", "emailChangeRequest.user_id")) {
-                throw new DuplicateUserException("UserID: $userID", 0, $e);
+                throw new DuplicateUserException($userID, $e);
             } else if (str_contains("$e", "emailChangeRequest.new_email")) {
-                throw new DuplicateEmailException("Email: $newEmail", 0, $e);
+                throw new DuplicateEmailException($newEmail, $e);
             }
         } catch (FieldNotFoundException $e) {
-            throw new UserNotFoundException("UserID: $userID", 0, $e);
+            throw new UserNotFoundException($userID, null, $e);
         }
     }
 
@@ -114,7 +114,7 @@ class MySqlEcrAccessor extends MySqlAccessor implements EcrAccessorInterface
         $response = $stmt->fetchAll();
 
         //no Request found
-        if (sizeof($response) === 0) throw new EcrNotFoundException("RequestID: $id");
+        if (sizeof($response) === 0) throw new EcrNotFoundException($id);
 
         //get the first and only response row
         $response = $response[0];

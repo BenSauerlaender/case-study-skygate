@@ -81,7 +81,7 @@ enum ApiMethod
                 return self::PATCH;
                 break;
             default:
-                throw new InvalidApiMethodException("The method $s is not supported.");
+                throw new InvalidApiMethodException($s);
         }
     }
 }

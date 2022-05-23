@@ -14,6 +14,7 @@ use Exception;
 //abstract class, that all exceptions inherit from
 abstract class BaseException extends Exception
 {
+    //include the complete exception stack in the string
     public function __toString()
     {
         $prev = $this->getPrevious();
@@ -24,8 +25,10 @@ abstract class BaseException extends Exception
             $prev = explode("called in", "$prev")[0];
         }
 
+        //get only the class name //not the whole namespace
         $path = explode('\\', get_class($this));
         $class = array_pop($path);
+
         return "$class([{$this->code}]: {$this->message}) -> caused by $prev";
     }
 }

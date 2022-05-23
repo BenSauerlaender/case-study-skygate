@@ -45,7 +45,7 @@ class MySqlRoleAccessor extends MySqlAccessor implements RoleAccessorInterface
         $response =  $stmt->fetchAll();
 
         // no role found
-        if (sizeof($response) === 0) throw new RoleNotFoundException("RoleID: $id");
+        if (sizeof($response) === 0) throw new RoleNotFoundException($id);
 
         //get first and only role
         $response = $response[0];

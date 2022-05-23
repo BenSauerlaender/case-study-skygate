@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Controller;
 
 use BadMethodCallException;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\UserNotFoundResponse;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
@@ -29,7 +28,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\MissingProperti
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
 
 /**
- * Implementation of UserControllerInterface
+ * Implementation of SecurityControllerInterface
  */
 class UserController implements UserControllerInterface
 {
@@ -95,12 +94,12 @@ class UserController implements UserControllerInterface
                 $roleID
             );
         } catch (RoleNotFoundException | DuplicateEmailException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("Email and Role were checked before", 0, $e); // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("email and Role were checked before", $e); // @codeCoverageIgnore
         }
 
         //find the just created user in the database and return his id.
         $id = $this->userAccessor->findByEmail($properties["email"]);
-        if (is_null($id)) throw new ShouldNeverHappenException("The just created user(email: " . $properties["email"] . ") can't be found in the database."); // @codeCoverageIgnore
+        if (is_null($id)) throw new ShouldNeverHappenException("the user was just created."); // @codeCoverageIgnore
 
         return array("id" => $id, "verificationCode" => $verificationCode);
     }
@@ -121,7 +120,7 @@ class UserController implements UserControllerInterface
                 "role" => $role["name"],
             ];
         } catch (RoleNotFoundException $e) {
-            throw new ShouldNeverHappenException("Because of the db relations.", 0, $e);
+            throw new ShouldNeverHappenException("the roleID was just found in the user table.", $e);
         }
     }
 
@@ -161,7 +160,7 @@ class UserController implements UserControllerInterface
         try {
             $this->userAccessor->update($id, $properties);
         } catch (ValidationException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e); // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("all properties were validated before", $e); // @codeCoverageIgnore
         }
     }
 
@@ -180,7 +179,7 @@ class UserController implements UserControllerInterface
         try {
             $this->userAccessor->update($id, array("verificationCode" => null, "verified" => true));
         } catch (UserNotFoundException | ValidationException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked. $e", 0, $e); // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("all properties were validated before", $e); // @codeCoverageIgnore
         }
 
         //everything went well
@@ -192,14 +191,14 @@ class UserController implements UserControllerInterface
         //get userID
         $id = $this->userAccessor->findByEmail($email);
         if (is_null($id)) {
-            throw new UserNotFoundException();
+            throw new UserNotFoundException(null, $email);
         }
 
         //get the users hashed Pass
         try {
             $hashedPass = $this->userAccessor->get($id)["hashedPass"];
         } catch (UserNotFoundException $e) {
-            throw new ShouldNeverHappenException("The userID was just found by email", 0, $e);
+            throw new ShouldNeverHappenException("the userID was just found by email", $e);
         }
 
         return $this->securityController->checkPassword($password, $hashedPass);
@@ -222,14 +221,14 @@ class UserController implements UserControllerInterface
                 throw new InvalidPropertyException($reasons);
             }
         } catch (ArrayIsEmptyException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("Array is not empty.", 0, $e); // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("the array is not empty.", $e); // @codeCoverageIgnore
         }
 
         //update the database
         try {
             $this->userAccessor->update($id, array("hashedPass" => $this->securityController->hashPassword($newPassword)));
         } catch (UserNotFoundException | ValidationException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("userAccessor->update throws an exception, even though all perquisites are checked", 0, $e); // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("all properties were validated before", $e); // @codeCoverageIgnore
         }
 
         return true;
@@ -246,7 +245,7 @@ class UserController implements UserControllerInterface
                 throw new InvalidPropertyException($reasons);
             }
         } catch (ArrayIsEmptyException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("Array is not empty.", 0, $e); // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("the array is not empty.", $e); // @codeCoverageIgnore
         }
 
         //check if the email is free
@@ -267,7 +266,7 @@ class UserController implements UserControllerInterface
         try {
             $this->ecrAccessor->insert($id, $newEmail, $verificationCode);
         } catch (DuplicateUserException | DuplicateEmailException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("All Request from this user should be deleted and the email is checked", 0, $e); // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("all parameters were checked before", $e); // @codeCoverageIgnore
         }
 
         //return the verification code
@@ -278,7 +277,7 @@ class UserController implements UserControllerInterface
     {
         //get the RequestID
         $RequestID = $this->ecrAccessor->findByUserID($id);
-        if (is_null($RequestID)) throw new EcrNotFoundException("emailChangeRequest from UserID: $id");
+        if (is_null($RequestID)) throw new EcrNotFoundException($id, "userID");
 
         try {
             $Request = $this->ecrAccessor->get($RequestID);
@@ -290,13 +289,13 @@ class UserController implements UserControllerInterface
             try {
                 $this->userAccessor->update($id, ["email" => $Request["newEmail"]]);
             } catch (ValidationException $e) { // @codeCoverageIgnore
-                throw new ShouldNeverHappenException("Property array is valid", 0, $e); // @codeCoverageIgnore
+                throw new ShouldNeverHappenException("the property array is valid", $e); // @codeCoverageIgnore
             }
 
             //remove the Request
             $this->ecrAccessor->delete($RequestID);
         } catch (EcrNotFoundException $e) { // @codeCoverageIgnore
-            throw new ShouldNeverHappenException("The just found Request with id: $RequestID can now not be found anymore.", 0, $e); // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("the requestID was just found", $e); // @codeCoverageIgnore
         }
         return true;
     }
@@ -313,7 +312,7 @@ class UserController implements UserControllerInterface
     private function getRoleID(string $name): int
     {
         $roleID = $this->roleAccessor->findByName($name);
-        if (is_null($roleID)) throw new RoleNotFoundException("The role '" . $name . " is not a valid role", 1);
+        if (is_null($roleID)) throw new RoleNotFoundException(null, $name);
         return $roleID;
     }
 

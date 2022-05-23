@@ -9,11 +9,15 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Exceptions;
 
-use Exception;
+use Throwable;
 
 /**
  * Exception that is thrown if something happen that should not be possible
  */
 class ShouldNeverHappenException extends BaseException
 {
+    public function __construct(string $reason, Throwable $previous = null)
+    {
+        parent::__construct("This should never happen, because: $reason", 0, $previous);
+    }
 }

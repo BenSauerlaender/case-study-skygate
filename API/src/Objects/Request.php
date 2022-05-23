@@ -17,10 +17,6 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
-use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
-use InvalidArgumentException;
-use JsonException;
 
 /**
  * Class that implements the RequestInterface
@@ -157,7 +153,7 @@ class Request implements RequestInterface
                     //separate key and value
                     $pair = explode("=", $cookie);
 
-                    if (sizeof($pair) !== 2) throw new InvalidApiCookieException("The cookie: '$cookie' is not valid");
+                    if (sizeof($pair) !== 2) throw new InvalidApiCookieException($cookie);
 
                     //save the cookie
                     $retCookies[strtolower($pair[0])] = $pair[1];

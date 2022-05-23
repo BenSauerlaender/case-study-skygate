@@ -48,7 +48,7 @@ class MySqlRefreshTokenAccessor extends MySqlAccessor implements RefreshTokenAcc
         try {
             $this->prepareAndExecute($sql, ["userID" => $userID]);
         } catch (FieldNotFoundException $e) {
-            throw new UserNotFoundException("user with id $userID not exists.", 0, $e);
+            throw new UserNotFoundException($userID, null, $e);
         }
     }
 }

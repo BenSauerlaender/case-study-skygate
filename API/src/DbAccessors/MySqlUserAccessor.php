@@ -55,9 +55,9 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
         }
         //specify exceptions
         catch (UniqueFieldException $e) {
-            throw new DuplicateEmailException("Email: $email", 0, $e);
+            throw new DuplicateEmailException($email, $e);
         } catch (FieldNotFoundException $e) {
-            throw new RoleNotFoundException("RoleID: $roleID", 0, $e);
+            throw new RoleNotFoundException($roleID, null, $e);
         }
     }
 
@@ -70,7 +70,7 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
         $stmt = $this->prepareAndExecute($sql, ["id" => $id]);
 
         //if no user deleted
-        if ($stmt->rowCount() === 0) throw new UserNotFoundException("UserID: $id");
+        if ($stmt->rowCount() === 0) throw new UserNotFoundException($id);
     }
 
     public function update(int $id, array $properties): void
@@ -88,14 +88,14 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
         //specify exceptions
         catch (UniqueFieldException $e) {
             $email = $properties["email"];
-            throw new DuplicateEmailException("Email: $email", 0, $e);
+            throw new DuplicateEmailException($email, $e);
         } catch (FieldNotFoundException $e) {
             $roleID = $properties["roleID"];
-            throw new RoleNotFoundException("RoleID: $roleID", 0, $e);
+            throw new RoleNotFoundException($roleID, null, $e);
         }
 
         //if no user updated
-        if ($stmt->rowCount() === 0) throw new UserNotFoundException("UserID: $id");
+        if ($stmt->rowCount() === 0) throw new UserNotFoundException($id);
     }
 
     public function findByEmail(string $email): ?int
@@ -126,7 +126,7 @@ class MySqlUserAccessor extends MySqlAccessor implements UserAccessorInterface
         $response = $stmt->fetchAll();
 
         //if no user found
-        if ($stmt->rowCount() === 0) throw new UserNotFoundException("UserID: $id");
+        if ($stmt->rowCount() === 0) throw new UserNotFoundException($id);
 
         //get first and only user
         $response = $response[0];

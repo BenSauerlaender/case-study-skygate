@@ -39,7 +39,7 @@ class AuthenticationController implements AuthenticationControllerInterface
     {
         //get the userID from the database
         $userID = $this->userAccessor->findByEmail($email);
-        if (is_null($userID)) throw new UserNotFoundException();
+        if (is_null($userID)) throw new UserNotFoundException(null, $email);
 
         //increase the refreshTokenCount by 1, so no other refreshToken is valid anymore
         $this->refreshTokenAccessor->increaseCount($userID);
@@ -75,7 +75,7 @@ class AuthenticationController implements AuthenticationControllerInterface
 
         //get the users current refresh token count
         $rtCount = $this->refreshTokenAccessor->getCountByUserID($userID);
-        if (is_null($rtCount)) throw new UserNotFoundException();
+        if (is_null($rtCount)) throw new UserNotFoundException($userID);
 
         //check if the token is valid
         if ($rtCount !== $payload["cnt"]) {

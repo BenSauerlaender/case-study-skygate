@@ -56,7 +56,7 @@ abstract class MySqlAccessor
             //prepare the statement
             $stmt = $this->pdo->prepare($sql);
             if (is_null($stmt)) { // @codeCoverageIgnore
-                throw new ShouldNeverHappenException("This should never happen: PDO->prepare() returned null, although the PDO error handling set to exception."); // @codeCoverageIgnore
+                throw new ShouldNeverHappenException(" the PDO error handling set to exception mode."); // @codeCoverageIgnore
             }
 
             //execute the statement

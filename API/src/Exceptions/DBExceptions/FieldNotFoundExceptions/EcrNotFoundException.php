@@ -9,9 +9,15 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions;
 
+use Throwable;
+
 /**
- * Exception that is thrown if the specified Request cant be found in the database.
+ * Exception that is thrown if a request cant be found in the database.
  */
 class EcrNotFoundException extends FieldNotFoundException
 {
+    public function __construct(int $id, string $idName = "ecrID", Throwable $previous = null)
+    {
+        parent::__construct("No request with $idName=$id found.", 0, $previous);
+    }
 }

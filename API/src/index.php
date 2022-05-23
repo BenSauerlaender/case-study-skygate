@@ -12,11 +12,8 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
 use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
-use BenSauer\CaseStudySkygateApi\Objects\Request;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
 use BenSauer\CaseStudySkygateApi\Routes;
-use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 use BenSauer\CaseStudySkygateApi\Utilities\DbConnector;
 
 try {
@@ -40,7 +37,7 @@ try {
         //get the response
         $response = $apiController->handleRequest($request);
     } catch (InvalidArgumentException $e) {
-        throw new ShouldNeverHappenException("The _SERVER variables should be always set from the apache server.", 0, $e);
+        throw new ShouldNeverHappenException("The _SERVER variables should be always set from the apache server.", $e);
     } catch (NotSecureException $e) {
         $response = new BadRequestResponse("Request was rejected, because the connection is not secured via SSL (HTTPS). Please send your request again, via HTTPS.", 311);
     } catch (InvalidApiPathException $e) {
