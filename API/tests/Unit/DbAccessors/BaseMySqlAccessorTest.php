@@ -10,7 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\DbAccessors;
 
 use BadMethodCallException;
 use BenSauer\CaseStudySkygateApi\tests\Database\BaseDatabaseTest;
-use BenSauer\CaseStudySkygateApi\Utilities\MySqlTableCreator;
+use BenSauer\CaseStudySkygateApi\tests\helper\TableCreator;
 use InvalidArgumentException;
 use PDO;
 
@@ -46,7 +46,7 @@ abstract class BaseMySqlAccessorTest extends BaseDatabaseTest
         self::$pdo->exec("use " . $_ENV['MYSQL_DATABASE'] . ";");
 
         //create tables
-        MySqlTableCreator::create(self::$pdo);
+        TableCreator::create(self::$pdo);
     }
 
     /**

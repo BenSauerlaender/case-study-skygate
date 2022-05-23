@@ -10,7 +10,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
-use BenSauer\CaseStudySkygateApi\tests\Unit\Utilities\MySqlTableCreator\UserTableTest;
+use BenSauer\CaseStudySkygateApi\tests\Unit\tests\helper\TableCreator\UserTableTest;
 
 /**
  * Testsuit for UserController->updateUsersPassword method

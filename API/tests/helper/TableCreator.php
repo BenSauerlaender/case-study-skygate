@@ -7,11 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Utilities;
+namespace BenSauer\CaseStudySkygateApi\tests\helper;
 
 use PDO;
-
-use function PHPUnit\Framework\isNull;
 
 /**
  * Handles database table creation
@@ -19,9 +17,8 @@ use function PHPUnit\Framework\isNull;
  * @codeCoverageIgnore
  * 
  */
-class MySqlTableCreator
+class TableCreator
 {
-
     /**
      * Create all tables
      *
@@ -29,7 +26,7 @@ class MySqlTableCreator
      */
     static public function create(PDO $pdo, ?string $sqlPath = null): void
     {
-        if (isNull($sqlPath)) {
+        if (is_null($sqlPath)) {
             $sqlPath = self::PATH_TO_SQL;
         }
 

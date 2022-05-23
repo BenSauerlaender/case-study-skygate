@@ -15,7 +15,7 @@ use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlEcrAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRoleAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserAccessor;
 use BenSauer\CaseStudySkygateApi\Utilities\DbConnector;
-use BenSauer\CaseStudySkygateApi\Utilities\MySqlTableCreator;
+use BenSauer\CaseStudySkygateApi\tests\helper\TableCreator;
 use BenSauer\CaseStudySkygateApi\Controller\ValidationController;
 use PHPUnit\Framework\TestCase;
 
@@ -46,7 +46,7 @@ abstract class BaseUCITest extends TestCase
         $pdo->exec("use " . $_ENV['MYSQL_DATABASE'] . ";");
 
         //creates tables
-        MySqlTableCreator::create($pdo);
+        TableCreator::create($pdo);
 
         //insert 3 roles
         $pdo->exec('

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Database;
 
-use BenSauer\CaseStudySkygateApi\Utilities\MySqlTableCreator;
+use BenSauer\CaseStudySkygateApi\tests\helper\TableCreator;
 use PDO;
 use PDOException;
 
@@ -262,7 +262,7 @@ final class EmailChangeRequestTableTest extends BaseDatabaseTest
     public function setUp(): void
     {
         //create tables
-        MySqlTableCreator::create(self::$pdo);
+        TableCreator::create(self::$pdo);
     }
 
     public function tearDown(): void
