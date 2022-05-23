@@ -169,11 +169,11 @@ abstract class BaseResponse implements ResponseInterface
     }
 
     /**
-     * Utility function to send a response to the user
+     * Send a response to the client
      *
-     * @param  ResponseInterface $response The response to be send
-     * @param  string $domain       The Servers Domain.
-     * @param  string $pathPrefix   The APIs path prefix.
+     * @param  ResponseInterface    $response       The response to be send
+     * @param  string               $domain         The Servers Domain.
+     * @param  string               $pathPrefix     The APIs path prefix.
      */
     static public function send(ResponseInterface $response, string $domain, string $pathPrefix): void
     {
@@ -202,10 +202,10 @@ abstract class BaseResponse implements ResponseInterface
             );
         }
 
-        //set data if provided
-        $data = $response->getJsonBody();
-        if ($data !== "") {
-            echo $data;
+        //set body if provided
+        $body = $response->getJsonBody();
+        if ($body !== "") {
+            echo $body;
         }
     }
 

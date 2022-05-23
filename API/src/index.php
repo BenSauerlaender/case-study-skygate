@@ -11,6 +11,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
 use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
 use BenSauer\CaseStudySkygateApi\Objects\Request;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
@@ -27,8 +28,12 @@ try {
     $dotenv->load();
 
     try {
-        //get the request
-        $request = Request::fetch($_SERVER, getallheaders(), $_ENV["API_PATH_PREFIX"], file_get_contents('php://input'));
+        try {
+            //get the request
+            $request = Request::fetch($_SERVER, getallheaders(), $_ENV["API_PATH_PREFIX"], file_get_contents('php://input'));
+        } catch (InvalidArgumentException $e) {
+            throw new ShouldNeverHappenException("The _SERVER variables should be always set from the apache server.", 0, $e);
+        }
 
         //Database connection
         $pdo = DbConnector::getConnection();

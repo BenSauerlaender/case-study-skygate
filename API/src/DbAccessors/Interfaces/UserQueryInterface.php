@@ -16,16 +16,6 @@ namespace BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces;
  */
 interface UserQueryInterface
 {
-
-    /**
-     * Configures an UserQuery according to an config array
-     *
-     * @param  UserQueryInterface $query        The userQuery
-     * @param  array              $config       The config array, can be the parsed url-query-string
-     * @param  array              $keysToIgnore Array-keys that should not be considered as filter
-     */
-    public function configureByArray(array $config, array $keysToIgnore = []): void;
-
     /**
      * Defines a way of sorting the results
      *
@@ -77,4 +67,14 @@ interface UserQueryInterface
      * Resets all query configuration to the default values
      */
     public function reset(): void;
+
+    /**
+     * Configures an UserQuery according to an config array
+     * 
+     * Attention: This will reset the current query.
+     *
+     * @param  array              $config           The config array, can be the parsed url-query-string.
+     * @param  array              $keysToIgnore     Array-keys that should not be considered as filter.
+     */
+    public function configureByArray(array $config, array $keysToIgnore = []): void;
 }

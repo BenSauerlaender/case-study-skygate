@@ -19,6 +19,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
 use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
+use InvalidArgumentException;
 use JsonException;
 
 /**
@@ -247,11 +248,11 @@ class Request implements RequestInterface
     }
 
     /**
-     * Constructs a request with all needed variables
+     * Constructs a request straight from the server-set variables
      *
-     * @param  array               $server      The $_SERVER array.
-     * @param  array               $headers     The response array of getallheaders().
-     * @param  string              $pathPrefix  The prefix in front of an api path e.g. /api/v1/.
+     * @param  array    $server      The $_SERVER array.
+     * @param  array    $headers     The response array of getallheaders().
+     * @param  string   $pathPrefix  The prefix in front of an api path e.g. /api/v1/.
      *
      * @throws NotSecureException           if the request comes not from https in prod.
      * @throws InvalidApiPathException      if the path string can not parsed into an ApiPath.
@@ -263,7 +264,7 @@ class Request implements RequestInterface
     {
         //check if all necessary $_SERVER variables are set
         if (!isset($server["REQUEST_URI"]) or !isset($server["REQUEST_METHOD"]) or !isset($server["QUERY_STRING"])) {
-            throw new ShouldNeverHappenException("The _SERVER variables should be always set from the apache server.");
+            throw new InvalidArgumentException("The server array has not all necessary properties.");
         }
 
         //if in production: check if the connection is secure
