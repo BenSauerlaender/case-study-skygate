@@ -10,6 +10,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
 use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
+use BenSauer\CaseStudySkygateApi\Objects\Request;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
 use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
@@ -24,7 +25,7 @@ try {
 
     try {
         //get the request
-        $request = ApiUtilities::getRequest($_SERVER, getallheaders(), $_ENV["API_PATH_PREFIX"], file_get_contents('php://input'));
+        $request = Request::fetch($_SERVER, getallheaders(), $_ENV["API_PATH_PREFIX"], file_get_contents('php://input'));
 
         //get the constructed apiController
         $apiController = ApiUtilities::getApiController();

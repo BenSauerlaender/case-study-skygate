@@ -14,6 +14,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
 use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
+use BenSauer\CaseStudySkygateApi\Objects\Request;
 use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 use JsonException;
 use PHPUnit\Framework\TestCase;
@@ -35,7 +36,7 @@ final class getRequestTest extends TestCase
 
         $this->expectException(NotSecureException::class);
 
-        ApiUtilities::getRequest($SERVER, [], "");
+        Request::fetch($SERVER, [], "");
     }
 
     /**
@@ -52,7 +53,7 @@ final class getRequestTest extends TestCase
 
         $this->expectException(InvalidApiPathException::class);
 
-        ApiUtilities::getRequest($SERVER, [], "pre");
+        Request::fetch($SERVER, [], "pre");
     }
 
     /**
@@ -69,7 +70,7 @@ final class getRequestTest extends TestCase
 
         $this->expectException(InvalidApiPathException::class);
 
-        ApiUtilities::getRequest($SERVER, [], "/path/to");
+        Request::fetch($SERVER, [], "/path/to");
     }
 
     /**
@@ -86,7 +87,7 @@ final class getRequestTest extends TestCase
 
         $this->expectException(InvalidApiMethodException::class);
 
-        ApiUtilities::getRequest($SERVER, [], "/path/to");
+        Request::fetch($SERVER, [], "/path/to");
     }
 
     /**
@@ -103,7 +104,7 @@ final class getRequestTest extends TestCase
 
         $this->expectException(InvalidApiQueryException::class);
 
-        ApiUtilities::getRequest($SERVER, [], "/path/to");
+        Request::fetch($SERVER, [], "/path/to");
     }
 
     /**
@@ -120,7 +121,7 @@ final class getRequestTest extends TestCase
 
         $this->expectException(InvalidApiHeaderException::class);
 
-        ApiUtilities::getRequest($SERVER, [1 => "test"], "/path/to");
+        Request::fetch($SERVER, [1 => "test"], "/path/to");
     }
 
     /**
@@ -137,7 +138,7 @@ final class getRequestTest extends TestCase
 
         $this->expectException(InvalidApiHeaderException::class);
 
-        ApiUtilities::getRequest($SERVER, ["t1" => "test", "Cookie" => "1 2 3 "], "/path/to");
+        Request::fetch($SERVER, ["t1" => "test", "Cookie" => "1 2 3 "], "/path/to");
     }
 
     /**
@@ -154,7 +155,7 @@ final class getRequestTest extends TestCase
 
         $this->expectException(JsonException::class);
 
-        ApiUtilities::getRequest($SERVER, [], "/path/to", "/////");
+        Request::fetch($SERVER, [], "/path/to", "/////");
     }
 
     /**
@@ -169,7 +170,7 @@ final class getRequestTest extends TestCase
         $SERVER["REQUEST_METHOD"] = "GET";
         $SERVER["QUERY_STRING"] = "search=3&p=test";
 
-        $req = ApiUtilities::getRequest($SERVER, [], "/path/to", '{ "test" : 123}');
+        $req = Request::fetch($SERVER, [], "/path/to", '{ "test" : 123}');
         $this->assertNull($req->getBody());
     }
 
@@ -185,7 +186,7 @@ final class getRequestTest extends TestCase
         $SERVER["REQUEST_METHOD"] = "POST";
         $SERVER["QUERY_STRING"] = "search=3&p=test";
 
-        $req = ApiUtilities::getRequest($SERVER, [], "/path/to", "");
+        $req = Request::fetch($SERVER, [], "/path/to", "");
         $this->assertNull($req->getBody());
     }
 
@@ -201,7 +202,7 @@ final class getRequestTest extends TestCase
         $SERVER["REQUEST_METHOD"] = "POST";
         $SERVER["QUERY_STRING"] = "search=3&p=test";
 
-        $req = ApiUtilities::getRequest($SERVER, ["t1" => "test", "Cookie" => "c=cookie123"], "/path/to", '{ "test" : 123}');
+        $req = Request::fetch($SERVER, ["t1" => "test", "Cookie" => "c=cookie123"], "/path/to", '{ "test" : 123}');
 
         $this->assertEquals("/txt", $req->getPath());
         $this->assertEquals(ApiMethod::POST, $req->getMethod());
