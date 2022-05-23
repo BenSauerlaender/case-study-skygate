@@ -14,7 +14,7 @@ use PDO;
 use PDOException;
 
 /**
- * Handles database connection.
+ * Handles mysql database connection.
  * 
  * partly taken from: https://developer.okta.com/blog/2019/03/08/simple-rest-api-php
  * 
@@ -24,7 +24,6 @@ class DbConnector
 {
     static private ?PDO $db = null;
 
-    //get the PDO connection object
     /**
      * Get the database connection object
      * 
@@ -34,8 +33,7 @@ class DbConnector
      */
     static public function getConnection(): PDO
     {
-
-        //check if the connection is already made
+        //start the connection if it has not yet been started
         if (is_null(self::$db)) {
             self::startConnection();
         }
@@ -54,11 +52,10 @@ class DbConnector
         //get all required dotEnv Variables
         $host = $_ENV['MYSQL_HOST'];
         $port = $_ENV['MYSQL_PORT'];
-        $user = $_ENV['MYSQL_USER'];
+        $user = $_ENV['MYSQL_USER'] ?? "root";
         $pass = $_ENV['MYSQL_PASSWORD'];
 
-        if (strlen($user) === 0) $user = "root";
-
+        //set recommended options 
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -66,16 +63,18 @@ class DbConnector
         ];
 
         try {
-            //start the connection and store to $dbConnection
+            //start the connection and store to $db
             self::$db = new PDO(
                 "mysql:host=$host;port=$port;charset=utf8mb4;",
                 $user,
                 $pass,
                 $options
             );
+
             //select Database
             self::$db->exec("use " . $_ENV['MYSQL_DATABASE'] . ";");
 
+            //sync timezones
             date_default_timezone_set($_ENV['TIMEZONE']);
             $offset = date('P');
             self::$db->exec("SET time_zone='$offset';");
