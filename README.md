@@ -1,9 +1,7 @@
-# case study at SkyGate
-A simple web app I'm creating as part of my internship at SkyGate internetworking GmbH
-
-# API
-A "plain" PHP API to provide information to the SPA.
-
+# Case Study at SkyGate - API
+I'm creating a simple web app as part of my internship at SkyGate internetworking GmbH
+This is the Backend-Api-part.
+Its a "plain" PHP no framework.
 ## Development Environment
 
 - Start the environment
@@ -13,6 +11,11 @@ A "plain" PHP API to provide information to the SPA.
 - Stop the environment
     ```
     composer stop
+    ```
+
+- See the logs
+    ```
+    composer logs
     ```
 
 ## Testing
