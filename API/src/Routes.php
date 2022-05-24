@@ -246,7 +246,7 @@ class Routes
                         } catch (UserNotFoundException $e) {
                             return new UserNotFoundResponse($e);
                         } catch (InvalidPropertyException $e) {
-                            return new InvalidPropertyResponse($e->getInvalidField());
+                            return new InvalidPropertyResponse($e->getInvalidProperties());
                         }
                     }
                 ]
@@ -278,7 +278,7 @@ class Routes
                         } catch (UserNotFoundException $e) {
                             return new UserNotFoundResponse($e);
                         } catch (InvalidPropertyException $e) {
-                            return new InvalidPropertyResponse($e->getInvalidField());
+                            return new InvalidPropertyResponse($e->getInvalidProperties());
                         }
                     }
                 ]
