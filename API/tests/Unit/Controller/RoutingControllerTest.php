@@ -48,7 +48,7 @@ final class RoutingControllerTest extends TestCase
     {
         $this->expectException(ApiPathNotFoundException::class);
 
-        $rc = new RoutingController(["/test/{id}" => []]);
+        $rc = new RoutingController(["/test/{x}" => []]);
         $rc->route(new ApiPath("test/x"), ApiMethod::GET);
     }
 
@@ -84,7 +84,7 @@ final class RoutingControllerTest extends TestCase
      */
     public function testRouteReturnsCorrectArrayWithIds(): void
     {
-        $rc = new RoutingController(["/test/{id}/{id}" => ["GET" => [
+        $rc = new RoutingController(["/test/{x}/{x}" => ["GET" => [
             "ids" => ["id1", "id2"],
             "requireAuth" => false,
             "permissions" => [],

@@ -3,7 +3,7 @@ const { makeSuite, notAllowed } = require("../helper");
 let jwt = require("jsonwebtoken");
 
 /**
- * Tests for the PUT /users/{id}/password route
+ * Tests for the PUT /users/{x}/password route
  */
 makeSuite(["3roles", "1User"], "/users/{userID}/password", {
   GET: notAllowed(),

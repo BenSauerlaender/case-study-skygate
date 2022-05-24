@@ -2,7 +2,7 @@ const { request, expect } = require("../config");
 const { makeSuite, notAllowed } = require("../helper");
 
 /**
- * Tests for the /users/{id}/verify/{code} route
+ * Tests for the /users/{x}/verify/{code} route
  */
 makeSuite(
   ["3roles", "1User", "1unverifiedUser"],

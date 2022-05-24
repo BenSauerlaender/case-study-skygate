@@ -90,7 +90,7 @@ class ApiPath implements ApiPathInterface
 
             //append {x} (the placeholder symbol) if its an parameter, otherwise the subpath itself
             if (is_int($sub)) {
-                $ret = $ret . "{id}";
+                $ret = $ret . "{x}";
             } else {
                 $ret = $ret . $sub;
             }

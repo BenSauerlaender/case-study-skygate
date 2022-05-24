@@ -9,13 +9,19 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses;
 
+use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+
 /**
  * Response that should be used if the requested user don't exists.
  */
 class UserNotFoundResponse extends BadRequestResponse
 {
-    public function __construct()
+    public function __construct(?UserNotFoundException $e = null)
     {
-        parent::__construct("The user not exists.", 201);
+        if (is_null($e)) {
+            parent::__construct("The user not exists.", 201);
+        } else {
+            parent::__construct($e->getMessage(), 201);
+        }
     }
 }

@@ -4,9 +4,9 @@ let jwt = require("jsonwebtoken");
 const { getEmail } = require("../emailHelper.js");
 
 /**
- * Tests for the /users/{id}/emailChange route
+ * Tests for the /users/{x}/emailChange route
  */
-makeSuite(["3roles", "2Users"], "/users/{id}/emailChange", {
+makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
   PUT: notAllowed(),
   DELETE: notAllowed(),
   PATCH: notAllowed(),

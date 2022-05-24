@@ -34,7 +34,6 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\CreatedRe
 use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\DataResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\NoContentResponse;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\SuccessfulResponses\SetCookieResponse;
-use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 use BenSauer\CaseStudySkygateApi\Utilities\MailSender;
 use InvalidArgumentException;
 
@@ -44,42 +43,42 @@ class Routes
     {
         return [
             "/register" => [
-                "POST" => [
-                    "ids" => [],
+                "POST" => [ //To register a new user
+                    "params" => [],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
-                        $fields = $req->getBody();
-                        $fields["role"] = "user";
+                        $properties = $req->getBody();
+                        $properties["role"] = "user";
 
                         try {
-                            $ret = $uc->createUser($fields);
+                            $ret = $uc->createUser($properties);
 
-                            MailSender::sendVerificationRequest($fields["email"], $fields["name"], $ret["id"], $ret["verificationCode"]);
+                            MailSender::sendVerificationRequest($properties["email"], $properties["name"], $ret["id"], $ret["verificationCode"]);
 
                             return new CreatedResponse();
                         } catch (MissingPropertiesException $e) {
                             return new MissingPropertyResponse($e->getMissing());
                         } catch (InvalidPropertyException $e) {
-                            return new InvalidPropertyResponse($e->getInvalidField());
+                            return new InvalidPropertyResponse($e->getInvalidProperties());
                         }
                     }
                 ]
             ],
-            "/users/{id}/verify/{id}" => [
-                "GET" => [
-                    "ids" => ["userID", "verificationCode"],
+            "/users/{x}/verify/{x}" => [
+                "GET" => [ //To verify a new user
+                    "params" => ["userID", "verificationCode"],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
                         try {
-                            if ($uc->verifyUser($ids["userID"], "{$ids["verificationCode"]}")) {
+                            if ($uc->verifyUser($params["userID"], "{$params["verificationCode"]}")) {
                                 return new RedirectionResponse("{$_ENV['API_PROD_DOMAIN']}/login");
                             } else {
                                 return new BadRequestResponse("The verification code is invalid.", 211);
@@ -87,28 +86,28 @@ class Routes
                         } catch (BadMethodCallException $e) {
                             return new BadRequestResponse("The user is already verified.", 210);
                         } catch (UserNotFoundException $e) {
-                            return new UserNotFoundResponse();
+                            return new UserNotFoundResponse($e);
                         }
                     }
                 ]
             ],
             "/login" => [
-                "POST" => [
-                    "ids" => [],
+                "POST" => [ //To get a refreshToken
+                    "params" => [],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
 
-                        $fields = $req->getBody();
+                        $properties = $req->getBody();
 
-                        $missingFields = array_diff_key(array_flip(["email", "password"]), $fields ?? []);
+                        $missingProperties = array_diff_key(array_flip(["email", "password"]), $properties ?? []);
 
-                        if (sizeOf($missingFields) !== 0) {
-                            return new MissingPropertyResponse(array_keys($missingFields));
+                        if (sizeOf($missingProperties) !== 0) {
+                            return new MissingPropertyResponse(array_keys($missingProperties));
                         }
 
-                        $email = strtolower($fields["email"] ?? "");
-                        $pass = $fields["password"] ?? "";
+                        $email = strtolower($properties["email"] ?? "");
+                        $pass = $properties["password"] ?? "";
 
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
@@ -123,17 +122,17 @@ class Routes
                                 return new BadRequestResponse("The password is incorrect", 215);
                             }
                         } catch (UserNotFoundException $e) {
-                            return new UserNotFoundResponse();
+                            return new UserNotFoundResponse($e);
                         }
                     }
                 ]
             ],
             "/token" => [
-                "GET" => [
-                    "ids" => [],
+                "GET" => [ //To get a new accessToken
+                    "params" => [],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
 
                         $refreshJWT = $req->getCookie("skygatecasestudy.refreshtoken");
                         if (is_null($refreshJWT)) {
@@ -153,165 +152,148 @@ class Routes
                         } catch (InvalidTokenException $e) {
                             return new BadRequestResponse("The refreshToken is invalid!", 302, ["reason" => "OLD_TOKEN"]);
                         } catch (UserNotFoundException $e) {
-                            return new UserNotFoundResponse();
+                            return new UserNotFoundResponse($e);
                         }
                     }
                 ]
             ],
-            "/users/{id}" => [
-                "GET" => [
-                    "ids" => ["userID"],
+            "/users/{x}" => [
+                "GET" => [ //To get user information of a single user
+                    "params" => ["userID"],
                     "requireAuth" => true,
                     "permissions" => ["user:read:{userID}"],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
                         try {
-                            $user = $uc->getUser($ids["userID"]);
+                            $user = $uc->getUser($params["userID"]);
                             return new DataResponse($user);
                         } catch (UserNotFoundException $e) {
-                            return new UserNotFoundResponse();
+                            return new UserNotFoundResponse($e);
                         }
                     }
                 ],
-                "PUT" => [
-                    "ids" => ["userID"],
+                "PUT" => [ //To update a single user
+                    "params" => ["userID"],
                     "requireAuth" => true,
                     "permissions" => ["user:update:{userID}"],
-                    "function" => function (RequestInterface $req, array $ids) {
-                        $availableFields = ["name" => null, "postcode" => null, "city" => null, "phone" => null, "role" => null];
+                    "function" => function (RequestInterface $req, array $params) {
+                        $supportedProperties = ["name" => null, "postcode" => null, "city" => null, "phone" => null, "role" => null];
 
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
-                        $fields = array_intersect_key($req->getBody() ?? [], $availableFields);
+                        $properties = array_intersect_key($req->getBody() ?? [], $supportedProperties);
 
-                        if (sizeOf($fields) === 0) return new BadRequestResponse("No available properties provided.", 101, ["availableProperties" => array_keys($availableFields)]);
+                        if (sizeOf($properties) === 0) return new BadRequestResponse("No supported properties provided.", 101, ["supportedProperties" => array_keys($supportedProperties)]);
 
                         try {
-                            $uc->updateUser($ids["userID"], $fields);
-                            return new DataResponse(["updated" => $fields]);
+                            $uc->updateUser($params["userID"], $properties);
+                            return new DataResponse(["updated" => $properties]);
                         } catch (UserNotFoundException $e) {
-                            return new UserNotFoundResponse();
+                            return new UserNotFoundResponse($e);
                         } catch (RoleNotFoundException $e) {
                             return new InvalidPropertyResponse(["role" => ["INVALID"]]);
                         } catch (InvalidPropertyException $e) {
-                            return new InvalidPropertyResponse($e->getInvalidField());
+                            return new InvalidPropertyResponse($e->getInvalidProperties());
                         }
                     }
                 ],
-                "DELETE" => [
-                    "ids" => ["userID"],
+                "DELETE" => [ //To delete a single user
+                    "params" => ["userID"],
                     "requireAuth" => true,
                     "permissions" => ["user:delete:{userID}"],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
                         try {
-                            $uc->deleteUser($ids["userID"]);
+                            $uc->deleteUser($params["userID"]);
                             return new NoContentResponse();
                         } catch (UserNotFoundException $e) {
-                            return new UserNotFoundResponse();
+                            return new UserNotFoundResponse($e);
                         }
                     }
                 ]
             ],
-            "/users/{id}/password" => [
+            "/users/{x}/password" => [ //To change a users password
                 "PUT" => [
-                    "ids" => ["userID"],
+                    "params" => ["userID"],
                     "requireAuth" => true,
                     "permissions" => ["user:update:{userID}"],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
 
-                        $fields = $req->getBody();
+                        $properties = $req->getBody();
 
-                        $missingFields = array_diff_key(array_flip(["oldPassword", "newPassword"]), $fields ?? []);
+                        $missingProperties = array_diff_key(array_flip(["oldPassword", "newPassword"]), $properties ?? []);
 
-                        if (sizeOf($missingFields) !== 0) {
-                            return new MissingPropertyResponse(array_keys($missingFields));
+                        if (sizeOf($missingProperties) !== 0) {
+                            return new MissingPropertyResponse(array_keys($missingProperties));
                         }
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
                         try {
-                            if ($uc->updateUsersPassword($ids["userID"], $fields["newPassword"], $fields["oldPassword"])) {
+                            if ($uc->updateUsersPassword($params["userID"], $properties["newPassword"], $properties["oldPassword"])) {
                                 /** @var RefreshTokenAccessorInterface*/
                                 $acc = $this->accessors["refreshToken"];
-                                $acc->increaseCount($ids["userID"]);
+                                $acc->increaseCount($params["userID"]);
                                 return new NoContentResponse();
                             } else {
                                 return new BadRequestResponse("The password is incorrect", 215);
                             }
                         } catch (UserNotFoundException $e) {
-                            return new UserNotFoundResponse();
+                            return new UserNotFoundResponse($e);
                         } catch (InvalidPropertyException $e) {
                             return new InvalidPropertyResponse($e->getInvalidField());
                         }
                     }
                 ]
             ],
-            "/users/{id}/emailchange" => [
-                "POST" => [
-                    "ids" => ["userID"],
+            "/users/{x}/emailchange" => [
+                "POST" => [ //To request a users email change
+                    "params" => ["userID"],
                     "requireAuth" => true,
                     "permissions" => ["user:update:{userID}"],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
 
-                        $fields = $req->getBody();
+                        $properties = $req->getBody();
 
-                        $missingFields = array_diff_key(array_flip(["email"]), $fields ?? []);
+                        $missingProperties = array_diff_key(array_flip(["email"]), $properties ?? []);
 
-                        if (sizeOf($missingFields) !== 0) {
-                            return new MissingPropertyResponse($missingFields);
+                        if (sizeOf($missingProperties) !== 0) {
+                            return new MissingPropertyResponse($missingProperties);
                         }
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
                         try {
-                            $code = $uc->requestUsersEmailChange($ids["userID"], $fields["email"]);
+                            $code = $uc->requestUsersEmailChange($params["userID"], $properties["email"]);
 
-                            $user = $uc->getUser($ids["userID"]);
+                            $user = $uc->getUser($params["userID"]);
 
-                            MailSender::sendEmailChangeVerificationRequest($fields["email"], $user["name"], $ids["userID"], $code);
+                            MailSender::sendEmailChangeVerificationRequest($properties["email"], $user["name"], $params["userID"], $code);
                             return new CreatedResponse();
                         } catch (UserNotFoundException $e) {
-                            return new UserNotFoundResponse();
+                            return new UserNotFoundResponse($e);
                         } catch (InvalidPropertyException $e) {
                             return new InvalidPropertyResponse($e->getInvalidField());
                         }
                     }
                 ]
             ],
-            "/users/{id}/logout" => [
-                "POST" => [
-                    "ids" => ["userID"],
-                    "requireAuth" => true,
-                    "permissions" => ["user:delete:{userID}"],
-                    "function" => function (RequestInterface $req, array $ids) {
-                        /** @var RefreshTokenAccessorInterface*/
-                        $acc = $this->accessors["refreshToken"];
-                        try {
-                            $acc->increaseCount($ids["userID"]);
-                            return new NoContentResponse();
-                        } catch (UserNotFoundException $e) {
-                            return new UserNotFoundResponse();
-                        }
-                    }
-                ]
-            ],
-            "/users/{id}/emailchange/{id}" => [
-                "GET" => [
-                    "ids" => ["userID", "verificationCode"],
+            "/users/{x}/emailchange/{x}" => [
+                "GET" => [ //To verify a users email change
+                    "params" => ["userID", "verificationCode"],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
                         try {
-                            if ($uc->verifyUsersEmailChange($ids["userID"], "{$ids["verificationCode"]}")) {
+                            if ($uc->verifyUsersEmailChange($params["userID"], "{$params["verificationCode"]}")) {
                                 return new RedirectionResponse("{$_ENV['API_PROD_DOMAIN']}/email-changed");
                             } else {
                                 return new BadRequestResponse("The verification code is invalid.", 211);
@@ -322,12 +304,29 @@ class Routes
                     }
                 ]
             ],
+            "/users/{x}/logout" => [
+                "POST" => [ //To make a users refreshToken invalid
+                    "params" => ["userID"],
+                    "requireAuth" => true,
+                    "permissions" => ["user:delete:{userID}"],
+                    "function" => function (RequestInterface $req, array $params) {
+                        /** @var RefreshTokenAccessorInterface*/
+                        $acc = $this->accessors["refreshToken"];
+                        try {
+                            $acc->increaseCount($params["userID"]);
+                            return new NoContentResponse();
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse($e);
+                        }
+                    }
+                ]
+            ],
             "/users" => [
-                "GET" => [
-                    "ids" => [],
+                "GET" => [ //To get multiple users defined by a query
+                    "params" => [],
                     "requireAuth" => true,
                     "permissions" => ["user:read:{all}"],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
 
                         $queryConfig = $req->getQuery();
 
@@ -353,11 +352,11 @@ class Routes
                 ]
             ],
             "/users/length" => [
-                "GET" => [
-                    "ids" => [],
+                "GET" => [ //To get the number of users matching a query
+                    "params" => [],
                     "requireAuth" => true,
                     "permissions" => ["user:read:{all}"],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
                         $queryConfig = $req->getQuery();
 
                         /** @var UserQueryInterface */
@@ -373,11 +372,11 @@ class Routes
                 ]
             ],
             "/roles" => [
-                "GET" => [
-                    "ids" => [],
+                "GET" => [ //To get a list of available roles
+                    "params" => [],
                     "requireAuth" => false,
                     "permissions" => [],
-                    "function" => function (RequestInterface $req, array $ids) {
+                    "function" => function (RequestInterface $req, array $params) {
                         /** @var RoleAccessorInterface*/
                         $acc = $this->accessors["role"];
 

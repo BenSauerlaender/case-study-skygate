@@ -33,7 +33,7 @@ class InvalidPropertyException extends ValidationException
 
         $s = $this->mapped_implode(', ', $properties, ": ");
 
-        parent::__construct("Invalid fields with Reasons: $s", $code, $prev);
+        parent::__construct("Invalid properties with Reasons: $s", $code, $prev);
     }
 
     public function getInvalidProperties(): array

@@ -2,7 +2,7 @@ const { request, expect } = require("../config");
 const { makeSuite, notAllowed } = require("../helper");
 
 /**
- * Tests for the /users/{id}/emailChange/{code} route
+ * Tests for the /users/{x}/emailChange/{code} route
  */
 makeSuite(
   ["3roles", "2Users", "1EmailChangeRequest"],

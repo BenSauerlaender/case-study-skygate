@@ -120,8 +120,8 @@ final class ApiPathTest extends TestCase
         return [
             ["/test/", "/test"],
             ["/test/test", "/test/test"],
-            ["test/1", "/test/{id}"],
-            ["/1/2/test/3", "/{id}/{id}/test/{id}"]
+            ["test/1", "/test/{x}"],
+            ["/1/2/test/3", "/{x}/{x}/test/{x}"]
         ];
     }
 }

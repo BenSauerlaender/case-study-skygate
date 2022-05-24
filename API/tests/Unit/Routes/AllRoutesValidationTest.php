@@ -44,7 +44,7 @@ final class AllRoutesValidationTest extends TestCase
     {
         $this->assertStringStartsWith("/", $path);
         $this->assertStringEndsNotWith("/", $path);
-        $apiPath = new ApiPath(str_replace("{id}", "1", $path));
+        $apiPath = new ApiPath(str_replace("{x}", "1", $path));
         //only lowercase
         $this->assertEquals(1, preg_match("/^[a-z\/{}]+$/", $path));
         $this->assertInstanceOf(ApiPathInterface::class, $apiPath, "Path can be parsed to ApiPath");
@@ -86,8 +86,8 @@ final class AllRoutesValidationTest extends TestCase
             $this->assertEquals(1, preg_match("/^[a-zA-Z]+$/", $id));
         }
 
-        //exact as many ids as {id} placeholders in path
-        $this->assertEquals(sizeof($route["ids"]), substr_count($path, "{id}"));
+        //exact as many ids as {x} placeholders in path
+        $this->assertEquals(sizeof($route["ids"]), substr_count($path, "{x}"));
     }
 
     /**
