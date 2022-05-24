@@ -35,7 +35,7 @@ final class MySqlUserQueryTest extends BaseMySqlAccessorTest
         self::$pdo->exec('INSERT INTO role (name) VALUES ("test"),("test2");');
 
         //creates 100 users
-        $seed = file_get_contents(__DIR__ . "/../../../SQL/seeds/100Users.sql");
+        $seed = file_get_contents(__DIR__ . "/../../../sql/seeds/100Users.sql");
         self::$pdo->exec($seed);
 
         $this->startChangedRowsObservation();

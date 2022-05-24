@@ -184,7 +184,7 @@ const tables = ["role", "user", "refreshToken", "emailChangeRequest"];
 
 const createTable = async (table) => {
   return await new Promise((resolve, reject) => {
-    fs.readFile(`../../SQL/tables/${table}.sql`, "utf8", (err, data) => {
+    fs.readFile(`../../sql/tables/${table}.sql`, "utf8", (err, data) => {
       if (err) throw err;
       connection.query(data, function (err) {
         if (err) throw err;
@@ -197,7 +197,7 @@ const createTable = async (table) => {
 
 const seedDB = async (seed) => {
   return await new Promise((resolve, reject) => {
-    fs.readFile(`../../SQL/seeds/${seed}.sql`, "utf8", (err, data) => {
+    fs.readFile(`../../sql/seeds/${seed}.sql`, "utf8", (err, data) => {
       if (err) throw err;
       connection.query(data, function (err) {
         if (err) throw err;
