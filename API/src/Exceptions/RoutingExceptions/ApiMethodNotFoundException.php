@@ -11,7 +11,9 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions;
 
 use Throwable;
 
-//Exception, that should be thrown if there is no route with the requested path, that use the requested method.
+/**
+ * Exception, that should be thrown if the requested route don't allow the requested method.
+ */
 class ApiMethodNotFoundException extends RoutingException
 {
     private array $availableMethods;

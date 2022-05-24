@@ -7,13 +7,13 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions;
+namespace BenSauer\CaseStudySkygateApi\Exceptions\InvalidResponseExceptions;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\BaseException;
 
 /**
- * Exception that is thrown if an 
+ * Exception that should be thrown if an  
  */
-class ResponseException extends BaseException
+class InvalidResponseException extends BaseException
 {
 }

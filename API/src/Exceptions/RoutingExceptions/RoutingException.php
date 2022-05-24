@@ -12,7 +12,9 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions;
 use BenSauer\CaseStudySkygateApi\Exceptions\BaseException;
 use Exception;
 
-//Exception, that should be thrown if the Api routing fails
+/**
+ * Exception, that should be thrown if the Api routing fails
+ */
 class RoutingException extends BaseException
 {
 }

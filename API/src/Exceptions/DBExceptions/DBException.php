@@ -12,7 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions;
 use BenSauer\CaseStudySkygateApi\Exceptions\BaseException;
 
 /**
- * Exception that is thrown if something unexpected happened with the database
+ * Exception that should be thrown if something unexpected happened with the database
  */
 class DBException extends BaseException
 {

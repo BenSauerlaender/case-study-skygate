@@ -12,7 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExcept
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 
 /**
- * Exception that is thrown if trying to add a duplicate to a unique field in the database.
+ * Exception that should be thrown if trying to add a duplicate to a unique field in the database.
  */
 class UniqueFieldException extends DBException
 {

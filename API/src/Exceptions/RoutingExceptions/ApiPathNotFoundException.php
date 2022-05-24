@@ -11,7 +11,9 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions;
 
 use Exception;
 
-//Exception, that should be thrown if there is no route with the requested path
+/**
+ * Exception, that should be thrown if there is no route with the requested path
+ */
 class ApiPathNotFoundException extends RoutingException
 {
 }

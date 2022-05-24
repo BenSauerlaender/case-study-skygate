@@ -12,7 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExce
 use Throwable;
 
 /**
- * Exception that is thrown if the specified user cant be found in the database.
+ * Exception that should be thrown if the specified user cant be found in the database.
  */
 class UserNotFoundException extends FieldNotFoundException
 {

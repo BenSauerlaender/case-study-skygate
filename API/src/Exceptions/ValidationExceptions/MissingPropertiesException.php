@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions;
 
 /**
- * Exception that is thrown if a field is required but not there
+ * Exception that should be thrown if a property is required but not there
  */
 class MissingPropertiesException extends ValidationException
 {
@@ -19,7 +19,7 @@ class MissingPropertiesException extends ValidationException
     public function __construct(array $missing, $code = 0, $previous = null)
     {
         $this->missing = $missing;
-        parent::__construct("Missing fields: " . implode(",", $missing), $code, $previous);
+        parent::__construct("Missing properties: " . implode(",", $missing), $code, $previous);
     }
 
     public function getMissing(): array

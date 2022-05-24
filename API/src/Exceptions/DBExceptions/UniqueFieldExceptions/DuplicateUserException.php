@@ -12,7 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExcept
 use Throwable;
 
 /**
- * Exception that is thrown if trying to add a duplicate UserID to a unique field in the database.
+ * Exception that should be thrown if trying to add a duplicate UserID to a unique field in the database.
  */
 class DuplicateUserException extends UniqueFieldException
 {

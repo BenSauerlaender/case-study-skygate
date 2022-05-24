@@ -11,7 +11,9 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\BaseException;
 
-//Exception, that should be thrown if an Api Request is unexpected
+/**
+ * Exception, that should be thrown if an Api Request is unexpected and ant be parsed
+ */
 class InvalidRequestException extends BaseException
 {
 }

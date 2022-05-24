@@ -12,7 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 use Throwable;
 
 /**
- * Exception that is thrown if something happen that should not be possible
+ * Exception that should be thrown in a case that should not be possible
  */
 class ShouldNeverHappenException extends BaseException
 {

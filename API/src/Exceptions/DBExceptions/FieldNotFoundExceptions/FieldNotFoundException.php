@@ -12,7 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExce
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
 
 /**
- * Exception that is thrown if the specified entry cant be found in the database.
+ * Exception that should be thrown if the specified entry cant be found in the database.
  */
 class FieldNotFoundException extends DBException
 {

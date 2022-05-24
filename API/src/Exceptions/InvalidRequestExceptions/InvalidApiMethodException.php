@@ -13,7 +13,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidRequ
 use Throwable;
 
 /**
- * Exception that is thrown if a invalid ApiMethod occurs
+ * Exception that should be thrown if an invalid ApiMethod occurs
  */
 class InvalidMethodException extends InvalidRequestException
 {

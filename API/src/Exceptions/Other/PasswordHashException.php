@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Exceptions;
 
 /**
- * Exception that is thrown if something unexpected happened during password hashing
+ * Exception that should be thrown if something unexpected happened during password hashing
  */
 class PasswordHashException extends BaseException
 {

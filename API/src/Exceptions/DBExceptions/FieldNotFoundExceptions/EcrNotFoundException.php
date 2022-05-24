@@ -12,7 +12,7 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExce
 use Throwable;
 
 /**
- * Exception that is thrown if a request cant be found in the database.
+ * Exception that should be thrown if a request cant be found in the database.
  */
 class EcrNotFoundException extends FieldNotFoundException
 {

@@ -13,27 +13,32 @@ use BenSauer\CaseStudySkygateApi\Utilities\SharedUtilities;
 use Throwable;
 
 /**
- * Exception that is thrown if a field is invalid
+ * Exception that should be thrown if a property is invalid
  */
 class InvalidPropertyException extends ValidationException
 {
-    private array $invalidFields;
+    private array $invalidProperties;
 
-    public function __construct(array $invalidFields, int $code = 0, ?Throwable $prev = null)
+    /**
+     * @param  array<string,array<string>> $invalidProperties (propertyName => ListOfReasons)
+     */
+    public function __construct(array $invalidProperties, int $code = 0, ?Throwable $prev = null)
     {
-        $this->invalidFields = $invalidFields;
-        $fields = [];
-        foreach ($invalidFields as $field => $reasons) {
-            $fields[$field] =  implode("+", $reasons);
+        $this->invalidProperties = $invalidProperties;
+
+        $properties = [];
+        foreach ($invalidProperties as $property => $reasons) {
+            $properties[$property] =  implode("+", $reasons);
         }
 
-        $s = $this->mapped_implode(', ', $fields, ": ");
+        $s = $this->mapped_implode(', ', $properties, ": ");
+
         parent::__construct("Invalid fields with Reasons: $s", $code, $prev);
     }
 
-    public function getInvalidField(): array
+    public function getInvalidProperties(): array
     {
-        return $this->invalidFields;
+        return $this->invalidProperties;
     }
 
     /**

@@ -11,7 +11,9 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidRequestException;
 
-//Exception, that should be thrown if a connection is not secure
+/**
+ * Exception, that should be thrown if a connection is not secure
+ */
 class NotSecureException extends InvalidRequestException
 {
 }
