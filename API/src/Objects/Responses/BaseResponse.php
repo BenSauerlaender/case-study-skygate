@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Objects\Responses;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\JsonException;
+use BenSauer\CaseStudySkygateApi\Exceptions\ExternalExceptions\JsonException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
 use BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces\CookieInterface;
@@ -160,10 +160,7 @@ abstract class BaseResponse implements ResponseInterface
         if ($this->body === []) return "";
 
         //encode the body
-        $json = json_encode($this->body);
-
-        //if encoding fails
-        if ($json === false) throw new JsonException("The encoding of response body failed");
+        $json = json_encode($this->body, JSON_THROW_ON_ERROR);
 
         return $json;
     }

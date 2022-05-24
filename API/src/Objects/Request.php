@@ -13,10 +13,8 @@ use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidCookieException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidQueryException;
 
 /**
  * Class that implements the RequestInterface
@@ -49,11 +47,8 @@ class Request implements RequestInterface
      * @param  string $query                    The query string from the request
      * @param  array<string,string>  $headers   The headers provided by the request.
      * 
-     * @throws InvalidApiPathException      if the path string can not parsed into an ApiPath.
-     * @throws InvalidApiMethodException    if the method string can not parsed into an ApiMethod.
-     * @throws InvalidApiQueryException     if the query string can not be parsed into an valid array.
-     * @throws InvalidApiHeaderException    if a header can not be parsed into an valid array.
-     * @throws InvalidApiCookieException    if a cookie can not be parsed into an valid array.
+     * @throws RequestException             if the input can not be parsed in a valid request
+     *      (InvalidPathException | InvalidMethodException | InvalidQueryException | InvalidCookieException)
      */
     public function __construct(string $path, string $method, string $query = "", array $headers = [], ?array $body = null)
     {
@@ -80,9 +75,9 @@ class Request implements RequestInterface
     /**
      * Parses a query string in a query array
      *
-     * @param  string $query                The Raw query string.
+     * @param  string $query            The Raw query string.
      * 
-     * @throws InvalidApiQueryException     if the query string can not be parsed into an valid array.
+     * @throws InvalidQueryException    if the query string can not be parsed into an valid array.
      */
     private function parseQuery(string $query): array
     {
@@ -102,7 +97,7 @@ class Request implements RequestInterface
                 $pair[0] = strtolower($pair[0]);
 
                 //allow only letters for the parameter name
-                if (preg_match("/^[a-z]+$/", $pair[0]) !== 1) throw new InvalidApiQueryException("The query string part: '$p' is not valid");
+                if (preg_match("/^[a-z]+$/", $pair[0]) !== 1) throw new InvalidQueryException("'$p' contains invalid characters");
 
                 //no value: set parameter-name also as value
                 if (sizeof($pair) === 1) {
@@ -110,7 +105,7 @@ class Request implements RequestInterface
                 }
 
                 //pair has exact one key and one value
-                if (sizeof($pair) !== 2) throw new InvalidApiQueryException("The query string part: '$p' is not valid");
+                if (sizeof($pair) !== 2) throw new InvalidQueryException("'$p' is not a valid");
 
                 //if value is an int: save as int otherwise get the string
                 if (ctype_digit($pair[1])) {
@@ -131,8 +126,7 @@ class Request implements RequestInterface
      *
      * @param  array<string,string> $headers    The Raw query string.
      * 
-     * @throws InvalidApiHeaderException        if a header can not be parsed into an valid array.
-     * @throws InvalidApiCookieException        if a cookie can not be parsed into an valid array.
+     * @throws InvalidCookieException           if a cookie can not be parsed into an valid array.
      */
     private function parseHeaders(array $headers): array
     {
@@ -141,8 +135,6 @@ class Request implements RequestInterface
 
         //for each header
         foreach ($headers as $key => $value) {
-            if (!is_string($key)) throw new InvalidApiHeaderException("The key: '$key' is not a string.");
-            if (!is_string($value)) throw new InvalidApiHeaderException("The value: '$value' is not a string.");
 
             //key to lowercase
             $key = strtolower($key);
@@ -153,7 +145,7 @@ class Request implements RequestInterface
                     //separate key and value
                     $pair = explode("=", $cookie);
 
-                    if (sizeof($pair) !== 2) throw new InvalidApiCookieException($cookie);
+                    if (sizeof($pair) !== 2) throw new InvalidCookieException($cookie);
 
                     //save the cookie
                     $retCookies[strtolower($pair[0])] = $pair[1];

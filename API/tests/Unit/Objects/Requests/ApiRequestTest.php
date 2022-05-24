@@ -11,11 +11,11 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects;
 use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Request;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidCookieException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidMethodException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidQueryException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -33,31 +33,31 @@ final class ApiRequestTest extends TestCase
     }
 
     /**
-     * Tests if the Constructor throws InvalidApiPathException if the path is not valid.
+     * Tests if the Constructor throws InvalidPathException if the path is not valid.
      */
     public function testConstructorWithInvalidApiPath(): void
     {
-        $this->expectException(InvalidApiPathException::class);
+        $this->expectException(InvalidPathException::class);
 
         new Request("test-jo", "GET");
     }
 
     /**
-     * Tests if the Constructor throws InvalidApiMethodException if the method is not valid.
+     * Tests if the Constructor throws InvalidMethodException if the method is not valid.
      */
     public function testConstructorWithInvalidApiMethod(): void
     {
-        $this->expectException(InvalidApiMethodException::class);
+        $this->expectException(InvalidMethodException::class);
 
         new Request("test/jo", "Quatsch");
     }
 
     /**
-     * Tests if the Constructor throws InvalidApiQueryException if the query is not valid.
+     * Tests if the Constructor throws InvalidQueryException if the query is not valid.
      */
     public function testConstructorWithInvalidApiQuery(): void
     {
-        $this->expectException(InvalidApiQueryException::class);
+        $this->expectException(InvalidQueryException::class);
 
         new Request("test/jo", "GET", "123");
     }
@@ -83,21 +83,21 @@ final class ApiRequestTest extends TestCase
     }
 
     /**
-     * Tests if the Constructor throws InvalidApiCookieException if the cookie header is not valid.
+     * Tests if the Constructor throws InvalidCookieException if the cookie header is not valid.
      */
     public function testConstructorWithInvalidApiCookie1(): void
     {
-        $this->expectException(InvalidApiCookieException::class);
+        $this->expectException(InvalidCookieException::class);
 
         new Request("test/jo", "GET", "", ["cookie" => "123"]);
     }
 
     /**
-     * Tests if the Constructor throws InvalidApiCookieException if the cookie header is not valid.
+     * Tests if the Constructor throws InvalidCookieException if the cookie header is not valid.
      */
     public function testConstructorWithInvalidApiCookie2(): void
     {
-        $this->expectException(InvalidApiCookieException::class);
+        $this->expectException(InvalidCookieException::class);
 
         new Request("test/jo", "GET", "", ["cookie" => "123=fds=2"]);
     }

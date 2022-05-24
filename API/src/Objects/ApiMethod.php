@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Objects;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidMethodException;
 
 /**
  * An enum to represent valid methods for an Request
@@ -48,7 +48,7 @@ enum ApiMethod
      *
      * @param  string $s                    The string to evaluate.
      * 
-     * @throws InvalidApiMethodException    if the string cant be evaluated.
+     * @throws InvalidMethodException    if the string cant be evaluated.
      */
     static function fromString(string $s): self
     {
@@ -81,7 +81,7 @@ enum ApiMethod
                 return self::PATCH;
                 break;
             default:
-                throw new InvalidApiMethodException($s);
+                throw new InvalidMethodException($s);
         }
     }
 }

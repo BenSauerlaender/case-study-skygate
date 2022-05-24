@@ -23,10 +23,8 @@ use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRoleAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserAccessor;
 use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserQuery;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiCookieException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
-use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\NotSecureException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
@@ -85,7 +83,7 @@ class ApiController implements ApiControllerInterface
 
         //check if the requested path starts with the api path prefix
         if (!str_starts_with($path, $pathPrefix)) {
-            throw new InvalidApiPathException("The Path: '$path' need to start with: '$pathPrefix'");
+            throw new InvalidPathException("The Path: '$path' need to start with: '$pathPrefix'");
         }
 
         //cut the prefix
@@ -97,20 +95,13 @@ class ApiController implements ApiControllerInterface
 
         //get the body of the request
         if ($bodyJSON !== "" and ($method === "POST" or $method === "PUT")) {
-            $body = json_decode($bodyJSON, true);
-            if ($body === NULL) {
-                throw new JsonException("The decoding of the body string failed");
-            }
+            $body = json_decode($bodyJSON, true, 512, JSON_THROW_ON_ERROR);
         } else {
             $body = null;
         }
 
-        try {
-            //return the request
-            return new Request($path, $method, $query, $headers, $body);
-        } catch (InvalidApiCookieException $e) {
-            throw new InvalidApiHeaderException("The Cookie header is invalid.", 0, $e);
-        }
+        //return the request
+        return new Request($path, $method, $query, $headers, $body);
     }
 
     public function handleRequest(RequestInterface $request): ResponseInterface

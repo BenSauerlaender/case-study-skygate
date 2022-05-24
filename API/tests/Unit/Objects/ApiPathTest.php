@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidPathException;
 use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +24,7 @@ final class ApiPathTest extends TestCase
      */
     public function testApiPathConstructionFailsByInvalidPath($input): void
     {
-        $this->expectException(InvalidApiPathException::class);
+        $this->expectException(InvalidPathException::class);
         new ApiPath($input);
     }
 

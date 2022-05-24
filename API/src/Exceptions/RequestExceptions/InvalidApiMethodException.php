@@ -7,18 +7,18 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions;
+namespace BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions;
 
-use Exception;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\RequestException;
 use Throwable;
 
 /**
  * Exception that is thrown if a invalid ApiMethod occurs
  */
-class InvalidApiMethodException extends BaseException
+class InvalidMethodException extends RequestException
 {
     public function __construct(string $method, Throwable $previous = null)
     {
-        parent::__construct("The method: $method is not supported", 0, $previous);
+        parent::__construct("The method: $method is not a valid http Method", 0, $previous);
     }
 }

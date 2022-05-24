@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace BenSauer\CaseStudySkygateApi\Objects;
 
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidPathException;
 
 /**
  * Class that implements ApiPathInterface
@@ -38,7 +38,7 @@ class ApiPath implements ApiPathInterface
      *
      * @param  string $s    The "/" separated path.
      * 
-     * @throws InvalidApiPathException if the string can not be validated as api path
+     * @throws InvalidPathException if the string can not be validated as api path
      */
     public function __construct(string $s)
     {
@@ -50,7 +50,7 @@ class ApiPath implements ApiPathInterface
         $array = explode("/", strtolower($s));
 
         //empty path is not valid
-        if (sizeof($array) === 0) throw new InvalidApiPathException("Path $s need to contain at least one sub-part");
+        if (sizeof($array) === 0) throw new InvalidPathException("Path $s need to contain at least one sub-part");
 
         $path = [];
         $parameters = [];
@@ -66,7 +66,7 @@ class ApiPath implements ApiPathInterface
                 array_push($parameters, (int)$e);
             } else {
                 //the subpath and so the whole path is invalid
-                throw new InvalidApiPathException("The path-sub-part: '$e' contains invalid characters");
+                throw new InvalidPathException("The path-sub-part: '$e' contains invalid characters");
             }
         }
 

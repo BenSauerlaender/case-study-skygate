@@ -7,13 +7,13 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions;
+namespace BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions;
 
-use Exception;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\RequestException;
 use Throwable;
 
 //Exception, that should be thrown if an cookie is not valid
-class InvalidApiCookieException extends BaseException
+class InvalidCookieException extends RequestException
 {
     public function __construct(string $cookie, Throwable $previous = null)
     {

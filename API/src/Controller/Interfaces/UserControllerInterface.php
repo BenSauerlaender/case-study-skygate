@@ -36,6 +36,7 @@ interface UserControllerInterface
      * @throws DBexception                  if there is a problem with the database.
      * @throws ValidationException          if there are missing or invalid properties.
      *          (MissingPropertiesException | InvalidPropertyException)
+     * @throws PasswordHashException        if there is a problem with the hashing the password.
      */
     public function createUser(array $properties): array;
 
@@ -132,6 +133,7 @@ interface UserControllerInterface
      * @throws InvalidPropertyException     if the new password is not valid.
      * @throws DBexception                  if there is a problem with the database.
      *          (UserNotFoundException | ...)
+     * @throws PasswordHashException        if there is a problem with the hashing the password.
      */
     public function updateUsersPassword(int $id, string $new_password, string $old_password): bool;
 

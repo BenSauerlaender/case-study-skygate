@@ -10,10 +10,10 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Utilities\ApiUtilities;
 
 use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiPathException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiQueryException;
-use BenSauer\CaseStudySkygateApi\Exceptions\NotSecureException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidMethodException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidQueryException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\NotSecureException;
 use BenSauer\CaseStudySkygateApi\Objects\Request;
 use BenSauer\CaseStudySkygateApi\Utilities\ApiUtilities;
 use JsonException;
@@ -51,7 +51,7 @@ final class getRequestTest extends TestCase
         $SERVER["REQUEST_METHOD"] = "GET";
         $SERVER["QUERY_STRING"] = "search=3&p=test";
 
-        $this->expectException(InvalidApiPathException::class);
+        $this->expectException(InvalidPathException::class);
 
         Request::fetch($SERVER, [], "pre");
     }
@@ -68,7 +68,7 @@ final class getRequestTest extends TestCase
         $SERVER["REQUEST_METHOD"] = "GET";
         $SERVER["QUERY_STRING"] = "search=3&p=test";
 
-        $this->expectException(InvalidApiPathException::class);
+        $this->expectException(InvalidPathException::class);
 
         Request::fetch($SERVER, [], "/path/to");
     }
@@ -85,7 +85,7 @@ final class getRequestTest extends TestCase
         $SERVER["REQUEST_METHOD"] = "SEARCH";
         $SERVER["QUERY_STRING"] = "search=3&p=test";
 
-        $this->expectException(InvalidApiMethodException::class);
+        $this->expectException(InvalidMethodException::class);
 
         Request::fetch($SERVER, [], "/path/to");
     }
@@ -102,7 +102,7 @@ final class getRequestTest extends TestCase
         $SERVER["REQUEST_METHOD"] = "GET";
         $SERVER["QUERY_STRING"] = "123";
 
-        $this->expectException(InvalidApiQueryException::class);
+        $this->expectException(InvalidQueryException::class);
 
         Request::fetch($SERVER, [], "/path/to");
     }

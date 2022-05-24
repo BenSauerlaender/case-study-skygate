@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\RequestException;
+use BenSauer\CaseStudySkygateApi\Exceptions\BaseException;
 
-//Exception, that should be thrown if a connection is not secure
-class NotSecureException extends RequestException
+//Exception, that should be thrown if an Api Request is unexpected
+class RequestException extends BaseException
 {
 }

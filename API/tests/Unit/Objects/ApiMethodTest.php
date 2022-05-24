@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiMethodException;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidMethodException;
 use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use PHPUnit\Framework\TestCase;
 
@@ -22,7 +22,7 @@ final class ApiMethodTest extends TestCase
      */
     public function testFromStringWithInvalidMethod(): void
     {
-        $this->expectException(InvalidApiMethodException::class);
+        $this->expectException(InvalidMethodException::class);
         ApiMethod::fromString("quatsch");
     }
 

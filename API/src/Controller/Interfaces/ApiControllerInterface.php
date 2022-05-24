@@ -23,12 +23,9 @@ interface ApiControllerInterface
      * @param  array    $headers     The response array of getallheaders().
      * @param  string   $pathPrefix  The prefix in front of an api path e.g. /api/v1/.
      *
-     * @throws InvalidApiHeaderException    if the server-array is not complete.
-     * @throws NotSecureException           if the request comes not from https in prod.
-     * @throws InvalidApiPathException      if the path string can not parsed into an ApiPath.
-     * @throws InvalidApiMethodException    if the method string can not parsed into an ApiMethod.
-     * @throws InvalidApiQueryException     if the query string can not be parsed into an valid array.
-     * @throws InvalidApiHeaderException    if a header can not be parsed into an valid array.
+     * @throws InvalidArgumentException     if the server-array is not complete.
+     * @throws RequestException             if the input can not be parsed in a valid request
+     *      (InvalidPathException | InvalidMethodException | InvalidQueryException | InvalidCookieException | NotSecureException)
      */
     public function fetchRequest(array $server, array $headers, string $pathPrefix, string $bodyJSON = ""): RequestInterface;
 

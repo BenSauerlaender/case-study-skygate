@@ -7,11 +7,11 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions;
+namespace BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions;
 
-use Exception;
+use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\RequestException;
 
 //Exception, that should be thrown if an query string is not valid
-class InvalidApiQueryException extends BaseException
+class InvalidQueryException extends RequestException
 {
 }
