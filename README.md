@@ -1,6 +1,8 @@
 # Case Study at SkyGate - API
 I'm creating a simple web app as part of my internship at SkyGate internetworking GmbH
-This is the Backend-Api-part.
+
+This is the Backend-Api part.
+
 Its a "plain" PHP no framework.
 ## Development Environment
 
