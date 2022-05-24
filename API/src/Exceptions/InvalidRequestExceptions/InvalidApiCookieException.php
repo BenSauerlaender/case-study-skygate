@@ -12,7 +12,9 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidRequestException;
 use Throwable;
 
-//Exception, that should be thrown if an cookie is not valid
+/**
+ * Exception, that should be thrown if a cookie is not valid
+ */
 class InvalidCookieException extends InvalidRequestException
 {
     public function __construct(string $cookie, Throwable $previous = null)

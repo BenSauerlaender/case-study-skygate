@@ -11,7 +11,9 @@ namespace BenSauer\CaseStudySkygateApi\Exceptions;
 
 use Exception;
 
-//abstract class, that all exceptions inherit from
+/**
+ * abstract class, that all exceptions inherit from
+ */
 abstract class BaseException extends Exception
 {
     //include the complete exception stack in the string
