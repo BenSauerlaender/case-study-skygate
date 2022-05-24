@@ -9,7 +9,7 @@ services:
             - "578:578"
         volumes:
             - ../src:/var/www/html/src
-            - ../SQL:/var/www/html/SQL
+            - ../sql:/var/www/html/sql
             - ../vendor:/var/www/html/vendor
             - ../.env:/var/www/html/.env
             - ./apache.conf:/etc/apache2/sites-available/000-default.conf
