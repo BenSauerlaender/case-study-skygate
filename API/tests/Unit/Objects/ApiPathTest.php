@@ -13,7 +13,7 @@ use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for the ApiPath method
+ * Tests for the ApiPath class
  */
 final class ApiPathTest extends TestCase
 {
