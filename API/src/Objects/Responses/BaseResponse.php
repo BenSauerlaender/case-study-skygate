@@ -9,9 +9,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Objects\Responses;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\ExternalExceptions\JsonException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidResponseExceptions\UnsupportedResponseCodeException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidResponseExceptions\UnsupportedResponseHeaderException;
 use BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces\CookieInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseInterface;
 

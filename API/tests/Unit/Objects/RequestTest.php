@@ -12,16 +12,15 @@ use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Request;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidCookieException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidMethodException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidPathException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidQueryException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for the BaseResponse abstract class
+ * Tests for the Request class
  */
-final class ApiRequestTest extends TestCase
+final class RequestTest extends TestCase
 {
     /**
      * Tests if the Constructor works as expected.
@@ -60,26 +59,6 @@ final class ApiRequestTest extends TestCase
         $this->expectException(InvalidQueryException::class);
 
         new Request("test/jo", "GET", "123");
-    }
-
-    /**
-     * Tests if the Constructor throws InvalidApiHeaderException if the header is not valid.
-     */
-    public function testConstructorWithInvalidHeader1(): void
-    {
-        $this->expectException(InvalidApiHeaderException::class);
-
-        new Request("test/jo", "GET", "", ["h1"]);
-    }
-
-    /**
-     * Tests if the Constructor throws InvalidHeaderException if the header is not valid.
-     */
-    public function testConstructorWithInvalidHeader2(): void
-    {
-        $this->expectException(InvalidApiHeaderException::class);
-
-        new Request("test/jo", "GET", "", ["h1" => 123]);
     }
 
     /**

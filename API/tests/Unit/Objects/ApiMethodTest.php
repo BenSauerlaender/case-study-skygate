@@ -13,12 +13,12 @@ use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for the HttpMethod enum
+ * Tests for the ApiMethod enum
  */
 final class ApiMethodTest extends TestCase
 {
     /**
-     * Tests if the method throws the right exception if the input is not a valid HttpMethod
+     * Tests if the method throws the right exception if the input is not a valid ApiMethod
      */
     public function testFromStringWithInvalidMethod(): void
     {
@@ -27,9 +27,9 @@ final class ApiMethodTest extends TestCase
     }
 
     /**
-     * Tests if the method returns the correct HttpMethod
+     * Tests if the method returns the correct ApiMethod
      * 
-     * @dataProvider httpMethodProvider
+     * @dataProvider ApiMethodProvider
      */
     public function testFromStringSuccessful(string $in, ApiMethod $exp): void
     {
@@ -37,7 +37,7 @@ final class ApiMethodTest extends TestCase
         $this->assertEquals($return, $exp);
     }
 
-    public function httpMethodProvider(): array
+    public function ApiMethodProvider(): array
     {
         return [
             ["Get", ApiMethod::GET],

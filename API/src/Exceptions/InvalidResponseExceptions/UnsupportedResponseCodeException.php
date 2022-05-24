@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions;
+namespace BenSauer\CaseStudySkygateApi\Exceptions\InvalidResponseExceptions;
 
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidResponseExceptions\InvalidResponseException;
 

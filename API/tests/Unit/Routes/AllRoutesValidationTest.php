@@ -13,16 +13,16 @@ use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
 use BenSauer\CaseStudySkygateApi\Routes;
 use Closure;
-use phpDocumentor\Reflection\PseudoTypes\LowercaseString;
 use PHPUnit\Framework\TestCase;
 
 
 /**
- * Tests to basic validate all routes
+ * Tests to validate all routes on a basic level
  */
 final class AllRoutesValidationTest extends TestCase
 {
 
+    //go through each path-method combination given in rotes to validate each of them
     public function routesProvider(): array
     {
         $ret = [];
@@ -68,26 +68,26 @@ final class AllRoutesValidationTest extends TestCase
      */
     public function testRouteHasAllKeys(string $path, string $method, array $route): void
     {
-        $this->assertArrayHasKey("ids", $route);
+        $this->assertArrayHasKey("params", $route);
         $this->assertArrayHasKey("requireAuth", $route);
         $this->assertArrayHasKey("permissions", $route);
         $this->assertArrayHasKey("function", $route);
     }
-
+ th
     /**
-     * Tests if the 'ids' array is valid
+     * Tests if the 'params' array is valid and matches the placeholders in the path
      * 
      * @dataProvider routesProvider
      */
     public function testIdsAreValid(string $path, string $method, array $route): void
     {
-        foreach ($route["ids"] as $id) {
-            $this->assertIsString($id);
-            $this->assertEquals(1, preg_match("/^[a-zA-Z]+$/", $id));
+        foreach ($route["params"] as $param) {
+            $this->assertIsString($param);
+            $this->assertEquals(1, preg_match("/^[a-zA-Z]+$/", $param));
         }
 
-        //exact as many ids as {x} placeholders in path
-        $this->assertEquals(sizeof($route["ids"]), substr_count($path, "{x}"));
+        //exact as many params as {x} placeholders in path
+        $this->assertEquals(sizeof($route["params"]), substr_count($path, "{x}"));
     }
 
     /**

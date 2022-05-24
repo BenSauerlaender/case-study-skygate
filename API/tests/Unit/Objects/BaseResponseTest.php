@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects\Responses;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseCodeException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ResponseExceptions\UnsupportedResponseHeaderException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidResponseExceptions\UnsupportedResponseCodeException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidResponseExceptions\UnsupportedResponseHeaderException;
 use BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces\CookieInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
 use PHPUnit\Framework\TestCase;
@@ -269,7 +269,7 @@ final class BaseResponseTest extends TestCase
     /**
      * Tests if the Response returns the correct fields if data was set.
      */
-    public function testsetBody(): void
+    public function testSetBody(): void
     {
         $response = new mockResponse();
 
@@ -357,7 +357,7 @@ final class BaseResponseTest extends TestCase
     /**
      * Tests if the Response returns the second data if it was set twice.
      */
-    public function testsetBodyTwice(): void
+    public function testSetBodyTwice(): void
     {
         $response = new mockResponse();
 
@@ -377,7 +377,7 @@ final class BaseResponseTest extends TestCase
     /**
      * Tests if the Response returns the correct data if it was set + a message + an errorCode.
      */
-    public function testsetBodyAddMessageAddCode(): void
+    public function testSetBodyAddMessageAddCode(): void
     {
         $response = new mockResponse();
 
