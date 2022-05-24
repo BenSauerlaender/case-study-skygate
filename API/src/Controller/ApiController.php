@@ -72,6 +72,10 @@ class ApiController implements ApiControllerInterface
             throw new InvalidArgumentException("The server array has not all necessary properties.");
         }
 
+        foreach ($headers as $key => $value) {
+            if (!is_string($key) or !is_string($value)) throw new InvalidArgumentException("The headers array contains not only strings.");
+        }
+
         //if in production: check if the connection is secure
         $env = $_ENV["ENVIRONMENT"] ?? "PRODUCTION";
         if ($env === "PRODUCTION" && (!isset($server["HTTPS"]) or empty($server['HTTPS']))) {

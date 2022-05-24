@@ -130,7 +130,7 @@ makeSuite(["3roles", "1User", "1RefreshToken"], "/token", {
         expect(this.response.body["errorCode"]).to.eql(201);
       });
       it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include("The user not exists");
+        expect(this.response.body["msg"]).to.include("id=3");
       });
     },
     "with completely valid jwt": (path) => {

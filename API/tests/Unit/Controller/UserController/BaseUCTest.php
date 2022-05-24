@@ -19,7 +19,7 @@ use BenSauer\CaseStudySkygateApi\Controller\SecurityController;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Base Testsuit for all UserController tests
+ * Base Test suite for all UserController tests
  */
 abstract class BaseUCTest extends TestCase
 {

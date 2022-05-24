@@ -27,7 +27,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
         let token = jwt.sign(
           {
             id: 2,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:2",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
@@ -43,7 +43,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
 
       it("includes requiredPermissions", async () => {
         expect(this.response.body.requiredPermissions).to.eql([
-          "user:update:{userID}",
+          "user:update:1",
         ]);
       });
     },
@@ -52,7 +52,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
         let token = jwt.sign(
           {
             id: 1,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:1",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
@@ -82,7 +82,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
         let token = jwt.sign(
           {
             id: 1,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:1",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
@@ -115,7 +115,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
         let token = jwt.sign(
           {
             id: 1,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:1",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
@@ -148,7 +148,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
         let token = jwt.sign(
           {
             id: 1,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:1",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET

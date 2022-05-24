@@ -15,7 +15,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundExc
 use PHPUnit\Framework\TestCase;
 
 /**
- * Testsuit for the RoutingController
+ * Test suite for the RoutingController
  */
 final class RoutingControllerTest extends TestCase
 {
@@ -42,9 +42,9 @@ final class RoutingControllerTest extends TestCase
     }
 
     /**
-     * Tests if the routing throws the right exception if there is no route with specified path with ids
+     * Tests if the routing throws the right exception if there is no route with specified path with params
      */
-    public function testRouteAnUnavailablePathWithIDs(): void
+    public function testRouteAnUnavailablePathWithParams(): void
     {
         $this->expectException(ApiPathNotFoundException::class);
 
@@ -53,13 +53,13 @@ final class RoutingControllerTest extends TestCase
     }
 
     /**
-     * Tests if the routing returns the right array if no ids are given.
+     * Tests if the routing returns the right array if no params are given.
      */
     public function testRouteReturnsCorrectArraySimple(): void
     {
 
         $rc = new RoutingController(["/test/path" => ["GET" => [
-            "ids" => [],
+            "params" => [],
             "requireAuth" => true,
             "permissions" => ["per1", "per2"],
             "function" => function () {
@@ -70,7 +70,7 @@ final class RoutingControllerTest extends TestCase
         $out = $rc->route(new ApiPath("test/path"), ApiMethod::GET);
 
         $this->assertEquals([
-            "ids" => [],
+            "params" => [],
             "requireAuth" => true,
             "permissions" => ["per1", "per2"],
             "function" => function () {
@@ -80,12 +80,12 @@ final class RoutingControllerTest extends TestCase
     }
 
     /**
-     * Tests if the routing returns the right array if ids are given.
+     * Tests if the routing returns the right array if params are given.
      */
-    public function testRouteReturnsCorrectArrayWithIds(): void
+    public function testRouteReturnsCorrectArrayWithParams(): void
     {
         $rc = new RoutingController(["/test/{x}/{x}" => ["GET" => [
-            "ids" => ["id1", "id2"],
+            "params" => ["param1", "param2"],
             "requireAuth" => false,
             "permissions" => [],
             "function" => function () {
@@ -96,7 +96,7 @@ final class RoutingControllerTest extends TestCase
         $out = $rc->route(new ApiPath("test/13/0"), ApiMethod::GET);
 
         $this->assertEquals([
-            "ids" => ["id1" => 13, "id2" => 0],
+            "params" => ["param1" => 13, "param2" => 0],
             "requireAuth" => false,
             "permissions" => [],
             "function" => function () {

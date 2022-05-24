@@ -13,7 +13,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyExc
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 
 /**
- * Testsuit for UserController->update method
+ * Test suite for UserController->update method
  */
 final class UCUpdateTest extends BaseUCTest
 {
@@ -30,7 +30,7 @@ final class UCUpdateTest extends BaseUCTest
         $this->userAccessorMock->expects($this->once())
             ->method("update")
             ->with($this->equalTo(-1, ["name" => "name"]))
-            ->will($this->throwException(new UserNotFoundException()));
+            ->will($this->throwException(new UserNotFoundException(-1)));
 
         $this->expectException(UserNotFoundException::class);
 
@@ -38,9 +38,9 @@ final class UCUpdateTest extends BaseUCTest
     }
 
     /**
-     * Tests if the method throws an exception if th field array is empty
+     * Tests if the method throws an exception if th property array is empty
      */
-    public function testUpdateUserWithoutFields(): void
+    public function testUpdateUserWithoutproperties(): void
     {
         $this->expectException(ArrayIsEmptyException::class);
 
@@ -48,7 +48,7 @@ final class UCUpdateTest extends BaseUCTest
     }
 
     /**
-     * Tests if the method throws an Exception if at least one of the fields is invalid
+     * Tests if the method throws an Exception if at least one of the properties is invalid
      *
      * @dataProvider invalidFieldProvider
      */

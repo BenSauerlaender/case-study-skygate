@@ -13,7 +13,7 @@ use PDO;
 use PDOException;
 
 /**
- * Testsuit for the role table creation 
+ * Test suite for the role table creation 
  */
 final class RoleTableTest extends BaseDatabaseTest
 {

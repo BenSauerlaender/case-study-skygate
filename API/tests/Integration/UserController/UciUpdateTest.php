@@ -23,13 +23,13 @@ final class UciUpdateTest extends BaseUCITest
      * 
      * @dataProvider invalidUpdateFieldArrayProvider
      */
-    public function testUpdateUserFails(int $id, array $fields, string $exception): void
+    public function testUpdateUserFails(int $id, array $properties, string $exception): void
     {
         $this->createUser();
 
         $this->expectException($exception);
 
-        $this->userController->updateUser($id, $fields);
+        $this->userController->updateUser($id, $properties);
     }
 
     /**
@@ -60,13 +60,13 @@ final class UciUpdateTest extends BaseUCITest
             "empty array" => [
                 1, [], ArrayIsEmptyException::class
             ],
-            "unsupported field" => [
+            "unsupported property" => [
                 1, ["quatsch" => "quatsch"], InvalidPropertyException::class
             ],
             "invalid type" => [
                 1, ["name" => 123], InvalidPropertyException::class
             ],
-            "invalid field" => [
+            "invalid property" => [
                 1, ["name" => "1!"], InvalidPropertyException::class
             ],
             "invalid role" => [

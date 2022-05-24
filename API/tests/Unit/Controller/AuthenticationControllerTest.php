@@ -26,7 +26,7 @@ use ReallySimpleJWT\Jwt;
 use ReallySimpleJWT\Parse;
 
 /**
- * Testsuit for the AuthenticationController
+ * Test suite for the AuthenticationController
  */
 final class AuthenticationControllerTest extends TestCase
 {
@@ -238,7 +238,7 @@ final class AuthenticationControllerTest extends TestCase
     /**
      * Tests if the method throws the correct exception if the string is no jwt
      */
-    public function testvalidateAccessTokenWithInvalidString(): void
+    public function testValidateAccessTokenWithInvalidString(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -248,7 +248,7 @@ final class AuthenticationControllerTest extends TestCase
     /**
      * Tests if the method throws the correct exception if the accessToken is expired
      */
-    public function testvalidateAccessTokenWithExpiredToken(): void
+    public function testValidateAccessTokenWithExpiredToken(): void
     {
         $this->expectException(ExpiredTokenException::class);
 
@@ -267,7 +267,7 @@ final class AuthenticationControllerTest extends TestCase
     /**
      * Tests if the method returns the correct array 
      */
-    public function testvalidateAccessTokenSuccessful(): void
+    public function testValidateAccessTokenSuccessful(): void
     {
         $payload = [
             'exp' => time() + 100,
@@ -278,7 +278,7 @@ final class AuthenticationControllerTest extends TestCase
         $token = Token::customPayload($payload, $_ENV["ACCESS_TOKEN_SECRET"]);
 
         $ret = $this->authController->validateAccessToken($token);
-        $this->assertEquals(["ids" => ["userID" => 1], "permissions" => ["perm123"]], $ret);
+        $this->assertEquals(["userID" => 1, "permissions" => ["perm123"]], $ret);
     }
 
     /**
@@ -286,10 +286,10 @@ final class AuthenticationControllerTest extends TestCase
      * 
      * @dataProvider invalidPermissionProvider
      */
-    public function testhasPermissionssWithInvalidReqPermissionString(array $perm): void
+    public function testHasPermissionsWithInvalidGivenPermissionString(array $perm): void
     {
-        $this->expectException(InvalidPermissionsException::class);
-        $this->authController->hasPermission(["permissions" => $perm, "ids" => []], ["permissions" => ["user:{all}:{all}"], "ids" => []]);
+        $this->expectException(InvalidArgumentException::class);
+        $this->authController->hasPermissions($perm, ["user:{all}:{all}"]);
     }
 
     /**
@@ -297,10 +297,10 @@ final class AuthenticationControllerTest extends TestCase
      * 
      * @dataProvider invalidPermissionProvider
      */
-    public function testhasPermissionssWithInvalidUserPermissionString(array $perm): void
+    public function testHasPermissionsWithInvalidRequiredPermissionString(array $perm): void
     {
-        $this->expectException(InvalidPermissionsException::class);
-        $this->authController->hasPermission(["permissions" => ["user:{all}:{all}"], "ids" => []], ["permissions" => $perm, "ids" => []]);
+        $this->expectException(InvalidArgumentException::class);
+        $this->authController->hasPermissions(["user:{all}:{all}"], $perm);
     }
 
     public function invalidPermissionProvider(): array
@@ -317,47 +317,13 @@ final class AuthenticationControllerTest extends TestCase
     }
 
     /**
-     * Tests that the function throws an Exception if auth object is invalid
-     * 
-     * @dataProvider invalidObjProvider
-     */
-    public function testhasPermissionssWithInvalidAuth(array $auth): void
-    {
-        $this->expectException(InvalidPermissionsException::class);
-        $this->authController->hasPermission(["permissions" => ["user:{all}:{all}"], "ids" => []], $auth);
-    }
-
-    /**
-     * Tests that the function throws an Exception if route object is invalid
-     * 
-     * @dataProvider invalidObjProvider
-     */
-    public function testhasPermissionssWithInvalidRoute(array $route): void
-    {
-        $this->expectException(InvalidPermissionsException::class);
-        $this->authController->hasPermission($route, ["permissions" => ["user:{all}:{all}"], "ids" => []]);
-    }
-
-    public function invalidObjProvider(): array
-    {
-        return [
-            [[]],
-            [["permissions" => 1], "ids" => 1],
-            [["permissions" => 1], "ids" => []],
-            [["permissions" => ["{all}:{all}:{all}"]], "ids" => 1],
-            [["permissions" => ["{all}:{all}:{userID}"], "ids" => []]],
-            [["permissions" => ["{all}:{all}:{userID}"], "ids" => ["userID" => "t"]]]
-        ];
-    }
-
-    /**
      * Tests that the function returns the correct value on multiple scenarios.
      * 
      * @dataProvider permissionProvider
      */
-    public function testhasPermissionss(array $req, array $user, $hasPerm): void
+    public function testHasPermissions(array $required, array $given, $hasPerm): void
     {
-        $ret = $this->authController->hasPermission($req, $user);
+        $ret = $this->authController->hasPermissions($given, $required);
         $this->assertEquals($hasPerm, $ret);
     }
 
@@ -365,83 +331,83 @@ final class AuthenticationControllerTest extends TestCase
     {
         return [
             [
-                ["permissions" => ["{all}:{all}:{all}"], "ids" => []],
-                ["permissions" => ["{all}:{all}:{all}"], "ids" => ["userID" => []]],
+                ["{all}:{all}:{all}"],
+                ["{all}:{all}:{all}"],
                 true
             ],
             [
-                ["permissions" => ["{all}:{all}:{userID}"], "ids" => ["userID" => 1]],
-                ["permissions" => ["{all}:{all}:{all}"], "ids" => ["userID" => []]],
+                ["{all}:{all}:1"],
+                ["{all}:{all}:{all}"],
                 true
             ],
             [
-                ["permissions" => ["{all}:read:{all}"], "ids" => []],
-                ["permissions" => ["{all}:{all}:{all}"], "ids" => ["userID" => []]],
+                ["{all}:read:{all}"],
+                ["{all}:{all}:{all}"],
                 true
             ],
             [
-                ["permissions" => ["{all}:create:{all}"], "ids" => []],
-                ["permissions" => ["{all}:{all}:{all}"], "ids" => ["userID" => []]],
+                ["{all}:create:{all}"],
+                ["{all}:{all}:{all}"],
                 true
             ],
             [
-                ["permissions" => ["{all}:update:{all}"], "ids" => []],
-                ["permissions" => ["{all}:{all}:{all}"], "ids" => ["userID" => []]],
+                ["{all}:update:{all}"],
+                ["{all}:{all}:{all}"],
                 true
             ],
             [
-                ["permissions" => ["{all}:delete:{all}"], "ids" => []],
-                ["permissions" => ["{all}:{all}:{all}"], "ids" => ["userID" => []]],
+                ["{all}:delete:{all}"],
+                ["{all}:{all}:{all}"],
                 true
             ],
             [
-                ["permissions" => ["user:delete:{all}"], "ids" => []],
-                ["permissions" => ["{all}:{all}:{all}"], "ids" => ["userID" => []]],
+                ["user:delete:{all}"],
+                ["{all}:{all}:{all}"],
                 true
             ],
             [
-                ["permissions" => ["user:create:{userID}", "user:delete:{userID}"], "ids" => ["userID" => 1]],
-                ["permissions" => ["{all}:{all}:{all}"], "ids" => ["userID" => []]],
+                ["user:create:1", "user:delete:1"],
+                ["{all}:{all}:{all}"],
                 true
             ],
             [
-                ["permissions" => ["{all}:{all}:{userID}"], "ids" => ["userID" => 1]],
-                ["permissions" => ["{all}:{all}:{userID}"], "ids" => ["userID" => 1]],
+                ["{all}:{all}:1"],
+                ["{all}:{all}:1"],
                 true
             ],
             [
-                ["permissions" => ["{all}:create:{userID}"], "ids" => ["userID" => 1]],
-                ["permissions" => ["{all}:create:{userID}"], "ids" => ["userID" => 1]],
+                ["{all}:create:1"],
+                ["{all}:create:1"],
                 true
             ],
             [
-                ["permissions" => ["user:{all}:{userID}"], "ids" => ["userID" => 1]],
-                ["permissions" => ["{all}:create:{userID}", "{all}:delete:{userID}", "{all}:update:{userID}", "{all}:read:{userID}"], "ids" => ["userID" => 1]],
+                ["user:{all}:1"],
+                ["{all}:create:1", "{all}:delete:1", "{all}:update:1", "{all}:read:1"],
                 true
             ],
             [
-                ["permissions" => ["user:create:{userID}"], "ids" => ["userID" => 1]],
-                ["permissions" => ["user:create:{userID}"], "ids" => ["userID" => 1]],
+                ["user:create:1"],
+                ["user:create:1"],
                 true
             ],
             [
-                ["permissions" => ["user:create:{userID}"], "ids" => ["userID" => 3]],
-                ["permissions" => ["user:create:{userID}"], "ids" => ["userID" => 1]],
+                ["user:create:3"],
+                ["user:create:1"],
                 false
             ],
             [
-                ["permissions" => ["user:{all}:{userID}"], "ids" => ["userID" => 3]],
-                ["permissions" => ["user:create:{userID}"], "ids" => ["userID" => 1]],
+                ["user:{all}:3"],
+                ["user:create:1"],
                 false
             ],
             [
-                ["permissions" => ["user:create:{all}"], "ids" => ["userID" => 3]],
-                ["permissions" => ["user:create:{userID}"], "ids" => ["userID" => 1]],
+                ["user:create:{all}"],
+                ["user:create:1"],
                 false
             ],
             [
-                ["permissions" => ["user:create:{userID}"], "ids" => ["userID" => 1]],
-                ["permissions" => ["user:read:{userID}"], "ids" => ["userID" => 1]],
+                ["user:create:1"],
+                ["user:read:1"],
                 false
             ]
         ];

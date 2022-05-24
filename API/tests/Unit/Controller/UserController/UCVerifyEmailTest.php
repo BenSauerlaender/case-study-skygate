@@ -11,7 +11,7 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 
 /**
- * Testsuit for UserController->verifyUsersEmailChange method
+ * Test suite for UserController->verifyUsersEmailChange method
  */
 final class UCVerifyEmailTest extends BaseUCTest
 {

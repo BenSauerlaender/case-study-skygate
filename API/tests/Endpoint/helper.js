@@ -59,7 +59,7 @@ exports.mochaHooks = {
  *      Each test scenario is a function, that provide it-assertions.
  */
 exports.makeSuite = async (seeds, routeName, methods) => {
-  //testsuit for one route
+  //testsuite for one route
   describe(routeName, function () {
     //for each httpMethod
     for (const [methodName, tests] of Object.entries(methods)) {
@@ -78,7 +78,7 @@ const getMethodTests = (tests, routeName, methodName, seeds) => {
     return () => {
       //for each test Scenario
       for (const [testName, assertions] of Object.entries(tests)) {
-        //testsuit for one scenario
+        //testsuite for one scenario
         describe(
           testName,
           getTestScenario(assertions, routeName, methodName, seeds)

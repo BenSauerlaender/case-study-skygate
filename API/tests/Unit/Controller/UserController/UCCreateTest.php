@@ -13,26 +13,26 @@ use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidProperty
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\MissingPropertiesException;
 
 /**
- * Testsuit for UserController->createUser method
+ * Test suite for UserController->createUser method
  */
 final class UCCreateTest extends BaseUCTest
 {
 
     /**
-     * Tests if the method throws an Exception if at least one field is missing
+     * Tests if the method throws an Exception if at least one property is missing
      * 
      * @dataProvider incompleteAttributeProvider
      */
-    public function testCreateUserWithMissingAttributes(array $fields): void
+    public function testCreateUserWithMissingAttributes(array $properties): void
     {
 
         $this->expectException(MissingPropertiesException::class);
 
-        $this->userController->createUser($fields);
+        $this->userController->createUser($properties);
     }
 
     /**
-     * Provides different incomplete fields arrays
+     * Provides different incomplete properties arrays
      */
     public function incompleteAttributeProvider(): array
     {
@@ -56,9 +56,9 @@ final class UCCreateTest extends BaseUCTest
     }
 
     /**
-     * Tests if the method throw an exception if at least one field is invalid
+     * Tests if the method throw an exception if at least one property is invalid
      */
-    public function testCreateUserWithInvalidFields(): void
+    public function testCreateUserWithInvalidproperties(): void
     {
         $this->ValidationControllerMock->method("validate")->willReturn(["email" => ["TO_SHORT"]]);
 
@@ -111,7 +111,7 @@ final class UCCreateTest extends BaseUCTest
      *  
      * @dataProvider goodAttributesProvider
      */
-    public function testCreateUserSuccessful(array $inputFields, array $expectValidated): void
+    public function testCreateUserSuccessful(array $inputproperties, array $expectValidated): void
     {
 
         //the userID for the new created user
@@ -127,16 +127,16 @@ final class UCCreateTest extends BaseUCTest
         //and then returns userID = 11
         $this->userAccessorMock->expects($this->exactly(2))
             ->method("findByEmail")
-            ->withConsecutive([$this->equalTo($inputFields["email"])], [$this->equalTo($inputFields["email"])])
+            ->withConsecutive([$this->equalTo($inputproperties["email"])], [$this->equalTo($inputproperties["email"])])
             ->willReturnOnConsecutiveCalls(null, $returnedUserID);
 
         //ECR Accessor cant find the email - bc they is not in use
         $this->ecrAccessorMock->expects($this->once())
             ->method("findByEmail")
-            ->with($this->equalTo($inputFields["email"]));
+            ->with($this->equalTo($inputproperties["email"]));
 
         // if role is not specified it will use "user"
-        $expectedRole = $inputFields["role"] ?? "user";
+        $expectedRole = $inputproperties["role"] ?? "user";
         $this->roleAccessorMock->expects($this->once())
             ->method("findByName")
             ->with($this->equalTo($expectedRole))
@@ -145,7 +145,7 @@ final class UCCreateTest extends BaseUCTest
         // return the hash "hash"
         $this->SecurityControllerMock->expects($this->once())
             ->method("hashPassword")
-            ->with($this->equalTo($inputFields["password"]))
+            ->with($this->equalTo($inputproperties["password"]))
             ->willReturn("hash");
 
         //generate code "ABC"
@@ -158,17 +158,17 @@ final class UCCreateTest extends BaseUCTest
         $this->userAccessorMock->expects($this->once())
             ->method("insert")
             ->with($this->equalTo(
-                $inputFields["email"],
-                $inputFields["name"],
-                $inputFields["postcode"],
-                $inputFields["city"],
-                $inputFields["phone"],
+                $inputproperties["email"],
+                $inputproperties["name"],
+                $inputproperties["postcode"],
+                $inputproperties["city"],
+                $inputproperties["phone"],
                 "hash",
                 "false",
                 $expectedRole
             ));
 
-        $result = $this->userController->createUser($inputFields);
+        $result = $this->userController->createUser($inputproperties);
         $this->assertEquals(["id" => $returnedUserID, "verificationCode" => "ABC"], $result);
     }
 
@@ -216,7 +216,7 @@ final class UCCreateTest extends BaseUCTest
     }
 
     /**
-     * Example field array with all attributes
+     * Example property array with all attributes
      *
      */
     private static array $completeAttr = [

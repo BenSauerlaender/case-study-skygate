@@ -13,7 +13,7 @@ use PDO;
 use PDOException;
 
 /**
- * Testsuit for the ECR table creation
+ * Test suite for the ECR table creation
  */
 final class EmailChangeRequestTableTest extends BaseDatabaseTest
 {

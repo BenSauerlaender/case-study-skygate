@@ -1,0 +1,23 @@
+{
+  "name": "Endpoint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "endpoint-test-all": "mocha --require helper.js tests/*.test.js",
+    "endpoint-test-only": "mocha --require helper.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "dotenv": "^16.0.0",
+    "imap": "^0.8.19",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
+    "mailparser": "^3.5.0",
+    "mocha": "^9.2.2",
+    "mysql": "^2.18.1",
+    "supertest": "^6.2.2"
+  }
+}

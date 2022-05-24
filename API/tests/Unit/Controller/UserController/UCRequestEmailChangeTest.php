@@ -11,10 +11,9 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
-use Dotenv\Exception\InvalidFileException;
 
 /**
- * Testsuit for UserController->requestUsersEmailChange method
+ * Test suite for UserController->requestUsersEmailChange method
  */
 final class UCRequestEmailChangeTest extends BaseUCTest
 {
@@ -31,7 +30,7 @@ final class UCRequestEmailChangeTest extends BaseUCTest
         $this->ecrAccessorMock->expects($this->once())
             ->method("insert")
             ->with($this->equalTo(1, "email", "code"))
-            ->will($this->throwException(new UserNotFoundException()));
+            ->will($this->throwException(new UserNotFoundException(1)));
 
 
         $this->expectException(UserNotFoundException::class);
@@ -69,7 +68,7 @@ final class UCRequestEmailChangeTest extends BaseUCTest
 
 
         $this->expectException(InvalidPropertyException::class);
-        $this->expectExceptionMessage("Invalid fields with Reasons: email: IS_TAKEN");
+        $this->expectExceptionMessage("Invalid properties with Reasons: email: IS_TAKEN");
 
         $this->userController->requestUsersEmailChange(1, "someEmail");
     }
@@ -89,7 +88,7 @@ final class UCRequestEmailChangeTest extends BaseUCTest
         $this->ecrAccessorMock->expects($this->once())
             ->method("deleteByUserID")
             ->with($this->equalTo(1))
-            ->will($this->throwException(new EcrNotFoundException()));
+            ->will($this->throwException(new EcrNotFoundException(1, "userID")));
 
         $this->SecurityControllerMock->expects($this->once())
             ->method("generateCode")

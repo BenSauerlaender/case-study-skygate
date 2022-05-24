@@ -3,15 +3,15 @@ const { makeSuite, notAllowed } = require("../helper");
 let jwt = require("jsonwebtoken");
 
 /**
- * Tests for the GET /users/{x} route
+ * Tests for the DELETE /users/{x} route
  */
 makeSuite(["3roles", "1User"], "/users/{userID}", {
   PATCH: notAllowed(),
   POST: notAllowed(),
-  GET: {
+  DELETE: {
     "without accessToken": () => {
       it("makes api call", async () => {
-        this.response = await request.get("/users/1");
+        this.response = await request.delete("/users/1");
       });
 
       it("returns Unauthorized", async () => {
@@ -23,13 +23,13 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
         let token = jwt.sign(
           {
             id: 2,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:2",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/1")
+          .delete("/users/1")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -39,7 +39,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
 
       it("includes requiredPermissions", async () => {
         expect(this.response.body.requiredPermissions).to.eql([
-          "user:read:{userID}",
+          "user:delete:1",
         ]);
       });
     },
@@ -48,13 +48,13 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
         let token = jwt.sign(
           {
             id: 3,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:3",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/3")
+          .delete("/users/3")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -67,7 +67,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
       });
 
       it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include("The user not exists");
+        expect(this.response.body["msg"]).to.include("id=3");
       });
     },
     successful: () => {
@@ -75,27 +75,22 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
         let token = jwt.sign(
           {
             id: 1,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:1",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .get("/users/1")
+          .delete("/users/1")
           .set("Authorization", "Bearer " + token);
       });
 
-      it("returns OK", async () => {
-        expect(this.response.statusCode).to.eql(200);
+      it("returns No Content", async () => {
+        expect(this.response.statusCode).to.eql(204);
       });
 
-      it("includes a all data", async () => {
-        expect(this.response.body["email"]).to.eql("user1@mail.de");
-        expect(this.response.body["name"]).to.eql("user1");
-        expect(this.response.body["postcode"]).to.eql("00000");
-        expect(this.response.body["city"]).to.eql("usertown");
-        expect(this.response.body["phone"]).to.eql("015937839");
-        expect(this.response.body["role"]).to.eql("user");
+      it("includes no body", async () => {
+        expect(this.response.body).to.eql({});
       });
     },
   },

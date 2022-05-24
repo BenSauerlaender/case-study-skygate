@@ -10,11 +10,9 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
 use BadMethodCallException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use InvalidArgumentException;
-use OutOfRangeException;
 
 /**
- * Testsuit for UserController->verifyUser method
+ * Test suite for UserController->verifyUser method
  */
 final class UCVerifyTest extends BaseUCTest
 {
@@ -27,10 +25,10 @@ final class UCVerifyTest extends BaseUCTest
         $this->userAccessorMock->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
-            ->will($this->throwException(new UserNotFoundException("User: 1")));
+            ->will($this->throwException(new UserNotFoundException(1)));
 
         $this->expectException(UserNotFoundException::class);
-        $this->expectExceptionMessage("1");
+        $this->expectExceptionMessage("No user with id=1 found.");
 
         $this->userController->verifyUser(1, "");
     }

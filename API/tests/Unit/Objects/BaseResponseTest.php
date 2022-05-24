@@ -52,7 +52,7 @@ class mockResponse extends BaseResponse
 final class BaseResponseTest extends TestCase
 {
     /**
-     * Tests if the Response returns the correct default fields.
+     * Tests if the Response returns the correct default data.
      */
     public function testDefault(): void
     {
@@ -76,7 +76,7 @@ final class BaseResponseTest extends TestCase
     }
 
     /**
-     * Tests if the Response returns the correct fields if a supported code is set.
+     * Tests if the Response returns the correct data if a supported code is set.
      * 
      * @dataProvider supportedCodeProvider
      */
@@ -124,7 +124,7 @@ final class BaseResponseTest extends TestCase
     }
 
     /**
-     * Tests if the Response returns the correct fields if a Cookie was added.
+     * Tests if the Response returns the correct data if a Cookie was added.
      */
     public function testAddCookie(): void
     {
@@ -143,7 +143,7 @@ final class BaseResponseTest extends TestCase
     }
 
     /**
-     * Tests if the Response returns the correct fields if 2 Cookies were added.
+     * Tests if the Response returns the correct data if 2 Cookies were added.
      */
     public function testAddTwoCookies(): void
     {
@@ -202,7 +202,7 @@ final class BaseResponseTest extends TestCase
     }
 
     /**
-     * Tests if the Response returns the correct fields if an header was set.
+     * Tests if the Response returns the correct data if an header was set.
      * 
      * @dataProvider supportedHeadersProvider
      */
@@ -267,7 +267,7 @@ final class BaseResponseTest extends TestCase
     }
 
     /**
-     * Tests if the Response returns the correct fields if data was set.
+     * Tests if the Response returns the correct data if data was set.
      */
     public function testSetBody(): void
     {
@@ -285,7 +285,7 @@ final class BaseResponseTest extends TestCase
     }
 
     /**
-     * Tests if the Response returns the correct fields if a message added set.
+     * Tests if the Response returns the correct data if a message added set.
      */
     public function testAddMessage(): void
     {
@@ -302,7 +302,7 @@ final class BaseResponseTest extends TestCase
     }
 
     /**
-     * Tests if the Response returns the correct fields if a message was added twice.
+     * Tests if the Response returns the correct data if a message was added twice.
      */
     public function testAddMessageTwice(): void
     {
@@ -320,7 +320,7 @@ final class BaseResponseTest extends TestCase
     }
 
     /**
-     * Tests if the Response returns the correct fields if a errorCode was added.
+     * Tests if the Response returns the correct data if a errorCode was added.
      */
     public function testAddErrorCode(): void
     {
@@ -337,7 +337,7 @@ final class BaseResponseTest extends TestCase
     }
 
     /**
-     * Tests if the Response returns the correct fields if a errorCode was added twice.
+     * Tests if the Response returns the correct data if a errorCode was added twice.
      */
     public function testAddErrorCodeTwice(): void
     {

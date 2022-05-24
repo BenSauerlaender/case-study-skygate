@@ -23,9 +23,9 @@ class UserNotFoundException extends FieldNotFoundException
     public function __construct(?int $id, ?string $email = null, Throwable $previous = null)
     {
         if (is_null($id)) {
-            $msg = "email='$email'";
+            $msg = "email=$email";
         } else {
-            $msg = "id='$id'";
+            $msg = "id=$id";
         }
         parent::__construct("No user with $msg found.", 0, $previous);
     }

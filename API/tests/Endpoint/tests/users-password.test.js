@@ -3,33 +3,36 @@ const { makeSuite, notAllowed } = require("../helper");
 let jwt = require("jsonwebtoken");
 
 /**
- * Tests for the PUT /users/{x} route
+ * Tests for the PUT /users/{x}/password route
  */
-makeSuite(["3roles", "1User"], "/users/{userID}", {
-  PATCH: notAllowed(),
+makeSuite(["3roles", "1User"], "/users/{userID}/password", {
+  GET: notAllowed(),
   POST: notAllowed(),
+  DELETE: notAllowed(),
+  PATCH: notAllowed(),
   PUT: {
     "without accessToken": () => {
       it("makes api call", async () => {
-        this.response = await request.put("/users/1");
+        this.response = await request.put("/users/1/password");
       });
 
       it("returns Unauthorized", async () => {
         expect(this.response.statusCode).to.eql(401);
       });
     },
+
     "without permission": () => {
       it("makes api call", async () => {
         let token = jwt.sign(
           {
             id: 2,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:2",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/1")
+          .put("/users/1/password")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -39,8 +42,137 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
 
       it("includes requiredPermissions", async () => {
         expect(this.response.body.requiredPermissions).to.eql([
-          "user:update:{userID}",
+          "user:update:1",
         ]);
+      });
+    },
+    "without a body": () => {
+      it("makes api call", async () => {
+        let token = jwt.sign(
+          {
+            id: 1,
+            perm: "user:{all}:1",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        this.response = await request
+          .put("/users/1/password")
+          .set("Authorization", "Bearer " + token);
+      });
+      it("returns Bad Request", async () => {
+        expect(this.response.statusCode).to.eql(400);
+      });
+
+      it("includes a code", async () => {
+        expect(this.response.body["errorCode"]).to.eql(101);
+      });
+
+      it("includes a message", async () => {
+        expect(this.response.body["msg"]).to.include("require");
+      });
+
+      it("includes a list of required properties", async () => {
+        expect(this.response.body["missingProperties"]).to.contains.members([
+          "oldPassword",
+          "newPassword",
+        ]);
+      });
+    },
+    "without all required properties": () => {
+      it("makes api call", async () => {
+        let token = jwt.sign(
+          {
+            id: 1,
+            perm: "user:{all}:1",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        this.response = await request
+          .put("/users/1/password")
+          .set("Authorization", "Bearer " + token)
+          .send({ newPassword: "te" });
+      });
+      it("returns Bad Request", async () => {
+        expect(this.response.statusCode).to.eql(400);
+      });
+
+      it("includes a code", async () => {
+        expect(this.response.body["errorCode"]).to.eql(101);
+      });
+
+      it("includes a message", async () => {
+        expect(this.response.body["msg"]).to.include("require");
+      });
+
+      it("includes a list of required properties", async () => {
+        expect(this.response.body["missingProperties"]).to.contains.members([
+          "oldPassword",
+        ]);
+      });
+    },
+    "with invalid new password": () => {
+      it("makes api call", async () => {
+        let token = jwt.sign(
+          {
+            id: 1,
+            perm: "user:{all}:1",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        this.response = await request
+          .put("/users/1/password")
+          .set("Authorization", "Bearer " + token)
+          .send({ oldPassword: "Password111", newPassword: "te" });
+      });
+      it("returns Bad Request", async () => {
+        expect(this.response.statusCode).to.eql(400);
+      });
+
+      it("includes a code", async () => {
+        expect(this.response.body["errorCode"]).to.eql(102);
+      });
+
+      it("includes a message", async () => {
+        expect(this.response.body["msg"]).to.include("invalid");
+      });
+
+      it("includes a list of invalid properties", async () => {
+        expect(this.response.body["invalidProperties"]["password"][0]).to.eq(
+          "TO_SHORT"
+        );
+      });
+    },
+    "with wrong old password": () => {
+      it("makes api call", async () => {
+        let token = jwt.sign(
+          {
+            id: 1,
+            perm: "user:{all}:1",
+            exp: Math.floor(Date.now() / 1000) + 30,
+          },
+          process.env.ACCESS_TOKEN_SECRET
+        );
+        this.response = await request
+          .put("/users/1/password")
+          .set("Authorization", "Bearer " + token)
+          .send({ oldPassword: "wrong", newPassword: "tet123ABCxyz" });
+      });
+
+      it("returns Bad Request", async () => {
+        expect(this.response.statusCode).to.eql(400);
+      });
+
+      it("includes a code", async () => {
+        expect(this.response.body["errorCode"]).to.eql(215);
+      });
+
+      it("includes a message", async () => {
+        expect(this.response.body["msg"]).to.include(
+          "The password is incorrect"
+        );
       });
     },
     "user not exists": () => {
@@ -48,15 +180,15 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
         let token = jwt.sign(
           {
             id: 3,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:3",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/3")
+          .put("/users/3/password")
           .set("Authorization", "Bearer " + token)
-          .send({ name: "name", email: "tet" });
+          .send({ oldPassword: "Password111", newPassword: "tet123ABCxyz" });
       });
 
       it("returns Bad Request", async () => {
@@ -68,115 +200,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
       });
 
       it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include("The user not exists");
-      });
-    },
-    "without any available property": () => {
-      it("makes api call", async () => {
-        let token = jwt.sign(
-          {
-            id: 1,
-            perm: "user:{all}:{userID}",
-            exp: Math.floor(Date.now() / 1000) + 30,
-          },
-          process.env.ACCESS_TOKEN_SECRET
-        );
-        this.response = await request
-          .put("/users/1")
-          .set("Authorization", "Bearer " + token)
-          .send({ quatsch: "newEmailmail.de" });
-      });
-
-      it("returns Bad Request", async () => {
-        expect(this.response.statusCode).to.eql(400);
-      });
-
-      it("includes a code", async () => {
-        expect(this.response.body["errorCode"]).to.eql(101);
-      });
-
-      it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include(
-          "No available properties provided"
-        );
-      });
-
-      it("includes a list of available properties", async () => {
-        expect(this.response.body["availableProperties"]).to.include.members([
-          "name",
-          "phone",
-          "city",
-          "postcode",
-          "role",
-        ]);
-      });
-    },
-    "with invalid role": () => {
-      it("makes api call", async () => {
-        let token = jwt.sign(
-          {
-            id: 1,
-            perm: "user:{all}:{userID}",
-            exp: Math.floor(Date.now() / 1000) + 30,
-          },
-          process.env.ACCESS_TOKEN_SECRET
-        );
-        this.response = await request
-          .put("/users/1")
-          .set("Authorization", "Bearer " + token)
-          .send({ role: "newEmailmail.de" });
-      });
-
-      it("returns Bad Request", async () => {
-        expect(this.response.statusCode).to.eql(400);
-      });
-
-      it("includes a code", async () => {
-        expect(this.response.body["errorCode"]).to.eql(102);
-      });
-
-      it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include("invalid");
-      });
-
-      it("includes a list of invalid properties", async () => {
-        expect(this.response.body["invalidProperties"]["role"][0]).to.eq(
-          "INVALID"
-        );
-      });
-    },
-    "with invalid name": () => {
-      it("makes api call", async () => {
-        let token = jwt.sign(
-          {
-            id: 1,
-            perm: "user:{all}:{userID}",
-            exp: Math.floor(Date.now() / 1000) + 30,
-          },
-          process.env.ACCESS_TOKEN_SECRET
-        );
-        this.response = await request
-          .put("/users/1")
-          .set("Authorization", "Bearer " + token)
-          .send({ name: 123 });
-      });
-
-      it("returns Bad Request", async () => {
-        expect(this.response.statusCode).to.eql(400);
-      });
-
-      it("includes a code", async () => {
-        expect(this.response.body["errorCode"]).to.eql(102);
-      });
-
-      it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include("invalid");
-      });
-
-      it("includes a list of invalid properties", async () => {
-        expect(this.response.body["invalidProperties"]["name"][0]).to.eq(
-          "INVALID_TYPE"
-        );
+        expect(this.response.body["msg"]).to.include("id=3");
       });
     },
     successful: () => {
@@ -184,26 +208,19 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
         let token = jwt.sign(
           {
             id: 1,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:1",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/1")
+          .put("/users/1/password")
           .set("Authorization", "Bearer " + token)
-          .send({ postcode: "00000", name: "New Name" });
+          .send({ oldPassword: "Password111", newPassword: "tet123ABCxyz" });
       });
 
-      it("returns OK", async () => {
-        expect(this.response.statusCode).to.eql(200);
-      });
-
-      it("includes a list of updated fields", async () => {
-        expect(this.response.body["updated"]).to.eql({
-          postcode: "00000",
-          name: "New Name",
-        });
+      it("returns No Content", async () => {
+        expect(this.response.statusCode).to.eql(204);
       });
     },
   },

@@ -148,22 +148,22 @@ class AuthenticationController implements AuthenticationControllerInterface
         foreach ($requiredPermissions as $resource => $methods) {
 
             //check if the user has any permissions for that resource
-            if (!isset($userPerm[$resource])) return false;
+            if (!isset($givenPermissions[$resource])) return false;
 
             //for each required method
             foreach ($methods as $method => $scope) {
 
                 //check if user have any permissions for that method
-                if (!isset($userPerm[$resource][$method])) return false;
+                if (!isset($givenPermissions[$resource][$method])) return false;
 
                 //if the user has not permissions for the whole scope
-                if ($userPerm[$resource][$method] !== "{all}") {
+                if ($givenPermissions[$resource][$method] !== "{all}") {
 
                     //if permission for the whole scope is required
                     if ($scope === "{all}") return false;
 
                     //if not: check if the user has the rights for the required scope
-                    if ($scope !== $userPerm[$resource][$method]) return false;
+                    if ($scope !== $givenPermissions[$resource][$method]) return false;
                 }
             }
         }
@@ -231,9 +231,11 @@ class AuthenticationController implements AuthenticationControllerInterface
                     //get the scope (either its {all} or a specified id (int))
                     $scope = $permStringExplode[2];
 
-                    //save as int if it is one
+                    //save an int as int. and throw error if its neither an id nor {all}
                     if (ctype_digit($scope)) {
                         $scope = (int) $scope;
+                    } else if ($scope !== "{all}") {
+                        throw new InvalidArgumentException("$scope is not a valid scope");
                     }
 
                     //add scope and method to the return array

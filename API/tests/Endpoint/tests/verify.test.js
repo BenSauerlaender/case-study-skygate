@@ -27,7 +27,7 @@ makeSuite(
         });
 
         it("includes a message", async () => {
-          expect(this.response.body["msg"]).to.include("The user not exists");
+          expect(this.response.body["msg"]).to.include("id=5");
         });
       },
       "user is already verified": () => {

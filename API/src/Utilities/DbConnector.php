@@ -52,7 +52,10 @@ class DbConnector
         //get all required dotEnv Variables
         $host = $_ENV['MYSQL_HOST'];
         $port = $_ENV['MYSQL_PORT'];
-        $user = $_ENV['MYSQL_USER'] ?? "root";
+        $user = $_ENV['MYSQL_USER'];
+        if (is_null($user) or $user === "") {
+            $user =  "root";
+        }
         $pass = $_ENV['MYSQL_PASSWORD'];
 
         //set recommended options 

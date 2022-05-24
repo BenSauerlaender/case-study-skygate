@@ -45,7 +45,7 @@ final class MySqlUserQueryTest extends BaseMySqlAccessorTest
     }
 
     /**
-     * Tests if the addFilter function throws an exception if the field is invalid
+     * Tests if the addFilter function throws an exception if the property is invalid
      */
     public function testAddFilterFailsOnWrongField(): void
     {

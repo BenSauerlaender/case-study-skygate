@@ -13,7 +13,7 @@ use PDO;
 use PDOException;
 
 /**
- * Testsuit for the user table creation 
+ * Test suite for the user table creation 
  */
 final class UserTableTest extends BaseDatabaseTest
 {

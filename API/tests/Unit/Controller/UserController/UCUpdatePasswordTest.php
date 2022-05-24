@@ -13,7 +13,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidProperty
 use BenSauer\CaseStudySkygateApi\tests\Unit\tests\helper\TableCreator\UserTableTest;
 
 /**
- * Testsuit for UserController->updateUsersPassword method
+ * Test suite for UserController->updateUsersPassword method
  */
 final class UCUpdatePasswordTest extends BaseUCTest
 {
@@ -26,7 +26,7 @@ final class UCUpdatePasswordTest extends BaseUCTest
         $this->userAccessorMock->expects($this->once())
             ->method("get")
             ->with($this->equalTo(1))
-            ->will($this->throwException(new UserNotFoundException()));
+            ->will($this->throwException(new UserNotFoundException(1)));
 
         $this->expectException(UserNotFoundException::class);
         $this->userController->updateUsersPassword(1, "", "");

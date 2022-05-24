@@ -13,7 +13,7 @@ use PDO;
 use PDOException;
 
 /**
- * Testsuit for the refreshToken table 
+ * Test suite for the refreshToken table 
  */
 final class RefreshTokenTableTest extends BaseDatabaseTest
 {

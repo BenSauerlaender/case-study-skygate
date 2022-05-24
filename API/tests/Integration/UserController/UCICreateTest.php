@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\MissingPropertiesException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
@@ -19,26 +18,26 @@ use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationExcep
 final class UCICreateTest extends BaseUCITest
 {
     /**
-     * Tests if the user creation throws Validation Exception by an invalid field-array
+     * Tests if the user creation throws Validation Exception by an invalid property-array
      * 
-     * @dataProvider invalidFieldArrayProvider
+     * @dataProvider invalidPropertyArrayProvider
      */
-    public function testCreateUserFailsOnInvalidFieldData(array $fields, string $exception): void
+    public function testCreateUserFailsOnInvalidPropertyData(array $properties, string $exception): void
     {
         $this->expectException(ValidationException::class);
         $this->expectException($exception);
 
-        $this->userController->createUser($fields);
+        $this->userController->createUser($properties);
     }
 
     /**
      * Tests if the user creation succeeds
      * 
-     * @dataProvider fieldArrayProvider
+     * @dataProvider propertyArrayProvider
      */
-    public function testCreateUser(array $fields): void
+    public function testCreateUser(array $properties): void
     {
-        $response = $this->userController->createUser($fields);
+        $response = $this->userController->createUser($properties);
         $this->assertArrayHasKey("id", $response);
         $this->assertIsInt($response["id"]);
         $this->assertEquals(1, $response["id"]);
@@ -69,7 +68,7 @@ final class UCICreateTest extends BaseUCITest
         );
     }
 
-    public function fieldArrayProvider(): array
+    public function propertyArrayProvider(): array
     {
         return [
             "with role" => [
@@ -96,7 +95,7 @@ final class UCICreateTest extends BaseUCITest
         ];
     }
 
-    public function invalidFieldArrayProvider(): array
+    public function invalidPropertyArrayProvider(): array
     {
         return [
             "missing email and name" => [
@@ -108,7 +107,7 @@ final class UCICreateTest extends BaseUCITest
                     "role"      => "myRole"
                 ], MissingPropertiesException::class
             ],
-            "unsupported field" => [
+            "unsupported property" => [
                 [
                     "quatsch"     => "",
                     "email"     => "myEmail",

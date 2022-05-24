@@ -73,7 +73,7 @@ final class AllRoutesValidationTest extends TestCase
         $this->assertArrayHasKey("permissions", $route);
         $this->assertArrayHasKey("function", $route);
     }
- th
+
     /**
      * Tests if the 'params' array is valid and matches the placeholders in the path
      * 

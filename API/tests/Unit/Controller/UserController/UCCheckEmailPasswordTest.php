@@ -8,11 +8,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 
 /**
- * Testsuit for UserController->checkEmailPassword method
+ * Test suite for UserController->checkEmailPassword method
  */
 final class UCCheckEmailPasswordTest extends BaseUCTest
 {

@@ -12,7 +12,7 @@ use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 
 /**
- * Testsuit for UserController->delete method
+ * Test suite for UserController->delete method
  */
 final class UCDeleteTest extends BaseUCTest
 {
@@ -24,7 +24,7 @@ final class UCDeleteTest extends BaseUCTest
         $this->userAccessorMock->expects($this->once())
             ->method("delete")
             ->with($this->equalTo("-1"))
-            ->will($this->throwException(new UserNotFoundException()));
+            ->will($this->throwException(new UserNotFoundException(-1)));
 
         $this->expectException(UserNotFoundException::class);
 
@@ -46,7 +46,7 @@ final class UCDeleteTest extends BaseUCTest
         $this->ecrAccessorMock->expects($this->once())
             ->method("deleteByUserID")
             ->with($this->equalTo($id))
-            ->will($this->throwException(new EcrNotFoundException()));
+            ->will($this->throwException(new EcrNotFoundException(1)));
 
         $this->userController->deleteUser($id);
     }

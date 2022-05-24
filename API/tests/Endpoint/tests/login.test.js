@@ -77,7 +77,7 @@ makeSuite(["3roles", "1User"], "/login", {
       });
 
       it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include("The user not exists");
+        expect(this.response.body["msg"]).to.include("email= ");
       });
     },
     "with incorrect Password": (path) => {

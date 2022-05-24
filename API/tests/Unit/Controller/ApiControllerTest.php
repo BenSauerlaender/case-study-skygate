@@ -22,6 +22,11 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerI
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\RoutingControllerInterface;
 use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
 use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidCookieException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidMethodException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidQueryException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\NotSecureException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
@@ -30,10 +35,12 @@ use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\Authoriz
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
 use Exception;
 use InvalidArgumentException;
+use JsonException;
+use PHPUnit\Framework\MockObject\Rule\InvokedAtMostCount;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Testsuit for the ApiController
+ * Test suite for the ApiController
  */
 final class ApiControllerTest extends TestCase
 {
@@ -60,12 +67,12 @@ final class ApiControllerTest extends TestCase
         $this->path = new ApiPath("abc/1");
 
         $this->reqMock
-            ->expects($this->once())
+            ->expects($this->atMost(1))
             ->method("getPath")
             ->willReturn($this->path);
 
         $this->reqMock
-            ->expects($this->once())
+            ->expects($this->atMost(1))
             ->method("getMethod")
             ->willReturn(ApiMethod::CONNECT);
     }
@@ -143,7 +150,7 @@ final class ApiControllerTest extends TestCase
             ->method("route")
             ->willReturn([
                 "requireAuth" => false,
-                "ids" => ["testID" => 1],
+                "params" => ["testID" => 1],
                 "function" => function (RequestInterface $req, array $ids) {
 
                     if ($req->getBody() === ["test"] && $ids === ["testID" => 1]) {
@@ -172,7 +179,7 @@ final class ApiControllerTest extends TestCase
             ->method("route")
             ->willReturn([
                 "requireAuth" => false,
-                "ids" => ["testID"],
+                "params" => ["testID"],
                 "function" => function ($req, $ids) {
                     $this->controller["user"]->deleteUser(0);
                     return new CreatedResponse();
@@ -200,7 +207,7 @@ final class ApiControllerTest extends TestCase
             ->method("route")
             ->willReturn([
                 "requireAuth" => false,
-                "ids" => ["testID"],
+                "params" => ["testID"],
                 "function" => function ($req, $ids) {
                     if ($this->accessors["user"]->findByEmail("test") === 1) {
                         return new CreatedResponse();
@@ -223,7 +230,7 @@ final class ApiControllerTest extends TestCase
             ->method("route")
             ->willReturn([
                 "requireAuth" => false,
-                "ids" => ["testID"],
+                "params" => ["testID"],
                 "function" => function ($req, $ids) {
                     throw new Exception();
                 }
@@ -244,7 +251,7 @@ final class ApiControllerTest extends TestCase
             ->method("route")
             ->willReturn([
                 "requireAuth" => false,
-                "ids" => ["testID"],
+                "params" => ["testID"],
                 "function" => function ($req, $ids) {
                     return new BadRequestResponse("", 0);
                 }
@@ -365,7 +372,7 @@ final class ApiControllerTest extends TestCase
             ->method("route")
             ->willReturn([
                 "requireAuth" => true,
-                "permissions" => ["p"]
+                "permissions" => ["required"]
             ]);
 
         $this->reqMock->expects($this->once())
@@ -375,17 +382,17 @@ final class ApiControllerTest extends TestCase
         $this->authMock->expects($this->once())
             ->method("validateAccessToken")
             ->with("token")
-            ->willReturn(["auth"]);
+            ->willReturn(["permissions" => ["given"]]);
 
         $this->authMock->expects($this->once())
-            ->method("hasPermission")
-            ->with(["requireAuth" => true, "permissions" => ["p"]], ["auth"])
+            ->method("hasPermissions")
+            ->with(["given"], ["required"])
             ->willReturn(false);
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, MissingPermissionsResponse::class));
-        $this->assertEquals(["p"], json_decode($response->getJsonBody(), true)["requiredPermissions"]);
+        $this->assertEquals(["required"], json_decode($response->getJsonBody(), true)["requiredPermissions"]);
     }
 
     /**
@@ -399,7 +406,7 @@ final class ApiControllerTest extends TestCase
             ->willReturn([
                 "requireAuth" => true,
                 "permissions" => ["p"],
-                "ids" => [1, 2, 3],
+                "params" => [1, 2, 3],
                 "function" => function ($req, $ids) {
                     return new BadRequestResponse("", 0);
                 }
@@ -411,14 +418,205 @@ final class ApiControllerTest extends TestCase
 
         $this->authMock->expects($this->once())
             ->method("validateAccessToken")
-            ->willReturn(["auth"]);
+            ->willReturn(["permissions" => ["p"]]);
 
         $this->authMock->expects($this->once())
-            ->method("hasPermission")
+            ->method("hasPermissions")
             ->willReturn(true);
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, BadRequestResponse::class));
+    }
+
+    /**
+     * Tests if the method throws an exception if the connection is in production not secure.
+     */
+    public function testFetchRequestNoSslInProduction(): void
+    {
+        $_ENV["ENVIRONMENT"] = "PRODUCTION";
+        $SERVER = [];
+        unset($SERVER["HTTPS"]);
+        $SERVER["REQUEST_URI"] = "/path/to/txt";
+        $SERVER["REQUEST_METHOD"] = "GET";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
+
+        $this->expectException(NotSecureException::class);
+
+        $this->apiController->fetchRequest($SERVER, [], "");
+    }
+
+    /**
+     * Test if the method throws an exception if the path is does not start with the prefix
+     */
+    public function testFetchRequestPathDontStartWithPrefix(): void
+    {
+        $_ENV["ENVIRONMENT"] = "PRODUCTION";
+        $SERVER = [];
+        $SERVER["HTTPS"] = "test";
+        $SERVER["REQUEST_URI"] = "/path/to/x";
+        $SERVER["REQUEST_METHOD"] = "GET";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
+
+        $this->expectException(InvalidPathException::class);
+
+        $this->apiController->fetchRequest($SERVER, [], "pre");
+    }
+
+    /**
+     * Test if the method throws an exception if the path is not valid
+     */
+    public function testFetchRequestPathIsInvalid(): void
+    {
+        $_ENV["ENVIRONMENT"] = "PRODUCTION";
+        $SERVER = [];
+        $SERVER["HTTPS"] = 1;
+        $SERVER["REQUEST_URI"] = "/path/to/x.txt";
+        $SERVER["REQUEST_METHOD"] = "GET";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
+
+        $this->expectException(InvalidPathException::class);
+
+        $this->apiController->fetchRequest($SERVER, [], "/path/to");
+    }
+
+    /**
+     * Test if the method throws an exception if the method is not valid
+     */
+    public function testFetchRequestMethodIsInvalid(): void
+    {
+        $_ENV["ENVIRONMENT"] = "PRODUCTION";
+        $SERVER = [];
+        $SERVER["HTTPS"] = 1;
+        $SERVER["REQUEST_URI"] = "/path/to/txt";
+        $SERVER["REQUEST_METHOD"] = "SEARCH";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
+
+        $this->expectException(InvalidMethodException::class);
+
+        $this->apiController->fetchRequest($SERVER, [], "/path/to");
+    }
+
+    /**
+     * Test if the method throws an exception if the query is not valid
+     */
+    public function testFetchRequestQueryIsInvalid(): void
+    {
+        $_ENV["ENVIRONMENT"] = "PRODUCTION";
+        $SERVER = [];
+        $SERVER["HTTPS"] = 1;
+        $SERVER["REQUEST_URI"] = "/path/to/txt";
+        $SERVER["REQUEST_METHOD"] = "GET";
+        $SERVER["QUERY_STRING"] = "123";
+
+        $this->expectException(InvalidQueryException::class);
+
+        $this->apiController->fetchRequest($SERVER, [], "/path/to");
+    }
+
+    /**
+     * Test if the method throws an exception if a header is not valid
+     */
+    public function testFetchRequestHeaderIsInvalid(): void
+    {
+        $_ENV["ENVIRONMENT"] = "PRODUCTION";
+        $SERVER = [];
+        $SERVER["HTTPS"] = 1;
+        $SERVER["REQUEST_URI"] = "/path/to/txt";
+        $SERVER["REQUEST_METHOD"] = "GET";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->apiController->fetchRequest($SERVER, [1 => "test"], "/path/to");
+    }
+
+    /**
+     * Test if the method throws an exception if a cookie is not valid
+     */
+    public function testFetchRequestCookieIsInvalid(): void
+    {
+        $_ENV["ENVIRONMENT"] = "PRODUCTION";
+        $SERVER = [];
+        $SERVER["HTTPS"] = 1;
+        $SERVER["REQUEST_URI"] = "/path/to/txt";
+        $SERVER["REQUEST_METHOD"] = "GET";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
+
+        $this->expectException(InvalidCookieException::class);
+
+        $this->apiController->fetchRequest($SERVER, ["t1" => "test", "Cookie" => "1 2 3 "], "/path/to");
+    }
+
+    /**
+     * Test if the method throws an exception if the body cant be decoded.
+     */
+    public function testFetchRequestBodyIsInvalid(): void
+    {
+        $_ENV["ENVIRONMENT"] = "PRODUCTION";
+        $SERVER = [];
+        $SERVER["HTTPS"] = 1;
+        $SERVER["REQUEST_URI"] = "/path/to/txt";
+        $SERVER["REQUEST_METHOD"] = "POST";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
+
+        $this->expectException(JsonException::class);
+
+        $this->apiController->fetchRequest($SERVER, [], "/path/to", "/////");
+    }
+
+    /**
+     * Test if the body is null if the Method is not PUT or POST.
+     */
+    public function testFetchRequestBodyOnGet(): void
+    {
+        $_ENV["ENVIRONMENT"] = "PRODUCTION";
+        $SERVER = [];
+        $SERVER["HTTPS"] = 1;
+        $SERVER["REQUEST_URI"] = "/path/to/txt";
+        $SERVER["REQUEST_METHOD"] = "GET";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
+
+        $req = $this->apiController->fetchRequest($SERVER, [], "/path/to", '{ "test" : 123}');
+        $this->assertNull($req->getBody());
+    }
+
+    /**
+     * Test if the body is null if the body string is empty.
+     */
+    public function testFetchRequestBodyIsEmpty(): void
+    {
+        $_ENV["ENVIRONMENT"] = "PRODUCTION";
+        $SERVER = [];
+        $SERVER["HTTPS"] = 1;
+        $SERVER["REQUEST_URI"] = "/path/to/txt";
+        $SERVER["REQUEST_METHOD"] = "POST";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
+
+        $req = $this->apiController->fetchRequest($SERVER, [], "/path/to", "");
+        $this->assertNull($req->getBody());
+    }
+
+    /**
+     * Test if the method works as expected
+     */
+    public function testFetchRequestSuccessful(): void
+    {
+        $_ENV["ENVIRONMENT"] = "PRODUCTION";
+        $SERVER = [];
+        $SERVER["HTTPS"] = 1;
+        $SERVER["REQUEST_URI"] = "/path/to/txt?123";
+        $SERVER["REQUEST_METHOD"] = "POST";
+        $SERVER["QUERY_STRING"] = "search=3&p=test";
+
+        $req = $this->apiController->fetchRequest($SERVER, ["t1" => "test", "Cookie" => "c=cookie123"], "/path/to", '{ "test" : 123}');
+
+        $this->assertEquals("/txt", $req->getPath());
+        $this->assertEquals(ApiMethod::POST, $req->getMethod());
+        $this->assertEquals(3, $req->getQueryValue("search"));
+        $this->assertEquals("test", $req->getQueryValue("p"));
+        $this->assertEquals("test", $req->getHeader("t1"));
+        $this->assertEquals("cookie123", $req->getCookie("c"));
+        $this->assertEquals(123, $req->getBody()["test"]);
     }
 }

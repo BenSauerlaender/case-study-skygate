@@ -8,16 +8,10 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
 
-use BenSauer\CaseStudySkygateApi\Objects\Responses\BadRequestResponses\UserNotFoundResponse;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\MissingPropertiesException;
-
-use function PHPSTORM_META\map;
 
 /**
- * Testsuit for UserController->getUser method
+ * Test suite for UserController->getUser method
  */
 final class UCGetTest extends BaseUCTest
 {
@@ -31,7 +25,7 @@ final class UCGetTest extends BaseUCTest
         $this->userAccessorMock->expects($this->once())
             ->method("get")
             ->with(1)
-            ->will($this->throwException(new UserNotFoundException()));
+            ->will($this->throwException(new UserNotFoundException(1)));
 
         $this->userController->getUser(1);
     }

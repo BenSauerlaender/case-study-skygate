@@ -12,6 +12,9 @@ use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInter
 use BenSauer\CaseStudySkygateApi\Controller\ValidationController;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Test suite for the ValidationController
+ */
 final class ValidationControllerTest extends TestCase
 {
 
@@ -41,12 +44,12 @@ final class ValidationControllerTest extends TestCase
     }
 
     /**
-     * Tests the validate throws an exception if at least one field is not supported
+     * Tests the validate throws an exception if at least one property is not supported
      */
-    public function testUnsupportedField(): void
+    public function testUnsupportedProperty(): void
     {
-        $return = self::$ValidationController->validate(["NotAnField" => ""]);
-        $this->assertEquals(["NotAnField" => ["UNSUPPORTED"]], $return);
+        $return = self::$ValidationController->validate(["NotAnProperty" => ""]);
+        $this->assertEquals(["NotAnProperty" => ["UNSUPPORTED"]], $return);
     }
 
     /**
@@ -66,17 +69,17 @@ final class ValidationControllerTest extends TestCase
         $this->assertTrue(self::$ValidationController->validate([]));
     }
 
-    private function assertCorrectValidation(string $field, mixed $value, bool $valid, string $reason): void
+    private function assertCorrectValidation(string $property, mixed $value, bool $valid, string $reason): void
     {
-        $ret = self::$ValidationController->validate([$field => $value]);
+        $ret = self::$ValidationController->validate([$property => $value]);
 
         if ($valid) {
             $this->assertTrue($ret);
         } else {
             $this->assertCount(1, $ret);
-            $this->assertArrayHasKey($field, $ret);
+            $this->assertArrayHasKey($property, $ret);
             //return contains reason
-            $this->assertEquals($reason, $ret[$field][0]);
+            $this->assertEquals($reason, $ret[$property][0]);
         }
     }
 

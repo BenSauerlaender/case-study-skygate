@@ -25,7 +25,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/logout", {
         let token = jwt.sign(
           {
             id: 2,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:2",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
@@ -40,15 +40,14 @@ makeSuite(["3roles", "1User"], "/users/{userID}/logout", {
         let token = jwt.sign(
           {
             id: 3,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:3",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
           .post("/users/3/logout")
-          .set("Authorization", "Bearer " + token)
-          .send({ name: "name", email: "tet" });
+          .set("Authorization", "Bearer " + token);
       });
 
       it("returns Bad Request", async () => {
@@ -60,7 +59,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/logout", {
       });
 
       it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include("The user not exists");
+        expect(this.response.body["msg"]).to.include("id=3");
       });
     },
     successful: (path) => {
@@ -68,7 +67,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/logout", {
         let token = jwt.sign(
           {
             id: 1,
-            perm: "user:{all}:{userID}",
+            perm: "user:{all}:1",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
