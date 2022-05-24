@@ -1,0 +1,16 @@
+name: SkyGateCaseStudy-Api Continues Integration
+on:
+  push:
+    branches:
+      - main
+jobs:
+  Run-Unit-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: php-actions/composer@v5
+      - uses: php-actions/phpunit@v3
+       with:
+          bootstrap: vendor/autoload.php
+          configuration: phpunit.xml
+          php_version: "7.1"
