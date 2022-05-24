@@ -24,7 +24,7 @@ interface ApiControllerInterface
      * @param  string   $pathPrefix  The prefix in front of an api path e.g. /api/v1/.
      *
      * @throws InvalidArgumentException     if the server-array is not complete.
-     * @throws RequestException             if the input can not be parsed in a valid request
+     * @throws InvalidRequestException             if the input can not be parsed in a valid request
      *      (InvalidPathException | InvalidMethodException | InvalidQueryException | InvalidCookieException | NotSecureException)
      */
     public function fetchRequest(array $server, array $headers, string $pathPrefix, string $bodyJSON = ""): RequestInterface;

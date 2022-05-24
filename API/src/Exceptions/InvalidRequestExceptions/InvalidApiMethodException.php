@@ -7,15 +7,15 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions;
+namespace BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\RequestException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidRequestException;
 use Throwable;
 
 /**
  * Exception that is thrown if a invalid ApiMethod occurs
  */
-class InvalidMethodException extends RequestException
+class InvalidMethodException extends InvalidRequestException
 {
     public function __construct(string $method, Throwable $previous = null)
     {

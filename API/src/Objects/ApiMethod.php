@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\Objects;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidMethodException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidMethodException;
 
 /**
  * An enum to represent valid methods for an Request

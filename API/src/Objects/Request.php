@@ -13,8 +13,8 @@ use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidCookieException;
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidQueryException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidCookieException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidQueryException;
 
 /**
  * Class that implements the RequestInterface
@@ -47,7 +47,7 @@ class Request implements RequestInterface
      * @param  string $query                    The query string from the request
      * @param  array<string,string>  $headers   The headers provided by the request.
      * 
-     * @throws RequestException             if the input can not be parsed in a valid request
+     * @throws InvalidRequestException             if the input can not be parsed in a valid request
      *      (InvalidPathException | InvalidMethodException | InvalidQueryException | InvalidCookieException)
      */
     public function __construct(string $path, string $method, string $query = "", array $headers = [], ?array $body = null)

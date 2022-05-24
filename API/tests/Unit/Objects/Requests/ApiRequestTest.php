@@ -11,11 +11,11 @@ namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects;
 use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
 use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
 use BenSauer\CaseStudySkygateApi\Objects\Request;
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidCookieException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidCookieException;
 use BenSauer\CaseStudySkygateApi\Exceptions\InvalidApiHeaderException;
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidMethodException;
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidPathException;
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidQueryException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidMethodException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidQueryException;
 use PHPUnit\Framework\TestCase;
 
 /**

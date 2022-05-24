@@ -5,9 +5,9 @@ declare(strict_types=1);
 
 use BenSauer\CaseStudySkygateApi\Controller\ApiController;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\ResourceNotFoundResponse;
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidPathException;
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\NotSecureException;
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\RequestException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\NotSecureException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidRequestException;
 use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
 use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
 use BenSauer\CaseStudySkygateApi\Routes;
@@ -39,7 +39,7 @@ try {
         $response = new BadRequestResponse("Request was rejected, because the connection is not secured via SSL (HTTPS). Please send your request again, via HTTPS.", 311);
     } catch (InvalidPathException $e) {
         $response = new ResourceNotFoundResponse();
-    } catch (RequestException $e) { //Invalid Method, Query, Cookie 
+    } catch (InvalidRequestException $e) { //Invalid Method, Query, Cookie 
         $response = new BadRequestResponse("The Request can't be parsed properly: " . $e->getMessage(), 401);
     }
 

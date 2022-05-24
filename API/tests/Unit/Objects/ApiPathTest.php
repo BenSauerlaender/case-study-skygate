@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\RequestExceptions\InvalidPathException;
+use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidPathException;
 use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
 use PHPUnit\Framework\TestCase;
 
