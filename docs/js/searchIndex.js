@@ -1,1824 +1,1814 @@
 Search.appendIndex(
     [
                 {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ApiController",
+            "fqsen": "\\Controller\\ApiController",
             "name": "ApiController",
             "summary": "Implementation\u0020of\u0020ApiControllerInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ApiController.html"
+            "url": "classes/Controller-ApiController.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ApiController\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Controller\\ApiController\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Construct\u0020the\u0020ApiController",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ApiController.html#method___construct"
+            "url": "classes/Controller-ApiController.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ApiController\u003A\u003AfetchRequest\u0028\u0029",
+            "fqsen": "\\Controller\\ApiController\u003A\u003AfetchRequest\u0028\u0029",
             "name": "fetchRequest",
             "summary": "Constructs\u0020a\u0020request\u0020straight\u0020from\u0020the\u0020server\u002Dset\u0020variables",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ApiController.html#method_fetchRequest"
+            "url": "classes/Controller-ApiController.html#method_fetchRequest"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ApiController\u003A\u003AhandleRequest\u0028\u0029",
+            "fqsen": "\\Controller\\ApiController\u003A\u003AhandleRequest\u0028\u0029",
             "name": "handleRequest",
             "summary": "Takes\u0020an\u0020request,\u0020process\u0020it\u0020and\u0020returns\u0020a\u0020response.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ApiController.html#method_handleRequest"
+            "url": "classes/Controller-ApiController.html#method_handleRequest"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ApiController\u003A\u003AsendResponse\u0028\u0029",
+            "fqsen": "\\Controller\\ApiController\u003A\u003AsendResponse\u0028\u0029",
             "name": "sendResponse",
             "summary": "Send\u0020a\u0020response\u0020to\u0020the\u0020client",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ApiController.html#method_sendResponse"
+            "url": "classes/Controller-ApiController.html#method_sendResponse"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ApiController\u003A\u003Aget\u0028\u0029",
+            "fqsen": "\\Controller\\ApiController\u003A\u003Aget\u0028\u0029",
             "name": "get",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ApiController.html#method_get"
+            "url": "classes/Controller-ApiController.html#method_get"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ApiController\u003A\u003A\u0024routingController",
+            "fqsen": "\\Controller\\ApiController\u003A\u003A\u0024routingController",
             "name": "routingController",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ApiController.html#property_routingController"
+            "url": "classes/Controller-ApiController.html#property_routingController"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ApiController\u003A\u003A\u0024authenticationController",
+            "fqsen": "\\Controller\\ApiController\u003A\u003A\u0024authenticationController",
             "name": "authenticationController",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ApiController.html#property_authenticationController"
+            "url": "classes/Controller-ApiController.html#property_authenticationController"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ApiController\u003A\u003A\u0024controller",
+            "fqsen": "\\Controller\\ApiController\u003A\u003A\u0024controller",
             "name": "controller",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ApiController.html#property_controller"
+            "url": "classes/Controller-ApiController.html#property_controller"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ApiController\u003A\u003A\u0024accessors",
+            "fqsen": "\\Controller\\ApiController\u003A\u003A\u0024accessors",
             "name": "accessors",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ApiController.html#property_accessors"
+            "url": "classes/Controller-ApiController.html#property_accessors"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController",
+            "fqsen": "\\Controller\\AuthenticationController",
             "name": "AuthenticationController",
             "summary": "Implementation\u0020of\u0020AuthenticationControllerInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html"
+            "url": "classes/Controller-AuthenticationController.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Controller\\AuthenticationController\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html#method___construct"
+            "url": "classes/Controller-AuthenticationController.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController\u003A\u003AgetNewRefreshToken\u0028\u0029",
+            "fqsen": "\\Controller\\AuthenticationController\u003A\u003AgetNewRefreshToken\u0028\u0029",
             "name": "getNewRefreshToken",
             "summary": "Generates\u0020a\u0020new\u0020refresh\u0020token\u0020for\u0020the\u0020specified\u0020user.\u0020Only\u0020the\u0020new\u0020token\u0020is\u0020valid\u0020then.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html#method_getNewRefreshToken"
+            "url": "classes/Controller-AuthenticationController.html#method_getNewRefreshToken"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController\u003A\u003AgetNewAccessToken\u0028\u0029",
+            "fqsen": "\\Controller\\AuthenticationController\u003A\u003AgetNewAccessToken\u0028\u0029",
             "name": "getNewAccessToken",
             "summary": "Validates\u0020the\u0020refreshToken\u0020and\u0020generate\u0020a\u0020new\u0020access\u0020token.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html#method_getNewAccessToken"
+            "url": "classes/Controller-AuthenticationController.html#method_getNewAccessToken"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController\u003A\u003AvalidateAccessToken\u0028\u0029",
+            "fqsen": "\\Controller\\AuthenticationController\u003A\u003AvalidateAccessToken\u0028\u0029",
             "name": "validateAccessToken",
             "summary": "Validates\u0020a\u0020accessToken\u0020and\u0020returns\u0020an\u0020requester\u002Darray,\u0020containing\u0020information\u0020about\u0020the\u0020requester\u0020and\u0020his\u0020permissions.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html#method_validateAccessToken"
+            "url": "classes/Controller-AuthenticationController.html#method_validateAccessToken"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController\u003A\u003AhasPermissions\u0028\u0029",
+            "fqsen": "\\Controller\\AuthenticationController\u003A\u003AhasPermissions\u0028\u0029",
             "name": "hasPermissions",
             "summary": "Check\u0020if\u0020the\u0020given\u0020requester\u0020has\u0020all\u0020permissions\u0020required\u0020by\u0020the\u0020given\u0020route",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html#method_hasPermissions"
+            "url": "classes/Controller-AuthenticationController.html#method_hasPermissions"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController\u003A\u003AparsePermissions\u0028\u0029",
+            "fqsen": "\\Controller\\AuthenticationController\u003A\u003AparsePermissions\u0028\u0029",
             "name": "parsePermissions",
             "summary": "Converts\u0020a\u0020list\u0020of\u0020permission\u002Dstrings\u0020in\u0020an\u0020nested\u0020permission\u002Dobject",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html#method_parsePermissions"
+            "url": "classes/Controller-AuthenticationController.html#method_parsePermissions"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController\u003A\u003ARECOURSES",
+            "fqsen": "\\Controller\\AuthenticationController\u003A\u003ARECOURSES",
             "name": "RECOURSES",
             "summary": "A\u0020list\u0020of\u0020resources,\u0020for\u0020those\u0020permissions\u0020can\u0020be\u0020defined",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html#constant_RECOURSES"
+            "url": "classes/Controller-AuthenticationController.html#constant_RECOURSES"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController\u003A\u003AMETHODS",
+            "fqsen": "\\Controller\\AuthenticationController\u003A\u003AMETHODS",
             "name": "METHODS",
             "summary": "A\u0020list\u0020of\u0020methods,\u0020for\u0020those\u0020permissions\u0020can\u0020be\u0020defined",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html#constant_METHODS"
+            "url": "classes/Controller-AuthenticationController.html#constant_METHODS"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController\u003A\u003A\u0024userAccessor",
+            "fqsen": "\\Controller\\AuthenticationController\u003A\u003A\u0024userAccessor",
             "name": "userAccessor",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html#property_userAccessor"
+            "url": "classes/Controller-AuthenticationController.html#property_userAccessor"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController\u003A\u003A\u0024refreshTokenAccessor",
+            "fqsen": "\\Controller\\AuthenticationController\u003A\u003A\u0024refreshTokenAccessor",
             "name": "refreshTokenAccessor",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html#property_refreshTokenAccessor"
+            "url": "classes/Controller-AuthenticationController.html#property_refreshTokenAccessor"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\AuthenticationController\u003A\u003A\u0024roleAccessor",
+            "fqsen": "\\Controller\\AuthenticationController\u003A\u003A\u0024roleAccessor",
             "name": "roleAccessor",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-AuthenticationController.html#property_roleAccessor"
+            "url": "classes/Controller-AuthenticationController.html#property_roleAccessor"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\ApiControllerInterface",
+            "fqsen": "\\Controller\\Interfaces\\ApiControllerInterface",
             "name": "ApiControllerInterface",
             "summary": "Main\u0020Controller\u0020for\u0020the\u0020whole\u0020api",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-ApiControllerInterface.html"
+            "url": "classes/Controller-Interfaces-ApiControllerInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\ApiControllerInterface\u003A\u003AfetchRequest\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\ApiControllerInterface\u003A\u003AfetchRequest\u0028\u0029",
             "name": "fetchRequest",
             "summary": "Constructs\u0020a\u0020request\u0020straight\u0020from\u0020the\u0020server\u002Dset\u0020variables",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-ApiControllerInterface.html#method_fetchRequest"
+            "url": "classes/Controller-Interfaces-ApiControllerInterface.html#method_fetchRequest"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\ApiControllerInterface\u003A\u003AhandleRequest\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\ApiControllerInterface\u003A\u003AhandleRequest\u0028\u0029",
             "name": "handleRequest",
             "summary": "Takes\u0020an\u0020request,\u0020process\u0020it\u0020and\u0020returns\u0020a\u0020response.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-ApiControllerInterface.html#method_handleRequest"
+            "url": "classes/Controller-Interfaces-ApiControllerInterface.html#method_handleRequest"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\ApiControllerInterface\u003A\u003AsendResponse\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\ApiControllerInterface\u003A\u003AsendResponse\u0028\u0029",
             "name": "sendResponse",
             "summary": "Send\u0020a\u0020response\u0020to\u0020the\u0020client",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-ApiControllerInterface.html#method_sendResponse"
+            "url": "classes/Controller-Interfaces-ApiControllerInterface.html#method_sendResponse"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\AuthenticationControllerInterface",
+            "fqsen": "\\Controller\\Interfaces\\AuthenticationControllerInterface",
             "name": "AuthenticationControllerInterface",
             "summary": "Controller\u0020that\u0020handles\u0020authentication\u0020and\u0020authorization\u0020\u0020stuff.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-AuthenticationControllerInterface.html"
+            "url": "classes/Controller-Interfaces-AuthenticationControllerInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\AuthenticationControllerInterface\u003A\u003AgetNewRefreshToken\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\AuthenticationControllerInterface\u003A\u003AgetNewRefreshToken\u0028\u0029",
             "name": "getNewRefreshToken",
             "summary": "Generates\u0020a\u0020new\u0020refresh\u0020token\u0020for\u0020the\u0020specified\u0020user.\u0020Only\u0020the\u0020new\u0020token\u0020is\u0020valid\u0020then.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-AuthenticationControllerInterface.html#method_getNewRefreshToken"
+            "url": "classes/Controller-Interfaces-AuthenticationControllerInterface.html#method_getNewRefreshToken"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\AuthenticationControllerInterface\u003A\u003AgetNewAccessToken\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\AuthenticationControllerInterface\u003A\u003AgetNewAccessToken\u0028\u0029",
             "name": "getNewAccessToken",
             "summary": "Validates\u0020the\u0020refreshToken\u0020and\u0020generate\u0020a\u0020new\u0020access\u0020token.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-AuthenticationControllerInterface.html#method_getNewAccessToken"
+            "url": "classes/Controller-Interfaces-AuthenticationControllerInterface.html#method_getNewAccessToken"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\AuthenticationControllerInterface\u003A\u003AvalidateAccessToken\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\AuthenticationControllerInterface\u003A\u003AvalidateAccessToken\u0028\u0029",
             "name": "validateAccessToken",
             "summary": "Validates\u0020a\u0020accessToken\u0020and\u0020returns\u0020an\u0020requester\u002Darray,\u0020containing\u0020information\u0020about\u0020the\u0020requester\u0020and\u0020his\u0020permissions.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-AuthenticationControllerInterface.html#method_validateAccessToken"
+            "url": "classes/Controller-Interfaces-AuthenticationControllerInterface.html#method_validateAccessToken"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\AuthenticationControllerInterface\u003A\u003AhasPermissions\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\AuthenticationControllerInterface\u003A\u003AhasPermissions\u0028\u0029",
             "name": "hasPermissions",
             "summary": "Check\u0020if\u0020the\u0020given\u0020requester\u0020has\u0020all\u0020permissions\u0020required\u0020by\u0020the\u0020given\u0020route",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-AuthenticationControllerInterface.html#method_hasPermissions"
+            "url": "classes/Controller-Interfaces-AuthenticationControllerInterface.html#method_hasPermissions"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\RoutingControllerInterface",
+            "fqsen": "\\Controller\\Interfaces\\RoutingControllerInterface",
             "name": "RoutingControllerInterface",
             "summary": "Controller\u0020that\u0020handles\u0020all\u0020the\u0020routes\u0020and\u0020finds\u0020the\u0020correct\u0020one.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-RoutingControllerInterface.html"
+            "url": "classes/Controller-Interfaces-RoutingControllerInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\RoutingControllerInterface\u003A\u003Aroute\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\RoutingControllerInterface\u003A\u003Aroute\u0028\u0029",
             "name": "route",
             "summary": "Searches\u0020for\u0020a\u0020route\u0020that\u0020matches\u0020path\u0020and\u0020method\u0020and\u0020returns\u0020the\u0020route\u0020in\u0020convenient\u0020array",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-RoutingControllerInterface.html#method_route"
+            "url": "classes/Controller-Interfaces-RoutingControllerInterface.html#method_route"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\SecurityControllerInterface",
+            "fqsen": "\\Controller\\Interfaces\\SecurityControllerInterface",
             "name": "SecurityControllerInterface",
             "summary": "Controller\u0020for\u0020generating\u0020and\u0020checking\u0020passwords\u0020and\u0020codes",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-SecurityControllerInterface.html"
+            "url": "classes/Controller-Interfaces-SecurityControllerInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\SecurityControllerInterface\u003A\u003AhashPassword\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\SecurityControllerInterface\u003A\u003AhashPassword\u0028\u0029",
             "name": "hashPassword",
             "summary": "Hashes\u0020the\u0020given\u0020password.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-SecurityControllerInterface.html#method_hashPassword"
+            "url": "classes/Controller-Interfaces-SecurityControllerInterface.html#method_hashPassword"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\SecurityControllerInterface\u003A\u003AcheckPassword\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\SecurityControllerInterface\u003A\u003AcheckPassword\u0028\u0029",
             "name": "checkPassword",
             "summary": "Checks\u0020if\u0020the\u0020given\u0020password\u0020is\u0020correct",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-SecurityControllerInterface.html#method_checkPassword"
+            "url": "classes/Controller-Interfaces-SecurityControllerInterface.html#method_checkPassword"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\SecurityControllerInterface\u003A\u003AgenerateCode\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\SecurityControllerInterface\u003A\u003AgenerateCode\u0028\u0029",
             "name": "generateCode",
             "summary": "Generates\u0020a\u0020semi\u0020random\u0020number\u0020string",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-SecurityControllerInterface.html#method_generateCode"
+            "url": "classes/Controller-Interfaces-SecurityControllerInterface.html#method_generateCode"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\UserControllerInterface",
+            "fqsen": "\\Controller\\Interfaces\\UserControllerInterface",
             "name": "UserControllerInterface",
             "summary": "Controller\u0020for\u0020all\u0020User\u0020related\u0020stuff",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-UserControllerInterface.html"
+            "url": "classes/Controller-Interfaces-UserControllerInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AcreateUser\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AcreateUser\u0028\u0029",
             "name": "createUser",
             "summary": "Creates\u0020a\u0020new\u0020user",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-UserControllerInterface.html#method_createUser"
+            "url": "classes/Controller-Interfaces-UserControllerInterface.html#method_createUser"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AgetUser\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AgetUser\u0028\u0029",
             "name": "getUser",
             "summary": "Gets\u0020a\u0020user",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-UserControllerInterface.html#method_getUser"
+            "url": "classes/Controller-Interfaces-UserControllerInterface.html#method_getUser"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AdeleteUser\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AdeleteUser\u0028\u0029",
             "name": "deleteUser",
             "summary": "Deletes\u0020a\u0020user",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-UserControllerInterface.html#method_deleteUser"
+            "url": "classes/Controller-Interfaces-UserControllerInterface.html#method_deleteUser"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AupdateUser\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AupdateUser\u0028\u0029",
             "name": "updateUser",
             "summary": "Updates\u0020the\u0020user\u0027s\u0020properties",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-UserControllerInterface.html#method_updateUser"
+            "url": "classes/Controller-Interfaces-UserControllerInterface.html#method_updateUser"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AverifyUser\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AverifyUser\u0028\u0029",
             "name": "verifyUser",
             "summary": "Verifies\u0020the\u0020user\u0020if\u0020the\u0020code\u0020is\u0020correct",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-UserControllerInterface.html#method_verifyUser"
+            "url": "classes/Controller-Interfaces-UserControllerInterface.html#method_verifyUser"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AcheckEmailPassword\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AcheckEmailPassword\u0028\u0029",
             "name": "checkEmailPassword",
             "summary": "Checks\u0020if\u0020the\u0020user\u0020with\u0020the\u0020specified\u0020email\u0020has\u0020also\u0020the\u0020specified\u0020password",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-UserControllerInterface.html#method_checkEmailPassword"
+            "url": "classes/Controller-Interfaces-UserControllerInterface.html#method_checkEmailPassword"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AupdateUsersPassword\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AupdateUsersPassword\u0028\u0029",
             "name": "updateUsersPassword",
             "summary": "Changes\u0020the\u0020users\u0020password\u0020if\u0020the\u0020old\u0020one\u0020is\u0020correct",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-UserControllerInterface.html#method_updateUsersPassword"
+            "url": "classes/Controller-Interfaces-UserControllerInterface.html#method_updateUsersPassword"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\UserControllerInterface\u003A\u003ArequestUsersEmailChange\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\UserControllerInterface\u003A\u003ArequestUsersEmailChange\u0028\u0029",
             "name": "requestUsersEmailChange",
             "summary": "Creates\u0020an\u0020Request\u0020to\u0020change\u0020the\u0020users\u0020email.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-UserControllerInterface.html#method_requestUsersEmailChange"
+            "url": "classes/Controller-Interfaces-UserControllerInterface.html#method_requestUsersEmailChange"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AverifyUsersEmailChange\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\UserControllerInterface\u003A\u003AverifyUsersEmailChange\u0028\u0029",
             "name": "verifyUsersEmailChange",
             "summary": "Verifies\u0020the\u0020Request\u0020to\u0020change\u0020the\u0020user\u0027s\u0020email\u0020if\u0020the\u0020code\u0020is\u0020correct",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-UserControllerInterface.html#method_verifyUsersEmailChange"
+            "url": "classes/Controller-Interfaces-UserControllerInterface.html#method_verifyUsersEmailChange"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\ValidationControllerInterface",
+            "fqsen": "\\Controller\\Interfaces\\ValidationControllerInterface",
             "name": "ValidationControllerInterface",
             "summary": "Controller\u0020for\u0020data\u0020validation",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-ValidationControllerInterface.html"
+            "url": "classes/Controller-Interfaces-ValidationControllerInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces\\ValidationControllerInterface\u003A\u003Avalidate\u0028\u0029",
+            "fqsen": "\\Controller\\Interfaces\\ValidationControllerInterface\u003A\u003Avalidate\u0028\u0029",
             "name": "validate",
             "summary": "Validates\u0020all\u0020properties",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-Interfaces-ValidationControllerInterface.html#method_validate"
+            "url": "classes/Controller-Interfaces-ValidationControllerInterface.html#method_validate"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\RoutingController",
+            "fqsen": "\\Controller\\RoutingController",
             "name": "RoutingController",
             "summary": "Implementation\u0020of\u0020RoutingControllerInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-RoutingController.html"
+            "url": "classes/Controller-RoutingController.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\RoutingController\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Controller\\RoutingController\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-RoutingController.html#method___construct"
+            "url": "classes/Controller-RoutingController.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\RoutingController\u003A\u003Aroute\u0028\u0029",
+            "fqsen": "\\Controller\\RoutingController\u003A\u003Aroute\u0028\u0029",
             "name": "route",
             "summary": "Searches\u0020for\u0020a\u0020route\u0020that\u0020matches\u0020path\u0020and\u0020method\u0020and\u0020returns\u0020the\u0020route\u0020in\u0020convenient\u0020array",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-RoutingController.html#method_route"
+            "url": "classes/Controller-RoutingController.html#method_route"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\RoutingController\u003A\u003A\u0024routes",
+            "fqsen": "\\Controller\\RoutingController\u003A\u003A\u0024routes",
             "name": "routes",
             "summary": "An\u0020array\u0020of\u0020all\u0020available\u0020routes",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-RoutingController.html#property_routes"
+            "url": "classes/Controller-RoutingController.html#property_routes"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\SecurityController",
+            "fqsen": "\\Controller\\SecurityController",
             "name": "SecurityController",
             "summary": "Implementation\u0020of\u0020SecurityControllerInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-SecurityController.html"
+            "url": "classes/Controller-SecurityController.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\SecurityController\u003A\u003AhashPassword\u0028\u0029",
+            "fqsen": "\\Controller\\SecurityController\u003A\u003AhashPassword\u0028\u0029",
             "name": "hashPassword",
             "summary": "Hashes\u0020the\u0020given\u0020password.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-SecurityController.html#method_hashPassword"
+            "url": "classes/Controller-SecurityController.html#method_hashPassword"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\SecurityController\u003A\u003AcheckPassword\u0028\u0029",
+            "fqsen": "\\Controller\\SecurityController\u003A\u003AcheckPassword\u0028\u0029",
             "name": "checkPassword",
             "summary": "Checks\u0020if\u0020the\u0020given\u0020password\u0020is\u0020correct",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-SecurityController.html#method_checkPassword"
+            "url": "classes/Controller-SecurityController.html#method_checkPassword"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\SecurityController\u003A\u003AgenerateCode\u0028\u0029",
+            "fqsen": "\\Controller\\SecurityController\u003A\u003AgenerateCode\u0028\u0029",
             "name": "generateCode",
             "summary": "Generates\u0020a\u0020semi\u0020random\u0020number\u0020string",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-SecurityController.html#method_generateCode"
+            "url": "classes/Controller-SecurityController.html#method_generateCode"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController",
+            "fqsen": "\\Controller\\UserController",
             "name": "UserController",
             "summary": "Implementation\u0020of\u0020SecurityControllerInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html"
+            "url": "classes/Controller-UserController.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method___construct"
+            "url": "classes/Controller-UserController.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003AcreateUser\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003AcreateUser\u0028\u0029",
             "name": "createUser",
             "summary": "Creates\u0020a\u0020new\u0020user",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method_createUser"
+            "url": "classes/Controller-UserController.html#method_createUser"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003AgetUser\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003AgetUser\u0028\u0029",
             "name": "getUser",
             "summary": "Gets\u0020a\u0020user",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method_getUser"
+            "url": "classes/Controller-UserController.html#method_getUser"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003AdeleteUser\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003AdeleteUser\u0028\u0029",
             "name": "deleteUser",
             "summary": "Deletes\u0020a\u0020user",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method_deleteUser"
+            "url": "classes/Controller-UserController.html#method_deleteUser"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003AupdateUser\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003AupdateUser\u0028\u0029",
             "name": "updateUser",
             "summary": "Updates\u0020the\u0020user\u0027s\u0020properties",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method_updateUser"
+            "url": "classes/Controller-UserController.html#method_updateUser"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003AverifyUser\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003AverifyUser\u0028\u0029",
             "name": "verifyUser",
             "summary": "Verifies\u0020the\u0020user\u0020if\u0020the\u0020code\u0020is\u0020correct",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method_verifyUser"
+            "url": "classes/Controller-UserController.html#method_verifyUser"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003AcheckEmailPassword\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003AcheckEmailPassword\u0028\u0029",
             "name": "checkEmailPassword",
             "summary": "Checks\u0020if\u0020the\u0020user\u0020with\u0020the\u0020specified\u0020email\u0020has\u0020also\u0020the\u0020specified\u0020password",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method_checkEmailPassword"
+            "url": "classes/Controller-UserController.html#method_checkEmailPassword"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003AupdateUsersPassword\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003AupdateUsersPassword\u0028\u0029",
             "name": "updateUsersPassword",
             "summary": "Changes\u0020the\u0020users\u0020password\u0020if\u0020the\u0020old\u0020one\u0020is\u0020correct",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method_updateUsersPassword"
+            "url": "classes/Controller-UserController.html#method_updateUsersPassword"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003ArequestUsersEmailChange\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003ArequestUsersEmailChange\u0028\u0029",
             "name": "requestUsersEmailChange",
             "summary": "Creates\u0020an\u0020Request\u0020to\u0020change\u0020the\u0020users\u0020email.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method_requestUsersEmailChange"
+            "url": "classes/Controller-UserController.html#method_requestUsersEmailChange"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003AverifyUsersEmailChange\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003AverifyUsersEmailChange\u0028\u0029",
             "name": "verifyUsersEmailChange",
             "summary": "Verifies\u0020the\u0020Request\u0020to\u0020change\u0020the\u0020user\u0027s\u0020email\u0020if\u0020the\u0020code\u0020is\u0020correct",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method_verifyUsersEmailChange"
+            "url": "classes/Controller-UserController.html#method_verifyUsersEmailChange"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003AgetRoleID\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003AgetRoleID\u0028\u0029",
             "name": "getRoleID",
             "summary": "Gets\u0020the\u0020id\u0020of\u0020a\u0020specified\u0020role\u0020name",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method_getRoleID"
+            "url": "classes/Controller-UserController.html#method_getRoleID"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003AisEmailFree\u0028\u0029",
+            "fqsen": "\\Controller\\UserController\u003A\u003AisEmailFree\u0028\u0029",
             "name": "isEmailFree",
             "summary": "Checks\u0020if\u0020the\u0020specified\u0020email\u0020if\u0020free\u0020to\u0020use",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#method_isEmailFree"
+            "url": "classes/Controller-UserController.html#method_isEmailFree"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003A\u0024securityController",
+            "fqsen": "\\Controller\\UserController\u003A\u003A\u0024securityController",
             "name": "securityController",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#property_securityController"
+            "url": "classes/Controller-UserController.html#property_securityController"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003A\u0024ValidationController",
+            "fqsen": "\\Controller\\UserController\u003A\u003A\u0024ValidationController",
             "name": "ValidationController",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#property_ValidationController"
+            "url": "classes/Controller-UserController.html#property_ValidationController"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003A\u0024userAccessor",
+            "fqsen": "\\Controller\\UserController\u003A\u003A\u0024userAccessor",
             "name": "userAccessor",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#property_userAccessor"
+            "url": "classes/Controller-UserController.html#property_userAccessor"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003A\u0024roleAccessor",
+            "fqsen": "\\Controller\\UserController\u003A\u003A\u0024roleAccessor",
             "name": "roleAccessor",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#property_roleAccessor"
+            "url": "classes/Controller-UserController.html#property_roleAccessor"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\UserController\u003A\u003A\u0024ecrAccessor",
+            "fqsen": "\\Controller\\UserController\u003A\u003A\u0024ecrAccessor",
             "name": "ecrAccessor",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-UserController.html#property_ecrAccessor"
+            "url": "classes/Controller-UserController.html#property_ecrAccessor"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ValidationController",
+            "fqsen": "\\Controller\\ValidationController",
             "name": "ValidationController",
             "summary": "Implementation\u0020of\u0020ValidationControllerInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ValidationController.html"
+            "url": "classes/Controller-ValidationController.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ValidationController\u003A\u003Avalidate\u0028\u0029",
+            "fqsen": "\\Controller\\ValidationController\u003A\u003Avalidate\u0028\u0029",
             "name": "validate",
             "summary": "Validates\u0020all\u0020properties",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ValidationController.html#method_validate"
+            "url": "classes/Controller-ValidationController.html#method_validate"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ValidationController\u003A\u003AisEmail\u0028\u0029",
+            "fqsen": "\\Controller\\ValidationController\u003A\u003AisEmail\u0028\u0029",
             "name": "isEmail",
             "summary": "Validates\u0020if\u0020a\u0020string\u0020is\u0020a\u0020valid\u0020email\u0020address",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ValidationController.html#method_isEmail"
+            "url": "classes/Controller-ValidationController.html#method_isEmail"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ValidationController\u003A\u003AisPassword\u0028\u0029",
+            "fqsen": "\\Controller\\ValidationController\u003A\u003AisPassword\u0028\u0029",
             "name": "isPassword",
             "summary": "Validates\u0020if\u0020a\u0020string\u0020is\u0020a\u0020valid\u0020password",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ValidationController.html#method_isPassword"
+            "url": "classes/Controller-ValidationController.html#method_isPassword"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ValidationController\u003A\u003AisWords\u0028\u0029",
+            "fqsen": "\\Controller\\ValidationController\u003A\u003AisWords\u0028\u0029",
             "name": "isWords",
             "summary": "Validates\u0020if\u0020a\u0020string\u0020are\u0020valid\u0020words\u0020separated\u0020by\u0020spaces",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ValidationController.html#method_isWords"
+            "url": "classes/Controller-ValidationController.html#method_isWords"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ValidationController\u003A\u003AisPostcode\u0028\u0029",
+            "fqsen": "\\Controller\\ValidationController\u003A\u003AisPostcode\u0028\u0029",
             "name": "isPostcode",
             "summary": "Validates\u0020if\u0020a\u0020string\u0020is\u0020a\u0020valid\u0020postcode",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ValidationController.html#method_isPostcode"
+            "url": "classes/Controller-ValidationController.html#method_isPostcode"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ValidationController\u003A\u003AisPhoneNumber\u0028\u0029",
+            "fqsen": "\\Controller\\ValidationController\u003A\u003AisPhoneNumber\u0028\u0029",
             "name": "isPhoneNumber",
             "summary": "Validates\u0020if\u0020a\u0020string\u0020is\u0020a\u0020valid\u0020phone\u0020number",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ValidationController.html#method_isPhoneNumber"
+            "url": "classes/Controller-ValidationController.html#method_isPhoneNumber"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\ValidationController\u003A\u003A\u0024getValidator",
+            "fqsen": "\\Controller\\ValidationController\u003A\u003A\u0024getValidator",
             "name": "getValidator",
             "summary": "Dictionary\u003A\u0020property\u0020\u003D\u003E\u0020validation\u0020method",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Controller-ValidationController.html#property_getValidator"
+            "url": "classes/Controller-ValidationController.html#property_getValidator"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\EcrAccessorInterface",
+            "fqsen": "\\DbAccessors\\Interfaces\\EcrAccessorInterface",
             "name": "EcrAccessorInterface",
             "summary": "Accessor\u0020for\u0020the\u0020\u0022email\u0020change\u0020Request\u0022\u0020database\u0020table",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-EcrAccessorInterface.html"
+            "url": "classes/DbAccessors-Interfaces-EcrAccessorInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003AfindByUserID\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003AfindByUserID\u0028\u0029",
             "name": "findByUserID",
             "summary": "Finds\u0020an\u0020email\u002Dchange\u002Drequests\u0020id\u0020by\u0020the\u0020users\u0020id",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-EcrAccessorInterface.html#method_findByUserID"
+            "url": "classes/DbAccessors-Interfaces-EcrAccessorInterface.html#method_findByUserID"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003AfindByEmail\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003AfindByEmail\u0028\u0029",
             "name": "findByEmail",
             "summary": "Finds\u0020an\u0020email\u002Dchange\u002Drequests\u0020id\u0020by\u0020the\u0020users\u0020Requested\u0020email",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-EcrAccessorInterface.html#method_findByEmail"
+            "url": "classes/DbAccessors-Interfaces-EcrAccessorInterface.html#method_findByEmail"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003Adelete\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003Adelete\u0028\u0029",
             "name": "delete",
             "summary": "Deletes\u0020an\u0020email\u0020change\u0020Request\u0020from\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-EcrAccessorInterface.html#method_delete"
+            "url": "classes/DbAccessors-Interfaces-EcrAccessorInterface.html#method_delete"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003AdeleteByUserID\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003AdeleteByUserID\u0028\u0029",
             "name": "deleteByUserID",
             "summary": "Deletes\u0020an\u0020email\u0020change\u0020Request\u0020from\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-EcrAccessorInterface.html#method_deleteByUserID"
+            "url": "classes/DbAccessors-Interfaces-EcrAccessorInterface.html#method_deleteByUserID"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003Ainsert\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003Ainsert\u0028\u0029",
             "name": "insert",
             "summary": "Inserts\u0020a\u0020new\u0020email\u0020change\u0020Request\u0020to\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-EcrAccessorInterface.html#method_insert"
+            "url": "classes/DbAccessors-Interfaces-EcrAccessorInterface.html#method_insert"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003Aget\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\EcrAccessorInterface\u003A\u003Aget\u0028\u0029",
             "name": "get",
             "summary": "Gets\u0020the\u0020email\u0020change\u0020Request",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-EcrAccessorInterface.html#method_get"
+            "url": "classes/DbAccessors-Interfaces-EcrAccessorInterface.html#method_get"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\RefreshTokenAccessorInterface",
+            "fqsen": "\\DbAccessors\\Interfaces\\RefreshTokenAccessorInterface",
             "name": "RefreshTokenAccessorInterface",
             "summary": "Accessor\u0020for\u0020the\u0020refreshToken\u0020database\u0020table",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-RefreshTokenAccessorInterface.html"
+            "url": "classes/DbAccessors-Interfaces-RefreshTokenAccessorInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\RefreshTokenAccessorInterface\u003A\u003AgetCountByUserID\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\RefreshTokenAccessorInterface\u003A\u003AgetCountByUserID\u0028\u0029",
             "name": "getCountByUserID",
             "summary": "Gets\u0020the\u0020value\u0020of\u0020\u0027count\u0027\u0020for\u0020the\u0020specified\u0020user",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-RefreshTokenAccessorInterface.html#method_getCountByUserID"
+            "url": "classes/DbAccessors-Interfaces-RefreshTokenAccessorInterface.html#method_getCountByUserID"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\RefreshTokenAccessorInterface\u003A\u003AincreaseCount\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\RefreshTokenAccessorInterface\u003A\u003AincreaseCount\u0028\u0029",
             "name": "increaseCount",
             "summary": "Increase\u0020the\u0020value\u0020of\u0020\u0027count\u0027\u0020for\u0020the\u0020specified\u0020use\u0020by\u00201",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-RefreshTokenAccessorInterface.html#method_increaseCount"
+            "url": "classes/DbAccessors-Interfaces-RefreshTokenAccessorInterface.html#method_increaseCount"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\RoleAccessorInterface",
+            "fqsen": "\\DbAccessors\\Interfaces\\RoleAccessorInterface",
             "name": "RoleAccessorInterface",
             "summary": "Accessor\u0020for\u0020the\u0020role\u0020database\u0020table",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-RoleAccessorInterface.html"
+            "url": "classes/DbAccessors-Interfaces-RoleAccessorInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\RoleAccessorInterface\u003A\u003AfindByName\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\RoleAccessorInterface\u003A\u003AfindByName\u0028\u0029",
             "name": "findByName",
             "summary": "Finds\u0020the\u0020role\u0020by\u0020giving\u0020name",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-RoleAccessorInterface.html#method_findByName"
+            "url": "classes/DbAccessors-Interfaces-RoleAccessorInterface.html#method_findByName"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\RoleAccessorInterface\u003A\u003Aget\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\RoleAccessorInterface\u003A\u003Aget\u0028\u0029",
             "name": "get",
             "summary": "Gets\u0020the\u0020roles\u0020entry",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-RoleAccessorInterface.html#method_get"
+            "url": "classes/DbAccessors-Interfaces-RoleAccessorInterface.html#method_get"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\RoleAccessorInterface\u003A\u003AgetList\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\RoleAccessorInterface\u003A\u003AgetList\u0028\u0029",
             "name": "getList",
             "summary": "Gets\u0020a\u0020list\u0020of\u0020all\u0020roles",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-RoleAccessorInterface.html#method_getList"
+            "url": "classes/DbAccessors-Interfaces-RoleAccessorInterface.html#method_getList"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserAccessorInterface",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserAccessorInterface",
             "name": "UserAccessorInterface",
             "summary": "Accessor\u0020for\u0020the\u0020user\u0020database\u0020table",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserAccessorInterface.html"
+            "url": "classes/DbAccessors-Interfaces-UserAccessorInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserAccessorInterface\u003A\u003Ainsert\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserAccessorInterface\u003A\u003Ainsert\u0028\u0029",
             "name": "insert",
             "summary": "insert\u0020a\u0020new\u0020user\u0020to\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserAccessorInterface.html#method_insert"
+            "url": "classes/DbAccessors-Interfaces-UserAccessorInterface.html#method_insert"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserAccessorInterface\u003A\u003Adelete\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserAccessorInterface\u003A\u003Adelete\u0028\u0029",
             "name": "delete",
             "summary": "Deletes\u0020an\u0020user\u0020from\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserAccessorInterface.html#method_delete"
+            "url": "classes/DbAccessors-Interfaces-UserAccessorInterface.html#method_delete"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserAccessorInterface\u003A\u003Aupdate\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserAccessorInterface\u003A\u003Aupdate\u0028\u0029",
             "name": "update",
             "summary": "Updates\u0020users\u0020specified\u0020properties\u0020on\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserAccessorInterface.html#method_update"
+            "url": "classes/DbAccessors-Interfaces-UserAccessorInterface.html#method_update"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserAccessorInterface\u003A\u003AfindByEmail\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserAccessorInterface\u003A\u003AfindByEmail\u0028\u0029",
             "name": "findByEmail",
             "summary": "Finds\u0020a\u0020users\u0020id\u0020by\u0020his\u0020email",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserAccessorInterface.html#method_findByEmail"
+            "url": "classes/DbAccessors-Interfaces-UserAccessorInterface.html#method_findByEmail"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserAccessorInterface\u003A\u003Aget\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserAccessorInterface\u003A\u003Aget\u0028\u0029",
             "name": "get",
             "summary": "Gets\u0020the\u0020users\u0020properties\u0020from\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserAccessorInterface.html#method_get"
+            "url": "classes/DbAccessors-Interfaces-UserAccessorInterface.html#method_get"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserQueryInterface",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserQueryInterface",
             "name": "UserQueryInterface",
             "summary": "A\u0020Class\u0020to\u0020do\u0020advanced\u0020searches\u0020on\u0020the\u0020user\u0020table",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserQueryInterface.html"
+            "url": "classes/DbAccessors-Interfaces-UserQueryInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AsetSort\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AsetSort\u0028\u0029",
             "name": "setSort",
             "summary": "Defines\u0020a\u0020way\u0020of\u0020sorting\u0020the\u0020results",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserQueryInterface.html#method_setSort"
+            "url": "classes/DbAccessors-Interfaces-UserQueryInterface.html#method_setSort"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AaddFilter\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AaddFilter\u0028\u0029",
             "name": "addFilter",
             "summary": "Adds\u0020the\u0020query\u0020a\u0020filter.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserQueryInterface.html#method_addFilter"
+            "url": "classes/DbAccessors-Interfaces-UserQueryInterface.html#method_addFilter"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AgetResults\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AgetResults\u0028\u0029",
             "name": "getResults",
             "summary": "Runs\u0020the\u0020SQL\u0020and\u0020returns\u0020the\u0020resulted\u0020user\u0020list",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserQueryInterface.html#method_getResults"
+            "url": "classes/DbAccessors-Interfaces-UserQueryInterface.html#method_getResults"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AgetResultsPaginated\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AgetResultsPaginated\u0028\u0029",
             "name": "getResultsPaginated",
             "summary": "Runs\u0020the\u0020SQL\u0020and\u0020returns\u0020one\u0020page\u0020of\u0020the\u0020results.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserQueryInterface.html#method_getResultsPaginated"
+            "url": "classes/DbAccessors-Interfaces-UserQueryInterface.html#method_getResultsPaginated"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AgetLength\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AgetLength\u0028\u0029",
             "name": "getLength",
             "summary": "Returns\u0020number\u0020of\u0020users\u0020that\u0020would\u0020be\u0020found\u0020by\u0020the\u0020query",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserQueryInterface.html#method_getLength"
+            "url": "classes/DbAccessors-Interfaces-UserQueryInterface.html#method_getLength"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003Areset\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003Areset\u0028\u0029",
             "name": "reset",
             "summary": "Resets\u0020all\u0020query\u0020configuration\u0020to\u0020the\u0020default\u0020values",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserQueryInterface.html#method_reset"
+            "url": "classes/DbAccessors-Interfaces-UserQueryInterface.html#method_reset"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AconfigureByArray\u0028\u0029",
+            "fqsen": "\\DbAccessors\\Interfaces\\UserQueryInterface\u003A\u003AconfigureByArray\u0028\u0029",
             "name": "configureByArray",
             "summary": "Configures\u0020an\u0020UserQuery\u0020according\u0020to\u0020an\u0020config\u0020array",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-Interfaces-UserQueryInterface.html#method_configureByArray"
+            "url": "classes/DbAccessors-Interfaces-UserQueryInterface.html#method_configureByArray"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlAccessor",
+            "fqsen": "\\DbAccessors\\MySqlAccessor",
             "name": "MySqlAccessor",
             "summary": "Base\u0020class\u0020for\u0020all\u0020MySql\u0020accessors",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlAccessor.html"
+            "url": "classes/DbAccessors-MySqlAccessor.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlAccessor\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlAccessor\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Sets\u0020the\u0020PDO\u0020object",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlAccessor.html#method___construct"
+            "url": "classes/DbAccessors-MySqlAccessor.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlAccessor\u003A\u003AprepareAndExecute\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlAccessor\u003A\u003AprepareAndExecute\u0028\u0029",
             "name": "prepareAndExecute",
             "summary": "Wrapper\u0020function\u0020for\u0020PDO\u0020Statement\u0020preparing\u0020and\u0020executing\u0020all\u0020in\u0020one",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlAccessor.html#method_prepareAndExecute"
+            "url": "classes/DbAccessors-MySqlAccessor.html#method_prepareAndExecute"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlAccessor\u003A\u003AhandlePDOException\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlAccessor\u003A\u003AhandlePDOException\u0028\u0029",
             "name": "handlePDOException",
             "summary": "Get\u0020the\u0020PDOExceptions\u0020from\u0020pdo\u002D\u003Eexecute\u0028\u0029\u0020and\u0020throws\u0020a\u0020new\u0020one",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlAccessor.html#method_handlePDOException"
+            "url": "classes/DbAccessors-MySqlAccessor.html#method_handlePDOException"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlAccessor\u003A\u003A\u0024pdo",
+            "fqsen": "\\DbAccessors\\MySqlAccessor\u003A\u003A\u0024pdo",
             "name": "pdo",
             "summary": "PDO\u0020object\u0020for\u0020database\u0020interaction",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlAccessor.html#property_pdo"
+            "url": "classes/DbAccessors-MySqlAccessor.html#property_pdo"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlEcrAccessor",
+            "fqsen": "\\DbAccessors\\MySqlEcrAccessor",
             "name": "MySqlEcrAccessor",
             "summary": "Implementation\u0020of\u0020EcrAccessorInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlEcrAccessor.html"
+            "url": "classes/DbAccessors-MySqlEcrAccessor.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlEcrAccessor\u003A\u003AfindByUserID\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlEcrAccessor\u003A\u003AfindByUserID\u0028\u0029",
             "name": "findByUserID",
             "summary": "Finds\u0020an\u0020email\u002Dchange\u002Drequests\u0020id\u0020by\u0020the\u0020users\u0020id",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlEcrAccessor.html#method_findByUserID"
+            "url": "classes/DbAccessors-MySqlEcrAccessor.html#method_findByUserID"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlEcrAccessor\u003A\u003AfindByEmail\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlEcrAccessor\u003A\u003AfindByEmail\u0028\u0029",
             "name": "findByEmail",
             "summary": "Finds\u0020an\u0020email\u002Dchange\u002Drequests\u0020id\u0020by\u0020the\u0020users\u0020Requested\u0020email",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlEcrAccessor.html#method_findByEmail"
+            "url": "classes/DbAccessors-MySqlEcrAccessor.html#method_findByEmail"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlEcrAccessor\u003A\u003Adelete\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlEcrAccessor\u003A\u003Adelete\u0028\u0029",
             "name": "delete",
             "summary": "Deletes\u0020an\u0020email\u0020change\u0020Request\u0020from\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlEcrAccessor.html#method_delete"
+            "url": "classes/DbAccessors-MySqlEcrAccessor.html#method_delete"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlEcrAccessor\u003A\u003AdeleteByUserID\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlEcrAccessor\u003A\u003AdeleteByUserID\u0028\u0029",
             "name": "deleteByUserID",
             "summary": "Deletes\u0020an\u0020email\u0020change\u0020Request\u0020from\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlEcrAccessor.html#method_deleteByUserID"
+            "url": "classes/DbAccessors-MySqlEcrAccessor.html#method_deleteByUserID"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlEcrAccessor\u003A\u003Ainsert\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlEcrAccessor\u003A\u003Ainsert\u0028\u0029",
             "name": "insert",
             "summary": "Inserts\u0020a\u0020new\u0020email\u0020change\u0020Request\u0020to\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlEcrAccessor.html#method_insert"
+            "url": "classes/DbAccessors-MySqlEcrAccessor.html#method_insert"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlEcrAccessor\u003A\u003Aget\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlEcrAccessor\u003A\u003Aget\u0028\u0029",
             "name": "get",
             "summary": "Gets\u0020the\u0020email\u0020change\u0020Request",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlEcrAccessor.html#method_get"
+            "url": "classes/DbAccessors-MySqlEcrAccessor.html#method_get"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlRefreshTokenAccessor",
+            "fqsen": "\\DbAccessors\\MySqlRefreshTokenAccessor",
             "name": "MySqlRefreshTokenAccessor",
             "summary": "Implementation\u0020of\u0020refreshTokenAccessorInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlRefreshTokenAccessor.html"
+            "url": "classes/DbAccessors-MySqlRefreshTokenAccessor.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlRefreshTokenAccessor\u003A\u003AgetCountByUserID\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlRefreshTokenAccessor\u003A\u003AgetCountByUserID\u0028\u0029",
             "name": "getCountByUserID",
             "summary": "Gets\u0020the\u0020value\u0020of\u0020\u0027count\u0027\u0020for\u0020the\u0020specified\u0020user",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlRefreshTokenAccessor.html#method_getCountByUserID"
+            "url": "classes/DbAccessors-MySqlRefreshTokenAccessor.html#method_getCountByUserID"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlRefreshTokenAccessor\u003A\u003AincreaseCount\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlRefreshTokenAccessor\u003A\u003AincreaseCount\u0028\u0029",
             "name": "increaseCount",
             "summary": "Increase\u0020the\u0020value\u0020of\u0020\u0027count\u0027\u0020for\u0020the\u0020specified\u0020use\u0020by\u00201",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlRefreshTokenAccessor.html#method_increaseCount"
+            "url": "classes/DbAccessors-MySqlRefreshTokenAccessor.html#method_increaseCount"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlRoleAccessor",
+            "fqsen": "\\DbAccessors\\MySqlRoleAccessor",
             "name": "MySqlRoleAccessor",
             "summary": "Implementation\u0020of\u0020RoleAccessorInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlRoleAccessor.html"
+            "url": "classes/DbAccessors-MySqlRoleAccessor.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlRoleAccessor\u003A\u003AfindByName\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlRoleAccessor\u003A\u003AfindByName\u0028\u0029",
             "name": "findByName",
             "summary": "Finds\u0020the\u0020role\u0020by\u0020giving\u0020name",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlRoleAccessor.html#method_findByName"
+            "url": "classes/DbAccessors-MySqlRoleAccessor.html#method_findByName"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlRoleAccessor\u003A\u003Aget\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlRoleAccessor\u003A\u003Aget\u0028\u0029",
             "name": "get",
             "summary": "Gets\u0020the\u0020roles\u0020entry",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlRoleAccessor.html#method_get"
+            "url": "classes/DbAccessors-MySqlRoleAccessor.html#method_get"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlRoleAccessor\u003A\u003AgetList\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlRoleAccessor\u003A\u003AgetList\u0028\u0029",
             "name": "getList",
             "summary": "Gets\u0020a\u0020list\u0020of\u0020all\u0020roles",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlRoleAccessor.html#method_getList"
+            "url": "classes/DbAccessors-MySqlRoleAccessor.html#method_getList"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserAccessor",
+            "fqsen": "\\DbAccessors\\MySqlUserAccessor",
             "name": "MySqlUserAccessor",
             "summary": "Implementation\u0020of\u0020UserAccessorInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserAccessor.html"
+            "url": "classes/DbAccessors-MySqlUserAccessor.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserAccessor\u003A\u003Ainsert\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserAccessor\u003A\u003Ainsert\u0028\u0029",
             "name": "insert",
             "summary": "insert\u0020a\u0020new\u0020user\u0020to\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserAccessor.html#method_insert"
+            "url": "classes/DbAccessors-MySqlUserAccessor.html#method_insert"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserAccessor\u003A\u003Adelete\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserAccessor\u003A\u003Adelete\u0028\u0029",
             "name": "delete",
             "summary": "Deletes\u0020an\u0020user\u0020from\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserAccessor.html#method_delete"
+            "url": "classes/DbAccessors-MySqlUserAccessor.html#method_delete"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserAccessor\u003A\u003Aupdate\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserAccessor\u003A\u003Aupdate\u0028\u0029",
             "name": "update",
             "summary": "Updates\u0020users\u0020specified\u0020properties\u0020on\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserAccessor.html#method_update"
+            "url": "classes/DbAccessors-MySqlUserAccessor.html#method_update"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserAccessor\u003A\u003AfindByEmail\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserAccessor\u003A\u003AfindByEmail\u0028\u0029",
             "name": "findByEmail",
             "summary": "Finds\u0020a\u0020users\u0020id\u0020by\u0020his\u0020email",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserAccessor.html#method_findByEmail"
+            "url": "classes/DbAccessors-MySqlUserAccessor.html#method_findByEmail"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserAccessor\u003A\u003Aget\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserAccessor\u003A\u003Aget\u0028\u0029",
             "name": "get",
             "summary": "Gets\u0020the\u0020users\u0020properties\u0020from\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserAccessor.html#method_get"
+            "url": "classes/DbAccessors-MySqlUserAccessor.html#method_get"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserAccessor\u003A\u003AgetSetStatements\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserAccessor\u003A\u003AgetSetStatements\u0028\u0029",
             "name": "getSetStatements",
             "summary": "Constructs\u0020the\u0020SQL\u0020SET\u0020statements\u0020for\u0020the\u0020update\u0020method",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserAccessor.html#method_getSetStatements"
+            "url": "classes/DbAccessors-MySqlUserAccessor.html#method_getSetStatements"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserAccessor\u003A\u003AcheckPropertyTypes\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserAccessor\u003A\u003AcheckPropertyTypes\u0028\u0029",
             "name": "checkPropertyTypes",
             "summary": "Checks\u0020if\u0020the\u0020properties\u0020have\u0020the\u0020correct\u0020type\u0020for\u0020the\u0020update\u0020method",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserAccessor.html#method_checkPropertyTypes"
+            "url": "classes/DbAccessors-MySqlUserAccessor.html#method_checkPropertyTypes"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery",
             "name": "MySqlUserQuery",
             "summary": "Implementation\u0020of\u0020UserQueryInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html"
+            "url": "classes/DbAccessors-MySqlUserQuery.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003AsetSort\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003AsetSort\u0028\u0029",
             "name": "setSort",
             "summary": "Defines\u0020a\u0020way\u0020of\u0020sorting\u0020the\u0020results",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#method_setSort"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#method_setSort"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003AaddFilter\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003AaddFilter\u0028\u0029",
             "name": "addFilter",
             "summary": "Adds\u0020the\u0020query\u0020a\u0020filter.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#method_addFilter"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#method_addFilter"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003AgetFilteredSql\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003AgetFilteredSql\u0028\u0029",
             "name": "getFilteredSql",
             "summary": "Append\u0020the\u0020filters\u0020to\u0020the\u0020base\u0020sql\u002Dstatement",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#method_getFilteredSql"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#method_getFilteredSql"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003AgetSortedSql\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003AgetSortedSql\u0028\u0029",
             "name": "getSortedSql",
             "summary": "Append\u0020the\u0020sorting\u0020to\u0020the\u0020filtered\u0020sql\u002Dstatement",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#method_getSortedSql"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#method_getSortedSql"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003AgetPaginatedSql\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003AgetPaginatedSql\u0028\u0029",
             "name": "getPaginatedSql",
             "summary": "Append\u0020the\u0020paginating\u0020to\u0020the\u0020sorted\u0020sql\u002Dstatement",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#method_getPaginatedSql"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#method_getPaginatedSql"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003AsqlToResults\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003AsqlToResults\u0028\u0029",
             "name": "sqlToResults",
             "summary": "Takes\u0020an\u0020SQL\u002Dstring,\u0020execute\u0020it,\u0020returns\u0020resulted\u0020user\u002Darray\u0020in\u0020convenient\u0020format.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#method_sqlToResults"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#method_sqlToResults"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003AgetResults\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003AgetResults\u0028\u0029",
             "name": "getResults",
             "summary": "Runs\u0020the\u0020SQL\u0020and\u0020returns\u0020the\u0020resulted\u0020user\u0020list",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#method_getResults"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#method_getResults"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003AgetResultsPaginated\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003AgetResultsPaginated\u0028\u0029",
             "name": "getResultsPaginated",
             "summary": "Runs\u0020the\u0020SQL\u0020and\u0020returns\u0020one\u0020page\u0020of\u0020the\u0020results.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#method_getResultsPaginated"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#method_getResultsPaginated"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003AgetLength\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003AgetLength\u0028\u0029",
             "name": "getLength",
             "summary": "Returns\u0020number\u0020of\u0020users\u0020that\u0020would\u0020be\u0020found\u0020by\u0020the\u0020query",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#method_getLength"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#method_getLength"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003Areset\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003Areset\u0028\u0029",
             "name": "reset",
             "summary": "Resets\u0020all\u0020query\u0020configuration\u0020to\u0020the\u0020default\u0020values",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#method_reset"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#method_reset"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003AconfigureByArray\u0028\u0029",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003AconfigureByArray\u0028\u0029",
             "name": "configureByArray",
             "summary": "Configures\u0020an\u0020UserQuery\u0020according\u0020to\u0020an\u0020config\u0020array",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#method_configureByArray"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#method_configureByArray"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003ABASE_SQL",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003ABASE_SQL",
             "name": "BASE_SQL",
             "summary": "The\u0020Base\u0020SQL\u0020statement\u0020for\u0020all\u0020searches",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#constant_BASE_SQL"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#constant_BASE_SQL"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003ASUPPORTED_PROPERTIES",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003ASUPPORTED_PROPERTIES",
             "name": "SUPPORTED_PROPERTIES",
             "summary": "Supported\u0020properties\u0020to\u0020filter\u0020or\u0020sort",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#constant_SUPPORTED_PROPERTIES"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#constant_SUPPORTED_PROPERTIES"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003A\u0024filters",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003A\u0024filters",
             "name": "filters",
             "summary": "A\u0020key\u0020value\u0020pair\u0020list.\u0020With\u0020the\u0020property\u0020to\u0020filter\u0020as\u0020key.\u0020And\u0020the\u0020case\u0020sensitivity\u0020as\u0020value",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#property_filters"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#property_filters"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003A\u0024sqlPlaceholders",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003A\u0024sqlPlaceholders",
             "name": "sqlPlaceholders",
             "summary": "A\u0020key\u0020value\u0020pair\u0020list.\u0020With\u0020the\u0020property\u0020to\u0020filter\u0020as\u0020key.\u0020And\u0020the\u0020search\u0020string\u0020as\u0020value",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#property_sqlPlaceholders"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#property_sqlPlaceholders"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003A\u0024sortBy",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003A\u0024sortBy",
             "name": "sortBy",
             "summary": "The\u0020property\u0020to\u0020sort\u0020by",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#property_sortBy"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#property_sortBy"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\MySqlUserQuery\u003A\u003A\u0024sortASC",
+            "fqsen": "\\DbAccessors\\MySqlUserQuery\u003A\u003A\u0024sortASC",
             "name": "sortASC",
             "summary": "The\u0020sort\u0020direction",
-            "url": "classes/BenSauer-CaseStudySkygateApi-DbAccessors-MySqlUserQuery.html#property_sortASC"
+            "url": "classes/DbAccessors-MySqlUserQuery.html#property_sortASC"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\BaseException",
+            "fqsen": "\\Exceptions\\BaseException",
             "name": "BaseException",
             "summary": "abstract\u0020class,\u0020that\u0020all\u0020exceptions\u0020inherit\u0020from",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-BaseException.html"
+            "url": "classes/Exceptions-BaseException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\BaseException\u003A\u003A__toString\u0028\u0029",
+            "fqsen": "\\Exceptions\\BaseException\u003A\u003A__toString\u0028\u0029",
             "name": "__toString",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-BaseException.html#method___toString"
+            "url": "classes/Exceptions-BaseException.html#method___toString"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\DBException",
+            "fqsen": "\\Exceptions\\DBExceptions\\DBException",
             "name": "DBException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020something\u0020unexpected\u0020happened\u0020with\u0020the\u0020database",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-DBException.html"
+            "url": "classes/Exceptions-DBExceptions-DBException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\EcrNotFoundException",
+            "fqsen": "\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\EcrNotFoundException",
             "name": "EcrNotFoundException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020a\u0020request\u0020cant\u0020be\u0020found\u0020in\u0020the\u0020database.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-FieldNotFoundExceptions-EcrNotFoundException.html"
+            "url": "classes/Exceptions-DBExceptions-FieldNotFoundExceptions-EcrNotFoundException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\EcrNotFoundException\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\EcrNotFoundException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-FieldNotFoundExceptions-EcrNotFoundException.html#method___construct"
+            "url": "classes/Exceptions-DBExceptions-FieldNotFoundExceptions-EcrNotFoundException.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\FieldNotFoundException",
+            "fqsen": "\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\FieldNotFoundException",
             "name": "FieldNotFoundException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020the\u0020specified\u0020entry\u0020cant\u0020be\u0020found\u0020in\u0020the\u0020database.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-FieldNotFoundExceptions-FieldNotFoundException.html"
+            "url": "classes/Exceptions-DBExceptions-FieldNotFoundExceptions-FieldNotFoundException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\RoleNotFoundException",
+            "fqsen": "\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\RoleNotFoundException",
             "name": "RoleNotFoundException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020the\u0020specified\u0020role\u0020cant\u0020be\u0020found\u0020in\u0020the\u0020database.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-FieldNotFoundExceptions-RoleNotFoundException.html"
+            "url": "classes/Exceptions-DBExceptions-FieldNotFoundExceptions-RoleNotFoundException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\RoleNotFoundException\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\RoleNotFoundException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Set\u0020either\u0020name\u0020\u0028the\u0020name\u0020of\u0020the\u0020role,\u0020that\u0020was\u0020not\u0020found\u0029\u0020OR\u0020id\u0020\u0028the\u0020roles\u0020id\u0029\nSet\u0020the\u0020other\u0020one\u0020to\u0020null",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-FieldNotFoundExceptions-RoleNotFoundException.html#method___construct"
+            "url": "classes/Exceptions-DBExceptions-FieldNotFoundExceptions-RoleNotFoundException.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\UserNotFoundException",
+            "fqsen": "\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\UserNotFoundException",
             "name": "UserNotFoundException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020the\u0020specified\u0020user\u0020cant\u0020be\u0020found\u0020in\u0020the\u0020database.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-FieldNotFoundExceptions-UserNotFoundException.html"
+            "url": "classes/Exceptions-DBExceptions-FieldNotFoundExceptions-UserNotFoundException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\UserNotFoundException\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Exceptions\\DBExceptions\\FieldNotFoundExceptions\\UserNotFoundException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Set\u0020either\u0020email\u0020\u0028the\u0020email\u0020of\u0020the\u0020user,\u0020that\u0020was\u0020not\u0020found\u0029\u0020OR\u0020id\u0020\u0028the\u0020users\u0020id\u0029\nSet\u0020the\u0020other\u0020one\u0020to\u0020null",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-FieldNotFoundExceptions-UserNotFoundException.html#method___construct"
+            "url": "classes/Exceptions-DBExceptions-FieldNotFoundExceptions-UserNotFoundException.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\UniqueFieldExceptions\\DuplicateEmailException",
+            "fqsen": "\\Exceptions\\DBExceptions\\UniqueFieldExceptions\\DuplicateEmailException",
             "name": "DuplicateEmailException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020trying\u0020to\u0020add\u0020a\u0020duplicate\u0020email\u0020to\u0020a\u0020unique\u0020field\u0020in\u0020the\u0020database.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-UniqueFieldExceptions-DuplicateEmailException.html"
+            "url": "classes/Exceptions-DBExceptions-UniqueFieldExceptions-DuplicateEmailException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\UniqueFieldExceptions\\DuplicateEmailException\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Exceptions\\DBExceptions\\UniqueFieldExceptions\\DuplicateEmailException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-UniqueFieldExceptions-DuplicateEmailException.html#method___construct"
+            "url": "classes/Exceptions-DBExceptions-UniqueFieldExceptions-DuplicateEmailException.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\UniqueFieldExceptions\\DuplicateUserException",
+            "fqsen": "\\Exceptions\\DBExceptions\\UniqueFieldExceptions\\DuplicateUserException",
             "name": "DuplicateUserException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020trying\u0020to\u0020add\u0020a\u0020duplicate\u0020UserID\u0020to\u0020a\u0020unique\u0020field\u0020in\u0020the\u0020database.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-UniqueFieldExceptions-DuplicateUserException.html"
+            "url": "classes/Exceptions-DBExceptions-UniqueFieldExceptions-DuplicateUserException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\UniqueFieldExceptions\\DuplicateUserException\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Exceptions\\DBExceptions\\UniqueFieldExceptions\\DuplicateUserException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-UniqueFieldExceptions-DuplicateUserException.html#method___construct"
+            "url": "classes/Exceptions-DBExceptions-UniqueFieldExceptions-DuplicateUserException.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\UniqueFieldExceptions\\UniqueFieldException",
+            "fqsen": "\\Exceptions\\DBExceptions\\UniqueFieldExceptions\\UniqueFieldException",
             "name": "UniqueFieldException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020trying\u0020to\u0020add\u0020a\u0020duplicate\u0020to\u0020a\u0020unique\u0020field\u0020in\u0020the\u0020database.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-DBExceptions-UniqueFieldExceptions-UniqueFieldException.html"
+            "url": "classes/Exceptions-DBExceptions-UniqueFieldExceptions-UniqueFieldException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidRequestExceptions\\InvalidCookieException",
+            "fqsen": "\\Exceptions\\InvalidRequestExceptions\\InvalidCookieException",
             "name": "InvalidCookieException",
             "summary": "Exception,\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020a\u0020cookie\u0020is\u0020not\u0020valid",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-InvalidRequestExceptions-InvalidCookieException.html"
+            "url": "classes/Exceptions-InvalidRequestExceptions-InvalidCookieException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidRequestExceptions\\InvalidCookieException\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Exceptions\\InvalidRequestExceptions\\InvalidCookieException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-InvalidRequestExceptions-InvalidCookieException.html#method___construct"
+            "url": "classes/Exceptions-InvalidRequestExceptions-InvalidCookieException.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidRequestExceptions\\InvalidMethodException",
+            "fqsen": "\\Exceptions\\InvalidRequestExceptions\\InvalidMethodException",
             "name": "InvalidMethodException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020an\u0020invalid\u0020ApiMethod\u0020occurs",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-InvalidRequestExceptions-InvalidMethodException.html"
+            "url": "classes/Exceptions-InvalidRequestExceptions-InvalidMethodException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidRequestExceptions\\InvalidMethodException\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Exceptions\\InvalidRequestExceptions\\InvalidMethodException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-InvalidRequestExceptions-InvalidMethodException.html#method___construct"
+            "url": "classes/Exceptions-InvalidRequestExceptions-InvalidMethodException.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidRequestExceptions\\InvalidPathException",
+            "fqsen": "\\Exceptions\\InvalidRequestExceptions\\InvalidPathException",
             "name": "InvalidPathException",
             "summary": "Exception,\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020an\u0020ApiPath\u0020is\u0020not\u0020valid",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-InvalidRequestExceptions-InvalidPathException.html"
+            "url": "classes/Exceptions-InvalidRequestExceptions-InvalidPathException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidRequestExceptions\\InvalidQueryException",
+            "fqsen": "\\Exceptions\\InvalidRequestExceptions\\InvalidQueryException",
             "name": "InvalidQueryException",
             "summary": "Exception,\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020an\u0020query\u0020string\u0020is\u0020not\u0020valid",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-InvalidRequestExceptions-InvalidQueryException.html"
+            "url": "classes/Exceptions-InvalidRequestExceptions-InvalidQueryException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidRequestExceptions\\InvalidRequestException",
+            "fqsen": "\\Exceptions\\InvalidRequestExceptions\\InvalidRequestException",
             "name": "InvalidRequestException",
             "summary": "Exception,\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020an\u0020Api\u0020Request\u0020is\u0020unexpected\u0020and\u0020ant\u0020be\u0020parsed",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-InvalidRequestExceptions-InvalidRequestException.html"
+            "url": "classes/Exceptions-InvalidRequestExceptions-InvalidRequestException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidRequestExceptions\\NotSecureException",
+            "fqsen": "\\Exceptions\\InvalidRequestExceptions\\NotSecureException",
             "name": "NotSecureException",
             "summary": "Exception,\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020a\u0020connection\u0020is\u0020not\u0020secure",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-InvalidRequestExceptions-NotSecureException.html"
+            "url": "classes/Exceptions-InvalidRequestExceptions-NotSecureException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidResponseExceptions\\InvalidResponseException",
+            "fqsen": "\\Exceptions\\InvalidResponseExceptions\\InvalidResponseException",
             "name": "InvalidResponseException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020an",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-InvalidResponseExceptions-InvalidResponseException.html"
+            "url": "classes/Exceptions-InvalidResponseExceptions-InvalidResponseException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidResponseExceptions\\UnsupportedResponseCodeException",
+            "fqsen": "\\Exceptions\\InvalidResponseExceptions\\UnsupportedResponseCodeException",
             "name": "UnsupportedResponseCodeException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020try\u0020to\u0020set\u0020an\u0020unsupported\u0020response\u0020code.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-InvalidResponseExceptions-UnsupportedResponseCodeException.html"
+            "url": "classes/Exceptions-InvalidResponseExceptions-UnsupportedResponseCodeException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidResponseExceptions\\UnsupportedResponseHeaderException",
+            "fqsen": "\\Exceptions\\InvalidResponseExceptions\\UnsupportedResponseHeaderException",
             "name": "UnsupportedResponseHeaderException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020try\u0020to\u0020set\u0020an\u0020unsupported\u0020response\u0020header",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-InvalidResponseExceptions-UnsupportedResponseHeaderException.html"
+            "url": "classes/Exceptions-InvalidResponseExceptions-UnsupportedResponseHeaderException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\PasswordHashException",
+            "fqsen": "\\Exceptions\\PasswordHashException",
             "name": "PasswordHashException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020something\u0020unexpected\u0020happened\u0020during\u0020password\u0020hashing",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-PasswordHashException.html"
+            "url": "classes/Exceptions-PasswordHashException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\RoutingExceptions\\ApiMethodNotFoundException",
+            "fqsen": "\\Exceptions\\RoutingExceptions\\ApiMethodNotFoundException",
             "name": "ApiMethodNotFoundException",
             "summary": "Exception,\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020the\u0020requested\u0020route\u0020don\u0027t\u0020allow\u0020the\u0020requested\u0020method.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-RoutingExceptions-ApiMethodNotFoundException.html"
+            "url": "classes/Exceptions-RoutingExceptions-ApiMethodNotFoundException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\RoutingExceptions\\ApiMethodNotFoundException\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Exceptions\\RoutingExceptions\\ApiMethodNotFoundException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-RoutingExceptions-ApiMethodNotFoundException.html#method___construct"
+            "url": "classes/Exceptions-RoutingExceptions-ApiMethodNotFoundException.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\RoutingExceptions\\ApiMethodNotFoundException\u003A\u003AgetAvailableMethods\u0028\u0029",
+            "fqsen": "\\Exceptions\\RoutingExceptions\\ApiMethodNotFoundException\u003A\u003AgetAvailableMethods\u0028\u0029",
             "name": "getAvailableMethods",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-RoutingExceptions-ApiMethodNotFoundException.html#method_getAvailableMethods"
+            "url": "classes/Exceptions-RoutingExceptions-ApiMethodNotFoundException.html#method_getAvailableMethods"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\RoutingExceptions\\ApiMethodNotFoundException\u003A\u003A\u0024availableMethods",
+            "fqsen": "\\Exceptions\\RoutingExceptions\\ApiMethodNotFoundException\u003A\u003A\u0024availableMethods",
             "name": "availableMethods",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-RoutingExceptions-ApiMethodNotFoundException.html#property_availableMethods"
+            "url": "classes/Exceptions-RoutingExceptions-ApiMethodNotFoundException.html#property_availableMethods"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\RoutingExceptions\\ApiPathNotFoundException",
+            "fqsen": "\\Exceptions\\RoutingExceptions\\ApiPathNotFoundException",
             "name": "ApiPathNotFoundException",
             "summary": "Exception,\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020there\u0020is\u0020no\u0020route\u0020with\u0020the\u0020requested\u0020path",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-RoutingExceptions-ApiPathNotFoundException.html"
+            "url": "classes/Exceptions-RoutingExceptions-ApiPathNotFoundException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\RoutingExceptions\\RoutingException",
+            "fqsen": "\\Exceptions\\RoutingExceptions\\RoutingException",
             "name": "RoutingException",
             "summary": "Exception,\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020the\u0020Api\u0020routing\u0020fails",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-RoutingExceptions-RoutingException.html"
+            "url": "classes/Exceptions-RoutingExceptions-RoutingException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ShouldNeverHappenException",
+            "fqsen": "\\Exceptions\\ShouldNeverHappenException",
             "name": "ShouldNeverHappenException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020in\u0020a\u0020case\u0020that\u0020should\u0020not\u0020be\u0020possible",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ShouldNeverHappenException.html"
+            "url": "classes/Exceptions-ShouldNeverHappenException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ShouldNeverHappenException\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Exceptions\\ShouldNeverHappenException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ShouldNeverHappenException.html#method___construct"
+            "url": "classes/Exceptions-ShouldNeverHappenException.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\TokenExceptions\\ExpiredTokenException",
+            "fqsen": "\\Exceptions\\TokenExceptions\\ExpiredTokenException",
             "name": "ExpiredTokenException",
             "summary": "Exception,\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020a\u0020token\u0020is\u0020expired.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-TokenExceptions-ExpiredTokenException.html"
+            "url": "classes/Exceptions-TokenExceptions-ExpiredTokenException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\TokenExceptions\\InvalidTokenException",
+            "fqsen": "\\Exceptions\\TokenExceptions\\InvalidTokenException",
             "name": "InvalidTokenException",
             "summary": "Exception,\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020a\u0020token\u0020is\u0020not\u0020valid.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-TokenExceptions-InvalidTokenException.html"
+            "url": "classes/Exceptions-TokenExceptions-InvalidTokenException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions\\ArrayIsEmptyException",
+            "fqsen": "\\Exceptions\\ValidationExceptions\\ArrayIsEmptyException",
             "name": "ArrayIsEmptyException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020an\u0020array\u0020is\u0020empty,\u0020that\u0020should\u0020not",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ValidationExceptions-ArrayIsEmptyException.html"
+            "url": "classes/Exceptions-ValidationExceptions-ArrayIsEmptyException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions\\InvalidPropertyException",
+            "fqsen": "\\Exceptions\\ValidationExceptions\\InvalidPropertyException",
             "name": "InvalidPropertyException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020a\u0020property\u0020is\u0020invalid",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ValidationExceptions-InvalidPropertyException.html"
+            "url": "classes/Exceptions-ValidationExceptions-InvalidPropertyException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions\\InvalidPropertyException\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Exceptions\\ValidationExceptions\\InvalidPropertyException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ValidationExceptions-InvalidPropertyException.html#method___construct"
+            "url": "classes/Exceptions-ValidationExceptions-InvalidPropertyException.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions\\InvalidPropertyException\u003A\u003AgetInvalidProperties\u0028\u0029",
+            "fqsen": "\\Exceptions\\ValidationExceptions\\InvalidPropertyException\u003A\u003AgetInvalidProperties\u0028\u0029",
             "name": "getInvalidProperties",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ValidationExceptions-InvalidPropertyException.html#method_getInvalidProperties"
+            "url": "classes/Exceptions-ValidationExceptions-InvalidPropertyException.html#method_getInvalidProperties"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions\\InvalidPropertyException\u003A\u003Amapped_implode\u0028\u0029",
+            "fqsen": "\\Exceptions\\ValidationExceptions\\InvalidPropertyException\u003A\u003Amapped_implode\u0028\u0029",
             "name": "mapped_implode",
             "summary": "Utility\u0020function\u0020to\u0020implode\u0020a\u0020key\u0020value\u0020array",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ValidationExceptions-InvalidPropertyException.html#method_mapped_implode"
+            "url": "classes/Exceptions-ValidationExceptions-InvalidPropertyException.html#method_mapped_implode"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions\\InvalidPropertyException\u003A\u003A\u0024invalidProperties",
+            "fqsen": "\\Exceptions\\ValidationExceptions\\InvalidPropertyException\u003A\u003A\u0024invalidProperties",
             "name": "invalidProperties",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ValidationExceptions-InvalidPropertyException.html#property_invalidProperties"
+            "url": "classes/Exceptions-ValidationExceptions-InvalidPropertyException.html#property_invalidProperties"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions\\MissingPropertiesException",
+            "fqsen": "\\Exceptions\\ValidationExceptions\\MissingPropertiesException",
             "name": "MissingPropertiesException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020a\u0020property\u0020is\u0020required\u0020but\u0020not\u0020there",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ValidationExceptions-MissingPropertiesException.html"
+            "url": "classes/Exceptions-ValidationExceptions-MissingPropertiesException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions\\MissingPropertiesException\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Exceptions\\ValidationExceptions\\MissingPropertiesException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ValidationExceptions-MissingPropertiesException.html#method___construct"
+            "url": "classes/Exceptions-ValidationExceptions-MissingPropertiesException.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions\\MissingPropertiesException\u003A\u003AgetMissing\u0028\u0029",
+            "fqsen": "\\Exceptions\\ValidationExceptions\\MissingPropertiesException\u003A\u003AgetMissing\u0028\u0029",
             "name": "getMissing",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ValidationExceptions-MissingPropertiesException.html#method_getMissing"
+            "url": "classes/Exceptions-ValidationExceptions-MissingPropertiesException.html#method_getMissing"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions\\MissingPropertiesException\u003A\u003A\u0024missing",
+            "fqsen": "\\Exceptions\\ValidationExceptions\\MissingPropertiesException\u003A\u003A\u0024missing",
             "name": "missing",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ValidationExceptions-MissingPropertiesException.html#property_missing"
+            "url": "classes/Exceptions-ValidationExceptions-MissingPropertiesException.html#property_missing"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions\\ValidationException",
+            "fqsen": "\\Exceptions\\ValidationExceptions\\ValidationException",
             "name": "ValidationException",
             "summary": "Exception\u0020that\u0020should\u0020be\u0020thrown\u0020if\u0020something\u0020fails\u0020a\u0020validation",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Exceptions-ValidationExceptions-ValidationException.html"
+            "url": "classes/Exceptions-ValidationExceptions-ValidationException.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod",
+            "fqsen": "\\Objects\\ApiMethod",
             "name": "ApiMethod",
             "summary": "An\u0020enum\u0020to\u0020represent\u0020valid\u0020methods\u0020for\u0020an\u0020Request",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiMethod.html"
+            "url": "classes/Objects-ApiMethod.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod\u003A\u003AtoString\u0028\u0029",
+            "fqsen": "\\Objects\\ApiMethod\u003A\u003AtoString\u0028\u0029",
             "name": "toString",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiMethod.html#method_toString"
+            "url": "classes/Objects-ApiMethod.html#method_toString"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod\u003A\u003AfromString\u0028\u0029",
+            "fqsen": "\\Objects\\ApiMethod\u003A\u003AfromString\u0028\u0029",
             "name": "fromString",
             "summary": "Returns\u0020the\u0020correct\u0020HttpMethod\u0020from\u0020an\u0020string",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiMethod.html#method_fromString"
+            "url": "classes/Objects-ApiMethod.html#method_fromString"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod\u003A\u003AGET",
+            "fqsen": "\\Objects\\ApiMethod\u003A\u003AGET",
             "name": "GET",
             "summary": "",
             "url": ""
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod\u003A\u003APOST",
+            "fqsen": "\\Objects\\ApiMethod\u003A\u003APOST",
             "name": "POST",
             "summary": "",
             "url": ""
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod\u003A\u003AHEAD",
+            "fqsen": "\\Objects\\ApiMethod\u003A\u003AHEAD",
             "name": "HEAD",
             "summary": "",
             "url": ""
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod\u003A\u003APUT",
+            "fqsen": "\\Objects\\ApiMethod\u003A\u003APUT",
             "name": "PUT",
             "summary": "",
             "url": ""
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod\u003A\u003ADELETE",
+            "fqsen": "\\Objects\\ApiMethod\u003A\u003ADELETE",
             "name": "DELETE",
             "summary": "",
             "url": ""
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod\u003A\u003ACONNECT",
+            "fqsen": "\\Objects\\ApiMethod\u003A\u003ACONNECT",
             "name": "CONNECT",
             "summary": "",
             "url": ""
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod\u003A\u003AOPTIONS",
+            "fqsen": "\\Objects\\ApiMethod\u003A\u003AOPTIONS",
             "name": "OPTIONS",
             "summary": "",
             "url": ""
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod\u003A\u003ATRACE",
+            "fqsen": "\\Objects\\ApiMethod\u003A\u003ATRACE",
             "name": "TRACE",
             "summary": "",
             "url": ""
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiMethod\u003A\u003APATCH",
+            "fqsen": "\\Objects\\ApiMethod\u003A\u003APATCH",
             "name": "PATCH",
             "summary": "",
             "url": ""
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiPath",
+            "fqsen": "\\Objects\\ApiPath",
             "name": "ApiPath",
             "summary": "Class\u0020that\u0020implements\u0020ApiPathInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiPath.html"
+            "url": "classes/Objects-ApiPath.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiPath\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\ApiPath\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Constructs\u0020the\u0020api\u0020path\u0020from\u0020an\u0020string.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiPath.html#method___construct"
+            "url": "classes/Objects-ApiPath.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiPath\u003A\u003AgetArray\u0028\u0029",
+            "fqsen": "\\Objects\\ApiPath\u003A\u003AgetArray\u0028\u0029",
             "name": "getArray",
             "summary": "Gets\u0020the\u0020path\u0020as\u0020array",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiPath.html#method_getArray"
+            "url": "classes/Objects-ApiPath.html#method_getArray"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiPath\u003A\u003AgetStringWithPlaceholders\u0028\u0029",
+            "fqsen": "\\Objects\\ApiPath\u003A\u003AgetStringWithPlaceholders\u0028\u0029",
             "name": "getStringWithPlaceholders",
             "summary": "Returns\u0020the\u0020path\u0020as\u0020string\u0020with\u0020\u0022\u007Bx\u007D\u0022\u0020instead\u0020of\u0020the\u0020parameters.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiPath.html#method_getStringWithPlaceholders"
+            "url": "classes/Objects-ApiPath.html#method_getStringWithPlaceholders"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiPath\u003A\u003AgetLength\u0028\u0029",
+            "fqsen": "\\Objects\\ApiPath\u003A\u003AgetLength\u0028\u0029",
             "name": "getLength",
             "summary": "Gets\u0020the\u0020Numbers\u0020of\u0020subpaths\/parameters",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiPath.html#method_getLength"
+            "url": "classes/Objects-ApiPath.html#method_getLength"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiPath\u003A\u003AgetParameters\u0028\u0029",
+            "fqsen": "\\Objects\\ApiPath\u003A\u003AgetParameters\u0028\u0029",
             "name": "getParameters",
             "summary": "Returns\u0020a\u0020List\u0020only\u0020containing\u0020the\u0020parameters\u0020\u0028int\u002Dvalues\u0029",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiPath.html#method_getParameters"
+            "url": "classes/Objects-ApiPath.html#method_getParameters"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiPath\u003A\u003A__toString\u0028\u0029",
+            "fqsen": "\\Objects\\ApiPath\u003A\u003A__toString\u0028\u0029",
             "name": "__toString",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiPath.html#method___toString"
+            "url": "classes/Objects-ApiPath.html#method___toString"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiPath\u003A\u003A\u0024path",
+            "fqsen": "\\Objects\\ApiPath\u003A\u003A\u0024path",
             "name": "path",
             "summary": "The\u0020Path\u0020stored\u0020as\u0020an\u0020array\u0020of\u0020strings\u0020\u0028subpaths\u0029\u0020or\u0020ints\u0020\u0028parameters\u0029.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiPath.html#property_path"
+            "url": "classes/Objects-ApiPath.html#property_path"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\ApiPath\u003A\u003A\u0024parameters",
+            "fqsen": "\\Objects\\ApiPath\u003A\u003A\u0024parameters",
             "name": "parameters",
             "summary": "Only\u0020the\u0020parameters\u0020\u0028int\u0027s\u0029\u0020from\u0020the\u0020path.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-ApiPath.html#property_parameters"
+            "url": "classes/Objects-ApiPath.html#property_parameters"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\BaseCookie",
+            "fqsen": "\\Objects\\Cookies\\BaseCookie",
             "name": "BaseCookie",
             "summary": "Base\u0020class\u0020for\u0020all\u0020Cookies.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-BaseCookie.html"
+            "url": "classes/Objects-Cookies-BaseCookie.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\BaseCookie\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Cookies\\BaseCookie\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-BaseCookie.html#method___construct"
+            "url": "classes/Objects-Cookies-BaseCookie.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\BaseCookie\u003A\u003Aget\u0028\u0029",
+            "fqsen": "\\Objects\\Cookies\\BaseCookie\u003A\u003Aget\u0028\u0029",
             "name": "get",
             "summary": "Returns\u0020all\u0020the\u0020information\u0020needed\u0020to\u0020set\u0020the\u0020cookie",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-BaseCookie.html#method_get"
+            "url": "classes/Objects-Cookies-BaseCookie.html#method_get"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\BaseCookie\u003A\u003AgetName\u0028\u0029",
+            "fqsen": "\\Objects\\Cookies\\BaseCookie\u003A\u003AgetName\u0028\u0029",
             "name": "getName",
             "summary": "Returns\u0020the\u0020name\u0020of\u0020the\u0020cookie",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-BaseCookie.html#method_getName"
+            "url": "classes/Objects-Cookies-BaseCookie.html#method_getName"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\BaseCookie\u003A\u003A\u0024name",
+            "fqsen": "\\Objects\\Cookies\\BaseCookie\u003A\u003A\u0024name",
             "name": "name",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-BaseCookie.html#property_name"
+            "url": "classes/Objects-Cookies-BaseCookie.html#property_name"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\BaseCookie\u003A\u003A\u0024value",
+            "fqsen": "\\Objects\\Cookies\\BaseCookie\u003A\u003A\u0024value",
             "name": "value",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-BaseCookie.html#property_value"
+            "url": "classes/Objects-Cookies-BaseCookie.html#property_value"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\BaseCookie\u003A\u003A\u0024expiresIn",
+            "fqsen": "\\Objects\\Cookies\\BaseCookie\u003A\u003A\u0024expiresIn",
             "name": "expiresIn",
             "summary": "Time\u0020in\u0020seconds",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-BaseCookie.html#property_expiresIn"
+            "url": "classes/Objects-Cookies-BaseCookie.html#property_expiresIn"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\BaseCookie\u003A\u003A\u0024secure",
+            "fqsen": "\\Objects\\Cookies\\BaseCookie\u003A\u003A\u0024secure",
             "name": "secure",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-BaseCookie.html#property_secure"
+            "url": "classes/Objects-Cookies-BaseCookie.html#property_secure"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\BaseCookie\u003A\u003A\u0024httpOnly",
+            "fqsen": "\\Objects\\Cookies\\BaseCookie\u003A\u003A\u0024httpOnly",
             "name": "httpOnly",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-BaseCookie.html#property_httpOnly"
+            "url": "classes/Objects-Cookies-BaseCookie.html#property_httpOnly"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\Interfaces\\CookieInterface",
+            "fqsen": "\\Objects\\Cookies\\Interfaces\\CookieInterface",
             "name": "CookieInterface",
             "summary": "Object,\u0020that\u0020represents\u0020a\u0020Cookie\u0020that\u0020can\u0020be\u0020set\u0020by\u0020the\u0020api",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-Interfaces-CookieInterface.html"
+            "url": "classes/Objects-Cookies-Interfaces-CookieInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\Interfaces\\CookieInterface\u003A\u003Aget\u0028\u0029",
+            "fqsen": "\\Objects\\Cookies\\Interfaces\\CookieInterface\u003A\u003Aget\u0028\u0029",
             "name": "get",
             "summary": "Returns\u0020all\u0020the\u0020information\u0020needed\u0020to\u0020set\u0020the\u0020cookie",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-Interfaces-CookieInterface.html#method_get"
+            "url": "classes/Objects-Cookies-Interfaces-CookieInterface.html#method_get"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\Interfaces\\CookieInterface\u003A\u003AgetName\u0028\u0029",
+            "fqsen": "\\Objects\\Cookies\\Interfaces\\CookieInterface\u003A\u003AgetName\u0028\u0029",
             "name": "getName",
             "summary": "Returns\u0020the\u0020name\u0020of\u0020the\u0020cookie",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-Interfaces-CookieInterface.html#method_getName"
+            "url": "classes/Objects-Cookies-Interfaces-CookieInterface.html#method_getName"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\RefreshTokenCookie",
+            "fqsen": "\\Objects\\Cookies\\RefreshTokenCookie",
             "name": "RefreshTokenCookie",
             "summary": "Class\u0020to\u0020represent\u0020a\u0020Cookie\u0020that\u0020holds\u0020a\u0020refreshToken",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-RefreshTokenCookie.html"
+            "url": "classes/Objects-Cookies-RefreshTokenCookie.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\RefreshTokenCookie\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Cookies\\RefreshTokenCookie\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Cookies-RefreshTokenCookie.html#method___construct"
+            "url": "classes/Objects-Cookies-RefreshTokenCookie.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\ApiPathInterface",
+            "fqsen": "\\Objects\\Interfaces\\ApiPathInterface",
             "name": "ApiPathInterface",
             "summary": "Object\u0020that\u0020represent\u0020an\u0020api\u0020path\u0020\u0028path\u0020to\u0020a\u0020resource\u0029",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-ApiPathInterface.html"
+            "url": "classes/Objects-Interfaces-ApiPathInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\ApiPathInterface\u003A\u003AgetArray\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\ApiPathInterface\u003A\u003AgetArray\u0028\u0029",
             "name": "getArray",
             "summary": "Gets\u0020the\u0020path\u0020as\u0020array",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-ApiPathInterface.html#method_getArray"
+            "url": "classes/Objects-Interfaces-ApiPathInterface.html#method_getArray"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\ApiPathInterface\u003A\u003AgetStringWithPlaceholders\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\ApiPathInterface\u003A\u003AgetStringWithPlaceholders\u0028\u0029",
             "name": "getStringWithPlaceholders",
             "summary": "Returns\u0020the\u0020path\u0020as\u0020string\u0020with\u0020\u0022\u007Bx\u007D\u0022\u0020instead\u0020of\u0020the\u0020parameters.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-ApiPathInterface.html#method_getStringWithPlaceholders"
+            "url": "classes/Objects-Interfaces-ApiPathInterface.html#method_getStringWithPlaceholders"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\ApiPathInterface\u003A\u003AgetLength\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\ApiPathInterface\u003A\u003AgetLength\u0028\u0029",
             "name": "getLength",
             "summary": "Gets\u0020the\u0020Numbers\u0020of\u0020subpaths\/parameters",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-ApiPathInterface.html#method_getLength"
+            "url": "classes/Objects-Interfaces-ApiPathInterface.html#method_getLength"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\ApiPathInterface\u003A\u003AgetParameters\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\ApiPathInterface\u003A\u003AgetParameters\u0028\u0029",
             "name": "getParameters",
             "summary": "Returns\u0020a\u0020List\u0020only\u0020containing\u0020the\u0020parameters\u0020\u0028int\u002Dvalues\u0029",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-ApiPathInterface.html#method_getParameters"
+            "url": "classes/Objects-Interfaces-ApiPathInterface.html#method_getParameters"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\ApiPathInterface\u003A\u003A__toString\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\ApiPathInterface\u003A\u003A__toString\u0028\u0029",
             "name": "__toString",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-ApiPathInterface.html#method___toString"
+            "url": "classes/Objects-Interfaces-ApiPathInterface.html#method___toString"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\RequestInterface",
+            "fqsen": "\\Objects\\Interfaces\\RequestInterface",
             "name": "RequestInterface",
             "summary": "Object\u0020to\u0020represent\u0020an\u0020user\u0020request,\u0020that\u0020comes\u0020to\u0020the\u0020api",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-RequestInterface.html"
+            "url": "classes/Objects-Interfaces-RequestInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetQueryValue\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetQueryValue\u0028\u0029",
             "name": "getQueryValue",
             "summary": "Gets\u0020the\u0020value\u0020of\u0020the\u0020specified\u0020query\u002Dparameter.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-RequestInterface.html#method_getQueryValue"
+            "url": "classes/Objects-Interfaces-RequestInterface.html#method_getQueryValue"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetQuery\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetQuery\u0028\u0029",
             "name": "getQuery",
             "summary": "Returns\u0020the\u0020all\u0020query\u0020parameter\u002Dvalue\u0020pairs",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-RequestInterface.html#method_getQuery"
+            "url": "classes/Objects-Interfaces-RequestInterface.html#method_getQuery"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetHeader\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetHeader\u0028\u0029",
             "name": "getHeader",
             "summary": "Gets\u0020the\u0020value\u0020of\u0020the\u0020specified\u0020header",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-RequestInterface.html#method_getHeader"
+            "url": "classes/Objects-Interfaces-RequestInterface.html#method_getHeader"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetCookie\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetCookie\u0028\u0029",
             "name": "getCookie",
             "summary": "Gets\u0020the\u0020value\u0020of\u0020the\u0020specified\u0020cookie",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-RequestInterface.html#method_getCookie"
+            "url": "classes/Objects-Interfaces-RequestInterface.html#method_getCookie"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetAccessToken\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetAccessToken\u0028\u0029",
             "name": "getAccessToken",
             "summary": "Gets\u0020the\u0020refresh\u0020token\u0020if\u0020there\u0020is\u0020one.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-RequestInterface.html#method_getAccessToken"
+            "url": "classes/Objects-Interfaces-RequestInterface.html#method_getAccessToken"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetPath\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetPath\u0028\u0029",
             "name": "getPath",
             "summary": "Gets\u0020the\u0020requested\u0020Path",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-RequestInterface.html#method_getPath"
+            "url": "classes/Objects-Interfaces-RequestInterface.html#method_getPath"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetMethod\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetMethod\u0028\u0029",
             "name": "getMethod",
             "summary": "Gets\u0020the\u0020requested\u0020Method",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-RequestInterface.html#method_getMethod"
+            "url": "classes/Objects-Interfaces-RequestInterface.html#method_getMethod"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetBody\u0028\u0029",
+            "fqsen": "\\Objects\\Interfaces\\RequestInterface\u003A\u003AgetBody\u0028\u0029",
             "name": "getBody",
             "summary": "Gets\u0020the\u0020http\u0020body\u0020of\u0020the\u0020request\u0020if\u0020there\u0020is\u0020one",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Interfaces-RequestInterface.html#method_getBody"
+            "url": "classes/Objects-Interfaces-RequestInterface.html#method_getBody"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request",
+            "fqsen": "\\Objects\\Request",
             "name": "Request",
             "summary": "Class\u0020that\u0020implements\u0020the\u0020RequestInterface",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html"
+            "url": "classes/Objects-Request.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Request\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Constructs\u0020a\u0020request",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#method___construct"
+            "url": "classes/Objects-Request.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003AparseQuery\u0028\u0029",
+            "fqsen": "\\Objects\\Request\u003A\u003AparseQuery\u0028\u0029",
             "name": "parseQuery",
             "summary": "Parses\u0020a\u0020query\u0020string\u0020in\u0020a\u0020query\u0020array",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#method_parseQuery"
+            "url": "classes/Objects-Request.html#method_parseQuery"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003AparseHeaders\u0028\u0029",
+            "fqsen": "\\Objects\\Request\u003A\u003AparseHeaders\u0028\u0029",
             "name": "parseHeaders",
             "summary": "Validates\u0020and\u0020parses\u0020a\u0020headers\u0020array\u0020in\u0020to\u0020separated\u0020headers\u002D\u0020and\u0020cookies\u002D\u0020arrays",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#method_parseHeaders"
+            "url": "classes/Objects-Request.html#method_parseHeaders"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003AgetQueryValue\u0028\u0029",
+            "fqsen": "\\Objects\\Request\u003A\u003AgetQueryValue\u0028\u0029",
             "name": "getQueryValue",
             "summary": "Gets\u0020the\u0020value\u0020of\u0020the\u0020specified\u0020query\u002Dparameter.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#method_getQueryValue"
+            "url": "classes/Objects-Request.html#method_getQueryValue"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003AgetQuery\u0028\u0029",
+            "fqsen": "\\Objects\\Request\u003A\u003AgetQuery\u0028\u0029",
             "name": "getQuery",
             "summary": "Returns\u0020the\u0020all\u0020query\u0020parameter\u002Dvalue\u0020pairs",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#method_getQuery"
+            "url": "classes/Objects-Request.html#method_getQuery"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003AgetHeader\u0028\u0029",
+            "fqsen": "\\Objects\\Request\u003A\u003AgetHeader\u0028\u0029",
             "name": "getHeader",
             "summary": "Gets\u0020the\u0020value\u0020of\u0020the\u0020specified\u0020header",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#method_getHeader"
+            "url": "classes/Objects-Request.html#method_getHeader"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003AgetCookie\u0028\u0029",
+            "fqsen": "\\Objects\\Request\u003A\u003AgetCookie\u0028\u0029",
             "name": "getCookie",
             "summary": "Gets\u0020the\u0020value\u0020of\u0020the\u0020specified\u0020cookie",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#method_getCookie"
+            "url": "classes/Objects-Request.html#method_getCookie"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003AgetAccessToken\u0028\u0029",
+            "fqsen": "\\Objects\\Request\u003A\u003AgetAccessToken\u0028\u0029",
             "name": "getAccessToken",
             "summary": "Gets\u0020the\u0020refresh\u0020token\u0020if\u0020there\u0020is\u0020one.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#method_getAccessToken"
+            "url": "classes/Objects-Request.html#method_getAccessToken"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003AgetPath\u0028\u0029",
+            "fqsen": "\\Objects\\Request\u003A\u003AgetPath\u0028\u0029",
             "name": "getPath",
             "summary": "Gets\u0020the\u0020requested\u0020Path",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#method_getPath"
+            "url": "classes/Objects-Request.html#method_getPath"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003AgetMethod\u0028\u0029",
+            "fqsen": "\\Objects\\Request\u003A\u003AgetMethod\u0028\u0029",
             "name": "getMethod",
             "summary": "Gets\u0020the\u0020requested\u0020Method",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#method_getMethod"
+            "url": "classes/Objects-Request.html#method_getMethod"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003AgetBody\u0028\u0029",
+            "fqsen": "\\Objects\\Request\u003A\u003AgetBody\u0028\u0029",
             "name": "getBody",
             "summary": "Gets\u0020the\u0020http\u0020body\u0020of\u0020the\u0020request\u0020if\u0020there\u0020is\u0020one",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#method_getBody"
+            "url": "classes/Objects-Request.html#method_getBody"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003A\u0024path",
+            "fqsen": "\\Objects\\Request\u003A\u003A\u0024path",
             "name": "path",
             "summary": "The\u0020Path\u0020to\u0020the\u0020requested\u0020Resource",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#property_path"
+            "url": "classes/Objects-Request.html#property_path"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003A\u0024method",
+            "fqsen": "\\Objects\\Request\u003A\u003A\u0024method",
             "name": "method",
             "summary": "The\u0020Http\u0020Method\u0020provided\u0020by\u0020the\u0020request",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#property_method"
+            "url": "classes/Objects-Request.html#property_method"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003A\u0024headers",
+            "fqsen": "\\Objects\\Request\u003A\u003A\u0024headers",
             "name": "headers",
             "summary": "The\u0020headers\u0020provided\u0020by\u0020the\u0020request\u0020\u0040var\u0020array\u003Cstring,string\u003E",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#property_headers"
+            "url": "classes/Objects-Request.html#property_headers"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003A\u0024cookies",
+            "fqsen": "\\Objects\\Request\u003A\u003A\u0024cookies",
             "name": "cookies",
             "summary": "The\u0020cookies\u0020provided\u0020by\u0020the\u0020request\u0020\u0040var\u0020array\u003Cstring,string\u003E",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#property_cookies"
+            "url": "classes/Objects-Request.html#property_cookies"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003A\u0024query",
+            "fqsen": "\\Objects\\Request\u003A\u003A\u0024query",
             "name": "query",
             "summary": "The\u0020query\u0020provided\u0020by\u0020the\u0020request\u0020\u0040var\u0020array\u003Cstring,string\u007Cint\u003E",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#property_query"
+            "url": "classes/Objects-Request.html#property_query"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Request\u003A\u003A\u0024body",
+            "fqsen": "\\Objects\\Request\u003A\u003A\u0024body",
             "name": "body",
             "summary": "The\u0020Body\u0020provided\u0020by\u0020the\u0020request",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Request.html#property_body"
+            "url": "classes/Objects-Request.html#property_body"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse",
+            "fqsen": "\\Objects\\Responses\\BaseResponse",
             "name": "BaseResponse",
             "summary": "abstract\u0020base\u0020Class\u0020for\u0020API\u0020Responses",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html"
+            "url": "classes/Objects-Responses-BaseResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003AsetCode\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003AsetCode\u0028\u0029",
             "name": "setCode",
             "summary": "Sets\u0020the\u0020Http\u0020response\u0020code",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#method_setCode"
+            "url": "classes/Objects-Responses-BaseResponse.html#method_setCode"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003AaddCookie\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003AaddCookie\u0028\u0029",
             "name": "addCookie",
             "summary": "Adds\u0020a\u0020cookie\u0020to\u0020be\u0020send.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#method_addCookie"
+            "url": "classes/Objects-Responses-BaseResponse.html#method_addCookie"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003AaddHeader\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003AaddHeader\u0028\u0029",
             "name": "addHeader",
             "summary": "Adds\u0020a\u0020header\u0020to\u0020be\u0020send.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#method_addHeader"
+            "url": "classes/Objects-Responses-BaseResponse.html#method_addHeader"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003AsetBody\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003AsetBody\u0028\u0029",
             "name": "setBody",
             "summary": "Sets\u0020the\u0020response\u0020body",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#method_setBody"
+            "url": "classes/Objects-Responses-BaseResponse.html#method_setBody"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003AaddMessage\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003AaddMessage\u0028\u0029",
             "name": "addMessage",
             "summary": "Adds\u0020a\u0020message\u0020\u0028msg\u0029\u0020to\u0020the\u0020body.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#method_addMessage"
+            "url": "classes/Objects-Responses-BaseResponse.html#method_addMessage"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003AaddErrorCode\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003AaddErrorCode\u0028\u0029",
             "name": "addErrorCode",
             "summary": "Adds\u0020an\u0020error\u002Dcode\u0020to\u0020the\u0020body.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#method_addErrorCode"
+            "url": "classes/Objects-Responses-BaseResponse.html#method_addErrorCode"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003AgetCode\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003AgetCode\u0028\u0029",
             "name": "getCode",
             "summary": "Returns\u0020the\u0020http\u0020response\u0020code",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#method_getCode"
+            "url": "classes/Objects-Responses-BaseResponse.html#method_getCode"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003AgetCookies\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003AgetCookies\u0028\u0029",
             "name": "getCookies",
             "summary": "Returns\u0020an\u0020array\u0020of\u0020cookies\u0020to\u0020be\u0020set.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#method_getCookies"
+            "url": "classes/Objects-Responses-BaseResponse.html#method_getCookies"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003AgetHeaders\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003AgetHeaders\u0028\u0029",
             "name": "getHeaders",
             "summary": "Returns\u0020the\u0020headers\u0020to\u0020send.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#method_getHeaders"
+            "url": "classes/Objects-Responses-BaseResponse.html#method_getHeaders"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003AgetJsonBody\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003AgetJsonBody\u0028\u0029",
             "name": "getJsonBody",
             "summary": "Returns\u0020the\u0020data\u0020in\u0020json\u0020format\u0020to\u0020send\u0020in\u0020the\u0020response\u0020body",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#method_getJsonBody"
+            "url": "classes/Objects-Responses-BaseResponse.html#method_getJsonBody"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003A__toString\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003A__toString\u0028\u0029",
             "name": "__toString",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#method___toString"
+            "url": "classes/Objects-Responses-BaseResponse.html#method___toString"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003ASUPPORTED_CODES",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003ASUPPORTED_CODES",
             "name": "SUPPORTED_CODES",
             "summary": "Http\u0020response\u0020codes,\u0020that\u0020are\u0020supported\u0020by\u0020the\u0020api",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#constant_SUPPORTED_CODES"
+            "url": "classes/Objects-Responses-BaseResponse.html#constant_SUPPORTED_CODES"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003ASUPPORTED_HEADERS",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003ASUPPORTED_HEADERS",
             "name": "SUPPORTED_HEADERS",
             "summary": "Http\u0020response\u0020headers,\u0020that\u0020are\u0020supported\u0020by\u0020the\u0020api",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#constant_SUPPORTED_HEADERS"
+            "url": "classes/Objects-Responses-BaseResponse.html#constant_SUPPORTED_HEADERS"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003A\u0024code",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003A\u0024code",
             "name": "code",
             "summary": "The\u0020http\u0020response\u0020code",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#property_code"
+            "url": "classes/Objects-Responses-BaseResponse.html#property_code"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003A\u0024cookies",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003A\u0024cookies",
             "name": "cookies",
             "summary": "Cookies\u0020to\u0020set\u0020in\u0020name\u002Dcookie\u0020pair\u0020list",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#property_cookies"
+            "url": "classes/Objects-Responses-BaseResponse.html#property_cookies"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003A\u0024headers",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003A\u0024headers",
             "name": "headers",
             "summary": "Headers\u0020in\u0020a\u0020key\u002Dvalue\u0020format",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#property_headers"
+            "url": "classes/Objects-Responses-BaseResponse.html#property_headers"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\BaseResponse\u003A\u003A\u0024body",
+            "fqsen": "\\Objects\\Responses\\BaseResponse\u003A\u003A\u0024body",
             "name": "body",
             "summary": "response\u0020body\u0020array\u0020that\u0020will\u0020send\u0020as\u0020json",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-BaseResponse.html#property_body"
+            "url": "classes/Objects-Responses-BaseResponse.html#property_body"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\AuthorizationErrorResponse",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\AuthorizationErrorResponse",
             "name": "AuthorizationErrorResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020the\u0020request\u0020cant\u0020be\u0020authorized\u0020or\u0020has\u0020not\u0020required\u0020permissions",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-AuthorizationErrorResponse.html"
+            "url": "classes/Objects-Responses-ClientErrorResponses-AuthorizationErrorResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\AuthorizationErrorResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\AuthorizationErrorResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-AuthorizationErrorResponse.html#method___construct"
+            "url": "classes/Objects-Responses-ClientErrorResponses-AuthorizationErrorResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\BadRequestResponse",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\BadRequestResponse",
             "name": "BadRequestResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020the\u0020request\u0020was\u0020bad.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-BadRequestResponses-BadRequestResponse.html"
+            "url": "classes/Objects-Responses-ClientErrorResponses-BadRequestResponses-BadRequestResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\BadRequestResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\BadRequestResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-BadRequestResponses-BadRequestResponse.html#method___construct"
+            "url": "classes/Objects-Responses-ClientErrorResponses-BadRequestResponses-BadRequestResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\InvalidPropertyResponse",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\InvalidPropertyResponse",
             "name": "InvalidPropertyResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020the\u0020request\u0020provide\u0020body\u002Dproperties\u0020that\u0020are\u0020not\u0020supported.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-BadRequestResponses-InvalidPropertyResponse.html"
+            "url": "classes/Objects-Responses-ClientErrorResponses-BadRequestResponses-InvalidPropertyResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\InvalidPropertyResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\InvalidPropertyResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-BadRequestResponses-InvalidPropertyResponse.html#method___construct"
+            "url": "classes/Objects-Responses-ClientErrorResponses-BadRequestResponses-InvalidPropertyResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\InvalidQueryResponse",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\InvalidQueryResponse",
             "name": "InvalidQueryResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020the\u0020request\u0020provide\u0020a\u0020query\u0020that\u0020can\u0020not\u0020be\u0020parsed\u0020\/\u0020validated",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-BadRequestResponses-InvalidQueryResponse.html"
+            "url": "classes/Objects-Responses-ClientErrorResponses-BadRequestResponses-InvalidQueryResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\InvalidQueryResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\InvalidQueryResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-BadRequestResponses-InvalidQueryResponse.html#method___construct"
+            "url": "classes/Objects-Responses-ClientErrorResponses-BadRequestResponses-InvalidQueryResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\MissingPropertyResponse",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\MissingPropertyResponse",
             "name": "MissingPropertyResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020the\u0020route\u0020require\u0020properties\u0020in\u0020the\u0020request\u0020body\u0020that\u0020are\u0020missing.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-BadRequestResponses-MissingPropertyResponse.html"
+            "url": "classes/Objects-Responses-ClientErrorResponses-BadRequestResponses-MissingPropertyResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\MissingPropertyResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\MissingPropertyResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-BadRequestResponses-MissingPropertyResponse.html#method___construct"
+            "url": "classes/Objects-Responses-ClientErrorResponses-BadRequestResponses-MissingPropertyResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\UserNotFoundResponse",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\UserNotFoundResponse",
             "name": "UserNotFoundResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020the\u0020requested\u0020user\u0020don\u0027t\u0020exists.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-BadRequestResponses-UserNotFoundResponse.html"
+            "url": "classes/Objects-Responses-ClientErrorResponses-BadRequestResponses-UserNotFoundResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\UserNotFoundResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses\\UserNotFoundResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-BadRequestResponses-UserNotFoundResponse.html#method___construct"
+            "url": "classes/Objects-Responses-ClientErrorResponses-BadRequestResponses-UserNotFoundResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\MethodNotAllowedResponse",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\MethodNotAllowedResponse",
             "name": "MethodNotAllowedResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020the\u0020resource\u0020don\u0027t\u0020support\u0020the\u0020method",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-MethodNotAllowedResponse.html"
+            "url": "classes/Objects-Responses-ClientErrorResponses-MethodNotAllowedResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\MethodNotAllowedResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\MethodNotAllowedResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-MethodNotAllowedResponse.html#method___construct"
+            "url": "classes/Objects-Responses-ClientErrorResponses-MethodNotAllowedResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\MissingPermissionsResponse",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\MissingPermissionsResponse",
             "name": "MissingPermissionsResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020the\u0020resource\u0020need\u0020permissions\u0020the\u0020requester\u0020don\u0027t\u0020have.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-MissingPermissionsResponse.html"
+            "url": "classes/Objects-Responses-ClientErrorResponses-MissingPermissionsResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\MissingPermissionsResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\MissingPermissionsResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-MissingPermissionsResponse.html#method___construct"
+            "url": "classes/Objects-Responses-ClientErrorResponses-MissingPermissionsResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\ResourceNotFoundResponse",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\ResourceNotFoundResponse",
             "name": "ResourceNotFoundResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020the\u0020resource\u0020cant\u0020be\u0020found",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-ResourceNotFoundResponse.html"
+            "url": "classes/Objects-Responses-ClientErrorResponses-ResourceNotFoundResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\ResourceNotFoundResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\ResourceNotFoundResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ClientErrorResponses-ResourceNotFoundResponse.html#method___construct"
+            "url": "classes/Objects-Responses-ClientErrorResponses-ResourceNotFoundResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\Interfaces\\ResponseInterface",
+            "fqsen": "\\Objects\\Responses\\Interfaces\\ResponseInterface",
             "name": "ResponseInterface",
             "summary": "Object\u0020to\u0020represent\u0020an\u0020response\u0020from\u0020the\u0020api,\u0020that\u0020will\u0020be\u0020send\u0020to\u0020the\u0020client.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-Interfaces-ResponseInterface.html"
+            "url": "classes/Objects-Responses-Interfaces-ResponseInterface.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\Interfaces\\ResponseInterface\u003A\u003AgetCode\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\Interfaces\\ResponseInterface\u003A\u003AgetCode\u0028\u0029",
             "name": "getCode",
             "summary": "Returns\u0020the\u0020http\u0020response\u0020code",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-Interfaces-ResponseInterface.html#method_getCode"
+            "url": "classes/Objects-Responses-Interfaces-ResponseInterface.html#method_getCode"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\Interfaces\\ResponseInterface\u003A\u003AgetCookies\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\Interfaces\\ResponseInterface\u003A\u003AgetCookies\u0028\u0029",
             "name": "getCookies",
             "summary": "Returns\u0020an\u0020array\u0020of\u0020cookies\u0020to\u0020be\u0020set.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-Interfaces-ResponseInterface.html#method_getCookies"
+            "url": "classes/Objects-Responses-Interfaces-ResponseInterface.html#method_getCookies"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\Interfaces\\ResponseInterface\u003A\u003AgetHeaders\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\Interfaces\\ResponseInterface\u003A\u003AgetHeaders\u0028\u0029",
             "name": "getHeaders",
             "summary": "Returns\u0020the\u0020headers\u0020to\u0020send.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-Interfaces-ResponseInterface.html#method_getHeaders"
+            "url": "classes/Objects-Responses-Interfaces-ResponseInterface.html#method_getHeaders"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\Interfaces\\ResponseInterface\u003A\u003AgetJsonBody\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\Interfaces\\ResponseInterface\u003A\u003AgetJsonBody\u0028\u0029",
             "name": "getJsonBody",
             "summary": "Returns\u0020the\u0020data\u0020in\u0020json\u0020format\u0020to\u0020send\u0020in\u0020the\u0020response\u0020body",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-Interfaces-ResponseInterface.html#method_getJsonBody"
+            "url": "classes/Objects-Responses-Interfaces-ResponseInterface.html#method_getJsonBody"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\RedirectionResponses\\RedirectionResponse",
+            "fqsen": "\\Objects\\Responses\\RedirectionResponses\\RedirectionResponse",
             "name": "RedirectionResponse",
             "summary": "Response\u0020to\u0020use\u0020if\u0020the\u0020requester\u0020should\u0020be\u0020redirected\u0020to\u0020another\u0020url\u0020after\u0020a\u0020successful\u0020request.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-RedirectionResponses-RedirectionResponse.html"
+            "url": "classes/Objects-Responses-RedirectionResponses-RedirectionResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\RedirectionResponses\\RedirectionResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\RedirectionResponses\\RedirectionResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-RedirectionResponses-RedirectionResponse.html#method___construct"
+            "url": "classes/Objects-Responses-RedirectionResponses-RedirectionResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ServerErrorResponses\\InternalErrorResponse",
+            "fqsen": "\\Objects\\Responses\\ServerErrorResponses\\InternalErrorResponse",
             "name": "InternalErrorResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020an\u0020exception\u0020bubbles\u0020up",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ServerErrorResponses-InternalErrorResponse.html"
+            "url": "classes/Objects-Responses-ServerErrorResponses-InternalErrorResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ServerErrorResponses\\InternalErrorResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\ServerErrorResponses\\InternalErrorResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-ServerErrorResponses-InternalErrorResponse.html#method___construct"
+            "url": "classes/Objects-Responses-ServerErrorResponses-InternalErrorResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\SuccessfulResponses\\CreatedResponse",
+            "fqsen": "\\Objects\\Responses\\SuccessfulResponses\\CreatedResponse",
             "name": "CreatedResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020a\u0020new\u0020entry\u0020was\u0020created\u0020and\u0020no\u0020body\u0020need\u0020to\u0020returned",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-SuccessfulResponses-CreatedResponse.html"
+            "url": "classes/Objects-Responses-SuccessfulResponses-CreatedResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\SuccessfulResponses\\CreatedResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\SuccessfulResponses\\CreatedResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-SuccessfulResponses-CreatedResponse.html#method___construct"
+            "url": "classes/Objects-Responses-SuccessfulResponses-CreatedResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\SuccessfulResponses\\DataResponse",
+            "fqsen": "\\Objects\\Responses\\SuccessfulResponses\\DataResponse",
             "name": "DataResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020the\u0020request\u0020processed\u0020successful\u0020and\u0020data\u0020should\u0020be\u0020returned",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-SuccessfulResponses-DataResponse.html"
+            "url": "classes/Objects-Responses-SuccessfulResponses-DataResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\SuccessfulResponses\\DataResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\SuccessfulResponses\\DataResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-SuccessfulResponses-DataResponse.html#method___construct"
+            "url": "classes/Objects-Responses-SuccessfulResponses-DataResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\SuccessfulResponses\\NoContentResponse",
+            "fqsen": "\\Objects\\Responses\\SuccessfulResponses\\NoContentResponse",
             "name": "NoContentResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020a\u0020route\u0020processed\u0020successful\u0020and\u0020no\u0020body\u0020need\u0020to\u0020returned",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-SuccessfulResponses-NoContentResponse.html"
+            "url": "classes/Objects-Responses-SuccessfulResponses-NoContentResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\SuccessfulResponses\\NoContentResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\SuccessfulResponses\\NoContentResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-SuccessfulResponses-NoContentResponse.html#method___construct"
+            "url": "classes/Objects-Responses-SuccessfulResponses-NoContentResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\SuccessfulResponses\\SetCookieResponse",
+            "fqsen": "\\Objects\\Responses\\SuccessfulResponses\\SetCookieResponse",
             "name": "SetCookieResponse",
             "summary": "Response\u0020that\u0020should\u0020be\u0020used\u0020if\u0020the\u0020request\u0020processed\u0020successful\u0020and\u0020a\u0020cookie\u0020should\u0020be\u0020set",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-SuccessfulResponses-SetCookieResponse.html"
+            "url": "classes/Objects-Responses-SuccessfulResponses-SetCookieResponse.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\SuccessfulResponses\\SetCookieResponse\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Objects\\Responses\\SuccessfulResponses\\SetCookieResponse\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Objects-Responses-SuccessfulResponses-SetCookieResponse.html#method___construct"
+            "url": "classes/Objects-Responses-SuccessfulResponses-SetCookieResponse.html#method___construct"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Routes",
+            "fqsen": "\\Routes",
             "name": "Routes",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Routes.html"
+            "url": "classes/Routes.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Routes\u003A\u003AgetRoutes\u0028\u0029",
+            "fqsen": "\\Routes\u003A\u003AgetRoutes\u0028\u0029",
             "name": "getRoutes",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Routes.html#method_getRoutes"
+            "url": "classes/Routes.html#method_getRoutes"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Utilities\\DbConnector",
+            "fqsen": "\\Utilities\\DbConnector",
             "name": "DbConnector",
             "summary": "Handles\u0020mysql\u0020database\u0020connection.",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Utilities-DbConnector.html"
+            "url": "classes/Utilities-DbConnector.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Utilities\\DbConnector\u003A\u003AgetConnection\u0028\u0029",
+            "fqsen": "\\Utilities\\DbConnector\u003A\u003AgetConnection\u0028\u0029",
             "name": "getConnection",
             "summary": "Get\u0020the\u0020database\u0020connection\u0020object",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Utilities-DbConnector.html#method_getConnection"
+            "url": "classes/Utilities-DbConnector.html#method_getConnection"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Utilities\\DbConnector\u003A\u003AstartConnection\u0028\u0029",
+            "fqsen": "\\Utilities\\DbConnector\u003A\u003AstartConnection\u0028\u0029",
             "name": "startConnection",
             "summary": "start\u0020the\u0020Database\u0020connection",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Utilities-DbConnector.html#method_startConnection"
+            "url": "classes/Utilities-DbConnector.html#method_startConnection"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Utilities\\DbConnector\u003A\u003AcloseConnection\u0028\u0029",
+            "fqsen": "\\Utilities\\DbConnector\u003A\u003AcloseConnection\u0028\u0029",
             "name": "closeConnection",
             "summary": "Closes\u0020the\u0020database\u0020connection",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Utilities-DbConnector.html#method_closeConnection"
+            "url": "classes/Utilities-DbConnector.html#method_closeConnection"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Utilities\\DbConnector\u003A\u003A\u0024db",
+            "fqsen": "\\Utilities\\DbConnector\u003A\u003A\u0024db",
             "name": "db",
             "summary": "",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Utilities-DbConnector.html#property_db"
+            "url": "classes/Utilities-DbConnector.html#property_db"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Utilities\\MailSender",
+            "fqsen": "\\Utilities\\MailSender",
             "name": "MailSender",
             "summary": "Static\u0020functions\u0020to\u0020send\u0020emails\u0020to\u0020the\u0020users",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Utilities-MailSender.html"
+            "url": "classes/Utilities-MailSender.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Utilities\\MailSender\u003A\u003AsendEmailChangeVerificationRequest\u0028\u0029",
+            "fqsen": "\\Utilities\\MailSender\u003A\u003AsendEmailChangeVerificationRequest\u0028\u0029",
             "name": "sendEmailChangeVerificationRequest",
             "summary": "Sends\u0020a\u0020verification\u0020email\u0020to\u0020verify\u0020an\u0020email\u0020change",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Utilities-MailSender.html#method_sendEmailChangeVerificationRequest"
+            "url": "classes/Utilities-MailSender.html#method_sendEmailChangeVerificationRequest"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Utilities\\MailSender\u003A\u003AsendVerificationRequest\u0028\u0029",
+            "fqsen": "\\Utilities\\MailSender\u003A\u003AsendVerificationRequest\u0028\u0029",
             "name": "sendVerificationRequest",
             "summary": "Sends\u0020a\u0020verification\u0020email\u0020to\u0020verify\u0020a\u0020new\u0020user",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Utilities-MailSender.html#method_sendVerificationRequest"
+            "url": "classes/Utilities-MailSender.html#method_sendVerificationRequest"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Utilities\\MailSender\u003A\u003AsendEmail\u0028\u0029",
+            "fqsen": "\\Utilities\\MailSender\u003A\u003AsendEmail\u0028\u0029",
             "name": "sendEmail",
             "summary": "Sends\u0020an\u0020email\u0020to\u0020a\u0020user",
-            "url": "classes/BenSauer-CaseStudySkygateApi-Utilities-MailSender.html#method_sendEmail"
+            "url": "classes/Utilities-MailSender.html#method_sendEmail"
         },                {
             "fqsen": "\\",
             "name": "\\",
             "summary": "",
             "url": "namespaces/default.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller",
+            "fqsen": "\\Controller",
             "name": "Controller",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-controller.html"
+            "url": "namespaces/controller.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Controller\\Interfaces",
+            "fqsen": "\\Controller\\Interfaces",
             "name": "Interfaces",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-controller-interfaces.html"
+            "url": "namespaces/controller-interfaces.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors\\Interfaces",
+            "fqsen": "\\DbAccessors\\Interfaces",
             "name": "Interfaces",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-dbaccessors-interfaces.html"
+            "url": "namespaces/dbaccessors-interfaces.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\DbAccessors",
+            "fqsen": "\\DbAccessors",
             "name": "DbAccessors",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-dbaccessors.html"
+            "url": "namespaces/dbaccessors.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions",
+            "fqsen": "\\Exceptions",
             "name": "Exceptions",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-exceptions.html"
+            "url": "namespaces/exceptions.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions",
+            "fqsen": "\\Exceptions\\DBExceptions",
             "name": "DBExceptions",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-exceptions-dbexceptions.html"
+            "url": "namespaces/exceptions-dbexceptions.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\FieldNotFoundExceptions",
+            "fqsen": "\\Exceptions\\DBExceptions\\FieldNotFoundExceptions",
             "name": "FieldNotFoundExceptions",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-exceptions-dbexceptions-fieldnotfoundexceptions.html"
+            "url": "namespaces/exceptions-dbexceptions-fieldnotfoundexceptions.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\DBExceptions\\UniqueFieldExceptions",
+            "fqsen": "\\Exceptions\\DBExceptions\\UniqueFieldExceptions",
             "name": "UniqueFieldExceptions",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-exceptions-dbexceptions-uniquefieldexceptions.html"
+            "url": "namespaces/exceptions-dbexceptions-uniquefieldexceptions.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidRequestExceptions",
+            "fqsen": "\\Exceptions\\InvalidRequestExceptions",
             "name": "InvalidRequestExceptions",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-exceptions-invalidrequestexceptions.html"
+            "url": "namespaces/exceptions-invalidrequestexceptions.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\InvalidResponseExceptions",
+            "fqsen": "\\Exceptions\\InvalidResponseExceptions",
             "name": "InvalidResponseExceptions",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-exceptions-invalidresponseexceptions.html"
+            "url": "namespaces/exceptions-invalidresponseexceptions.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\RoutingExceptions",
+            "fqsen": "\\Exceptions\\RoutingExceptions",
             "name": "RoutingExceptions",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-exceptions-routingexceptions.html"
+            "url": "namespaces/exceptions-routingexceptions.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\TokenExceptions",
+            "fqsen": "\\Exceptions\\TokenExceptions",
             "name": "TokenExceptions",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-exceptions-tokenexceptions.html"
+            "url": "namespaces/exceptions-tokenexceptions.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Exceptions\\ValidationExceptions",
+            "fqsen": "\\Exceptions\\ValidationExceptions",
             "name": "ValidationExceptions",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-exceptions-validationexceptions.html"
+            "url": "namespaces/exceptions-validationexceptions.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects",
+            "fqsen": "\\Objects",
             "name": "Objects",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-objects.html"
+            "url": "namespaces/objects.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies",
+            "fqsen": "\\Objects\\Cookies",
             "name": "Cookies",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-objects-cookies.html"
+            "url": "namespaces/objects-cookies.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Cookies\\Interfaces",
+            "fqsen": "\\Objects\\Cookies\\Interfaces",
             "name": "Interfaces",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-objects-cookies-interfaces.html"
+            "url": "namespaces/objects-cookies-interfaces.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Interfaces",
+            "fqsen": "\\Objects\\Interfaces",
             "name": "Interfaces",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-objects-interfaces.html"
+            "url": "namespaces/objects-interfaces.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses",
+            "fqsen": "\\Objects\\Responses",
             "name": "Responses",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-objects-responses.html"
+            "url": "namespaces/objects-responses.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses",
             "name": "ClientErrorResponses",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-objects-responses-clienterrorresponses.html"
+            "url": "namespaces/objects-responses-clienterrorresponses.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses",
+            "fqsen": "\\Objects\\Responses\\ClientErrorResponses\\BadRequestResponses",
             "name": "BadRequestResponses",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-objects-responses-clienterrorresponses-badrequestresponses.html"
+            "url": "namespaces/objects-responses-clienterrorresponses-badrequestresponses.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\Interfaces",
+            "fqsen": "\\Objects\\Responses\\Interfaces",
             "name": "Interfaces",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-objects-responses-interfaces.html"
+            "url": "namespaces/objects-responses-interfaces.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\RedirectionResponses",
+            "fqsen": "\\Objects\\Responses\\RedirectionResponses",
             "name": "RedirectionResponses",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-objects-responses-redirectionresponses.html"
+            "url": "namespaces/objects-responses-redirectionresponses.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\ServerErrorResponses",
+            "fqsen": "\\Objects\\Responses\\ServerErrorResponses",
             "name": "ServerErrorResponses",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-objects-responses-servererrorresponses.html"
+            "url": "namespaces/objects-responses-servererrorresponses.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Objects\\Responses\\SuccessfulResponses",
+            "fqsen": "\\Objects\\Responses\\SuccessfulResponses",
             "name": "SuccessfulResponses",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-objects-responses-successfulresponses.html"
+            "url": "namespaces/objects-responses-successfulresponses.html"
         },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi",
-            "name": "CaseStudySkygateApi",
-            "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi.html"
-        },                {
-            "fqsen": "\\BenSauer",
-            "name": "BenSauer",
-            "summary": "",
-            "url": "namespaces/bensauer.html"
-        },                {
-            "fqsen": "\\BenSauer\\CaseStudySkygateApi\\Utilities",
+            "fqsen": "\\Utilities",
             "name": "Utilities",
             "summary": "",
-            "url": "namespaces/bensauer-casestudyskygateapi-utilities.html"
+            "url": "namespaces/utilities.html"
         }            ]
 );
