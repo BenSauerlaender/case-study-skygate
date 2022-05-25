@@ -4,3 +4,4 @@
 *.cache
 coverage-report/
 node_modules
+.phpdoc
