@@ -8,6 +8,8 @@
  * - connects to the Database
  * - initialize all controllers
  * - let the ApiController handle the request and send the response.
+ * 
+ * @package root
  */
 
 
