@@ -1626,15 +1626,15 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Objects-Responses-SuccessfulResponses-SetCookieResponse.html#method___construct"
         },                {
-            "fqsen": "\\Routes",
+            "fqsen": "\\Root\\Routes",
             "name": "Routes",
             "summary": "",
-            "url": "classes/Routes.html"
+            "url": "classes/Root-Routes.html"
         },                {
-            "fqsen": "\\Routes\u003A\u003AgetRoutes\u0028\u0029",
+            "fqsen": "\\Root\\Routes\u003A\u003AgetRoutes\u0028\u0029",
             "name": "getRoutes",
             "summary": "",
-            "url": "classes/Routes.html#method_getRoutes"
+            "url": "classes/Root-Routes.html#method_getRoutes"
         },                {
             "fqsen": "\\Utilities\\DbConnector",
             "name": "DbConnector",
@@ -1750,6 +1750,11 @@ Search.appendIndex(
             "name": "ValidationExceptions",
             "summary": "",
             "url": "namespaces/exceptions-validationexceptions.html"
+        },                {
+            "fqsen": "\\Root",
+            "name": "Root",
+            "summary": "",
+            "url": "namespaces/root.html"
         },                {
             "fqsen": "\\Objects",
             "name": "Objects",
