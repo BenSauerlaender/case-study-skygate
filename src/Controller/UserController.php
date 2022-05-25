@@ -6,26 +6,26 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Controller;
+namespace Controller;
 
 use BadMethodCallException;
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\EcrAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\SecurityControllerInterface;
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\MissingPropertiesException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
+use Controller\Interfaces\UserControllerInterface;
+use DbAccessors\Interfaces\RoleAccessorInterface;
+use DbAccessors\Interfaces\UserAccessorInterface;
+use DbAccessors\Interfaces\EcrAccessorInterface;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
+use Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
+use Exceptions\ShouldNeverHappenException;
+use Controller\Interfaces\SecurityControllerInterface;
+use Controller\Interfaces\ValidationControllerInterface;
+use Exceptions\DBExceptions\DBException;
+use Exceptions\ValidationExceptions\ArrayIsEmptyException;
+use Exceptions\ValidationExceptions\InvalidPropertyException;
+use Exceptions\ValidationExceptions\MissingPropertiesException;
+use Exceptions\ValidationExceptions\ValidationException;
 
 /**
  * Implementation of SecurityControllerInterface

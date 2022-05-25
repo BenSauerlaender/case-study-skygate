@@ -6,13 +6,13 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Controller;
+namespace Controller;
 
-use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
-use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\RoutingControllerInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiMethodNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions\ApiPathNotFoundException;
+use Objects\ApiMethod;
+use Objects\Interfaces\ApiPathInterface;
+use Controller\Interfaces\RoutingControllerInterface;
+use Exceptions\RoutingExceptions\ApiMethodNotFoundException;
+use Exceptions\RoutingExceptions\ApiPathNotFoundException;
 
 /**
  * Implementation of RoutingControllerInterface

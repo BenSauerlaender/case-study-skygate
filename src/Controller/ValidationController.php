@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Controller;
+namespace Controller;
 
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
+use Controller\Interfaces\ValidationControllerInterface;
 use TypeError;
 
 /**

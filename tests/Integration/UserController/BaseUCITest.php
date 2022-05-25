@@ -6,17 +6,17 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
+namespace tests\Integration\UserController;
 
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
-use BenSauer\CaseStudySkygateApi\Controller\SecurityController;
-use BenSauer\CaseStudySkygateApi\Controller\UserController;
-use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlEcrAccessor;
-use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRoleAccessor;
-use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserAccessor;
-use BenSauer\CaseStudySkygateApi\Utilities\DbConnector;
-use BenSauer\CaseStudySkygateApi\tests\helper\TableCreator;
-use BenSauer\CaseStudySkygateApi\Controller\ValidationController;
+use Controller\Interfaces\UserControllerInterface;
+use Controller\SecurityController;
+use Controller\UserController;
+use DbAccessors\MySqlEcrAccessor;
+use DbAccessors\MySqlRoleAccessor;
+use DbAccessors\MySqlUserAccessor;
+use Utilities\DbConnector;
+use tests\helper\TableCreator;
+use Controller\ValidationController;
 use PHPUnit\Framework\TestCase;
 
 /**

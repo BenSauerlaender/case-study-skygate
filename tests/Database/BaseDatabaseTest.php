@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Database;
+namespace tests\Database;
 
-use BenSauer\CaseStudySkygateApi\Utilities\DbConnector;
+use Utilities\DbConnector;
 use PDO;
 use PHPUnit\Framework\TestCase;
 

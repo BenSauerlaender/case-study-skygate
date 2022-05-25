@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses;
+namespace Objects\Responses\ClientErrorResponses\BadRequestResponses;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 
 /**
  * Response that should be used if the requested user don't exists.

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Controller\Interfaces;
+namespace Controller\Interfaces;
 
 /**
  * Controller for all User related stuff

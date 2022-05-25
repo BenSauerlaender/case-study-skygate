@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions;
+namespace Exceptions;
 
 use Throwable;
 

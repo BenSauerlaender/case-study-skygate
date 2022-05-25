@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Database;
+namespace tests\Database;
 
-use BenSauer\CaseStudySkygateApi\tests\helper\TableCreator;
+use tests\helper\TableCreator;
 use PDO;
 use PDOException;
 

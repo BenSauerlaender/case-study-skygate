@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Responses\RedirectionResponses;
+namespace Objects\Responses\RedirectionResponses;
 
-use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
+use Objects\Responses\BaseResponse;
 
 /**
  * Response to use if the requester should be redirected to another url after a successful request.

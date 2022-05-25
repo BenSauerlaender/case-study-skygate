@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
+namespace tests\Integration\UserController;
 
 use BadMethodCallException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 
 /**
  * Integration Tests for the verifyUser method of UserController

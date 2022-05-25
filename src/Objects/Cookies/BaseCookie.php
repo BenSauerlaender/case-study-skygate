@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Cookies;
+namespace Objects\Cookies;
 
-use BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces\CookieInterface;
+use Objects\Cookies\Interfaces\CookieInterface;
 
 /**
  * Base class for all Cookies.

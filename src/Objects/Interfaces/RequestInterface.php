@@ -7,10 +7,10 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Interfaces;
+namespace Objects\Interfaces;
 
-use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
-use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
+use Objects\ApiMethod;
+use Objects\Interfaces\ApiPathInterface;
 
 /**
  * Object to represent an user request, that comes to the api

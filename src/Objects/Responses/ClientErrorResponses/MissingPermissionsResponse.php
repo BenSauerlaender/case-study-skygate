@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses;
+namespace Objects\Responses\ClientErrorResponses;
 
-use BenSauer\CaseStudySkygateApi\Objects\Responses\BaseResponse;
+use Objects\Responses\BaseResponse;
 
 /**
  * Response that should be used if the resource need permissions the requester don't have.

@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
+namespace tests\Unit\Controller\UserController;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 
 /**
  * Test suite for UserController->verifyUsersEmailChange method

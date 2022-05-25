@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
+namespace tests\Integration\UserController;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\MissingPropertiesException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ValidationException;
+use Exceptions\ValidationExceptions\InvalidPropertyException;
+use Exceptions\ValidationExceptions\MissingPropertiesException;
+use Exceptions\ValidationExceptions\ValidationException;
 
 /**
  * Integration Tests for the createUser method of UserController

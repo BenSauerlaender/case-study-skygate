@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions;
+namespace Exceptions\ValidationExceptions;
 
 /**
  * Exception that should be thrown if a property is required but not there

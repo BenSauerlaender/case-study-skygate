@@ -7,14 +7,14 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects;
+namespace Objects;
 
-use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
-use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
-use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
-use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidCookieException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidQueryException;
+use Objects\ApiMethod;
+use Objects\ApiPath;
+use Objects\Interfaces\RequestInterface;
+use Objects\Interfaces\ApiPathInterface;
+use Exceptions\InvalidRequestExceptions\InvalidCookieException;
+use Exceptions\InvalidRequestExceptions\InvalidQueryException;
 
 /**
  * Class that implements the RequestInterface

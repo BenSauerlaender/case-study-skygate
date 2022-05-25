@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\DbAccessors;
+namespace tests\Unit\DbAccessors;
 
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRefreshTokenAccessor;
+use DbAccessors\Interfaces\RefreshTokenAccessorInterface;
+use DbAccessors\MySqlRefreshTokenAccessor;
 use PDO;
 
 /**

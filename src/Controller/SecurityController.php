@@ -7,10 +7,10 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Controller;
+namespace Controller;
 
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\SecurityControllerInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\PasswordHashException;
+use Controller\Interfaces\SecurityControllerInterface;
+use Exceptions\PasswordHashException;
 
 /**
  * Implementation of SecurityControllerInterface

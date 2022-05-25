@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Cookies\Interfaces;
+namespace Objects\Cookies\Interfaces;
 
 /**
  * Object, that represents a Cookie that can be set by the api

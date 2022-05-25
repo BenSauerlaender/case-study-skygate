@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller;
+namespace tests\Unit\Controller;
 
 use BadMethodCallException;
-use BenSauer\CaseStudySkygateApi\Controller\AuthenticationController;
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\AuthenticationControllerInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidPermissionsException;
-use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\ExpiredTokenException;
-use BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions\InvalidTokenException;
+use Controller\AuthenticationController;
+use Controller\Interfaces\AuthenticationControllerInterface;
+use DbAccessors\Interfaces\RefreshTokenAccessorInterface;
+use DbAccessors\Interfaces\RoleAccessorInterface;
+use DbAccessors\Interfaces\UserAccessorInterface;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use Exceptions\InvalidPermissionsException;
+use Exceptions\TokenExceptions\ExpiredTokenException;
+use Exceptions\TokenExceptions\InvalidTokenException;
 use InvalidArgumentException;
 use ReallySimpleJWT\Token;
 use PHPUnit\Framework\TestCase;

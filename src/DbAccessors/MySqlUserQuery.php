@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\DbAccessors;
+namespace DbAccessors;
 
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserQueryInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
+use DbAccessors\Interfaces\UserQueryInterface;
+use Exceptions\ValidationExceptions\InvalidPropertyException;
 use PDO;
 
 /**

@@ -6,16 +6,16 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
+namespace tests\Unit\Controller\UserController;
 
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\UserControllerInterface;
-use BenSauer\CaseStudySkygateApi\Controller\UserController;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\EcrAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\SecurityControllerInterface;
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
-use BenSauer\CaseStudySkygateApi\Controller\SecurityController;
+use Controller\Interfaces\UserControllerInterface;
+use Controller\UserController;
+use DbAccessors\Interfaces\EcrAccessorInterface;
+use DbAccessors\Interfaces\RoleAccessorInterface;
+use DbAccessors\Interfaces\UserAccessorInterface;
+use Controller\Interfaces\SecurityControllerInterface;
+use Controller\Interfaces\ValidationControllerInterface;
+use Controller\SecurityController;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Integration\UserController;
+namespace tests\Integration\UserController;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use Exceptions\ValidationExceptions\InvalidPropertyException;
 
 /**
  * Integration Tests for the requestUsersEmailChange method of UserController

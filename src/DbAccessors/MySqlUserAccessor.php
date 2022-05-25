@@ -7,16 +7,16 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\DbAccessors;
+namespace DbAccessors;
 
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
+use DbAccessors\Interfaces\UserAccessorInterface;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
+use Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
+use Exceptions\ValidationExceptions\ArrayIsEmptyException;
+use Exceptions\ValidationExceptions\InvalidPropertyException;
 
 /**
  * Implementation of UserAccessorInterface

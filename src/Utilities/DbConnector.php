@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Utilities;
+namespace Utilities;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
+use Exceptions\DBExceptions\DBException;
 use PDO;
 use PDOException;
 

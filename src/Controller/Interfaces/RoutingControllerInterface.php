@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Controller\Interfaces;
+namespace Controller\Interfaces;
 
-use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
-use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
+use Objects\ApiMethod;
+use Objects\Interfaces\ApiPathInterface;
 
 /**
  * Controller that handles all the routes and finds the correct one.

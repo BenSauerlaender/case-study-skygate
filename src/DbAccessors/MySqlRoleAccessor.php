@@ -7,10 +7,10 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\DbAccessors;
+namespace DbAccessors;
 
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
+use DbAccessors\Interfaces\RoleAccessorInterface;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 
 /**
  * Implementation of RoleAccessorInterface

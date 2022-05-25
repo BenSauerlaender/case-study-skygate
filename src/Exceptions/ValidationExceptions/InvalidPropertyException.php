@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions;
+namespace Exceptions\ValidationExceptions;
 
-use BenSauer\CaseStudySkygateApi\Utilities\SharedUtilities;
+use Utilities\SharedUtilities;
 use Throwable;
 
 /**

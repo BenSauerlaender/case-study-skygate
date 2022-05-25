@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\DbAccessors;
+namespace DbAccessors;
 
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\EcrAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
+use DbAccessors\Interfaces\EcrAccessorInterface;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
+use Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
+use Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
 
 /**
  * Implementation of EcrAccessorInterface

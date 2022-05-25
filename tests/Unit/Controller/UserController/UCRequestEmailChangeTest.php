@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController;
+namespace tests\Unit\Controller\UserController;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use Exceptions\ValidationExceptions\InvalidPropertyException;
 
 /**
  * Test suite for UserController->requestUsersEmailChange method
@@ -55,7 +55,7 @@ final class UCRequestEmailChangeTest extends BaseUCTest
     /**
      * Tests if the method throws an exception if the Email is not free
      * 
-     * @dataProvider \BenSauer\CaseStudySkygateApi\tests\Unit\Controller\UserController\Provider::NANDProvider()
+     * @dataProvider \tests\Unit\Controller\UserController\Provider::NANDProvider()
      */
     public function testRequestEmailWithNotFreeEmail($emailFreeInUser, $emailFreeInEcr): void
     {

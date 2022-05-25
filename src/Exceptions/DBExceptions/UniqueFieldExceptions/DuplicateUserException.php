@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions;
+namespace Exceptions\DBExceptions\UniqueFieldExceptions;
 
 use Throwable;
 

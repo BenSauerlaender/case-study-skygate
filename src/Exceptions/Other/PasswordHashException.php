@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions;
+namespace Exceptions;
 
 /**
  * Exception that should be thrown if something unexpected happened during password hashing

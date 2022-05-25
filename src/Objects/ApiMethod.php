@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects;
+namespace Objects;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidMethodException;
+use Exceptions\InvalidRequestExceptions\InvalidMethodException;
 
 /**
  * An enum to represent valid methods for an Request

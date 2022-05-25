@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\DbAccessors;
+namespace DbAccessors;
 
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RefreshTokenAccessorInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use DbAccessors\Interfaces\RefreshTokenAccessorInterface;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 
 /**
  * Implementation of refreshTokenAccessorInterface

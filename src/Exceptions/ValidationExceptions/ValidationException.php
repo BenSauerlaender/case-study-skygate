@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions;
+namespace Exceptions\ValidationExceptions;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\BaseException;
+use Exceptions\BaseException;
 
 /**
  * Exception that should be thrown if something fails a validation

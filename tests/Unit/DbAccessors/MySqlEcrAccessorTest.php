@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\DbAccessors;
+namespace tests\Unit\DbAccessors;
 
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\EcrAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlEcrAccessor;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
+use DbAccessors\Interfaces\EcrAccessorInterface;
+use DbAccessors\MySqlEcrAccessor;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
+use Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
 use PDO;
 
 /**

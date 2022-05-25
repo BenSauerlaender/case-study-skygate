@@ -3,15 +3,15 @@
 //activate strict mode
 declare(strict_types=1);
 
-use BenSauer\CaseStudySkygateApi\Controller\ApiController;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\ResourceNotFoundResponse;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidPathException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\NotSecureException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidRequestException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
-use BenSauer\CaseStudySkygateApi\Routes;
-use BenSauer\CaseStudySkygateApi\Utilities\DbConnector;
+use Controller\ApiController;
+use Objects\Responses\ClientErrorResponses\ResourceNotFoundResponse;
+use Exceptions\InvalidRequestExceptions\InvalidPathException;
+use Exceptions\InvalidRequestExceptions\NotSecureException;
+use Exceptions\InvalidRequestExceptions\InvalidRequestException;
+use Exceptions\ShouldNeverHappenException;
+use Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
+use Routes;
+use Utilities\DbConnector;
 
 try {
     //load composer dependencies

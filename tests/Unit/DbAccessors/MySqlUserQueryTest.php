@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\DbAccessors;
+namespace tests\Unit\DbAccessors;
 
 use BadMethodCallException;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\UserQueryInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserAccessor;
-use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlUserQuery;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\ArrayIsEmptyException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ValidationExceptions\InvalidPropertyException;
+use DbAccessors\Interfaces\UserAccessorInterface;
+use DbAccessors\Interfaces\UserQueryInterface;
+use DbAccessors\MySqlUserAccessor;
+use DbAccessors\MySqlUserQuery;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
+use Exceptions\ValidationExceptions\ArrayIsEmptyException;
+use Exceptions\ValidationExceptions\InvalidPropertyException;
 use PDO;
 
 /**

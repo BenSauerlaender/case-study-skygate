@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Controller;
+namespace tests\Controller;
 
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\ValidationControllerInterface;
-use BenSauer\CaseStudySkygateApi\Controller\ValidationController;
+use Controller\Interfaces\ValidationControllerInterface;
+use Controller\ValidationController;
 use PHPUnit\Framework\TestCase;
 
 /**

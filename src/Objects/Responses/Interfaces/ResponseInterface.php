@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces;
+namespace Objects\Responses\Interfaces;
 
 /**
  * Object to represent an response from the api, that will be send to the client.

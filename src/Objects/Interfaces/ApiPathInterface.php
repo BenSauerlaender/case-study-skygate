@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Interfaces;
+namespace Objects\Interfaces;
 
 /**
  * Object that represent an api path (path to a resource)

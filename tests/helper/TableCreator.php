@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\helper;
+namespace tests\helper;
 
 use PDO;
 

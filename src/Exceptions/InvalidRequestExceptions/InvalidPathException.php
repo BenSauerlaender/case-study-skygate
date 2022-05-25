@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions;
+namespace Exceptions\InvalidRequestExceptions;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidRequestException;
+use Exceptions\InvalidRequestExceptions\InvalidRequestException;
 
 /**
  * Exception, that should be thrown if an ApiPath is not valid

@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects\Cookies;
+namespace Objects\Cookies;
 
 /**
  * Class to represent a Cookie that holds a refreshToken

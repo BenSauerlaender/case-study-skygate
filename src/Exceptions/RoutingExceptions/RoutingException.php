@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions\RoutingExceptions;
+namespace Exceptions\RoutingExceptions;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\BaseException;
+use Exceptions\BaseException;
 use Exception;
 
 /**

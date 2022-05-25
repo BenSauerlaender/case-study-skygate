@@ -7,12 +7,12 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\DbAccessors;
+namespace DbAccessors;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
-use BenSauer\CaseStudySkygateApi\Exceptions\ShouldNeverHappenException;
+use Exceptions\DBExceptions\DBException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\FieldNotFoundException;
+use Exceptions\DBExceptions\UniqueFieldExceptions\UniqueFieldException;
+use Exceptions\ShouldNeverHappenException;
 use PDOException;
 use PDOStatement;
 

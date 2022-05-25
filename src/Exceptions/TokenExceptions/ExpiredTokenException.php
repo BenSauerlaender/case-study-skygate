@@ -7,7 +7,7 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions\TokenExceptions;
+namespace Exceptions\TokenExceptions;
 
 /** 
  * Exception, that should be thrown if a token is expired. 

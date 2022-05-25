@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects;
+namespace tests\Unit\Objects;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidMethodException;
-use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
+use Exceptions\InvalidRequestExceptions\InvalidMethodException;
+use Objects\ApiMethod;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -7,9 +7,9 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions;
+namespace Exceptions\DBExceptions\FieldNotFoundExceptions;
 
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\DBException;
+use Exceptions\DBExceptions\DBException;
 
 /**
  * Exception that should be thrown if the specified entry cant be found in the database.

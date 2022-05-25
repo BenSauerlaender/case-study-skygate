@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects;
+namespace tests\Unit\Objects;
 
-use BenSauer\CaseStudySkygateApi\Objects\Cookies\RefreshTokenCookie;
+use Objects\Cookies\RefreshTokenCookie;
 use PHPUnit\Framework\TestCase;
 
 /**

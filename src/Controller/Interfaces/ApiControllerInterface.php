@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Controller\Interfaces;
+namespace Controller\Interfaces;
 
-use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
-use BenSauer\CaseStudySkygateApi\Objects\Responses\Interfaces\ResponseInterface;
+use Objects\Interfaces\RequestInterface;
+use Objects\Responses\Interfaces\ResponseInterface;
 
 /**
  * Main Controller for the whole api

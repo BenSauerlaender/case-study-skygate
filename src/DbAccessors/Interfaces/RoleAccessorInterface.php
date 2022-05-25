@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces;
+namespace DbAccessors\Interfaces;
 
 /**
  * Accessor for the role database table

@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Utilities;
+namespace tests\Unit\Utilities;
 
-use BenSauer\CaseStudySkygateApi\Controller\Interfaces\SecurityControllerInterface;
-use BenSauer\CaseStudySkygateApi\Controller\SecurityController;
+use Controller\Interfaces\SecurityControllerInterface;
+use Controller\SecurityController;
 use PHPUnit\Framework\TestCase;
 
 final class SecurityControllerTest extends TestCase

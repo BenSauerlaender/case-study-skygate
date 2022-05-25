@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Routes;
+namespace tests\Unit\Routes;
 
-use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
-use BenSauer\CaseStudySkygateApi\Objects\ApiPath;
-use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
-use BenSauer\CaseStudySkygateApi\Routes;
+use Objects\ApiMethod;
+use Objects\ApiPath;
+use Objects\Interfaces\ApiPathInterface;
+use Routes;
 use Closure;
 use PHPUnit\Framework\TestCase;
 

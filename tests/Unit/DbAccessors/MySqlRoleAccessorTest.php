@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\DbAccessors;
+namespace tests\Unit\DbAccessors;
 
-use BenSauer\CaseStudySkygateApi\DbAccessors\Interfaces\RoleAccessorInterface;
-use BenSauer\CaseStudySkygateApi\DbAccessors\MySqlRoleAccessor;
-use BenSauer\CaseStudySkygateApi\Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
+use DbAccessors\Interfaces\RoleAccessorInterface;
+use DbAccessors\MySqlRoleAccessor;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 
 /**
  * Test class for the MySqlRoleAccessor 

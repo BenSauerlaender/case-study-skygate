@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\tests\Unit\Objects;
+namespace tests\Unit\Objects;
 
-use BenSauer\CaseStudySkygateApi\Objects\ApiMethod;
-use BenSauer\CaseStudySkygateApi\Objects\Interfaces\RequestInterface;
-use BenSauer\CaseStudySkygateApi\Objects\Request;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidCookieException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidMethodException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidPathException;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidQueryException;
+use Objects\ApiMethod;
+use Objects\Interfaces\RequestInterface;
+use Objects\Request;
+use Exceptions\InvalidRequestExceptions\InvalidCookieException;
+use Exceptions\InvalidRequestExceptions\InvalidMethodException;
+use Exceptions\InvalidRequestExceptions\InvalidPathException;
+use Exceptions\InvalidRequestExceptions\InvalidQueryException;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -7,10 +7,10 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace BenSauer\CaseStudySkygateApi\Objects;
+namespace Objects;
 
-use BenSauer\CaseStudySkygateApi\Objects\Interfaces\ApiPathInterface;
-use BenSauer\CaseStudySkygateApi\Exceptions\InvalidRequestExceptions\InvalidPathException;
+use Objects\Interfaces\ApiPathInterface;
+use Exceptions\InvalidRequestExceptions\InvalidPathException;
 
 /**
  * Class that implements ApiPathInterface
