@@ -37,8 +37,26 @@ use Objects\Responses\SuccessfulResponses\SetCookieResponse;
 use Utilities\MailSender;
 use InvalidArgumentException;
 
+/**
+ * Class to hold the api-route definitions.
+ */
 class Routes
 {
+    /**
+     * Returns a list of all rote definitions in an convenient array
+     * 
+     * @return array    $routes = [
+     *      <route_path> => [
+     *          <route_method> => [
+     *              "params"        => (array<string>)  A list of parameters to set in the path-placeholders ({x})
+     *              "requireAuth"   => (bool)           True if the route need authorization to access.
+     *              "permissions"   => (array<string>)  A list of permission-strings. Take only an effect if requireAuth is set to true.
+     *              "function"      => (Closure)        The closure to execute to process the Request and return a Response.
+     *          ]
+     *      ]
+     * ]
+     * 
+     */
     public static function getRoutes(): array
     {
         return [
