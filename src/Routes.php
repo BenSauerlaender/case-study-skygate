@@ -7,6 +7,8 @@
 //activate strict mode
 declare(strict_types=1);
 
+namespace Root;
+
 use BadMethodCallException;
 use Objects\Interfaces\RequestInterface;
 use Controller\Interfaces\AuthenticationControllerInterface;
