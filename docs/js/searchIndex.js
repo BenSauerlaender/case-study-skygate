@@ -1628,12 +1628,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Root\\Routes",
             "name": "Routes",
-            "summary": "",
+            "summary": "Class\u0020to\u0020hold\u0020the\u0020api\u002Droute\u0020definitions.",
             "url": "classes/Root-Routes.html"
         },                {
             "fqsen": "\\Root\\Routes\u003A\u003AgetRoutes\u0028\u0029",
             "name": "getRoutes",
-            "summary": "",
+            "summary": "Returns\u0020a\u0020list\u0020of\u0020all\u0020rote\u0020definitions\u0020in\u0020an\u0020convenient\u0020array",
             "url": "classes/Root-Routes.html#method_getRoutes"
         },                {
             "fqsen": "\\Utilities\\DbConnector",

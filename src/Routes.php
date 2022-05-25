@@ -7,9 +7,6 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace Root;
-
-use BadMethodCallException;
 use Objects\Interfaces\RequestInterface;
 use Controller\Interfaces\AuthenticationControllerInterface;
 use Controller\Interfaces\UserControllerInterface;
@@ -35,7 +32,6 @@ use Objects\Responses\SuccessfulResponses\DataResponse;
 use Objects\Responses\SuccessfulResponses\NoContentResponse;
 use Objects\Responses\SuccessfulResponses\SetCookieResponse;
 use Utilities\MailSender;
-use InvalidArgumentException;
 
 /**
  * Class to hold the api-route definitions.

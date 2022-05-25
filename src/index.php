@@ -17,8 +17,6 @@
 //activate strict mode
 declare(strict_types=1);
 
-namespace Root;
-
 use Controller\ApiController;
 use Objects\Responses\ClientErrorResponses\ResourceNotFoundResponse;
 use Exceptions\InvalidRequestExceptions\InvalidPathException;
@@ -27,9 +25,6 @@ use Exceptions\InvalidRequestExceptions\InvalidRequestException;
 use Exceptions\ShouldNeverHappenException;
 use Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
 use Utilities\DbConnector;
-use Dotenv;
-use InvalidArgumentException;
-use Throwable;
 
 try {
     //load composer dependencies
