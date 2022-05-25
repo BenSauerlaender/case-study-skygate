@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * The APIs entrypoint. 
+ * 
+ * It:
+ * - fetches the request
+ * - connects to the Database
+ * - initialize all controllers
+ * - let the ApiController handle the request and send the response.
+ */
+
+
 //activate strict mode
 declare(strict_types=1);
 
@@ -12,8 +23,10 @@ use Exceptions\InvalidRequestExceptions\NotSecureException;
 use Exceptions\InvalidRequestExceptions\InvalidRequestException;
 use Exceptions\ShouldNeverHappenException;
 use Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestResponse;
-use Routes;
 use Utilities\DbConnector;
+use Dotenv;
+use InvalidArgumentException;
+use Throwable;
 
 try {
     //load composer dependencies

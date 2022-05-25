@@ -45,7 +45,7 @@ class Routes
     /**
      * Returns a list of all rote definitions in an convenient array
      * 
-     * @return array    $routes = [
+     * @return array<string,array<string,array<string,array<string>|bool|Closure>>>    $routes = [
      *      <route_path> => [
      *          <route_method> => [
      *              "params"        => (array<string>)  A list of parameters to set in the path-placeholders ({x})
