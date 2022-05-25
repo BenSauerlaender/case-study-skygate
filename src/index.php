@@ -10,6 +10,7 @@
  * - let the ApiController handle the request and send the response.
  * 
  * @package root
+ * @author Ben Sauerlaender <Ben.Sauerlaender@Student.HTW-Berlin.de>
  */
 
 
