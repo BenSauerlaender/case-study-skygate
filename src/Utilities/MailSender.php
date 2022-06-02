@@ -31,9 +31,10 @@ class MailSender
 
         $domain = $_ENV["API_PROD_DOMAIN"];
         $prefix = $_ENV["API_PATH_PREFIX"];
+        $protocol = $_ENV["ENVIRONMENT"] === "PRODUCTION" ? "https://" : "www.";
 
         //link to verify the change
-        $link = "https://{$domain}{$prefix}/users/{$id}/emailChange/{$code}";
+        $link = "{$protocol}{$domain}{$prefix}/users/{$id}/emailChange/{$code}";
 
         $htmlMsg    = "Please verify your new email by following this link: <a href=\"{$link}\">{$link}</a>";
         $plainMsg = "Please verify your new email by following this link: {$link}";
@@ -54,9 +55,11 @@ class MailSender
 
         $domain = $_ENV["API_PROD_DOMAIN"];
         $prefix = $_ENV["API_PATH_PREFIX"];
+        $protocol = $_ENV["ENVIRONMENT"] === "PRODUCTION" ? "https://" : "www.";
+
 
         //link to verify the registration
-        $link = "https://{$domain}{$prefix}/users/{$id}/verify/{$code}";
+        $link = "{$protocol}{$domain}{$prefix}/users/{$id}/verify/{$code}";
 
         $htmlMsg    = "Please verify your registration by following this link: <a href=\"{$link}\">{$link}</a>";
         $plainMsg = "Please verify your registration by following this link: {$link}";
@@ -87,10 +90,9 @@ class MailSender
         $mail->SMTPSecure = 'tls';                                  //Enable implicit TLS encryption
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
-        $domain = $_ENV["API_PROD_DOMAIN"];
 
         //Recipient
-        $mail->setFrom("no-reply@{$domain}", "SkyGateCaseStudy");
+        $mail->setFrom("no-reply@test.de", "SkyGateCaseStudy");
         $mail->addAddress($email, $name);
 
         //Content

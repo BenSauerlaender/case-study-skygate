@@ -93,7 +93,7 @@ class Routes
 
                         try {
                             if ($uc->verifyUser($params["userID"], "{$params["verificationCode"]}")) {
-                                return new RedirectionResponse("{$_ENV['API_PROD_DOMAIN']}/login");
+                                return new RedirectionResponse("http://www.{$_ENV['APP_PROD_DOMAIN']}/login");
                             } else {
                                 return new BadRequestResponse("The verification code is invalid.", 211);
                             }
@@ -308,7 +308,7 @@ class Routes
 
                         try {
                             if ($uc->verifyUsersEmailChange($params["userID"], "{$params["verificationCode"]}")) {
-                                return new RedirectionResponse("{$_ENV['API_PROD_DOMAIN']}/email-changed");
+                                return new RedirectionResponse("http://www.{$_ENV['APP_PROD_DOMAIN']}/email-changed");
                             } else {
                                 return new BadRequestResponse("The verification code is invalid.", 211);
                             }
