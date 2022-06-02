@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Objects\Responses\SuccessfulResponses;
 
-use Exception;
 use Objects\Responses\BaseResponse;
 
 /**

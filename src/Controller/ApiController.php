@@ -33,8 +33,11 @@ use Objects\Request;
 use Objects\Responses\ClientErrorResponses\AuthorizationErrorResponse;
 use Closure;
 use Exception;
+use Exceptions\InvalidRequestExceptions\InvalidMethodException;
 use InvalidArgumentException;
 use JsonException;
+use Objects\ApiMethod;
+use Objects\Responses\SuccessfulResponses\CORSResponse;
 use PDO;
 
 /**
@@ -110,6 +113,17 @@ class ApiController implements ApiControllerInterface
 
     public function handleRequest(RequestInterface $request): ResponseInterface
     {
+        //Handle CORS Options requests
+        if ($request->getMethod() === ApiMethod::OPTIONS) {
+            try {
+                $method = ApiMethod::fromString($request->getHeader("Access-Control-Request-Method") ?? "");
+                $route = $this->routingController->route($request->getPath(), $method);
+                return new CORSResponse($request);
+            } catch (InvalidMethodException | ApiPathNotFoundException | ApiMethodNotFoundException $e) {
+                return new ResourceNotFoundResponse();
+            }
+        }
+
         //search for the correct route
         try {
             $route = $this->routingController->route($request->getPath(), $request->getMethod());
@@ -174,6 +188,8 @@ class ApiController implements ApiControllerInterface
         foreach ($response->getHeaders() as $key => $value) {
             header("$key: $value");
         }
+
+        header("Access-Control-Allow-Origin: *");
 
         //set all cookies
         foreach ($response->getCookies() as $cookie) {

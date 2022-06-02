@@ -43,7 +43,7 @@ abstract class BaseResponse implements ResponseInterface
     private const SUPPORTED_CODES = [200, 201, 204, 303, 400, 401, 403, 404, 405, 406, 500];
 
     /** Http response headers, that are supported by the api */
-    private const SUPPORTED_HEADERS = ["content-type", "last-modified", "location"];
+    private const SUPPORTED_HEADERS = ["content-type", "last-modified", "location", "access-control-allow-origin", "access-control-allow-headers"];
 
     /**
      * Sets the Http response code

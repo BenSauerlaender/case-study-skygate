@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Objects\Responses\SuccessfulResponses;
 
 use Objects\Cookies\Interfaces\CookieInterface;
-use Objects\Responses\BaseResponse;
 
 /**
  * Response that should be used if the request processed successful and a cookie should be set
