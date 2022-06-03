@@ -59,7 +59,7 @@ try {
     error_log("Response: $response");
 
     //send the response
-    $apiController->sendResponse($response, $_ENV["API_PROD_DOMAIN"], $_ENV["API_PATH_PREFIX"]);
+    $apiController->sendResponse($response, explode(":", $_ENV["API_PROD_DOMAIN"])[0], $_ENV["API_PATH_PREFIX"]);
 
     //close the database connection
     $apiController = null;

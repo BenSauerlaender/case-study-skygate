@@ -189,7 +189,8 @@ class ApiController implements ApiControllerInterface
             header("$key: $value");
         }
 
-        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Origin: http://localhost:3001");
+        header("Access-Control-Allow-Credentials: true");
 
         //set all cookies
         foreach ($response->getCookies() as $cookie) {
@@ -197,11 +198,13 @@ class ApiController implements ApiControllerInterface
             setcookie(
                 $cookieInfo["name"],
                 $cookieInfo["value"],
-                ($cookieInfo["expiresIn"] <= 0) ? 0 : ($cookieInfo["expiresIn"] + time()),
-                $pathPrefix . $cookieInfo["path"],
-                $domain,
-                $cookieInfo["secure"],
-                $cookieInfo["httpOnly"]
+                [
+                    'expires' => ($cookieInfo["expiresIn"] <= 0) ? 0 : ($cookieInfo["expiresIn"] + time()),
+                    'path' => $pathPrefix . $cookieInfo["path"],
+                    'domain' => $domain,
+                    'secure' => $cookieInfo["secure"],
+                    'httponly' => $cookieInfo["httpOnly"],
+                ]
             );
         }
 
