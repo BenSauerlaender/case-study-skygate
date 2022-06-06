@@ -100,7 +100,7 @@ describe("complex Test", () => {
     });
   });
   describe("Update first user", () => {
-    it("updates name, postcode, city, phone, role", async () => {
+    it("updates name, postcode, city, phone", async () => {
       const response = await request
         .put("/users/1")
         .set("Authorization", "Bearer " + this.accessToken)
@@ -109,14 +109,12 @@ describe("complex Test", () => {
           name: "New Name",
           city: "new city",
           phone: "0000000000",
-          role: "admin",
         });
       expect(response.body["updated"]).to.has.keys([
         "postcode",
         "name",
         "city",
         "phone",
-        "role",
       ]);
     });
 

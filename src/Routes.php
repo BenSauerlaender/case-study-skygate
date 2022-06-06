@@ -193,7 +193,7 @@ class Routes
                     "requireAuth" => true,
                     "permissions" => ["user:update:{userID}"],
                     "function" => function (RequestInterface $req, array $params) {
-                        $supportedProperties = ["name" => null, "postcode" => null, "city" => null, "phone" => null, "role" => null];
+                        $supportedProperties = ["name" => null, "postcode" => null, "city" => null, "phone" => null];
 
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
@@ -207,8 +207,6 @@ class Routes
                             return new DataResponse(["updated" => $properties]);
                         } catch (UserNotFoundException $e) {
                             return new UserNotFoundResponse($e);
-                        } catch (RoleNotFoundException $e) {
-                            return new InvalidPropertyResponse(["role" => ["INVALID"]]);
                         } catch (InvalidPropertyException $e) {
                             return new InvalidPropertyResponse($e->getInvalidProperties());
                         }

@@ -107,42 +107,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
           "phone",
           "city",
           "postcode",
-          "role",
         ]);
-      });
-    },
-    "with invalid role": () => {
-      it("makes api call", async () => {
-        let token = jwt.sign(
-          {
-            id: 1,
-            perm: "user:{all}:1",
-            exp: Math.floor(Date.now() / 1000) + 30,
-          },
-          process.env.ACCESS_TOKEN_SECRET
-        );
-        this.response = await request
-          .put("/users/1")
-          .set("Authorization", "Bearer " + token)
-          .send({ role: "newEmailmail.de" });
-      });
-
-      it("returns Bad Request", async () => {
-        expect(this.response.statusCode).to.eql(400);
-      });
-
-      it("includes a code", async () => {
-        expect(this.response.body["errorCode"]).to.eql(102);
-      });
-
-      it("includes a message", async () => {
-        expect(this.response.body["msg"]).to.include("invalid");
-      });
-
-      it("includes a list of invalid properties", async () => {
-        expect(this.response.body["invalidProperties"]["role"][0]).to.eq(
-          "INVALID"
-        );
       });
     },
     "with invalid name": () => {
