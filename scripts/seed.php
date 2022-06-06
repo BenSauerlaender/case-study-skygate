@@ -18,7 +18,7 @@ require __DIR__ . '/../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "/..");
 $dotenv->load();
 
-$_ENV['MYSQL_HOST'] = "172.21.0.1";
+$_ENV['MYSQL_HOST'] = "127.0.0.1";
 
 //get the database connection
 $pdo = DbConnector::getConnection();
