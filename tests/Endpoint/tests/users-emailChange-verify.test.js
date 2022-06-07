@@ -61,7 +61,7 @@ makeSuite(
         });
         it("includes the correct Location", async () => {
           expect(this.response.headers.location).eql(
-            `${process.env.API_PROD_DOMAIN}/email-changed`
+            `http://${process.env.APP_PROD_DOMAIN}/email-changed`
           );
         });
       },

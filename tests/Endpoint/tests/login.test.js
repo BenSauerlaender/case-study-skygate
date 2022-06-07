@@ -127,9 +127,10 @@ makeSuite(["3roles", "1User"], "/login", {
         expect(cookieSplit[3]).to.eql(
           " path=" + process.env.API_PATH_PREFIX + "/"
         );
-        expect(cookieSplit[4]).to.eql(" domain=" + process.env.API_PROD_DOMAIN);
-        expect(cookieSplit[5]).to.eql(" secure");
-        expect(cookieSplit[6]).to.eql(" HttpOnly");
+        expect(cookieSplit[4]).to.eql(
+          " domain=" + process.env.API_PROD_DOMAIN.split(":")[0]
+        );
+        expect(cookieSplit[5]).to.eql(" HttpOnly");
 
         let token = jwt_decode(cookieSplit[0].split("=")[1]);
         expect(token.id).to.eql(1);

@@ -48,8 +48,8 @@ describe("complex Test", () => {
         60000
       );
       const splitLink = email.text.split("link: ")[1].trim().split("/");
-      this.userID = splitLink[6];
-      this.code = splitLink[8];
+      this.userID = splitLink[4];
+      this.code = splitLink[6];
     }).timeout(30000);
 
     it("founds still 0 users", async () => {
@@ -60,7 +60,8 @@ describe("complex Test", () => {
     });
 
     it("verifies user", async () => {
-      await request.get(`/users/${this.userID}/verify/${this.code}`);
+      let response = await request.get(`/users/${this.userID}/verify/${this.code}`);
+      expect(response.statusCode).to.eql(303);
     });
 
     it("founds 1 user", async () => {
@@ -157,7 +158,6 @@ describe("complex Test", () => {
       expect(response.body["postcode"]).to.eql("00000");
       expect(response.body["city"]).to.eql("new city");
       expect(response.body["phone"]).to.eql("0000000000");
-      expect(response.body["role"]).to.eql("admin");
     });
   });
   describe("Try to create second user", () => {
@@ -186,7 +186,7 @@ describe("complex Test", () => {
         new Date().getTime(),
         60000
       );
-      this.emailCode = email.text.split("link: ")[1].trim().split("/")[8];
+      this.emailCode = email.text.split("link: ")[1].trim().split("/")[6];
     }).timeout(30000);
     it("cant register second user with one of the 2 emails", async () => {
       let response = await request.post("/register").send({
@@ -264,8 +264,8 @@ describe("complex Test", () => {
         60000
       );
       const splitLink = email.text.split("link: ")[1].trim().split("/");
-      this.userID2 = splitLink[6];
-      this.code2 = splitLink[8];
+      this.userID2 = splitLink[4];
+      this.code2 = splitLink[6];
       await request.get(`/users/${this.userID2}/verify/${this.code2}`);
     }).timeout(30000);
 

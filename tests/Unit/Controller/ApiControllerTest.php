@@ -72,7 +72,7 @@ final class ApiControllerTest extends TestCase
             ->willReturn($this->path);
 
         $this->reqMock
-            ->expects($this->atMost(1))
+            ->expects($this->atMost(2))
             ->method("getMethod")
             ->willReturn(ApiMethod::CONNECT);
     }

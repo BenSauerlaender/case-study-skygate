@@ -150,27 +150,16 @@ makeSuite(["3roles"], "/register", {
         );
         this.plainLink = splitStr[1].trim();
       });
-      it("includes the link in html text", async () => {
-        splitStr = this.email.textAsHtml.split('"');
-        expect(splitStr[0]).to.eql(
-          `<p>Please verify your registration by following this link: <a href=`
-        );
-        this.htmlLink = splitStr[1].trim();
-      });
       it("The link is correct", async () => {
-        expect(this.plainLink).to.be.equal(this.htmlLink);
         splitLink = this.plainLink.split("/");
-        expect(splitLink[0]).to.eql("https:");
-        expect(splitLink[1]).to.eql("");
-        expect(splitLink[2]).to.eql("test.de");
-        expect(splitLink[3]).to.eql("api");
-        expect(splitLink[4]).to.eql("v1");
-        expect(splitLink[5]).to.eql("users");
-        //the user id
-        expect(Number.parseInt(splitLink[6])).not.to.be.NaN;
-        expect(splitLink[7]).to.eql("verify");
+        expect(splitLink[0]).to.eql(`www.${process.env.API_PROD_DOMAIN}`);
+        expect(splitLink[1]).to.eql("api");
+        expect(splitLink[2]).to.eql("v1");
+        expect(splitLink[3]).to.eql("users");
+        expect(Number.parseInt(splitLink[4])).not.to.be.NaN;
+        expect(splitLink[5]).to.eql("verify");
         //the verification code
-        expect(splitLink[8]).to.match(/^[0-9a-f]{10}$/);
+        expect(splitLink[6]).to.match(/^[0-9a-f]{10}$/);
       });
     },
     "a duplicate email": (path) => {

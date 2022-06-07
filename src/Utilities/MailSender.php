@@ -36,7 +36,7 @@ class MailSender
         //link to verify the change
         $link = "{$protocol}{$domain}{$prefix}/users/{$id}/emailChange/{$code}";
 
-        $htmlMsg    = "Please verify your new email by following this link: <a href=\"{$link}\">{$link}</a>";
+        $htmlMsg = "Please verify your new email by following this link: <a href=\"{$link}\">{$link}</a>";
         $plainMsg = "Please verify your new email by following this link: {$link}";
 
         self::sendEmail($email, $name, $subject, $plainMsg, $htmlMsg);

@@ -18,8 +18,8 @@ class CORSResponse extends NoContentResponse
 {
     public function __construct(RequestInterface $request)
     {
-
         $this->addHeader("Access-Control-Allow-Headers", $request->getHeader("Access-Control-Request-Headers"));
+        $this->addHeader("Access-Control-Allow-Methods", $request->getHeader("Access-Control-Request-Method"));
         parent::__construct();
     }
 }

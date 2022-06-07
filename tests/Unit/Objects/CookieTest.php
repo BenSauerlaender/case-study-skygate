@@ -29,7 +29,7 @@ final class CookieTest extends TestCase
             "value"     => "toooken",
             "expiresIn" => 60 * 60 * 24 * 30,
             "path"      => "/",
-            "secure"    => true,
+            "secure"    => false,
             "httpOnly"  => true
         ], $cookie->get());
     }
