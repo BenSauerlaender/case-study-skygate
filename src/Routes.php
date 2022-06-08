@@ -306,12 +306,17 @@ class Routes
 
                         try {
                             if ($uc->verifyUsersEmailChange($params["userID"], "{$params["verificationCode"]}")) {
+                                /** @var RefreshTokenAccessorInterface*/
+                                $acc = $this->accessors["refreshToken"];
+                                $acc->increaseCount($params["userID"]);
                                 return new RedirectionResponse("http://{$_ENV['APP_PROD_DOMAIN']}/email-changed");
                             } else {
                                 return new BadRequestResponse("The verification code is invalid.", 211);
                             }
                         } catch (EcrNotFoundException $e) {
                             return new BadRequestResponse("The user has no open email change request.", 212);
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse($e);
                         }
                     }
                 ]
