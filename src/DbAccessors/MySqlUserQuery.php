@@ -224,7 +224,7 @@ final class MySqlUserQuery extends MySqlAccessor implements UserQueryInterface
 
         //all remaining key-values should be filters
         foreach ($config as $key => $value) {
-            $this->addFilter($key, $value, $caseSensitive);
+            $this->addFilter($key, strval($value), $caseSensitive);
         }
     }
 }
