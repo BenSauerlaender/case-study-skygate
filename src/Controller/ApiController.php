@@ -35,7 +35,6 @@ use Closure;
 use Exception;
 use Exceptions\InvalidRequestExceptions\InvalidMethodException;
 use InvalidArgumentException;
-use JsonException;
 use Objects\ApiMethod;
 use Objects\Responses\SuccessfulResponses\CORSResponse;
 use PDO;
@@ -170,7 +169,7 @@ class ApiController implements ApiControllerInterface
             //call the routes function in this objects scope, so that the controller and accessors arrays are available for the function
             return $func->call($this, $request, $parameters);
         } catch (DBException $e) {
-            return new InternalErrorResponse($parameters);
+            return new InternalErrorResponse($e);
         } catch (Exception $e) {
             return new InternalErrorResponse($e);
         }
@@ -228,7 +227,7 @@ class ApiController implements ApiControllerInterface
         //controller
         $securityController         = new SecurityController();
         $validationController       = new ValidationController();
-        $userController             = new UserController($securityController, $validationController, $userAccessor, $roleAccessor, $ecrAccessor);
+        $userController             = new UserController($securityController, $validationController, $userAccessor, $roleAccessor, $ecrAccessor, $refreshTokenAccessor);
         $authenticationController   = new AuthenticationController($userAccessor, $refreshTokenAccessor, $roleAccessor);
         $routingController          = new RoutingController($routes);
 

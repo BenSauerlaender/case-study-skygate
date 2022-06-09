@@ -34,6 +34,15 @@ class MySqlRefreshTokenAccessor extends MySqlAccessor implements RefreshTokenAcc
         return $response[0]["count"];
     }
 
+    public function deleteByUserID(int $userID): void
+    {
+        $sql = 'DELETE 
+                FROM refreshToken
+                WHERE user_id=:userID;';
+
+        $this->prepareAndExecute($sql, ["userID" => $userID]);
+    }
+
     public function increaseCount(int $userID): void
     {
         //if no entry exist create one

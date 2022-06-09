@@ -21,11 +21,13 @@ use Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateUserException;
 use Exceptions\ShouldNeverHappenException;
 use Controller\Interfaces\SecurityControllerInterface;
 use Controller\Interfaces\ValidationControllerInterface;
+use DbAccessors\Interfaces\RefreshTokenAccessorInterface;
 use Exceptions\DBExceptions\DBException;
 use Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use Exceptions\ValidationExceptions\InvalidPropertyException;
 use Exceptions\ValidationExceptions\MissingPropertiesException;
 use Exceptions\ValidationExceptions\ValidationException;
+use Objects\Cookies\RefreshTokenCookie;
 
 /**
  * Implementation of SecurityControllerInterface
@@ -37,14 +39,16 @@ class UserController implements UserControllerInterface
     private UserAccessorInterface $userAccessor;
     private RoleAccessorInterface $roleAccessor;
     private EcrAccessorInterface $ecrAccessor;
+    private RefreshTokenAccessorInterface $rtaAccessor;
 
-    public function __construct(SecurityControllerInterface $securityController, ValidationControllerInterface $ValidationController, UserAccessorInterface $userAccessor, RoleAccessorInterface $roleAccessor, EcrAccessorInterface $ecrAccessor)
+    public function __construct(SecurityControllerInterface $securityController, ValidationControllerInterface $ValidationController, UserAccessorInterface $userAccessor, RoleAccessorInterface $roleAccessor, EcrAccessorInterface $ecrAccessor, RefreshTokenAccessorInterface $rtaAccessor)
     {
         $this->securityController = $securityController;
         $this->ValidationController = $ValidationController;
         $this->userAccessor = $userAccessor;
         $this->roleAccessor = $roleAccessor;
         $this->ecrAccessor = $ecrAccessor;
+        $this->rtaAccessor = $rtaAccessor;
     }
 
 
@@ -128,6 +132,7 @@ class UserController implements UserControllerInterface
     {
         //delete emailChangeRequest if there is one
         try {
+            $this->rtaAccessor->deleteByUserID($id);
             $this->ecrAccessor->deleteByUserID($id);
         } catch (EcrNotFoundException $e) {
         } //no need to do something. its fine

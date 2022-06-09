@@ -23,6 +23,7 @@ interface RefreshTokenAccessorInterface
      */
     public function getCountByUserID(int $userID): ?int;
 
+    public function deleteByUserID(int $userID): void;
     /**
      * Increase the value of 'count' for the specified use by 1
      *
