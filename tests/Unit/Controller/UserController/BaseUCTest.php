@@ -13,6 +13,7 @@ use Controller\UserController;
 use DbAccessors\Interfaces\EcrAccessorInterface;
 use DbAccessors\Interfaces\RoleAccessorInterface;
 use DbAccessors\Interfaces\UserAccessorInterface;
+use DbAccessors\Interfaces\RefreshTokenAccessorInterface;
 use Controller\Interfaces\SecurityControllerInterface;
 use Controller\Interfaces\ValidationControllerInterface;
 use Controller\SecurityController;
@@ -29,6 +30,7 @@ abstract class BaseUCTest extends TestCase
     protected ?UserAccessorInterface $userAccessorMock;
     protected ?RoleAccessorInterface $roleAccessorMock;
     protected ?EcrAccessorInterface $ecrAccessorMock;
+    protected ?RefreshTokenAccessorInterface $rtAccessorMock;
 
     /**
      * The user controller to be tested
@@ -46,6 +48,7 @@ abstract class BaseUCTest extends TestCase
         $this->userAccessorMock = $this->createMock(UserAccessorInterface::class);
         $this->roleAccessorMock = $this->createMock(RoleAccessorInterface::class);
         $this->ecrAccessorMock = $this->createMock(EcrAccessorInterface::class);
+        $this->rtAccessorMock = $this->createMock(RefreshTokenAccessorInterface::class);
 
         //setUp the userController
         $this->userController = new UserController(
@@ -54,6 +57,7 @@ abstract class BaseUCTest extends TestCase
             $this->userAccessorMock,
             $this->roleAccessorMock,
             $this->ecrAccessorMock,
+            $this->rtAccessorMock,
         );
     }
 

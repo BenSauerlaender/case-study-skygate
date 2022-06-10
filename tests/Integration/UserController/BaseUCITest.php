@@ -17,6 +17,7 @@ use DbAccessors\MySqlUserAccessor;
 use Utilities\DbConnector;
 use tests\helper\TableCreator;
 use Controller\ValidationController;
+use DbAccessors\MySqlRefreshTokenAccessor;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -65,6 +66,7 @@ abstract class BaseUCITest extends TestCase
             new MySqlUserAccessor($pdo),
             new MySqlRoleAccessor($pdo),
             new MySqlEcrAccessor($pdo),
+            new MySqlRefreshTokenAccessor($pdo),
         );
     }
 

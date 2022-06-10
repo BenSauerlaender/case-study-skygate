@@ -8,17 +8,9 @@ declare(strict_types=1);
 
 namespace tests\Unit\DbAccessors;
 
-use BadMethodCallException;
-use DbAccessors\Interfaces\UserAccessorInterface;
 use DbAccessors\Interfaces\UserQueryInterface;
-use DbAccessors\MySqlUserAccessor;
 use DbAccessors\MySqlUserQuery;
-use Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
-use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use Exceptions\DBExceptions\UniqueFieldExceptions\DuplicateEmailException;
-use Exceptions\ValidationExceptions\ArrayIsEmptyException;
 use Exceptions\ValidationExceptions\InvalidPropertyException;
-use PDO;
 
 /**
  * Test class for the MySqlUserQuery
