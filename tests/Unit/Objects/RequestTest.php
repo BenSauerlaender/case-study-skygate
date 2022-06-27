@@ -38,7 +38,7 @@ final class RequestTest extends TestCase
     {
         $this->expectException(InvalidPathException::class);
 
-        new Request("test-jo", "GET");
+        new Request("test)jo", "GET");
     }
 
     /**

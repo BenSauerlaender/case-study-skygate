@@ -48,8 +48,8 @@ describe("complex Test", () => {
         60000
       );
       const splitLink = email.text.split("link: ")[1].trim().split("/");
-      this.userID = splitLink[4];
-      this.code = splitLink[6];
+      this.userID = splitLink[2];
+      this.code = splitLink[3];
     }).timeout(30000);
 
     it("founds still 0 users", async () => {
@@ -60,10 +60,10 @@ describe("complex Test", () => {
     });
 
     it("verifies user", async () => {
-      let response = await request.get(
-        `/users/${this.userID}/verify/${this.code}`
-      );
-      expect(response.statusCode).to.eql(201);
+      let response = await request
+        .post(`/users/${this.userID}/verify`)
+        .send({ code: this.code });
+      expect(response.statusCode).to.eql(204);
     });
 
     it("founds 1 user", async () => {
@@ -176,7 +176,7 @@ describe("complex Test", () => {
     });
     it("change first users email", async () => {
       await request
-        .post("/users/1/emailChange")
+        .post("/users/1/email-change")
         .set("Authorization", "Bearer " + this.accessToken)
         .send({ email: process.env.TEST_MAIL_RECEIVER2 });
       //sleep a minute
@@ -188,7 +188,7 @@ describe("complex Test", () => {
         new Date().getTime(),
         60000
       );
-      this.emailCode = email.text.split("link: ")[1].trim().split("/")[6];
+      this.emailCode = email.text.split("link: ")[1].trim().split("/")[3];
     }).timeout(30000);
     it("cant register second user with one of the 2 emails", async () => {
       let response = await request.post("/register").send({
@@ -212,7 +212,10 @@ describe("complex Test", () => {
     });
 
     it("verifies first users email change", async () => {
-      await request.get(`/users/1/emailChange/${this.emailCode}`);
+      let res = await request
+        .post("/users/1/email-change-verify")
+        .send({ code: this.emailCode });
+      expect(res.statusCode).to.eql(204);
     });
     it("still can get accessToken", async () => {
       const response = await request
@@ -266,9 +269,11 @@ describe("complex Test", () => {
         60000
       );
       const splitLink = email.text.split("link: ")[1].trim().split("/");
-      this.userID2 = splitLink[4];
-      this.code2 = splitLink[6];
-      await request.get(`/users/${this.userID2}/verify/${this.code2}`);
+      this.userID2 = splitLink[2];
+      this.code2 = splitLink[3];
+      await request
+        .post(`/users/${this.userID2}/verify`)
+        .send({ code: this.code2 });
     }).timeout(30000);
 
     it("founds 2 user", async () => {

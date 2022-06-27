@@ -80,17 +80,26 @@ class Routes
                     }
                 ]
             ],
-            "/users/{x}/verify/{x}" => [
-                "GET" => [ //To verify a new user
-                    "params" => ["userID", "verificationCode"],
+            "/users/{x}/verify" => [
+                "POST" => [ //To verify a new user
+                    "params" => ["userID"],
                     "requireAuth" => false,
                     "permissions" => [],
                     "function" => function (RequestInterface $req, array $params) {
+
+                        $properties = $req->getBody();
+
+                        $missingProperties = array_diff_key(array_flip(["code"]), $properties ?? []);
+
+                        if (sizeOf($missingProperties) !== 0) {
+                            return new MissingPropertyResponse(array_keys($missingProperties));
+                        }
+
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
                         try {
-                            if ($uc->verifyUser($params["userID"], "{$params["verificationCode"]}")) {
+                            if ($uc->verifyUser($params["userID"], "{$properties["code"]}")) {
                                 return new NoContentResponse();
                             } else {
                                 return new BadRequestResponse("The verification code is invalid.", 211);
@@ -261,7 +270,7 @@ class Routes
                     }
                 ]
             ],
-            "/users/{x}/emailchange" => [
+            "/users/{x}/email-change" => [
                 "POST" => [ //To request a users email change
                     "params" => ["userID"],
                     "requireAuth" => true,
@@ -293,17 +302,26 @@ class Routes
                     }
                 ]
             ],
-            "/users/{x}/emailchange/{x}" => [
-                "GET" => [ //To verify a users email change
-                    "params" => ["userID", "verificationCode"],
+            "/users/{x}/email-change-verify" => [
+                "POST" => [ //To verify a users email change
+                    "params" => ["userID"],
                     "requireAuth" => false,
                     "permissions" => [],
                     "function" => function (RequestInterface $req, array $params) {
+
+                        $properties = $req->getBody();
+
+                        $missingProperties = array_diff_key(array_flip(["code"]), $properties ?? []);
+
+                        if (sizeOf($missingProperties) !== 0) {
+                            return new MissingPropertyResponse(array_keys($missingProperties));
+                        }
+
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
 
                         try {
-                            if ($uc->verifyUsersEmailChange($params["userID"], "{$params["verificationCode"]}")) {
+                            if ($uc->verifyUsersEmailChange($params["userID"], "{$properties["code"]}")) {
                                 /** @var RefreshTokenAccessorInterface*/
                                 $acc = $this->accessors["refreshToken"];
                                 $acc->increaseCount($params["userID"]);

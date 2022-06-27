@@ -46,7 +46,7 @@ final class AllRoutesValidationTest extends TestCase
         $this->assertStringEndsNotWith("/", $path);
         $apiPath = new ApiPath(str_replace("{x}", "1", $path));
         //only lowercase
-        $this->assertEquals(1, preg_match("/^[a-z\/{}]+$/", $path));
+        $this->assertEquals(1, preg_match("/^[a-z\/{}-]+$/", $path));
         $this->assertInstanceOf(ApiPathInterface::class, $apiPath, "Path can be parsed to ApiPath");
     }
 

@@ -152,14 +152,11 @@ makeSuite(["3roles"], "/register", {
       });
       it("The link is correct", async () => {
         splitLink = this.plainLink.split("/");
-        expect(splitLink[0]).to.eql(`www.${process.env.API_PROD_DOMAIN}`);
-        expect(splitLink[1]).to.eql("api");
-        expect(splitLink[2]).to.eql("v1");
-        expect(splitLink[3]).to.eql("users");
-        expect(Number.parseInt(splitLink[4])).not.to.be.NaN;
-        expect(splitLink[5]).to.eql("verify");
+        expect(splitLink[0]).to.eql(`${process.env.APP_PROD_DOMAIN}`);
+        expect(splitLink[1]).to.eql("verify-user");
+        expect(Number.parseInt(splitLink[2])).not.to.be.NaN;
         //the verification code
-        expect(splitLink[6]).to.match(/^[0-9a-f]{10}$/);
+        expect(splitLink[3]).to.match(/^[0-9a-f]{10}$/);
       });
     },
     "a duplicate email": (path) => {

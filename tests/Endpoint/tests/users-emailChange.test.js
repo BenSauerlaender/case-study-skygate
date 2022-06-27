@@ -4,9 +4,9 @@ let jwt = require("jsonwebtoken");
 const { getEmail } = require("../emailHelper.js");
 
 /**
- * Tests for the /users/{x}/emailChange route
+ * Tests for the /users/{x}/email-change route
  */
-makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
+makeSuite(["3roles", "2Users"], "/users/{x}/email-change", {
   PUT: notAllowed(),
   DELETE: notAllowed(),
   PATCH: notAllowed(),
@@ -14,7 +14,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
   POST: {
     "without accessToken": () => {
       it("makes api call", async () => {
-        this.response = await request.post("/users/1/emailChange");
+        this.response = await request.post("/users/1/email-change");
       });
 
       it("returns Unauthorized", async () => {
@@ -33,7 +33,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .post("/users/1/emailChange")
+          .post("/users/1/email-change")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -58,7 +58,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .post("/users/1/emailChange")
+          .post("/users/1/email-change")
           .set("Authorization", "Bearer " + token);
       });
       it("returns Bad Request", async () => {
@@ -88,7 +88,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .post("/users/1/emailChange")
+          .post("/users/1/email-change")
           .set("Authorization", "Bearer " + token)
           .send({ email: "Password111" });
       });
@@ -121,7 +121,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .post("/users/1/emailChange")
+          .post("/users/1/email-change")
           .set("Authorization", "Bearer " + token)
           .send({ email: "user2@mail.de" });
       });
@@ -154,7 +154,7 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .post("/users/1/emailChange")
+          .post("/users/1/email-change")
           .set("Authorization", "Bearer " + token)
           .send({ email: process.env.TEST_MAIL_RECEIVER });
       });
@@ -205,14 +205,11 @@ makeSuite(["3roles", "2Users"], "/users/{x}/emailChange", {
       });
       it("The link is correct", async () => {
         splitLink = this.plainLink.split("/");
-        expect(splitLink[0]).to.eql(`www.${process.env.API_PROD_DOMAIN}`);
-        expect(splitLink[1]).to.eql("api");
-        expect(splitLink[2]).to.eql("v1");
-        expect(splitLink[3]).to.eql("users");
-        expect(splitLink[4]).to.eql("1");
-        expect(splitLink[5]).to.eql("emailChange");
+        expect(splitLink[0]).to.eql(`${process.env.APP_PROD_DOMAIN}`);
+        expect(splitLink[1]).to.eql("change-email");
+        expect(splitLink[2]).to.eql("1");
         //the verification code
-        expect(splitLink[6]).to.match(/^[0-9a-f]{10}$/);
+        expect(splitLink[3]).to.match(/^[0-9a-f]{10}$/);
       });
     },
   },

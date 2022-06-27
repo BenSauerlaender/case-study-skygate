@@ -57,7 +57,7 @@ class ApiPath implements ApiPathInterface
 
         //go through each subpath
         foreach ($array as $e) {
-            if (preg_match("/^[a-z]+$/", $e) === 1) {
+            if (preg_match("/^[a-z-]+$/", $e) === 1) {
                 //if only letters:
                 array_push($path, $e);
             } else if (preg_match("/^[0-9]+$/", $e) === 1) {

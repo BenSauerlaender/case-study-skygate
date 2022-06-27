@@ -29,12 +29,11 @@ class MailSender
     {
         $subject = 'Verify your new Email!';
 
-        $domain = $_ENV["API_PROD_DOMAIN"];
-        $prefix = $_ENV["API_PATH_PREFIX"];
-        $protocol = $_ENV["ENVIRONMENT"] === "PRODUCTION" ? "https://" : "www.";
+        $domain = $_ENV["APP_PROD_DOMAIN"];
+        $protocol = $_ENV["ENVIRONMENT"] === "PRODUCTION" ? "https://" : "";
 
         //link to verify the change
-        $link = "{$protocol}{$domain}{$prefix}/users/{$id}/emailChange/{$code}";
+        $link = "{$protocol}{$domain}/change-email/{$id}/{$code}";
 
         $htmlMsg = "Please verify your new email by following this link: <a href=\"{$link}\">{$link}</a>";
         $plainMsg = "Please verify your new email by following this link: {$link}";
@@ -53,13 +52,11 @@ class MailSender
     {
         $subject = 'Verify your registration!';
 
-        $domain = $_ENV["API_PROD_DOMAIN"];
-        $prefix = $_ENV["API_PATH_PREFIX"];
-        $protocol = $_ENV["ENVIRONMENT"] === "PRODUCTION" ? "https://" : "www.";
-
+        $domain = $_ENV["APP_PROD_DOMAIN"];
+        $protocol = $_ENV["ENVIRONMENT"] === "PRODUCTION" ? "https://" : "";
 
         //link to verify the registration
-        $link = "{$protocol}{$domain}{$prefix}/users/{$id}/verify/{$code}";
+        $link = "{$protocol}{$domain}/verify-user/{$id}/{$code}";
 
         $htmlMsg    = "Please verify your registration by following this link: <a href=\"{$link}\">{$link}</a>";
         $plainMsg = "Please verify your registration by following this link: {$link}";
