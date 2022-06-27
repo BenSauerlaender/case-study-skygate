@@ -56,13 +56,8 @@ makeSuite(
           this.response = await request.get("/users/1/emailChange/1234567899");
         });
 
-        it("returns redirection ", async () => {
-          expect(this.response.statusCode).to.eql(303);
-        });
-        it("includes the correct Location", async () => {
-          expect(this.response.headers.location).eql(
-            `http://${process.env.APP_PROD_DOMAIN}/email-changed`
-          );
+        it("returns no content ", async () => {
+          expect(this.response.statusCode).to.eql(201);
         });
       },
     },

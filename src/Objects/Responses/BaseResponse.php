@@ -40,7 +40,7 @@ abstract class BaseResponse implements ResponseInterface
     private array $body = [];
 
     /** Http response codes, that are supported by the api */
-    private const SUPPORTED_CODES = [200, 201, 204, 303, 400, 401, 403, 404, 405, 406, 500];
+    private const SUPPORTED_CODES = [200, 201, 204, 400, 401, 403, 404, 405, 406, 500];
 
     /** Http response headers, that are supported by the api */
     private const SUPPORTED_HEADERS = ["content-type", "last-modified", "location", "access-control-allow-origin", "access-control-allow-methods", "access-control-allow-headers"];

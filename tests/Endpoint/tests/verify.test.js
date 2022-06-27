@@ -73,13 +73,8 @@ makeSuite(
           this.response = await request.get("/users/2/verify/1234567899");
         });
 
-        it("returns redirection ", async () => {
-          expect(this.response.statusCode).to.eql(303);
-        });
-        it("includes the correct Location", async () => {
-          expect(this.response.headers.location).eql(
-            `http://${process.env.APP_PROD_DOMAIN}/login`
-          );
+        it("returns no Content ", async () => {
+          expect(this.response.statusCode).to.eql(201);
         });
       },
     },

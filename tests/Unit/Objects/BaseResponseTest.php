@@ -97,7 +97,6 @@ final class BaseResponseTest extends TestCase
             [200],
             [201],
             [204],
-            [303],
             [400],
             [401],
             [403],

@@ -14,7 +14,6 @@ use DbAccessors\Interfaces\RefreshTokenAccessorInterface;
 use DbAccessors\Interfaces\RoleAccessorInterface;
 use DbAccessors\Interfaces\UserQueryInterface;
 use Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
-use Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use Exceptions\TokenExceptions\ExpiredTokenException;
 use Exceptions\TokenExceptions\InvalidTokenException;
@@ -26,7 +25,6 @@ use Objects\Responses\ClientErrorResponses\BadRequestResponses\InvalidPropertyRe
 use Objects\Responses\ClientErrorResponses\BadRequestResponses\InvalidQueryResponse;
 use Objects\Responses\ClientErrorResponses\BadRequestResponses\MissingPropertyResponse;
 use Objects\Responses\ClientErrorResponses\BadRequestResponses\UserNotFoundResponse;
-use Objects\Responses\RedirectionResponses\RedirectionResponse;
 use Objects\Responses\SuccessfulResponses\CreatedResponse;
 use Objects\Responses\SuccessfulResponses\DataResponse;
 use Objects\Responses\SuccessfulResponses\NoContentResponse;
@@ -93,7 +91,7 @@ class Routes
 
                         try {
                             if ($uc->verifyUser($params["userID"], "{$params["verificationCode"]}")) {
-                                return new RedirectionResponse("http://{$_ENV['APP_PROD_DOMAIN']}/login");
+                                return new NoContentResponse();
                             } else {
                                 return new BadRequestResponse("The verification code is invalid.", 211);
                             }
@@ -309,7 +307,7 @@ class Routes
                                 /** @var RefreshTokenAccessorInterface*/
                                 $acc = $this->accessors["refreshToken"];
                                 $acc->increaseCount($params["userID"]);
-                                return new RedirectionResponse("http://{$_ENV['APP_PROD_DOMAIN']}/email-changed");
+                                return new NoContentResponse();
                             } else {
                                 return new BadRequestResponse("The verification code is invalid.", 211);
                             }

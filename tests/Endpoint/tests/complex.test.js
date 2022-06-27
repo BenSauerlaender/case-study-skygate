@@ -60,8 +60,10 @@ describe("complex Test", () => {
     });
 
     it("verifies user", async () => {
-      let response = await request.get(`/users/${this.userID}/verify/${this.code}`);
-      expect(response.statusCode).to.eql(303);
+      let response = await request.get(
+        `/users/${this.userID}/verify/${this.code}`
+      );
+      expect(response.statusCode).to.eql(201);
     });
 
     it("founds 1 user", async () => {
