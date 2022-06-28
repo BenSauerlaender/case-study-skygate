@@ -205,11 +205,18 @@ makeSuite(["3roles", "2Users"], "/users/{x}/email-change", {
       });
       it("The link is correct", async () => {
         splitLink = this.plainLink.split("/");
+        //domain
         expect(splitLink[0]).to.eql(`${process.env.APP_PROD_DOMAIN}`);
-        expect(splitLink[1]).to.eql("change-email");
-        expect(splitLink[2]).to.eql("1");
-        //the verification code
-        expect(splitLink[3]).to.match(/^[0-9a-f]{10}$/);
+        splitLink = splitLink[1].split("?");
+        //path
+        expect(splitLink[0]).to.eql("change-email");
+        splitLink = splitLink[1].split("&");
+        //query parameter 1
+        expect(splitLink[0]).to.eql("userID=1");
+        //query parameter 2
+        splitLink = splitLink[1].split("=");
+        expect(splitLink[0]).to.eql("code");
+        expect(splitLink[1]).to.match(/^[0-9a-f]{10}$/);
       });
     },
   },

@@ -47,9 +47,13 @@ describe("complex Test", () => {
         new Date().getTime(),
         60000
       );
-      const splitLink = email.text.split("link: ")[1].trim().split("/");
-      this.userID = splitLink[2];
-      this.code = splitLink[3];
+      const splitLink = email.text
+        .split("link: ")[1]
+        .trim()
+        .split("?")[1]
+        .split("&");
+      this.userID = splitLink[0].split("=")[1];
+      this.code = splitLink[1].split("=")[1];
     }).timeout(30000);
 
     it("founds still 0 users", async () => {
@@ -188,7 +192,12 @@ describe("complex Test", () => {
         new Date().getTime(),
         60000
       );
-      this.emailCode = email.text.split("link: ")[1].trim().split("/")[3];
+      this.emailCode = email.text
+        .split("link: ")[1]
+        .trim()
+        .split("?")[1]
+        .split("&")[1]
+        .split("=")[1];
     }).timeout(30000);
     it("cant register second user with one of the 2 emails", async () => {
       let response = await request.post("/register").send({
@@ -268,9 +277,13 @@ describe("complex Test", () => {
         new Date().getTime(),
         60000
       );
-      const splitLink = email.text.split("link: ")[1].trim().split("/");
-      this.userID2 = splitLink[2];
-      this.code2 = splitLink[3];
+      const splitLink = email.text
+        .split("link: ")[1]
+        .trim()
+        .split("?")[1]
+        .split("&");
+      this.userID2 = splitLink[0].split("=")[1];
+      this.code2 = splitLink[1].split("=")[1];
       await request
         .post(`/users/${this.userID2}/verify`)
         .send({ code: this.code2 });

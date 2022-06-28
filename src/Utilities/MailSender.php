@@ -33,7 +33,7 @@ class MailSender
         $protocol = $_ENV["ENVIRONMENT"] === "PRODUCTION" ? "https://" : "";
 
         //link to verify the change
-        $link = "{$protocol}{$domain}/change-email/{$id}/{$code}";
+        $link = "{$protocol}{$domain}/change-email?userID={$id}&code={$code}";
 
         $htmlMsg = "Please verify your new email by following this link: <a href=\"{$link}\">{$link}</a>";
         $plainMsg = "Please verify your new email by following this link: {$link}";
@@ -56,7 +56,7 @@ class MailSender
         $protocol = $_ENV["ENVIRONMENT"] === "PRODUCTION" ? "https://" : "";
 
         //link to verify the registration
-        $link = "{$protocol}{$domain}/verify-user/{$id}/{$code}";
+        $link = "{$protocol}{$domain}/verify-user?userID={$id}&code={$code}";
 
         $htmlMsg    = "Please verify your registration by following this link: <a href=\"{$link}\">{$link}</a>";
         $plainMsg = "Please verify your registration by following this link: {$link}";
