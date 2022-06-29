@@ -63,7 +63,7 @@ class ApiController implements ApiControllerInterface
      * @param  array<string,mixed>               $additionalController      An Array of additional Controllers (with there names as keys), that can be used from the routes functions.
      * @param  array<string,mixed>               $additionalAccessors       An Array of additional Accessors (with there names as keys), that can be used from the routes functions.
      */
-    public function __construct(RoutingControllerInterface $routingController, AuthenticationControllerInterface $authenticationController,  array $additionalController, array $additionalAccessors, PermissionControllerInterface $permissionController)
+    public function __construct(RoutingControllerInterface $routingController, AuthenticationControllerInterface $authenticationController, PermissionControllerInterface $permissionController,  array $additionalController, array $additionalAccessors)
     {
         $this->routingController = $routingController;
         $this->authenticationController = $authenticationController;
