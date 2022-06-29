@@ -44,7 +44,7 @@ class Permissions
             "/users/{x}" => [
                 "GET" => [
                     "getSelf" => function (int $requesterID, array $params) {
-                        return $params["userID"] === $requesterID;
+                        return $params[0] === $requesterID;
                     },
                     "getAllUsers" => function (int $requesterID, array $params) {
                         return true;
@@ -52,7 +52,7 @@ class Permissions
                 ],
                 "PUT" => [
                     "getOwnContactData" => function (int $requesterID, array $params) {
-                        return $params["userID"] === $requesterID;
+                        return $params[0] === $requesterID;
                     },
                     "getAllUsersContactData" => function (int $requesterID, array $params) {
                         return true;
@@ -60,7 +60,7 @@ class Permissions
                 ],
                 "DELETE" => [
                     "deleteSelf" => function (int $requesterID, array $params) {
-                        return $params["userID"] === $requesterID;
+                        return $params[0] === $requesterID;
                     },
                     "deleteAllUsers" => function (int $requesterID, array $params) {
                         return true;
@@ -70,14 +70,14 @@ class Permissions
             "/users/{x}/password" => [
                 "PUT" => [
                     "changeOwnPassword" => function (int $requesterID, array $params) {
-                        return $params["userID"] === $requesterID;
+                        return $params[0] === $requesterID;
                     },
                 ]
             ],
             "/users/{x}/email-change" => [
                 "POST" => [
                     "changeOwnPassword" => function (int $requesterID, array $params) {
-                        return $params["userID"] === $requesterID;
+                        return $params[0] === $requesterID;
                     },
                 ]
             ],
@@ -87,7 +87,7 @@ class Permissions
             "/users/{x}/logout" => [
                 "POST" => [
                     "logoutSelf" => function (int $requesterID, array $params) {
-                        return $params["userID"] === $requesterID;
+                        return $params[0] === $requesterID;
                     },
                 ]
             ],
