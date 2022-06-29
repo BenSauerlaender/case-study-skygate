@@ -85,9 +85,6 @@ class AuthenticationController implements AuthenticationControllerInterface
         $roleID = $this->userAccessor->get($userID)["roleID"];
         $permissions = $this->roleAccessor->get($roleID)["permissions"];
 
-        //replace the "{userID}" placeholder by the users id
-        $permissions = str_replace("{userID}", "$userID", $permissions);
-
         $payload = [
             'exp' => time() + 60 * 15, //valid for 15 minutes
             'id'  => $userID,
@@ -118,7 +115,7 @@ class AuthenticationController implements AuthenticationControllerInterface
             $permissionArray = [];
         } else {
             //permissions string to array
-            $permissionArray = explode(";", $payload["perm"]);
+            $permissionArray = explode(" ", $payload["perm"]);
         }
 
         //return the requester-object
