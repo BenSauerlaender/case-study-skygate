@@ -19,6 +19,7 @@ use Objects\Responses\ClientErrorResponses\ResourceNotFoundResponse;
 use Controller\ApiController;
 use Controller\Interfaces\ApiControllerInterface;
 use Controller\Interfaces\AuthenticationControllerInterface;
+use Controller\Interfaces\PermissionControllerInterface;
 use Controller\Interfaces\RoutingControllerInterface;
 use Controller\Interfaces\UserControllerInterface;
 use DbAccessors\Interfaces\UserAccessorInterface;
@@ -36,7 +37,6 @@ use Objects\Responses\ClientErrorResponses\BadRequestResponses\BadRequestRespons
 use Exception;
 use InvalidArgumentException;
 use JsonException;
-use PHPUnit\Framework\MockObject\Rule\InvokedAtMostCount;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -60,9 +60,10 @@ final class ApiControllerTest extends TestCase
         $this->ucMock = $this->createMock(UserControllerInterface::class);
         $this->uaMock = $this->createMock(UserAccessorInterface::class);
         $this->authMock = $this->createMock(AuthenticationControllerInterface::class);
+        $this->permMock = $this->createMock(PermissionControllerInterface::class);
         $this->routingMock = $this->createMock(RoutingControllerInterface::class);
         $this->reqMock = $this->createMock(RequestInterface::class);
-        $this->apiController = new ApiController($this->routingMock, $this->authMock, ["user" => $this->ucMock], ["user" => $this->uaMock]);
+        $this->apiController = new ApiController($this->routingMock, $this->authMock, $this->permMock, ["user" => $this->ucMock], ["user" => $this->uaMock]);
 
         $this->path = new ApiPath("abc/1");
 
@@ -363,7 +364,7 @@ final class ApiControllerTest extends TestCase
     }
 
     /**
-     * Test that the method return a MissingPermissionResponse if the authenticator->hasPermission returns false
+     * Test that the method return a MissingPermissionResponse if the permissionController->isAllowed returns false
      */
     public function testRequestNotPermitted(): void
     {
@@ -372,7 +373,6 @@ final class ApiControllerTest extends TestCase
             ->method("route")
             ->willReturn([
                 "requireAuth" => true,
-                "permissions" => ["required"]
             ]);
 
         $this->reqMock->expects($this->once())
@@ -382,21 +382,19 @@ final class ApiControllerTest extends TestCase
         $this->authMock->expects($this->once())
             ->method("validateAccessToken")
             ->with("token")
-            ->willReturn(["permissions" => ["given"]]);
+            ->willReturn(["permissions" => ["given"], "userID" => 2]);
 
-        $this->authMock->expects($this->once())
-            ->method("hasPermissions")
-            ->with(["given"], ["required"])
+        $this->permMock->expects($this->once())
+            ->method("isAllowed")
             ->willReturn(false);
 
         $response = $this->apiController->handleRequest($this->reqMock);
 
         $this->assertTrue(is_a($response, MissingPermissionsResponse::class));
-        $this->assertEquals(["required"], json_decode($response->getJsonBody(), true)["requiredPermissions"]);
     }
 
     /**
-     * Test that the method return a MissingPermissionResponse if the authenticator->hasPermission returns false
+     * Test that the method return a MissingPermissionResponse if the permissionController->isAllowed returns false
      */
     public function testHandleRequestCompleteSuccessful(): void
     {
@@ -405,7 +403,6 @@ final class ApiControllerTest extends TestCase
             ->method("route")
             ->willReturn([
                 "requireAuth" => true,
-                "permissions" => ["p"],
                 "params" => [1, 2, 3],
                 "function" => function ($req, $ids) {
                     return new BadRequestResponse("", 0);
@@ -418,10 +415,10 @@ final class ApiControllerTest extends TestCase
 
         $this->authMock->expects($this->once())
             ->method("validateAccessToken")
-            ->willReturn(["permissions" => ["p"]]);
+            ->willReturn(["permissions" => ["p"], "userID" => 3]);
 
-        $this->authMock->expects($this->once())
-            ->method("hasPermissions")
+        $this->permMock->expects($this->once())
+            ->method("isAllowed")
             ->willReturn(true);
 
         $response = $this->apiController->handleRequest($this->reqMock);
