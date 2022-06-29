@@ -70,7 +70,6 @@ final class AllRoutesValidationTest extends TestCase
     {
         $this->assertArrayHasKey("params", $route);
         $this->assertArrayHasKey("requireAuth", $route);
-        $this->assertArrayHasKey("permissions", $route);
         $this->assertArrayHasKey("function", $route);
     }
 
@@ -98,29 +97,6 @@ final class AllRoutesValidationTest extends TestCase
     public function testRequireAuthIsValid(string $path, string $method, array $route): void
     {
         $this->assertIsBool($route["requireAuth"]);
-    }
-
-    /**
-     * Tests if the permissions array is valid
-     * 
-     * @dataProvider routesProvider
-     */
-    public function testPermissionsAreValid(string $path, string $method, array $route): void
-    {
-        if ($route["requireAuth"]) {
-            $this->assertNotEmpty($route["permissions"]);
-        } else {
-            $this->assertEmpty($route["permissions"]);
-        }
-
-        foreach ($route["permissions"] as $perm) {
-            $this->assertIsString($perm);
-            $exp = explode(":", $perm);
-            $this->assertEquals(3, sizeof($exp));
-            foreach ($exp as $s) {
-                $this->assertEquals(1, preg_match("/^[a-zA-Z{}]+$/", $s));
-            }
-        }
     }
 
     /**
