@@ -222,7 +222,7 @@ class ApiController implements ApiControllerInterface
     }
 
 
-    static function get(PDO $pdo, array $routes): ApiControllerInterface
+    static function get(PDO $pdo, array $routes, array $permissions): ApiControllerInterface
     {
         //Database Accessors
         $userAccessor           = new MySqlUserAccessor($pdo);
@@ -237,10 +237,12 @@ class ApiController implements ApiControllerInterface
         $userController             = new UserController($securityController, $validationController, $userAccessor, $roleAccessor, $ecrAccessor, $refreshTokenAccessor);
         $authenticationController   = new AuthenticationController($userAccessor, $refreshTokenAccessor, $roleAccessor);
         $routingController          = new RoutingController($routes);
+        $permissionController       = new PermissionController($permissions);
 
         return new self(
             $routingController,
             $authenticationController,
+            $permissionController,
             ["user" => $userController, "auth" => $authenticationController], //Controller
             ["user" => $userAccessor, "userQuery" => $userQuery, "refreshToken" => $refreshTokenAccessor, "role" => $roleAccessor] //Accessors
         );

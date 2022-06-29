@@ -38,7 +38,7 @@ try {
     $pdo = DbConnector::getConnection();
 
     //get the fully constructed apiController
-    $apiController = ApiController::get($pdo, Routes::getRoutes());
+    $apiController = ApiController::get($pdo, Routes::getRoutes(), Permissions::getPermissions());
 
     try {
         //get the request
