@@ -51,10 +51,10 @@ class Permissions
                     }
                 ],
                 "PUT" => [
-                    "getOwnContactData" => function (int $requesterID, array $params) {
+                    "changeOwnContactData" => function (int $requesterID, array $params) {
                         return $params[0] === $requesterID;
                     },
-                    "getAllUsersContactData" => function (int $requesterID, array $params) {
+                    "changeAllUsersContactData" => function (int $requesterID, array $params) {
                         return true;
                     }
                 ],

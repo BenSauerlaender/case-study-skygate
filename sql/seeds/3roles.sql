@@ -1,6 +1,6 @@
 INSERT INTO role
     (name, permissions)
 VALUES 
-    ("user","getSelf getOwnContactData deleteSelf changeOwnPassword changeOwnEmail logoutSelf getAllUsers"),
-    ("admin","getAllUsersContactData deleteAllUsers changeOwnPassword changeOwnEmail logoutSelf getAllUsers"),
-    ("test","");
+    ("user","getAllUsers changeOwnContactData deleteSelf changeOwnPassword changeOwnEmail logoutSelf"),
+    ("admin","getAllUsers changeAllUsersContactData deleteAllUsers changeOwnPassword changeOwnEmail logoutSelf"),
+    ("guest","getSelf changeOwnContactData deleteSelf changeOwnPassword changeOwnEmail logoutSelf");
