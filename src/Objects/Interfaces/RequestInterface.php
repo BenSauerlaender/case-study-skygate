@@ -53,9 +53,9 @@ interface RequestInterface
     public function getCookie(string $key): ?string;
 
     /**
-     * Gets the refresh token if there is one.
+     * Gets the access token if there is one.
      * 
-     * @return null|string The refresh token without any prefix or null if no token provided
+     * @return null|string The access token without any prefix or null if no token provided
      */
     public function getAccessToken(): ?string;
 
