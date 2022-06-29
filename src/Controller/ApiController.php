@@ -39,7 +39,6 @@ use InvalidArgumentException;
 use Objects\ApiMethod;
 use Objects\Responses\SuccessfulResponses\CORSResponse;
 use PDO;
-use Permissions;
 
 /**
  * Implementation of ApiControllerInterface
@@ -117,11 +116,14 @@ class ApiController implements ApiControllerInterface
 
     public function handleRequest(RequestInterface $request): ResponseInterface
     {
+
+        $requestedPath =  $request->getPath();
+        $requestedMethod = $request->getMethod();
         //Handle CORS Options requests
-        if ($request->getMethod() === ApiMethod::OPTIONS) {
+        if ($requestedMethod === ApiMethod::OPTIONS) {
             try {
                 $method = ApiMethod::fromString($request->getHeader("Access-Control-Request-Method") ?? "");
-                $route = $this->routingController->route($request->getPath(), $method);
+                $route = $this->routingController->route($requestedPath, $method);
                 return new CORSResponse($request);
             } catch (InvalidMethodException | ApiPathNotFoundException | ApiMethodNotFoundException $e) {
                 return new ResourceNotFoundResponse();
@@ -130,7 +132,7 @@ class ApiController implements ApiControllerInterface
 
         //search for the correct route
         try {
-            $route = $this->routingController->route($request->getPath(), $request->getMethod());
+            $route = $this->routingController->route($requestedPath, $requestedMethod);
         } catch (ApiPathNotFoundException $e) {
             //no matching route found
             return new ResourceNotFoundResponse();
@@ -158,8 +160,8 @@ class ApiController implements ApiControllerInterface
             }
 
             //check if the requester has all required permissions for this route
-            if (!$this->permissionController->isAllowed($request->getPath(), $request->getMethod(), $requester["permissions"], $requester["userID"])) {
-                return new MissingPermissionsResponse($route["permissions"]);
+            if (!$this->permissionController->isAllowed($requestedPath, $requestedMethod, $requester["permissions"], $requester["userID"])) {
+                return new MissingPermissionsResponse();
             }
         }
 
