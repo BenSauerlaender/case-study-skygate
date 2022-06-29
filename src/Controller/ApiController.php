@@ -32,12 +32,14 @@ use Exceptions\TokenExceptions\InvalidTokenException;
 use Objects\Request;
 use Objects\Responses\ClientErrorResponses\AuthorizationErrorResponse;
 use Closure;
+use Controller\Interfaces\PermissionControllerInterface;
 use Exception;
 use Exceptions\InvalidRequestExceptions\InvalidMethodException;
 use InvalidArgumentException;
 use Objects\ApiMethod;
 use Objects\Responses\SuccessfulResponses\CORSResponse;
 use PDO;
+use Permissions;
 
 /**
  * Implementation of ApiControllerInterface
@@ -46,6 +48,7 @@ class ApiController implements ApiControllerInterface
 {
     private RoutingControllerInterface $routingController;
     private AuthenticationControllerInterface $authenticationController;
+    private PermissionControllerInterface $permissionController;
 
     //Attention: This is used inside the route functions
     private array $controller;
@@ -54,15 +57,17 @@ class ApiController implements ApiControllerInterface
     /**
      * Construct the ApiController
      *
-     * @param  RoutingControllerInterface        $routingController         A RoutingController to choose a route.
-     * @param  AuthenticationControllerInterface $authenticationController  A authenticationController authenticate the request.
+     * @param  RoutingControllerInterface        $routingController         A Controller to choose a route.
+     * @param  AuthenticationControllerInterface $authenticationController  A Controller to authenticate the request.
+     * @param  PermissionControllerInterface     $permissionController      A Controller to check permission of the request.
      * @param  array<string,mixed>               $additionalController      An Array of additional Controllers (with there names as keys), that can be used from the routes functions.
      * @param  array<string,mixed>               $additionalAccessors       An Array of additional Accessors (with there names as keys), that can be used from the routes functions.
      */
-    public function __construct(RoutingControllerInterface $routingController, AuthenticationControllerInterface $authenticationController,  array $additionalController, array $additionalAccessors)
+    public function __construct(RoutingControllerInterface $routingController, AuthenticationControllerInterface $authenticationController,  array $additionalController, array $additionalAccessors, PermissionControllerInterface $permissionController)
     {
         $this->routingController = $routingController;
         $this->authenticationController = $authenticationController;
+        $this->permissionController = $permissionController;
         $this->controller = $additionalController;
         $this->accessors = $additionalAccessors;
     }
@@ -153,7 +158,7 @@ class ApiController implements ApiControllerInterface
             }
 
             //check if the requester has all required permissions for this route
-            if (!$this->authenticationController->hasPermissions($requester["permissions"], $route["permissions"])) {
+            if (!$this->permissionController->isAllowed($request->getPath(), $request->getMethod(), $requester["permissions"], $requester["userID"])) {
                 return new MissingPermissionsResponse($route["permissions"]);
             }
         }
