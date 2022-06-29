@@ -1,6 +1,6 @@
 INSERT INTO role
     (name, permissions)
 VALUES 
-    ("user","user:{all}:{userID};user:read:{all}"),
-    ("admin","user:{all}:{all}"),
+    ("user","getSelf getOwnContactData deleteSelf changeOwnPassword changeOwnEmail logoutSelf getAllUsers"),
+    ("admin","getAllUsers getAllUsersContactData deleteAllUsers changeOwnPassword changeOwnEmail logoutSelf getAllUsers"),
     ("test","");
