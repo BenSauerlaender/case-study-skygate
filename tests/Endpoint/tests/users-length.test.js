@@ -38,19 +38,13 @@ makeSuite(["3roles", "100Users"], "/users/length", {
       it("returns Forbidden", async () => {
         expect(this.response.statusCode).to.eql(403);
       });
-
-      it("includes requiredPermissions", async () => {
-        expect(this.response.body.requiredPermissions).to.eql([
-          "user:read:{all}",
-        ]);
-      });
     },
     "Without a query string": () => {
       it("makes api call", async () => {
         let token = jwt.sign(
           {
             id: 2,
-            perm: "user:{all}:{all}",
+            perm: "getAllUsers",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
@@ -73,7 +67,7 @@ makeSuite(["3roles", "100Users"], "/users/length", {
         let token = jwt.sign(
           {
             id: 2,
-            perm: "user:{all}:{all}",
+            perm: "getAllUsers",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
@@ -102,7 +96,7 @@ makeSuite(["3roles", "100Users"], "/users/length", {
         let token = jwt.sign(
           {
             id: 2,
-            perm: "user:{all}:{all}",
+            perm: "getAllUsers",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
@@ -130,7 +124,7 @@ makeSuite(["3roles", "100Users"], "/users/length", {
         let token = jwt.sign(
           {
             id: 2,
-            perm: "user:{all}:{all}",
+            perm: "getAllUsers",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
@@ -153,7 +147,7 @@ makeSuite(["3roles", "100Users"], "/users/length", {
         let token = jwt.sign(
           {
             id: 2,
-            perm: "user:{all}:{all}",
+            perm: "getAllUsers",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET

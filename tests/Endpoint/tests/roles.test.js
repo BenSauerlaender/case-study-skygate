@@ -21,7 +21,7 @@ makeSuite(["3roles"], "/roles", {
       });
 
       it("response with list of roles", async () => {
-        expect(this.response.body).to.eql(["admin", "test", "user"]);
+        expect(this.response.body).to.eql(["admin", "guest", "user"]);
       });
     },
   },

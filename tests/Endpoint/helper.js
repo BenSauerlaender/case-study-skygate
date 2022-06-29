@@ -8,7 +8,7 @@ require("dotenv").config({ path: "./../test.env" });
 exports.godToken = jwt.sign(
   {
     id: 999,
-    perm: "user:{all}:{all}",
+    perm: "changeAllUsersContactData deleteAllUsers changeOwnPassword changeOwnEmail logoutSelf getAllUsers",
     exp: Math.floor(Date.now() / 1000) + 30000000,
   },
   process.env.ACCESS_TOKEN_SECRET

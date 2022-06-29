@@ -23,7 +23,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
         let token = jwt.sign(
           {
             id: 2,
-            perm: "user:{all}:2",
+            perm: "getSelf",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
@@ -36,17 +36,13 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
       it("returns Forbidden", async () => {
         expect(this.response.statusCode).to.eql(403);
       });
-
-      it("includes requiredPermissions", async () => {
-        expect(this.response.body.requiredPermissions).to.eql(["user:read:1"]);
-      });
     },
     "user not exists": () => {
       it("makes api call", async () => {
         let token = jwt.sign(
           {
             id: 3,
-            perm: "user:{all}:3",
+            perm: "getSelf",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
@@ -73,7 +69,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}", {
         let token = jwt.sign(
           {
             id: 1,
-            perm: "user:{all}:1",
+            perm: "getSelf",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
