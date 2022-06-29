@@ -52,14 +52,4 @@ interface AuthenticationControllerInterface
      *      (ExpiredTokenException | ...)   if the token is expired.
      */
     public function validateAccessToken(string $accessToken): array;
-
-    /**
-     * Check if the given requester has all permissions required by the given route
-     *
-     * @param  array<string> $requester   The requesters permissions.
-     * @param  array<string> $route       The routes required permissions.
-     * 
-     * @throws InvalidArgumentException if one of the permission-arrays are invalid.
-     */
-    public function hasPermissions(array $requester, array $route): bool;
 }
