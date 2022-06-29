@@ -16,10 +16,9 @@ use Objects\Responses\BaseResponse;
  */
 class MissingPermissionsResponse extends BaseResponse
 {
-    public function __construct(array $requiredPermissions)
+    public function __construct()
     {
         $this->setCode(403);
-        $this->setBody(["requiredPermissions" => $requiredPermissions]);
         $this->addMessage("The Route requires permissions you don't have.");
     }
 }
