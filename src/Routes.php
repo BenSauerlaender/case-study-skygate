@@ -44,7 +44,6 @@ class Routes
      *          <route_method> => [
      *              "params"        => (array<string>)  A list of parameters to set in the path-placeholders ({x})
      *              "requireAuth"   => (bool)           True if the route need authorization to access.
-     *              "permissions"   => (array<string>)  A list of permission-strings. Take only an effect if requireAuth is set to true.
      *              "function"      => (Closure)        The closure to execute to process the Request and return a Response.
      *          ]
      *      ]
@@ -58,7 +57,6 @@ class Routes
                 "POST" => [ //To register a new user
                     "params" => [],
                     "requireAuth" => false,
-                    "permissions" => [],
                     "function" => function (RequestInterface $req, array $params) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
@@ -84,7 +82,6 @@ class Routes
                 "POST" => [ //To verify a new user
                     "params" => ["userID"],
                     "requireAuth" => false,
-                    "permissions" => [],
                     "function" => function (RequestInterface $req, array $params) {
 
                         $properties = $req->getBody();
@@ -116,7 +113,6 @@ class Routes
                 "POST" => [ //To get a refreshToken
                     "params" => [],
                     "requireAuth" => false,
-                    "permissions" => [],
                     "function" => function (RequestInterface $req, array $params) {
 
                         $properties = $req->getBody();
@@ -152,7 +148,6 @@ class Routes
                 "GET" => [ //To get a new accessToken
                     "params" => [],
                     "requireAuth" => false,
-                    "permissions" => [],
                     "function" => function (RequestInterface $req, array $params) {
 
                         $refreshJWT = $req->getCookie("skygatecasestudy.refreshtoken");
@@ -182,7 +177,6 @@ class Routes
                 "GET" => [ //To get user information of a single user
                     "params" => ["userID"],
                     "requireAuth" => true,
-                    "permissions" => ["user:read:{userID}"],
                     "function" => function (RequestInterface $req, array $params) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
@@ -198,7 +192,6 @@ class Routes
                 "PUT" => [ //To update a single user
                     "params" => ["userID"],
                     "requireAuth" => true,
-                    "permissions" => ["user:update:{userID}"],
                     "function" => function (RequestInterface $req, array $params) {
                         $supportedProperties = ["name" => null, "postcode" => null, "city" => null, "phone" => null];
 
@@ -222,7 +215,6 @@ class Routes
                 "DELETE" => [ //To delete a single user
                     "params" => ["userID"],
                     "requireAuth" => true,
-                    "permissions" => ["user:delete:{userID}"],
                     "function" => function (RequestInterface $req, array $params) {
                         /** @var UserControllerInterface */
                         $uc = $this->controller["user"];
@@ -240,7 +232,6 @@ class Routes
                 "PUT" => [
                     "params" => ["userID"],
                     "requireAuth" => true,
-                    "permissions" => ["user:update:{userID}"],
                     "function" => function (RequestInterface $req, array $params) {
 
                         $properties = $req->getBody();
@@ -274,7 +265,6 @@ class Routes
                 "POST" => [ //To request a users email change
                     "params" => ["userID"],
                     "requireAuth" => true,
-                    "permissions" => ["user:update:{userID}"],
                     "function" => function (RequestInterface $req, array $params) {
 
                         $properties = $req->getBody();
@@ -306,7 +296,6 @@ class Routes
                 "POST" => [ //To verify a users email change
                     "params" => ["userID"],
                     "requireAuth" => false,
-                    "permissions" => [],
                     "function" => function (RequestInterface $req, array $params) {
 
                         $properties = $req->getBody();
@@ -341,7 +330,6 @@ class Routes
                 "POST" => [ //To make a users refreshToken invalid
                     "params" => ["userID"],
                     "requireAuth" => true,
-                    "permissions" => ["user:delete:{userID}"],
                     "function" => function (RequestInterface $req, array $params) {
                         /** @var RefreshTokenAccessorInterface*/
                         $acc = $this->accessors["refreshToken"];
@@ -358,7 +346,6 @@ class Routes
                 "GET" => [ //To get multiple users defined by a query
                     "params" => [],
                     "requireAuth" => true,
-                    "permissions" => ["user:read:{all}"],
                     "function" => function (RequestInterface $req, array $params) {
 
                         $queryConfig = $req->getQuery();
@@ -388,7 +375,6 @@ class Routes
                 "GET" => [ //To get the number of users matching a query
                     "params" => [],
                     "requireAuth" => true,
-                    "permissions" => ["user:read:{all}"],
                     "function" => function (RequestInterface $req, array $params) {
                         $queryConfig = $req->getQuery();
 
@@ -408,7 +394,6 @@ class Routes
                 "GET" => [ //To get a list of available roles
                     "params" => [],
                     "requireAuth" => false,
-                    "permissions" => [],
                     "function" => function (RequestInterface $req, array $params) {
                         /** @var RoleAccessorInterface*/
                         $acc = $this->accessors["role"];
