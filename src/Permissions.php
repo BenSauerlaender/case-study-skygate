@@ -76,7 +76,7 @@ class Permissions
             ],
             "/users/{x}/email-change" => [
                 "POST" => [
-                    "changeOwnPassword" => function (int $requesterID, array $params) {
+                    "changeOwnEmail" => function (int $requesterID, array $params) {
                         return $params[0] === $requesterID;
                     },
                 ]
