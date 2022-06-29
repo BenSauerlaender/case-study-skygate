@@ -43,7 +43,7 @@ final class PermissionControllerTest extends TestCase
                 false
             ],
             "permission for wrong path" => [
-                ["another-path" => ["POST" => ["simplePerm" => function () {
+                ["/another-path" => ["POST" => ["simplePerm" => function () {
                     return true;
                 }]]],
                 "path",
@@ -53,7 +53,7 @@ final class PermissionControllerTest extends TestCase
                 false
             ],
             "permission for wrong method" => [
-                ["path" => ["POST" => ["simplePerm" => function () {
+                ["/path" => ["POST" => ["simplePerm" => function () {
                     return true;
                 }]]],
                 "path",
@@ -63,7 +63,7 @@ final class PermissionControllerTest extends TestCase
                 false
             ],
             "wrong permission" => [
-                ["path" => ["GET" => ["simplePerm" => function () {
+                ["/path" => ["GET" => ["simplePerm" => function () {
                     return true;
                 }]]],
                 "path",
@@ -73,7 +73,7 @@ final class PermissionControllerTest extends TestCase
                 false
             ],
             "correct permission" => [
-                ["path" => ["GET" => ["simplePerm" => function () {
+                ["/path" => ["GET" => ["simplePerm" => function () {
                     return true;
                 }]]],
                 "path",
@@ -83,7 +83,7 @@ final class PermissionControllerTest extends TestCase
                 true
             ],
             "correct permission 2" => [
-                ["path" => ["GET" => ["simplePerm" => function () {
+                ["/path" => ["GET" => ["simplePerm" => function () {
                     return true;
                 }]]],
                 "path",
@@ -93,7 +93,7 @@ final class PermissionControllerTest extends TestCase
                 true
             ],
             "correct permission 3" => [
-                ["path" => ["GET" => ["simplePerm1" => function () {
+                ["/path" => ["GET" => ["simplePerm1" => function () {
                     return true;
                 }, "simplePerm" => function () {
                     return true;
@@ -107,7 +107,7 @@ final class PermissionControllerTest extends TestCase
                 true
             ],
             "correct permission 4" => [
-                ["path" => ["GET" => ["simplePerm1" => function () {
+                ["/path" => ["GET" => ["simplePerm1" => function () {
                     return true;
                 }, "simplePerm" => function () {
                     return true;
@@ -121,7 +121,7 @@ final class PermissionControllerTest extends TestCase
                 true
             ],
             "correct permission wrong id" => [
-                ["path/{x}" => ["GET" => ["simplePerm" => function (int $id, array $params) {
+                ["/path/{x}" => ["GET" => ["simplePerm" => function (int $id, array $params) {
                     return $id === $params[0];
                 }]]],
                 "path/3",
@@ -131,7 +131,7 @@ final class PermissionControllerTest extends TestCase
                 false
             ],
             "correct permission correct id" => [
-                ["path/{x}" => ["GET" => ["simplePerm" => function (int $id, array $params) {
+                ["/path/{x}" => ["GET" => ["simplePerm" => function (int $id, array $params) {
                     return $id === $params[0];
                 }]]],
                 "path/3",
