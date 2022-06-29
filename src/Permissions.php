@@ -42,27 +42,68 @@ class Permissions
                 "GET" => [] //no authentication
             ],
             "/users/{x}" => [
-                "GET" => [],
-                "PUT" => [],
-                "DELETE" => []
+                "GET" => [
+                    "getSelf" => function (int $requesterID, array $params) {
+                        return $params["userID"] === $requesterID;
+                    },
+                    "getAllUsers" => function (int $requesterID, array $params) {
+                        return true;
+                    }
+                ],
+                "PUT" => [
+                    "getOwnContactData" => function (int $requesterID, array $params) {
+                        return $params["userID"] === $requesterID;
+                    },
+                    "getAllUsersContactData" => function (int $requesterID, array $params) {
+                        return true;
+                    }
+                ],
+                "DELETE" => [
+                    "deleteSelf" => function (int $requesterID, array $params) {
+                        return $params["userID"] === $requesterID;
+                    },
+                    "deleteAllUsers" => function (int $requesterID, array $params) {
+                        return true;
+                    }
+                ]
             ],
             "/users/{x}/password" => [
-                "PUT" => []
+                "PUT" => [
+                    "changeOwnPassword" => function (int $requesterID, array $params) {
+                        return $params["userID"] === $requesterID;
+                    },
+                ]
             ],
             "/users/{x}/email-change" => [
-                "POST" => []
+                "POST" => [
+                    "changeOwnPassword" => function (int $requesterID, array $params) {
+                        return $params["userID"] === $requesterID;
+                    },
+                ]
             ],
             "/users/{x}/email-change-verify" => [
-                "POST" => []
+                "POST" => [] //no authentication
             ],
             "/users/{x}/logout" => [
-                "POST" => []
+                "POST" => [
+                    "logoutSelf" => function (int $requesterID, array $params) {
+                        return $params["userID"] === $requesterID;
+                    },
+                ]
             ],
             "/users" => [
-                "GET" => []
+                "GET" => [
+                    "getAllUsers" => function (int $requesterID, array $params) {
+                        return true;
+                    }
+                ]
             ],
             "/users/length" => [
-                "GET" => []
+                "GET" => [
+                    "getAllUsers" => function (int $requesterID, array $params) {
+                        return true;
+                    }
+                ]
             ],
             "/roles" => [
                 "GET" => [] //no authentication
