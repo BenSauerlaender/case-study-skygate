@@ -61,7 +61,6 @@ final class RoutingControllerTest extends TestCase
         $rc = new RoutingController(["/test/path" => ["GET" => [
             "params" => [],
             "requireAuth" => true,
-            "permissions" => ["per1", "per2"],
             "function" => function () {
                 return null;
             }
@@ -72,7 +71,6 @@ final class RoutingControllerTest extends TestCase
         $this->assertEquals([
             "params" => [],
             "requireAuth" => true,
-            "permissions" => ["per1", "per2"],
             "function" => function () {
                 return null;
             }
@@ -87,7 +85,6 @@ final class RoutingControllerTest extends TestCase
         $rc = new RoutingController(["/test/{x}/{x}" => ["GET" => [
             "params" => ["param1", "param2"],
             "requireAuth" => false,
-            "permissions" => [],
             "function" => function () {
                 return null;
             }
@@ -98,7 +95,6 @@ final class RoutingControllerTest extends TestCase
         $this->assertEquals([
             "params" => ["param1" => 13, "param2" => 0],
             "requireAuth" => false,
-            "permissions" => [],
             "function" => function () {
                 return null;
             }
