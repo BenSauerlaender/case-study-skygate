@@ -25,7 +25,6 @@ interface RoutingControllerInterface
      *   $route = [
      *     "params"         => (array<string,mixed>)    Key-Value pair for each route paramters.
      *     "requireAuth"    => (bool)                   True if authentication is required.
-     *     "permissions"    => (array<string>)          List of required permissions.
      *     "function"       => (Closure)                Anonymous function that process the route.
      *   ]
      * @throws ApiPathNotFoundException     if there is no route with this path.

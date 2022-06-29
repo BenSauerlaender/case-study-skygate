@@ -28,7 +28,6 @@ class RoutingController implements RoutingControllerInterface
      *     $method (string) => [ 
      *       "params"         => (array<string>)    List of route paramterss.
      *       "requireAuth"    => (bool)             True if authentication is required.
-     *       "permissions"    => (array<string>)    List of required permissions.
      *       "function"       => (Closure)          Anonymous function that process the route.
      *     ]
      *   ]
@@ -42,7 +41,6 @@ class RoutingController implements RoutingControllerInterface
      *     $method (string) => [ 
      *       "params"         => (array<string>)    List of route paramterss.
      *       "requireAuth"    => (bool)             True if authentication is required.
-     *       "permissions"    => (array<string>)    List of required permissions.
      *       "function"       => (Closure)          Anonymous function that process the route.
      *     ]
      *   ]
@@ -84,19 +82,9 @@ class RoutingController implements RoutingControllerInterface
             $paramsWithNames[$key] = $requestedParams[$idx];
         }
 
-        $permissions = $route["permissions"];
-
-        //if the route has "userID" as parameter: replace the permission-placeholder with the actual id
-        if (array_key_exists("userID", $paramsWithNames)) {
-            foreach ($permissions as $idx => $perm) {
-                $permissions[$idx] = str_replace("{userID}", "{$paramsWithNames['userID']}", $perm);
-            }
-        }
-
         return [
             "params"        => $paramsWithNames,
             "requireAuth"   => $route["requireAuth"],
-            "permissions"   => $permissions,
             "function"      => $route["function"]
         ];
     }
