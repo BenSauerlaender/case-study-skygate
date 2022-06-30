@@ -28,6 +28,13 @@ class Permissions
      */
     public static function getPermissions(): array
     {
+        $allow = function (int $requesterID, array $params) {
+            return true;
+        };
+
+        $allow_for_self = function (int $requesterID, array $params) {
+            return $params[0] === $requesterID;
+        };
         return [
             "/register" => [
                 "POST" => [] //no authentication
@@ -43,63 +50,41 @@ class Permissions
             ],
             "/users/{x}" => [
                 "GET" => [
-                    "getSelf" => function (int $requesterID, array $params) {
-                        return $params[0] === $requesterID;
-                    },
-                    "getAllUsers" => function (int $requesterID, array $params) {
-                        return true;
-                    }
+                    "getSelf" => $allow_for_self,
+                    "getAllUsers" => $allow,
                 ],
                 "PUT" => [
-                    "changeOwnContactData" => function (int $requesterID, array $params) {
-                        return $params[0] === $requesterID;
-                    },
-                    "changeAllUsersContactData" => function (int $requesterID, array $params) {
-                        return true;
-                    }
+                    "changeOwnContactData" => $allow_for_self,
+                    "changeAllUsersContactData" => $allow,
                 ],
                 "DELETE" => [
-                    "deleteSelf" => function (int $requesterID, array $params) {
-                        return $params[0] === $requesterID;
-                    },
-                    "deleteAllUsers" => function (int $requesterID, array $params) {
-                        return true;
-                    }
+                    "deleteSelf" => $allow_for_self,
+                    "deleteAllUsers" => $allow,
                 ]
             ],
             "/users/{x}/role" => [
                 "PUT" => [
-                    "changeAllUsersRoles" => function (int $requesterID, array $params) {
-                        return true;
-                    },
+                    "changeAllUsersRoles" => $allow,
                 ]
             ],
             "/users/{x}/password" => [
                 "PUT" => [
-                    "changeOwnPassword" => function (int $requesterID, array $params) {
-                        return $params[0] === $requesterID;
-                    },
+                    "changeOwnPassword" => $allow_for_self,
                 ]
             ],
             "/users/{x}/password-privileged-change" => [
                 "PUT" => [
-                    "changeAllUsersPasswordsPrivileged" => function (int $requesterID, array $params) {
-                        return true;
-                    },
+                    "changeAllUsersPasswordsPrivileged" => $allow,
                 ]
             ],
             "/users/{x}/email-change" => [
                 "POST" => [
-                    "changeOwnEmail" => function (int $requesterID, array $params) {
-                        return $params[0] === $requesterID;
-                    },
+                    "changeOwnEmail" => $allow_for_self,
                 ]
             ],
             "/users/{x}/email-change-privileged" => [
                 "POST" => [
-                    "changeAllUsersEmailPrivileged" => function (int $requesterID, array $params) {
-                        return true;
-                    },
+                    "changeAllUsersEmailPrivileged" => $allow,
                 ]
             ],
             "/users/{x}/email-change-verify" => [
@@ -107,23 +92,17 @@ class Permissions
             ],
             "/users/{x}/logout" => [
                 "POST" => [
-                    "logoutSelf" => function (int $requesterID, array $params) {
-                        return $params[0] === $requesterID;
-                    },
+                    "logoutSelf" => $allow_for_self,
                 ]
             ],
             "/users" => [
                 "GET" => [
-                    "getAllUsers" => function (int $requesterID, array $params) {
-                        return true;
-                    }
+                    "getAllUsers" => $allow,
                 ]
             ],
             "/users/length" => [
                 "GET" => [
-                    "getAllUsers" => function (int $requesterID, array $params) {
-                        return true;
-                    }
+                    "getAllUsers" => $allow,
                 ]
             ],
             "/roles" => [
