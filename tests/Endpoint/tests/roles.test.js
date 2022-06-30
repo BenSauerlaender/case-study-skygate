@@ -1,6 +1,5 @@
 const { request, expect } = require("../config");
 const { makeSuite, notAllowed } = require("../helper");
-const jwt_decode = require("jwt-decode");
 
 /**
  * Tests for the /roles route
