@@ -15,6 +15,7 @@ use DbAccessors\Interfaces\RoleAccessorInterface;
 use DbAccessors\Interfaces\UserQueryInterface;
 use Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
 use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
+use Exceptions\ShouldNeverHappenException;
 use Exceptions\TokenExceptions\ExpiredTokenException;
 use Exceptions\TokenExceptions\InvalidTokenException;
 use Exceptions\ValidationExceptions\InvalidPropertyException;
@@ -261,6 +262,38 @@ class Routes
                     }
                 ]
             ],
+            "/users/{x}/password-privileged-change" => [ //To change a users password without needing to know his old one
+                "PUT" => [
+                    "params" => ["userID"],
+                    "requireAuth" => true,
+                    "function" => function (RequestInterface $req, array $params) {
+
+                        $properties = $req->getBody();
+
+                        $missingProperties = array_diff_key(array_flip(["newPassword"]), $properties ?? []);
+
+                        if (sizeOf($missingProperties) !== 0) {
+                            return new MissingPropertyResponse(array_keys($missingProperties));
+                        }
+                        /** @var UserControllerInterface */
+                        $uc = $this->controller["user"];
+
+                        try {
+                            $uc->updateUsersPasswordPrivileged($params["userID"], $properties["newPassword"]);
+
+                            /** @var RefreshTokenAccessorInterface*/
+                            $acc = $this->accessors["refreshToken"];
+                            $acc->increaseCount($params["userID"]);
+
+                            return new NoContentResponse();
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse($e);
+                        } catch (InvalidPropertyException $e) {
+                            return new InvalidPropertyResponse($e->getInvalidProperties());
+                        }
+                    }
+                ]
+            ],
             "/users/{x}/email-change" => [
                 "POST" => [ //To request a users email change
                     "params" => ["userID"],
@@ -288,6 +321,44 @@ class Routes
                             return new UserNotFoundResponse($e);
                         } catch (InvalidPropertyException $e) {
                             return new InvalidPropertyResponse($e->getInvalidProperties());
+                        }
+                    }
+                ]
+            ],
+            "/users/{x}/email-change-privileged" => [
+                "POST" => [ //To change a users email directly
+                    "params" => ["userID"],
+                    "requireAuth" => true,
+                    "function" => function (RequestInterface $req, array $params) {
+
+                        $properties = $req->getBody();
+
+                        $missingProperties = array_diff_key(array_flip(["email"]), $properties ?? []);
+
+                        if (sizeOf($missingProperties) !== 0) {
+                            return new MissingPropertyResponse($missingProperties);
+                        }
+                        /** @var UserControllerInterface */
+                        $uc = $this->controller["user"];
+
+                        try {
+                            $code = $uc->requestUsersEmailChange($params["userID"], $properties["email"]);
+
+                            if (!$uc->verifyUsersEmailChange($params["userID"], $code)) {
+                                throw new ShouldNeverHappenException("The code was generated just 2 lines above");
+                            }
+
+                            /** @var RefreshTokenAccessorInterface*/
+                            $acc = $this->accessors["refreshToken"];
+                            $acc->increaseCount($params["userID"]);
+
+                            return new CreatedResponse();
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse($e);
+                        } catch (InvalidPropertyException $e) {
+                            return new InvalidPropertyResponse($e->getInvalidProperties());
+                        } catch (EcrNotFoundException $e) {
+                            throw new ShouldNeverHappenException("The request was just created", $e);
                         }
                     }
                 ]

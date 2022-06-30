@@ -74,10 +74,24 @@ class Permissions
                     },
                 ]
             ],
+            "/users/{x}/password-privileged-change" => [
+                "PUT" => [
+                    "changeAllUsersPasswordsPrivileged" => function (int $requesterID, array $params) {
+                        return true;
+                    },
+                ]
+            ],
             "/users/{x}/email-change" => [
                 "POST" => [
                     "changeOwnEmail" => function (int $requesterID, array $params) {
                         return $params[0] === $requesterID;
+                    },
+                ]
+            ],
+            "/users/{x}/email-change-privileged" => [
+                "POST" => [
+                    "changeAllUsersEmailPrivileged" => function (int $requesterID, array $params) {
+                        return true;
                     },
                 ]
             ],
