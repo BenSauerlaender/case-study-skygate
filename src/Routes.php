@@ -229,6 +229,31 @@ class Routes
                     }
                 ]
             ],
+            "/users/{x}/role" => [ //To change a users role
+                "PUT" => [
+                    "params" => ["userID"],
+                    "requireAuth" => true,
+                    "function" => function (RequestInterface $req, array $params) {
+                        $supportedProperties = ["role" => null];
+
+                        /** @var UserControllerInterface */
+                        $uc = $this->controller["user"];
+
+                        $properties = array_intersect_key($req->getBody() ?? [], $supportedProperties);
+
+                        if (sizeOf($properties) === 0) return new BadRequestResponse("No supported properties provided.", 101, ["supportedProperties" => array_keys($supportedProperties)]);
+
+                        try {
+                            $uc->updateUser($params["userID"], $properties);
+                            return new DataResponse(["updated" => $properties]);
+                        } catch (UserNotFoundException $e) {
+                            return new UserNotFoundResponse($e);
+                        } catch (InvalidPropertyException $e) {
+                            return new InvalidPropertyResponse($e->getInvalidProperties());
+                        }
+                    }
+                ]
+            ],
             "/users/{x}/password" => [ //To change a users password
                 "PUT" => [
                     "params" => ["userID"],

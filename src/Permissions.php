@@ -67,6 +67,13 @@ class Permissions
                     }
                 ]
             ],
+            "/users/{x}/role" => [
+                "PUT" => [
+                    "changeAllUsersRoles" => function (int $requesterID, array $params) {
+                        return true;
+                    },
+                ]
+            ],
             "/users/{x}/password" => [
                 "PUT" => [
                     "changeOwnPassword" => function (int $requesterID, array $params) {
