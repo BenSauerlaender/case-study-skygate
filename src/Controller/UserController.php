@@ -217,6 +217,17 @@ class UserController implements UserControllerInterface
         //check if old password is correct
         if (!$this->securityController->checkPassword($oldPassword, $hashedPass)) return false;
 
+        try {
+            $this->updateUsersPasswordPrivileged($id, $newPassword);
+        } catch (UserNotFoundException $e) { // @codeCoverageIgnore
+            throw new ShouldNeverHappenException("User was found before", $e); // @codeCoverageIgnore
+        }
+
+        return true;
+    }
+
+    public function updateUsersPasswordPrivileged(int $id, string $newPassword): void
+    {
         //validate new password
         try {
             $valid = $this->ValidationController->validate(["password" => $newPassword]);
@@ -232,12 +243,11 @@ class UserController implements UserControllerInterface
         //update the database
         try {
             $this->userAccessor->update($id, array("hashedPass" => $this->securityController->hashPassword($newPassword)));
-        } catch (UserNotFoundException | ValidationException $e) { // @codeCoverageIgnore
+        } catch (ValidationException $e) { // @codeCoverageIgnore
             throw new ShouldNeverHappenException("all properties were validated before", $e); // @codeCoverageIgnore
         }
-
-        return true;
     }
+
 
     public function requestUsersEmailChange(int $id, string $newEmail): string
     {

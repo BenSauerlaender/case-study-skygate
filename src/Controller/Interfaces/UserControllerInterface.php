@@ -138,6 +138,23 @@ interface UserControllerInterface
     public function updateUsersPassword(int $id, string $new_password, string $old_password): bool;
 
     /**
+     * Changes the users password 
+     * 
+     * Validates the new password.
+     * Hashes the new password.
+     * Write the new password to the database.
+     *
+     * @param  int    $id               The users id.
+     * @param  string $new_password     The users old password.
+     * 
+     * @throws InvalidPropertyException     if the new password is not valid.
+     * @throws DBexception                  if there is a problem with the database.
+     *          (UserNotFoundException | ...)
+     * @throws PasswordHashException        if there is a problem with the hashing the password.
+     */
+    public function updateUsersPasswordPrivileged(int $id, string $new_password): void;
+
+    /**
      * Creates an Request to change the users email.
      * 
      * Validates new email.
