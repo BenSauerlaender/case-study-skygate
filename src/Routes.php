@@ -14,6 +14,7 @@ use DbAccessors\Interfaces\RefreshTokenAccessorInterface;
 use DbAccessors\Interfaces\RoleAccessorInterface;
 use DbAccessors\Interfaces\UserQueryInterface;
 use Exceptions\DBExceptions\FieldNotFoundExceptions\EcrNotFoundException;
+use Exceptions\DBExceptions\FieldNotFoundExceptions\RoleNotFoundException;
 use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
 use Exceptions\ShouldNeverHappenException;
 use Exceptions\TokenExceptions\ExpiredTokenException;
@@ -241,15 +242,15 @@ class Routes
 
                         $properties = array_intersect_key($req->getBody() ?? [], $supportedProperties);
 
-                        if (sizeOf($properties) === 0) return new BadRequestResponse("No supported properties provided.", 101, ["supportedProperties" => array_keys($supportedProperties)]);
+                        if (sizeOf($properties) === 0) return new BadRequestResponse("No role provided.", 101);
 
                         try {
                             $uc->updateUser($params["userID"], $properties);
                             return new DataResponse(["updated" => $properties]);
                         } catch (UserNotFoundException $e) {
                             return new UserNotFoundResponse($e);
-                        } catch (InvalidPropertyException $e) {
-                            return new InvalidPropertyResponse($e->getInvalidProperties());
+                        } catch (RoleNotFoundException $e) {
+                            return new InvalidPropertyResponse(["role" => ["INVALID_ROLE"]]);
                         }
                     }
                 ]
