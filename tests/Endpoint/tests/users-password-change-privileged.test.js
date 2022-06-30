@@ -3,9 +3,9 @@ const { makeSuite, notAllowed } = require("../helper");
 let jwt = require("jsonwebtoken");
 
 /**
- * Tests for the PUT /users/{x}/password-change-privileged route
+ * Tests for the PUT /users/{x}/password-privileged-change route
  */
-makeSuite(["3roles", "1User"], "/users/{userID}/password-change-privileged", {
+makeSuite(["3roles", "1User"], "/users/{userID}/password-privileged-change", {
   GET: notAllowed(),
   POST: notAllowed(),
   DELETE: notAllowed(),
@@ -14,7 +14,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password-change-privileged", {
     "without accessToken": () => {
       it("makes api call", async () => {
         this.response = await request.put(
-          "/users/1/password-change-privileged"
+          "/users/1/password-privileged-change"
         );
       });
 
@@ -28,13 +28,13 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password-change-privileged", {
         let token = jwt.sign(
           {
             id: 1,
-            perm: "changeAllUsersPasswordsPrivileged",
+            perm: "changeOwnPassword",
             exp: Math.floor(Date.now() / 1000) + 30,
           },
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/1/password-change-privileged")
+          .put("/users/1/password-privileged-change")
           .set("Authorization", "Bearer " + token);
       });
 
@@ -53,7 +53,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password-change-privileged", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/1/password-change-privileged")
+          .put("/users/1/password-privileged-change")
           .set("Authorization", "Bearer " + token);
       });
       it("returns Bad Request", async () => {
@@ -85,7 +85,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password-change-privileged", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/1/password-change-privileged")
+          .put("/users/1/password-privileged-change")
           .set("Authorization", "Bearer " + token)
           .send({ newPassword: "te" });
       });
@@ -118,7 +118,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password-change-privileged", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/3/password-change-privileged")
+          .put("/users/3/password-privileged-change")
           .set("Authorization", "Bearer " + token)
           .send({ newPassword: "tet123ABCxyz" });
       });
@@ -146,7 +146,7 @@ makeSuite(["3roles", "1User"], "/users/{userID}/password-change-privileged", {
           process.env.ACCESS_TOKEN_SECRET
         );
         this.response = await request
-          .put("/users/1/password-change-privileged")
+          .put("/users/1/password-privileged-change")
           .set("Authorization", "Bearer " + token)
           .send({ newPassword: "tet123ABCxyz" });
       });
