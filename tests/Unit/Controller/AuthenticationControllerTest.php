@@ -8,14 +8,12 @@ declare(strict_types=1);
 
 namespace tests\Unit\Controller;
 
-use BadMethodCallException;
 use Controller\AuthenticationController;
 use Controller\Interfaces\AuthenticationControllerInterface;
 use DbAccessors\Interfaces\RefreshTokenAccessorInterface;
 use DbAccessors\Interfaces\RoleAccessorInterface;
 use DbAccessors\Interfaces\UserAccessorInterface;
 use Exceptions\DBExceptions\FieldNotFoundExceptions\UserNotFoundException;
-use Exceptions\InvalidPermissionsException;
 use Exceptions\TokenExceptions\ExpiredTokenException;
 use Exceptions\TokenExceptions\InvalidTokenException;
 use InvalidArgumentException;
